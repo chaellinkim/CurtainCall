@@ -28,8 +28,8 @@ public class IndexContoller {
 	@Autowired
     private PlayService playService;
 	
-	@RequestMapping("/list")
-	public String list(Model model) {
+	@RequestMapping("/play") 
+	public String playList(Model model) {
         String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
         String serviceKey = "722233b68ffa4883ae5213ccf16565a5";
         String stDate = "20230101";
