@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Google Maps API Example</title>
+<link rel="stylesheet" href="../css/place.css">
+<link rel="stylesheet" href="../css/header.css">
+<script src="https://kit.fontawesome.com/fe66fff399.js"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+//Header
+document.addEventListener('DOMContentLoaded', function(){
+    //검색버튼 활성화
+    const searchForm = document.querySelector('.search');
+    const searchInput = document.querySelector('.search-input');
+    const searchIcon = document.querySelector('.icon');
+
+    searchIcon.addEventListener('click', function(e){
+        e.preventDefault();     //폼 제출 동작 방지
+        const keyword = searchInput.value;
+        console.log('검색어: ', keyword);
+    })
+
+    //사용자 아이콘 클릭시 마이페이지 이동
+    const userIcon = document.querySelector('.user-icon');
+    userIcon.addEventListener('click', function(){
+        window.location.href = 'place.html';
+    });
+});
+
+    
+//tab 화면 전환
+$(document).ready(function(){
+    //장소에 따른 탭
+    $('.tab-place li').click(function(){
+        var tabId = $(this).data("tab");
+
+        $('.tab-place li').removeClass('current');
+        $('.place-content').removeClass('current');
+
+        $(this).addClass('current');
+        $("#"+tabId).addClass('current');
+
+        
+    });
+
+    //연극/맛집에 따른 탭
+    $('ul.tabs li').click(function(){
+        var tab_id = $(this).attr('data-tab');
+
+        $('ul.tabs li').removeClass('current');
+        $('.tab-content').removeClass('current');
+
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    })
+})
+	function initMap() {
+		var place = new google.maps.LatLng(37.5666805, 126.9784147);
+		var mapOptions = {
+			center : place,
+			zoom : 17
+		};
+
+		var map = new google.maps.Map(document.getElementById('map'),
+				mapOptions);
+
+		var marker = new google.maps.Marker({
+			position : place,
+			map : map
+		});
+
+		var placesService = new google.maps.places.PlacesService(map);
+		var request = {
+			location : place,
+			radius : 1000, // 검색 반경 설정 (미터 단위)
+			type : 'restaurant' 
+		};
+
+		placesService.nearbySearch(request, function(results, status) {
+			if (status === google.maps.places.PlacesServiceStatus.OK) {
+				console.log(results); // 가져온 맛집 정보 출력
+				
+				for (let i = 0; i < 20; i++) {
+					$(".eat-content").append(`
+						    <div class="eat-place">
+						      <div class="eat-head">
+						        <div class="eat-title">${results[i].name}</div>
+						      </div>
+						      <p class="eat-side">
+						        <span>${results[i].rating}</span>
+						        <span>&nbsp;</span>
+						        <span>리뷰 ${results[i].user_ratings_total}</span>
+						      </p>
+						    </div>
+						  `);
+				}
+			} else {
+				console.log('검색 결과가 없습니다.');
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<!-- Header -->
+    <header>
+        <a href="#"><img src="../img/logo.png" id="logo"></img></a>
+        <div id="nav-content">
+            <nav>
+                <ul>
+                    <li><a href="#" class="menu">연극</a></li>
+                    <li><a href="#" class="menu">공연장</a></li>
+                    <li><a href="#" class="menu">출연진</a></li>
+                    <li><a href="#" class="menu">이벤트</a></li>
+                    <li><a href="#" class="menu">관람후기</a></li>
+                </ul>
+            </nav>
+            <div class="right">
+                <form action="" method="get" class="search">
+                    <input type="text" class="search-input" placeholder="검색어 입력">
+                    <div class="icon"><i class="fas fa-search"></i></div>
+                </form>
+                <div class="user-icon">
+                    <i class="fas fa-user fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="content-wrap">
+        <h2 class="mainTitle">공연장</h2>
+        <!-- 공연장 목록 -->
+        <ul class="tab-place">
+            <li class="placeButton current" data-tab="place-1"><img src="../img/place01.png" alt=""></li>
+            <li class="placeButton" data-tab="place-2"><img src="../img/place01.png" alt=""></li>
+            <li class="placeButton" data-tab="place-3"><img src="../img/place01.png" alt=""></li>
+        </ul>
+
+        <div id="place-1" class="place-content current">
+            <div class="placeInfo">
+                <img src="../img/place01.png" alt="">
+                <div class="info-content">
+                    <h3>예술의 전당</h3><br>
+                    <div class="address"><b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b>&nbsp서울특별시 서초구 서초동
+                        <div class="map-popup"> <!-- 지도 팝업창 -->
+                            <i class="fa-solid fa-location-dot innerIcon"></i>
+                            <span class="map">지도보기</span>
+                        </div>
+                    </div>
+                    <p><b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> 02-123-4567</p>
+                    <p class="link"><b>홈페이지 :</b>&nbsp;<a href="https://www.sac.or.kr/site/main/home" target="_blank">https://www.sac.or.kr/site/main/home <i class="fa-solid fa-share-from-square innerIcon"></i></a></p>
+                </div>
+            </div>
+    
+            <ul class="tabs">
+                <li class="tab-link current" data-tab="tab-1">연극</li>
+                <li class="tab-link" data-tab="tab-2">맛집</li>
+            </ul>
+    
+            <!-- 연극 리스트 -->
+            <div id="tab-1" class="tab-content current">
+                <div class="theater-content">
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster01.jpg" alt="연극라면"></div>
+                        <h4>연극 라면</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster02.jpg" alt="옥탑방 고양이"></div>
+                        <h4>옥탑방 고양이</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster03.png" alt="청춘에 반하다"></div>
+                        <h4>청춘에 반하다</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+    
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster01.jpg" alt="연극라면"></div>
+                        <h4>연극 라면</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster02.jpg" alt="옥탑방 고양이"></div>
+                        <h4>옥탑방 고양이</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+                    <div class="theater-unit">
+                        <div class="img-wrap"><img src="../img/poster03.png" alt="청춘에 반하다"></div>
+                        <h4>청춘에 반하다</h4>
+                        <button class="reservation-btn" onclick="">예매하기</button>
+                    </div>
+                </div>
+            </div>
+
+		<!-- 맛집 리스트 -->
+		<div id="tab-2" class="tab-content">
+			<div id="map" ></div>
+			<div class="eat-content">
+				<a class="eat-place" href="#">
+					<div class="eat-head">
+						<!-- <div class="eat-title"></div> -->
+					</div>
+					<p class="eat-side">
+						<!-- <span>피자</span>&nbsp;&nbsp; <span>리뷰999+</span> -->
+					</p>
+				</a> 
+			</div>
+		</div>
+
+	</div>
+	<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
+	async defer></script>
+</body>
+</html>

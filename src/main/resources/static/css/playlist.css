@@ -1,0 +1,101 @@
+@charset "UTF-8";
+*{
+    font-family: 'NanumSquareNeo';
+    font-size:large;
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+/* 연극 목록 로고 div */
+#theater-list-title{
+    margin-top: 2vh;
+    width : 950px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+/* 연극 목록 로고 글씨 */
+#theater-list-title a{
+    margin-left: 50px;
+    font-size:40px;
+    font-weight:500;
+    color: #000000;
+}
+/* 정렬 버튼 */
+.theater-sort{
+    width: 65vw;
+    padding: 10px 0;
+}
+.theater-sort li{
+    text-align: center;
+    list-style: none;
+    float: right;
+    /* 리스트 사이간격 조정 */
+    padding-inline-start: 1.5em; 
+}
+.theater-sort a{
+    color: rgb(107, 107, 107);
+}
+.theater-sort a:hover{
+    color: rgb(71, 135, 255);
+    transition: 0.5s;
+}
+
+/* 연극목록 css */
+#content-wrap{
+    font: optional;
+    width: 65vw;
+    margin: auto;
+    
+}
+.theater-content{
+    margin-top: 5vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 60px;
+    grid-row-gap: 45px;
+}
+.theater-unit{
+    display: flex;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-right: 30px;
+}
+.theater-poster {
+    position: relative;
+    padding-top: 140%;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+.theater-poster img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+/* 연극제목 마진줄이기 */
+.theater-unit h4{
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+}
+/* 연극기간 폰트 줄이기 */
+.theater-unit p{
+    margin-top: 5px;
+    font-size:small;
+    color: rgb(107, 107, 107);
+    text-align: center;
+}
+.theater-unit a{
+    color: black;
+}
