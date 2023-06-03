@@ -127,7 +127,7 @@ ul.tabs li.current{
 }
 .theater-content{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 33px;
     grid-row-gap: 48px;
     width: 100vw;
