@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>CurtainCall-마이페이지</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="../css/pay_style.css">
+    <link rel="stylesheet" href="../css/pay_modal.css">
+    <link href="../css/header.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function () {
+            //검색버튼 활성화
+            const searchForm = document.querySelector('.search');
+            const searchInput = document.querySelector('.search-input');
+            const searchIcon = document.querySelector('.icon');
+
+            searchIcon.addEventListener('submit', function (e) {
+                e.preventDefault();     //폼 제출 동작 방지
+                const keyword = searchInput.value;
+                console.log('검색어: ', keyword);
+            })
+
+            //사용자 아이콘 클릭시 마이페이지 이동
+            const userIcon = document.querySelector('.user-icon');
+            userIcon.addEventListener('click', function () {
+                window.location.href = 'pay.html';
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
+        <div id="nav-content">
+            <nav>
+                <ul>
+                    <li><a href="#" class="menu">연극</a></li>
+                    <li><a href="#" class="menu">공연장</a></li>
+                    <li><a href="#" class="menu">출연진</a></li>
+                    <li><a href="#" class="menu">이벤트</a></li>
+                    <li><a href="#" class="menu">관람후기</a></li>
+                </ul>
+            </nav>
+            <div class="right">
+                <form action="" method="get" class="search">
+                    <input type="text" class="search-input" placeholder="검색어 입력">
+                    <div class="icon"><i class="fas fa-search"></i></div>
+                </form>
+                <div class="user-icon">
+                    <i class="fas fa-user fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="user">
+        <div class="user_name">
+            <h3>두레님 <span>abcd1234</span> </h3>
+        </div>
+    </div>
+
+    <div class="mypage">
+        <div class="navi">
+            <ul>
+                <li><a href="pay">예매내역</a></li>
+                <li><a href="review">나의후기</a></li>
+                <li><a href="wish">찜 목록</a></li>
+                <li><a href="info">회원정보</a></li>
+            </ul>
+        </div>
+
+        <div class="pay">
+            <div class="yemae"><span>예매내역</span></div>
+
+            <!-- 나중에 반복되는 요소 -->
+            <!--타임리프로 받아올 때 반복문 사용해주기-->
+            <div class="pay_content">
+
+                <img src="/img/review.jpg" alt="예매"> <!-- th:src="${imgUrl}" 넣고 나중에 사진 경로 없애기-->
+                
+                <div class="pay_info">
+                    <div class="pay_play">2호선 세입자</div>
+                    <div class="pay_place">관람 장소 &nbsp; 바탕골 소극장</div>
+                    <div class="pay_date">관람 일시 &nbsp; 2023년 5월 31일(수) 15:00</div>
+                    <div class="pay_seat">관람 좌석 &nbsp; 현장 선택</div>
+                </div>
+
+                <div class="pay_modal">
+                    <button class="modal_button">결제내역 > </button>
+                    <img src="img/qr.png">
+                </div>
+                <div class="modal_overlay hidden">
+                    <div class="md_content">
+                        <div class="modal_text">결제내역
+                            <hr>
+                        </div>
+                        <div class="modal_pay md_payinfo">구매정보</div>
+                        <div class="modal_pay">
+                            <div class="modal_img"><img src="img/review.jpg" style="width:7vw"></div>
+                            <div class="modal_info">
+                                <table>
+                                    <tr>
+                                        <th>연극명</th>
+                                        <td>2호선 세입자</td>
+                                    </tr>
+                                    <tr>
+                                        <th>관람 일자</th>
+                                        <td>2023년 5월 31일(수) 15:00</td>
+                                    </tr>
+                                    <tr>
+                                        <th>관람 좌석</th>
+                                        <td>현장 선택</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="modal_pay md_accountinfo">결제 정보</div>
+                        <div class="modal_pay account">
+                            <table>
+                                <tr>
+                                    <th>결제일</th>
+                                    <td>23.05.30</td>
+                                </tr>
+                                <tr>
+                                    <th>결제금액</th>
+                                    <td>30000</td>
+                                </tr>
+                                <tr>
+                                    <th>결제 번호</th>
+                                    <td>202305301234</td>
+                                </tr>
+                                <tr>
+                                    <th>결제 수단</th>
+                                    <td>네이버페이(간편 결제)</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="modal_footer">
+                            <hr><button class="modal_cancle">❌</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+</body>
+<script src="mypage_script.js"></script>
+
+</html>
