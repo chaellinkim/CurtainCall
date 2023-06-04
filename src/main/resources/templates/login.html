@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" /> -->
+    <title>CurtainCall-로그인</title>
+    <link href="css/login_style.css" rel="stylesheet" type="text/css">
+    <link href="css/header.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function () {
+            //검색버튼 활성화
+            const searchForm = document.querySelector('.search');
+            const searchInput = document.querySelector('.search-input');
+            const searchIcon = document.querySelector('.icon');
+
+            searchIcon.addEventListener('submit', function (e) {
+                e.preventDefault();     //폼 제출 동작 방지
+                const keyword = searchInput.value;
+                console.log('검색어: ', keyword);
+            })
+
+            //사용자 아이콘 클릭시 마이페이지 이동
+            const userIcon = document.querySelector('.user-icon');
+            userIcon.addEventListener('click', function () {
+                window.location.href = 'pay.html';
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
+        <div id="nav-content">
+            <nav>
+                <ul>
+                    <li><a href="#" class="menu">연극</a></li>
+                    <li><a href="#" class="menu">공연장</a></li>
+                    <li><a href="#" class="menu">출연진</a></li>
+                    <li><a href="#" class="menu">이벤트</a></li>
+                    <li><a href="#" class="menu">관람후기</a></li>
+                </ul>
+            </nav>
+            <div class="right">
+                <form action="" method="get" class="search">
+                    <input type="text" class="search-input" placeholder="검색어 입력">
+                    <div class="icon"><i class="fas fa-search"></i></div>
+                </form>
+                <div class="user-icon">
+                    <i class="fas fa-user fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="con">
+        <div class="login_box">
+
+            <img id="main_logo" src="img/main_logo.png">
+
+            <form action="/" method="get">
+                <input type="text" name="id" placeholder="아이디">
+                <input type="password" name="password" placeholder="비밀번호">
+                <button id="login_button" type="submit" value="login">로그인</button>
+            </form>
+
+            <div class="find">
+                <a href="id_find.html">아이디찾기 |</a>
+                <a href="password_find.html">비밀번호 찾기 |</a>
+                <a href="/">회원가입</a>
+            </div>
+
+            <div class="social_login">
+                <span id="before"></span>
+                <span id="ment"> 소셜 로그인 </span>
+                <span id="after"></span>
+            </div>
+
+            <div class="sns_logo">
+                <a href="/"><img src="img/google_login.png"></a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+
+</body>
+
+</html>
