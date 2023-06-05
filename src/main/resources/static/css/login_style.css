@@ -30,7 +30,7 @@
     height: 9vh;
 }
 
-form {
+.login_box form {
     margin-top:2vh;
     height:16vh;
     display: flex;
@@ -38,7 +38,7 @@ form {
     justify-content: space-around;
 }
 
-input {
+.login_box input {
     margin: 1vh;
     width:15vw;
     height:4vh;

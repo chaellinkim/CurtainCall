@@ -37,4 +37,9 @@ public class PlayService {
 		return playRepository.findAll(pageable);
 	}
 	
+	public Page<Play> search(String keyword,Pageable pageable){
+		Page<Play> plays = playRepository.findByPlayTitleContaining(keyword, pageable);
+		return plays;
+	}
+	
 }

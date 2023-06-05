@@ -43,12 +43,12 @@ container {
     height: 9vh;
 }
 
-form {
+.id_box form {
    display: flex;
    flex-direction: column;
 }
 
-input {
+.id_box input {
     margin: 1vh;
     width: 15vw;
     height: 4vh;
