@@ -6,59 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
-    <!-- 다헤 연극리스트 -->
-    <link rel = "stylesheet" href = "./css/playlist.css" type = "text/css"media="all">
-    <!-- header nav -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-    <link rel="stylesheet" href="./css/header.css"> 
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function(){
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
-
-            searchIcon.addEventListener('submit', function(e){
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
-            //사용자 아이콘 클릭시 마이페이지 이동
-            const userIcon = document.querySelector('.user-icon');
-            userIcon.addEventListener('click', function(){
-                window.location.href = 'place.html';
-            });
-        });
-    </script>
+    <link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
+	<th:block th:include="header :: head"></th:block>
 </head>
 <body>
     <!-- 헤더 nav -->
-    <div class="header">
-        <header>
-            <a href="#"><img src="./img/logo.png" id="logo"></img></a>
-            <div id="nav-content">
-                <nav>
-                    <ul>
-                        <li><a href="#" class="menu">연극</a></li>
-                        <li><a href="#" class="menu">공연장</a></li>
-                        <li><a href="#" class="menu">출연진</a></li>
-                        <li><a href="#" class="menu">이벤트</a></li>
-                        <li><a href="#" class="menu">관람후기</a></li>
-                    </ul>
-                </nav>
-                <div class="right">
-                    <form action="" method="get" class="search">
-                        <input type="text" class="search-input" placeholder="검색어 입력">
-                        <div class="icon"><i class="fas fa-search"></i></div>
-                    </form>
-                    <div class="user-icon">
-                        <i class="fas fa-user fa-lg"></i>
-                    </div>
-                </div>
-            </div>
-        </header>    
-    </div>
+    <th:block th:include="header :: body"></th:block>
     <!-- 연극 리스트 -->
     <div id="content-wrap">
         <!-- 연극 타이틀 및 정렬  -->
@@ -76,58 +29,29 @@
                 </ul>
             </div>
         </div>
+        
         <div id="tab-1" class="tab-content current">
             <div class="theater-content">
-                <div class="theater-unit">
+                <div class="theater-unit" th:each="item : ${list}">
                     <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
                         <div class="theater-poster">
-                            <img src="./img/poster01.jpg" alt="연극라면">
-                            <img th:src="@{${test.poster}}" th:alt="${test.prfnm}">
+                            <img th:src="@{${item.playPoster}}" th:alt="${item.playTitle}">
                             
                         </div>
-                        <h4 th:text="${test.prfnm}"></h4>
-                        <p th:text="${test.prfpdfrom} + ' ~ ' + ${test.prfpdto}"></p>
-                    </a>
-                </div>
-                <div class="theater-unit">
-                    <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
-                        <div class="theater-poster">
-                            <img src="./img/poster01.jpg" alt="연극라면">
-                        </div>
-                        <h4>연극 라면</h4>
-                        <p>2021.01.16 ~2023.06.30</p>
-                    </a>
-                </div>
-                <div class="theater-unit">
-                    <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
-                        <div class="theater-poster">
-                            <img src="./img/poster01.jpg" alt="연극라면">
-                        </div>
-                        <h4>연극 라면</h4>
-                        <p>2021.01.16 ~2023.06.30</p>
-                    </a>
-                </div>
-                <div class="theater-unit">
-                    <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
-                        <div class="theater-poster">
-                            <img src="./img/poster01.jpg" alt="연극라면">
-                        </div>
-                        <h4>연극 라면</h4>
-                        <p>2021.01.16 ~2023.06.30</p>
-                    </a>
-                </div>
-                <div class="theater-unit">
-                    <a href="#">    <!— 해당 연극 상세페이지 이동 —>
-                        <div class="theater-poster">
-                            <img src="./img/poster01.jpg" alt="연극라면">
-                        </div>
-                        <h4>연극 라면</h4>
-                        <p>2021.01.16 ~2023.06.30</p>
+                        <h4 th:text="${item.playTitle}"></h4>
+                        <p th:text="${item.playFrom} + ' ~ ' + ${item.playTo}"></p>
                     </a>
                 </div>
             </div>
         </div>
+        
+        <div class="pagination">
+	        <th:block class="pagination" th:each="page : ${#numbers.sequence(startPage,endPage)}">
+	        	<a th:if ="${page != nowPage}" th:href ="@{/play(page=${page-1})}" th:text="${page}"></a>
+	        	<strong th:if ="${page == nowPage}" th:text="${page}"></strong>
+	        	<span>&nbsp;</span> 
+	        </th:block>
+        </div>
     </div>
-</div>
 </body>
 </html>

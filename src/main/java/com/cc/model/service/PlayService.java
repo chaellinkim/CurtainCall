@@ -1,6 +1,10 @@
 package com.cc.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cc.model.dto.PlayDto;
@@ -24,6 +28,18 @@ public class PlayService {
 	public void insert(PlayDto playDto) {
 		Play play = playMapper.toEntity(playDto);
 		playRepository.save(play);
+	}
+	
+//	public List<Play> selectAll(){
+//		return playRepository.findAll();
+//	}
+	public Page<Play> selectAll(Pageable pageable){
+		return playRepository.findAll(pageable);
+	}
+	
+	public Page<Play> search(String keyword,Pageable pageable){
+		Page<Play> plays = playRepository.findByPlayTitleContaining(keyword, pageable);
+		return plays;
 	}
 	
 }
