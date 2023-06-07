@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event_list</title>
+    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+    <!-- 다헤 연극리스트 -->
+    <link rel = "stylesheet" href = "./css/event.css" type = "text/css"media="all">
+    <!-- header nav -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="./css/header.css"> 
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function(){
+            //검색버튼 활성화
+            const searchForm = document.querySelector('.search');
+            const searchInput = document.querySelector('.search-input');
+            const searchIcon = document.querySelector('.icon');
+
+            searchIcon.addEventListener('submit', function(e){
+                e.preventDefault();     //폼 제출 동작 방지
+                const keyword = searchInput.value;
+                console.log('검색어: ', keyword);
+            })
+
+            //사용자 아이콘 클릭시 마이페이지 이동
+            const userIcon = document.querySelector('.user-icon');
+            userIcon.addEventListener('click', function(){
+                window.location.href = 'place.html';
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- 헤더 nav -->
+    <div class="header">
+        <header>
+            <a href="#"><img src="./img/logo.png" id="logo"></img></a>
+            <div id="nav-content">
+                <nav>
+                    <ul>
+                        <li><a href="/play" class="menu">연극</a></li>
+	                    <li><a href="/place" class="menu">공연장</a></li>
+	                    <li><a href="/actor" class="menu">출연진</a></li>
+	                    <li><a href="/event" class="menu">이벤트</a></li>
+	                    <li><a href="#" class="menu">관람후기</a></li>
+                    </ul>
+                </nav>
+                <div class="right">
+                    <form action="" method="get" class="search">
+                        <input type="text" class="search-input" placeholder="검색어 입력">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                    </form>
+                    <div class="user-icon">
+                        <a href="/mypage/pay">
+                    		<i class="fas fa-user fa-lg"></i>
+                    	</a>
+                    </div>
+                </div>
+            </div>
+        </header>    
+    </div>
+    <!-- 연극 리스트 -->
+    <div id="content-wrap">
+        <!-- 연극 타이틀 및 정렬  -->
+        <div>
+            <div id="theater-list-title">
+                <a>이벤트</a>
+            </div>
+            <hr>
+            <div class="event-sort">
+                <ul>
+                    <li><a href="#">진행중</a></li>
+                    <li><a href="#">진행 예정</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div id="tab-1" class="tab-content">
+            <div class="event-content">
+                <div class="event-unit">
+                    <a href="#">    <!-- 해당 이벤트 상세페이지 이동 -->
+                        <div class="event-poster">
+                            <img src="./img/poster01.jpg" alt="연극라면">
+                        </div>
+                    </a>
+                </div>
+                <!-- 글 내용 -->
+                <div class="writed"> 
+                    <h4>대한민국 연극제 in 세종</h4><br>
+                    <p id="date">2022.03.04-2023-05.07</p><br>
+                    <p class="writed-content">대한민국 연극제는 1983년부터 개최된 국내 최대 연극제로, 세종에서는 올해 처음 개최되는 행사라 주목받았다.
+
+                        그러나 개막을 사흘 앞둔 지난 8월 25일 코로나19 확산으로 인해 잠정 연기됐다.
+                        
+                        시와 대한민국연극제 조직위원회는 최근 코로나19가 안정세에 접어듦에 따라 7일부터 오는 11월 7일까지 조치원 세종문화예술회관, 반곡동 비오케이(BOK) 아트센터에서 이 행사를 재개하기로 했다.
+                        
+                        이번 연극제에는 전국 시·도 예선전을 거쳐 뽑힌 대표 작품 17편과 차세대 신진 연극인들의 무대인 네트워킹 페스티벌 참가작 8편 등 총 25편의 공연이 차례로 무대에 오른다.
+                        
+                        다만 현재 특별 방역기간을 고려해 오는 11일까지 진행되는 공연 7편은 비대면(무관객)으로 진행된다.
+
+                        출처 : 세종포스트(http://www.sjpost.co.kr)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -18,27 +18,27 @@ a{
 }
 /* 연극 목록 로고 글씨 */
 #theater-list-title a{
-    margin-left: 50px;
+    margin-left: 30px;
     font-size:40px;
     font-weight:500;
     color: #000000;
 }
 /* 정렬 버튼 */
-.theater-sort{
+.event-sort{
     width: 65vw;
     padding: 10px 0;
 }
-.theater-sort li{
+.event-sort li{
     text-align: center;
     list-style: none;
     float: right;
     /* 리스트 사이간격 조정 */
     padding-inline-start: 1.5em; 
 }
-.theater-sort a{
+.event-sort a{
     color: rgb(107, 107, 107);
 }
-.theater-sort a:hover{
+.event-sort a:hover{
     color: rgb(71, 135, 255);
     transition: 0.5s;
 }
@@ -50,30 +50,34 @@ a{
     margin: auto;
     
 }
-.theater-content{
-    margin-top: 5vh;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+/* 연극제 내용 hover */
+.tab-content:hover{
+    color: gray;
+    transition: 0.5s;
+}
+.event-content{
+    margin-top: 30px;
+    /* display: grid;
+    grid-template-columns: 250px 2fr;
     grid-column-gap: 60px;
-    grid-row-gap: 45px;
-}
-.theater-unit{
-    display: flex;
-    display: block;
-    flex-direction: column;
+    grid-row-gap: 45px; */
+    height: 200px;
+    /* display: flex; */
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-right: 30px;
 }
-.theater-poster {
+.event-unit{
+    width:20%;
+    margin-right: 30px;
+    float: left;
+}
+.event-poster {
     position: relative;
     padding-top: 140%;
     overflow: hidden;
     border-radius: 12px;
     margin-bottom: 16px;
 }
-.theater-poster img{
+.event-poster img{
     position: absolute;
     top: 0;
     left: 0;
@@ -84,32 +88,42 @@ a{
     object-fit: cover;
 }
 /* 연극제목 마진줄이기 */
-.theater-unit h4{
+.event-unit h4{
     margin: 0;
     text-align: center;
     font-weight: 700;
 }
 /* 연극기간 폰트 줄이기 */
-.theater-unit p{
+.event-unit p{
     margin-top: 5px;
     font-size:small;
     color: rgb(107, 107, 107);
     text-align: center;
 }
-.theater-unit a{
+.event-unit a{
     color: black;
 }
-.pagination {
-  text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
+/* 자간조절 */
+.writed{
+    word-spacing: 5px;
+    line-height: 25px;
+    width:60vw;
+    height: 20vh;
 }
-.pagination th:block {
-  display: inline-block;
-  margin-right: 10px;
+/* 기간 크기 */
+.writed #date{
+    color: rgb(107, 107, 107);
+    font-size: small;
 }
-.pagination strong {
-  color: rgb(18, 82, 151);
-  text-decoration: underline;
-  display: inline-block;
+.writed-content{
+    
+    overflow: hidden;
+    text-overflow: ellipsis;   
+    display: -webkit-box;
+    -webkit-line-clamp: 3;  /* 3줄 이후로 텍스트 자르기 */
+    -webkit-box-orient:vertical;
+    white-space: nomal;
+}
+.writed h4{
+    font-size: 25px;
 }
