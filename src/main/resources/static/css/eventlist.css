@@ -1,0 +1,122 @@
+@charset "UTF-8";
+* {
+    font-family: 'NanumSquareNeo';
+    font-size: large;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* 연극 목록 로고 div */
+#theater-list-title {
+    margin-top: 2vh;
+    width: 950px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+/* 연극 목록 로고 글씨 */
+#theater-list-title a {
+    margin-left: 30px;
+    font-size: 40px;
+    font-weight: 500;
+    color: #000000;
+}
+
+/* 정렬 버튼 */
+.event-sort {
+    width: 65vw;
+    padding: 10px 0;
+}
+
+.event-sort li {
+    text-align: center;
+    list-style: none;
+    float: right;
+    /* 리스트 사이간격 조정 */
+    padding-inline-start: 1.5em;
+}
+
+.event-sort a {
+    color: rgb(107, 107, 107);
+}
+
+.event-sort a:hover {
+    color: rgb(71, 135, 255);
+    transition: 0.5s;
+}
+
+/* 페이지 양옆 여백 */
+#content-wrap {
+    font: optional;
+    width: 65vw;
+    margin: auto;
+}
+
+/* 연극제 내용 hover */
+.tab-content a:hover {
+    color: gray;
+    transition: 0.5s;
+}
+
+/* 연극제 포스터 */
+.event-poster img{
+    margin-top: -30px; /* 내용 중앙정렬위해 사진을 위로 올림 */
+    margin-right:20px;
+    border-radius: 12px;
+   width: 180px;
+   height: 250px;
+   float: left;
+}
+
+/* 연극제목 마진줄이기 */
+.event-unit h4 {
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* 연극기간 폰트 줄이기 */
+.event-unit p {
+    margin-top: 5px;
+    font-size: small;
+    color: rgb(107, 107, 107);
+    text-align: center;
+}
+
+.event-unit a {
+    color: black;
+}
+
+/* 글 내용 */
+.writed {
+    word-spacing: 5px;
+    line-height: 25px;
+    width: 60vw;
+    height: 30vh;
+    margin-top: 8vh;
+}
+
+/* 기간 크기 */
+.writed #date {
+    color: rgb(107, 107, 107);
+    font-size: small;
+}
+
+.writed-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* 3줄 이후로 텍스트 자르기 */
+    -webkit-box-orient: vertical;
+    white-space: nomal;
+}
+
+.writed h4 {
+    font-size: 25px;
+}

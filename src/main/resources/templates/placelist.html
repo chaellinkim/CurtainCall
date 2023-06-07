@@ -136,19 +136,18 @@ $(document).ready(function(){
 		<h2 class="mainTitle">공연장</h2>
 		<!-- 공연장 목록 -->
 		<ul class="tab-place">
-			<li class="placeButton current" data-tab="place-1"><img
-				src="../img/place01.png" alt=""></li>
-			<li class="placeButton" data-tab="place-2"><img
-				src="../img/place01.png" alt=""></li>
-			<li class="placeButton" data-tab="place-3"><img
-				src="../img/place01.png" alt=""></li>
+		  <li th:each="item : ${list}"
+		      th:class="${itemStat.index == 0 ? 'placeButton current' : 'placeButton'}" th:data-tab="'place-' + ${itemStat.index+1}">
+		    <span th:text="${item.placeName} "></span>
+		  </li>
 		</ul>
 
-		<div id="place-1" class="place-content current">
+	<div th:each="item : ${list}">
+		<div th:id="'place-' + ${itemStat.index+1}" class="place-content current">
 			<div class="placeInfo">
 				<img src="../img/place01.png" alt="">
 				<div class="info-content">
-					<h3>예술의 전당</h3>
+					<h3 th:text=${item.placeName}></h3>
 					<br>
 					<div class="address">
 						<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b>&nbsp서울특별시 서초구 서초동
@@ -237,7 +236,7 @@ $(document).ready(function(){
 					</a>
 				</div>
 			</div>
-
+</div>
 		</div>
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"

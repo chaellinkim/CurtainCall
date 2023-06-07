@@ -7,7 +7,7 @@ import com.cc.model.entity.Play;
 
 @Component
 public class PlayMapper {
-	public static PlayDto toDto(Play play) {
+	public PlayDto toDto(Play play) {
         PlayDto playDto = new PlayDto();
         playDto.setId(play.getPlayId());
         playDto.setPrfnm(play.getPlayTitle());
@@ -17,11 +17,11 @@ public class PlayMapper {
         playDto.setDtguidance(play.getPlayTime());
         playDto.setPrfage(play.getPlayAge());
         playDto.setPoster(play.getPlayPoster());
-        playDto.setMt10id(play.getPlaceId());
+        playDto.setMt10id(play.getPlaceNickname());
         return playDto;
     }
 
-    public static Play toEntity(PlayDto playDto) {
+    public Play toEntity(PlayDto playDto) {
         Play play = new Play();
         play.setPlayId(playDto.getId());
         play.setPlayTitle(playDto.getPrfnm());
@@ -31,7 +31,7 @@ public class PlayMapper {
         play.setPlayTime(playDto.getDtguidance());
         play.setPlayAge(playDto.getPrfage());
         play.setPlayPoster(playDto.getPoster());
-        play.setPlaceId(playDto.getMt10id());
+        play.setPlaceNickname(playDto.getMt10id());
         return play;
     }
 }

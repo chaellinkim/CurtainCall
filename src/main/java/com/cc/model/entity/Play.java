@@ -41,6 +41,6 @@ public class Play {
 	@Column(name="play_poster")
 	private String playPoster;
 	
-	@Column(name="place_id")
-	private String placeId;
+	@Column(name="place_nickname")
+	private String placeNickname;
 }
