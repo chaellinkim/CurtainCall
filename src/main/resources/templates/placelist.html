@@ -5,6 +5,9 @@
 <title>Google Maps API Example</title>
 <link rel="stylesheet" href="../css/placelist.css">
 <link rel="stylesheet" href="../css/header.css">
+<link
+	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
+	rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"
 	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -56,8 +59,9 @@ $(document).ready(function(){
         $("#"+tab_id).addClass('current');
     })
 })
+	
 	function initMap() {
-		var place = new google.maps.LatLng(37.5666805, 126.9784147);
+		var place = new google.maps.LatLng(la, lo);
 		var mapOptions = {
 			center : place,
 			zoom : 17
@@ -133,110 +137,114 @@ $(document).ready(function(){
 	</header>
 
 	<div id="content-wrap">
-		<h2 class="mainTitle">공연장</h2>
+		<div class="mainTitle">
+			<a>공연장</a>
+		</div>
+		<hr>
+		<!-- <h2 class="mainTitle">공연장</h2> -->
 		<!-- 공연장 목록 -->
 		<ul class="tab-place">
-		  <li th:each="item : ${list}"
-		      th:class="${itemStat.index == 0 ? 'placeButton current' : 'placeButton'}" th:data-tab="'place-' + ${itemStat.index+1}">
-		    <span th:text="${item.placeName} "></span>
-		  </li>
+			<li th:each="item : ${list}"
+				th:class="${itemStat.index == 0 ? 'placeButton current' : 'placeButton'}"
+				th:data-tab="'place-' + ${itemStat.index+1}"><span
+				th:text="${item.placeName} "></span></li>
 		</ul>
 
-	<div th:each="item : ${list}">
-		<div th:id="'place-' + ${itemStat.index+1}" class="place-content current">
-			<div class="placeInfo">
-				<img src="../img/place01.png" alt="">
-				<div class="info-content">
-					<h3 th:text=${item.placeName}></h3>
-					<br>
-					<div class="address">
-						<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b>&nbsp서울특별시 서초구 서초동
-						<div class="map-popup">
-							<!-- 지도 팝업창 -->
-							<i class="fa-solid fa-location-dot innerIcon"></i> <span
-								class="map">지도보기</span>
+		<div th:each="item : ${list}">
+			<div th:id="'place-' + ${itemStat.index+1}"
+				th:class="${itemStat.index == 0 ? 'place-content current' : 'place-content'}">
+				<div class="placeInfo">
+					<div class="info-content">
+						<h3 th:text=${item.placeName}></h3>
+						<br>
+						<div class="address">
+							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b><span th:text="${item.placeAddr}"></span>
+							<div class="map-popup">
+								<!-- 지도 팝업창 -->
+								<i class="fa-solid fa-location-dot innerIcon"></i> <span
+									class="map">지도보기</span>
+							</div>
 						</div>
-					</div>
-					<p>
-						<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> 02-123-4567
-					</p>
-					<p class="link">
-						<b>홈페이지 :</b>&nbsp;<a href="https://www.sac.or.kr/site/main/home"
-							target="_blank">https://www.sac.or.kr/site/main/home <i
-							class="fa-solid fa-share-from-square innerIcon"></i></a>
-					</p>
-				</div>
-			</div>
-
-			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1">연극</li>
-				<li class="tab-link" data-tab="tab-2">맛집</li>
-			</ul>
-
-			<!-- 연극 리스트 -->
-			<div id="tab-1" class="tab-content current">
-				<div class="theater-content">
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster01.jpg" alt="연극라면">
-						</div>
-						<h4>연극 라면</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster02.jpg" alt="옥탑방 고양이">
-						</div>
-						<h4>옥탑방 고양이</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster03.png" alt="청춘에 반하다">
-						</div>
-						<h4>청춘에 반하다</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster01.jpg" alt="연극라면">
-						</div>
-						<h4>연극 라면</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster02.jpg" alt="옥탑방 고양이">
-						</div>
-						<h4>옥탑방 고양이</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-					<div class="theater-unit">
-						<div class="img-wrap">
-							<img src="../img/poster03.png" alt="청춘에 반하다">
-						</div>
-						<h4>청춘에 반하다</h4>
-						<button class="reservation-btn" onclick="">예매하기</button>
-					</div>
-				</div>
-			</div>
-
-			<!-- 맛집 리스트 -->
-			<div id="tab-2" class="tab-content">
-				<div id="map"></div>
-				<div class="eat-content">
-					<a class="eat-place" href="#">
-						<div class="eat-head">
-							<!-- <div class="eat-title"></div> -->
-						</div>
-						<p class="eat-side">
-							<!-- <span>피자</span>&nbsp;&nbsp; <span>리뷰999+</span> -->
+						<p>
+							<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> <span th:text="${item.placePhone}"></span>
 						</p>
-					</a>
+						<p class="link">
+							<b>홈페이지 :</b>&nbsp;<a th:href="${item.placeLink}"
+								target="_blank"><span th:text="${item.placeLink}"></span><i
+								class="fa-solid fa-share-from-square innerIcon"></i></a>
+						</p>
+					</div>
+				</div>
+
+				<ul class="tabs">
+					<li class="tab-link current" data-tab="tab-1">연극</li>
+					<li class="tab-link" data-tab="tab-2">맛집</li>
+				</ul>
+
+				<!-- 연극 리스트 -->
+				<div id="tab-1" class="tab-content current">
+					<div class="theater-content">
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster01.jpg" alt="연극라면">
+							</div>
+							<h4>연극 라면</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster02.jpg" alt="옥탑방 고양이">
+							</div>
+							<h4>옥탑방 고양이</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster03.png" alt="청춘에 반하다">
+							</div>
+							<h4>청춘에 반하다</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster01.jpg" alt="연극라면">
+							</div>
+							<h4>연극 라면</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster02.jpg" alt="옥탑방 고양이">
+							</div>
+							<h4>옥탑방 고양이</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+						<div class="theater-unit">
+							<div class="img-wrap">
+								<img src="../img/poster03.png" alt="청춘에 반하다">
+							</div>
+							<h4>청춘에 반하다</h4>
+							<button class="reservation-btn" onclick="">예매하기</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- 맛집 리스트 -->
+				<div id="tab-2" class="tab-content">
+					<div id="map"></div>
+					<div class="eat-content">
+						<a class="eat-place" href="#">
+							<div class="eat-head">
+								<!-- <div class="eat-title"></div> -->
+							</div>
+							<p class="eat-side">
+								<!-- <span>피자</span>&nbsp;&nbsp; <span>리뷰999+</span> -->
+							</p>
+						</a>
+					</div>
 				</div>
 			</div>
-</div>
 		</div>
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"

@@ -20,7 +20,7 @@ import lombok.ToString;
 //@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayDto {
-	private int id;
+	private String mt20id;
 	private String prfnm;
 	private String pcseguidance;
 	private String prfpdfrom;

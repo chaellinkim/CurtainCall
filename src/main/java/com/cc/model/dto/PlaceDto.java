@@ -9,14 +9,13 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceDto {
-	private int id;
+	private String mt10id;
 	private String fcltynm;
 	private String adres;
 	private String telno;
 	private String relateurl;
 	private BigDecimal la;
 	private BigDecimal lo;
-	private String mt10id;
 
 }
 

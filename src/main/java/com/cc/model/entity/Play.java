@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GeneratorType;
@@ -16,9 +18,8 @@ import lombok.Data;
 @Table(name="PLAY")
 public class Play {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="play_id")
-	private int playId;
+	private String playId;
 	
 	@Column(name="play_title")
 	private String playTitle;
@@ -41,6 +42,10 @@ public class Play {
 	@Column(name="play_poster")
 	private String playPoster;
 	
-	@Column(name="place_nickname")
-	private String placeNickname;
+	@Column(name="place_id")
+	private String placeId;
+	
+	@ManyToOne
+	@JoinColumn(name="place_id", insertable = false, updatable = false)
+	private Place place;
 }

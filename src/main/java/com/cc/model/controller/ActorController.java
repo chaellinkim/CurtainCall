@@ -19,9 +19,9 @@ public class ActorController {
 	public String actorList(Model model) {
 		List<Actor> list = actorService.selectAll();
 		
-		model.addAttribute(list);
+		model.addAttribute("list",list);
 		System.out.println("------");
-		System.out.println(list.get(0));
+		System.out.println(list);
 		return "actorlist";
 	}
 }

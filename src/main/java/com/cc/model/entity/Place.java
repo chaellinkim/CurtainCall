@@ -1,12 +1,16 @@
 package com.cc.model.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -16,9 +20,9 @@ import lombok.Data;
 @Table(name="PLACE")
 public class Place {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="place_id")
-	private int placeId;
+	private String placeId;
 	
 	@Column(name="place_name")
 	private String placeName;
@@ -38,7 +42,7 @@ public class Place {
 	@Column(name="place_lo")
 	private BigDecimal lo;
 	
-	@Column(name="place_nickname")
-	private String placeNickname;
+	@OneToMany(mappedBy="place", fetch = FetchType.LAZY)
+	private List<Play> playList = new ArrayList<>();
 
 }

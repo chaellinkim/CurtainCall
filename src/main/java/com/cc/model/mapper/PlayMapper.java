@@ -9,7 +9,7 @@ import com.cc.model.entity.Play;
 public class PlayMapper {
 	public PlayDto toDto(Play play) {
         PlayDto playDto = new PlayDto();
-        playDto.setId(play.getPlayId());
+        playDto.setMt20id(play.getPlayId());
         playDto.setPrfnm(play.getPlayTitle());
         playDto.setPcseguidance(play.getPlayPrice());
         playDto.setPrfpdfrom(play.getPlayFrom());
@@ -17,13 +17,13 @@ public class PlayMapper {
         playDto.setDtguidance(play.getPlayTime());
         playDto.setPrfage(play.getPlayAge());
         playDto.setPoster(play.getPlayPoster());
-        playDto.setMt10id(play.getPlaceNickname());
+        playDto.setMt10id(play.getPlaceId());
         return playDto;
     }
 
     public Play toEntity(PlayDto playDto) {
         Play play = new Play();
-        play.setPlayId(playDto.getId());
+        play.setPlayId(playDto.getMt20id());
         play.setPlayTitle(playDto.getPrfnm());
         play.setPlayPrice(playDto.getPcseguidance());
         play.setPlayFrom(playDto.getPrfpdfrom());
@@ -31,7 +31,7 @@ public class PlayMapper {
         play.setPlayTime(playDto.getDtguidance());
         play.setPlayAge(playDto.getPrfage());
         play.setPlayPoster(playDto.getPoster());
-        play.setPlaceNickname(playDto.getMt10id());
+        play.setPlaceId(playDto.getMt10id());
         return play;
     }
 }

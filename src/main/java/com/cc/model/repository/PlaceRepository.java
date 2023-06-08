@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.cc.model.entity.Place;
 
 @Repository
-public interface PlaceRepository extends JpaRepository<Place,Long>{
+public interface PlaceRepository extends JpaRepository<Place,String>{
 
 }
