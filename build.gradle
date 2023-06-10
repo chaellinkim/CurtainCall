@@ -40,6 +40,9 @@ dependencies {
    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+   // https://mvnrepository.com/artifact/ch.obermuhlner/big-math
+   implementation group: 'ch.obermuhlner', name: 'big-math', version: '2.3.0'
+   
 }
 
 tasks.named('test') {

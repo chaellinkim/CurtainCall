@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cc.model.dto.PlayDto;
+import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
 import com.cc.model.mapper.PlayMapper;
 import com.cc.model.repository.PlayRepository;

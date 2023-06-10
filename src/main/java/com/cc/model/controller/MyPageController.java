@@ -19,6 +19,7 @@ public class MyPageController {
 		
 		return "pay";
 	}
+	
 	@RequestMapping("/review")
 	public String review() {
 		

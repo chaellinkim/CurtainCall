@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.cc.model.entity.Play;
 
 @Repository
-public interface PlayRepository extends JpaRepository<Play,Long>{
+public interface PlayRepository extends JpaRepository<Play,String>{
 	Page<Play> findByPlayTitleContaining(String keyword, Pageable pageable);
 }
