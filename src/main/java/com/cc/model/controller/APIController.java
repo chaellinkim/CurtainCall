@@ -45,14 +45,12 @@ public class APIController {
         String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
         String url2 = "http://www.kopis.or.kr/openApi/restful/prfplc";
         String serviceKey = "722233b68ffa4883ae5213ccf16565a5";
-        String stDate = "20230101";
+        String stDate = "20200101";
         String edDate = "20230630";
-        String rows = "10";
+        String rows = "100";
         String cPage = "1";
-        String name="PF132236";
 
         String apiUrl = url + "?service=" + serviceKey + "&stdate=" + stDate + "&eddate=" + edDate + "&rows=" + rows + "&cpage=" + cPage;
-        //String apiUrl = url +"/"+name+"?service=" + serviceKey;
         
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;

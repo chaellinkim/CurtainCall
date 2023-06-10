@@ -12,6 +12,17 @@
 	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
+
+/* //script문에 추가
+var article_subject = $('input[name=article_subject]').val();
+
+//html에 추가
+<input type="hidden" name="article_subject" th:value="${article.subject}"> */
+
+var la = [[${list[0].la}]];
+var lo = [[${list[0].lo}]];
+console.log(la,lo);
+
 //Header
 document.addEventListener('DOMContentLoaded', function(){
     //검색버튼 활성화
@@ -35,8 +46,11 @@ document.addEventListener('DOMContentLoaded', function(){
     
 //tab 화면 전환
 $(document).ready(function(){
+	//let btn = document.getElementsByClassName()
+	
     //장소에 따른 탭
     $('.tab-place li').click(function(){
+    	
         var tabId = $(this).data("tab");
 
         $('.tab-place li').removeClass('current');
@@ -45,6 +59,9 @@ $(document).ready(function(){
         $(this).addClass('current');
         $("#"+tabId).addClass('current');
 
+        la = $("#"+tabId).children()[0].value;
+    	lo = $("#"+tabId).children()[1].value;
+    	console.log(la + ":" +lo);
         
     });
 
@@ -57,11 +74,31 @@ $(document).ready(function(){
 
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
-    })
-})
-	
+    });
+});
+//현재 위치를 이용하여 위도, 경도 구하기
+/* var latitude;
+var longitude;
+var map;
+var geocoder;
+
+
+var showPosition = (position) =>{
+	la = position.coords.latitude;  //위도
+	lo = position.coords.longitude;//경도
+}
+
+var geoLocation = () =>{
+	if(navigator.geolocation){
+		//**콜백함수: 파라미터로 함수를 전달받아, 함수의 내부에서 실행하는 함수
+		navigator.geolocation.getCurrentPosition(showPosition);
+
+	}else{}
+}
+geoLocation(); */ 
 	function initMap() {
-		var place = new google.maps.LatLng(la, lo);
+		console.log(la + ":" +lo);
+		var place = new google.maps.LatLng(la,lo);
 		var mapOptions = {
 			center : place,
 			zoom : 17
@@ -105,6 +142,9 @@ $(document).ready(function(){
 			}
 		});
 	}
+	
+
+	
 </script>
 </head>
 <body>
@@ -150,15 +190,19 @@ $(document).ready(function(){
 				th:text="${item.placeName} "></span></li>
 		</ul>
 
-		<div th:each="item : ${list}">
+		<div th:each="item : ${list}"
+			th:with="playList=${listPlay[itemStat.index]}">
 			<div th:id="'place-' + ${itemStat.index+1}"
 				th:class="${itemStat.index == 0 ? 'place-content current' : 'place-content'}">
+				<input type="hidden" name="place_la" th:value="${item.la}">
+				<input type="hidden" name="place_lo" th:value="${item.lo}">
 				<div class="placeInfo">
 					<div class="info-content">
 						<h3 th:text=${item.placeName}></h3>
 						<br>
 						<div class="address">
-							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b><span th:text="${item.placeAddr}"></span>
+							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b><span
+								 th:text="${item.placeAddr}"></span>
 							<div class="map-popup">
 								<!-- 지도 팝업창 -->
 								<i class="fa-solid fa-location-dot innerIcon"></i> <span
@@ -166,11 +210,12 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<p>
-							<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> <span th:text="${item.placePhone}"></span>
+							<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> <span
+								th:text="${item.placePhone}"></span>
 						</p>
 						<p class="link">
-							<b>홈페이지 :</b>&nbsp;<a th:href="${item.placeLink}"
-								target="_blank"><span th:text="${item.placeLink}"></span><i
+							<b>홈페이지 :</b>&nbsp;<a th:href="${item.placeLink}" target="_blank"><span
+								th:text="${item.placeLink}"></span><i
 								class="fa-solid fa-share-from-square innerIcon"></i></a>
 						</p>
 					</div>
@@ -184,49 +229,14 @@ $(document).ready(function(){
 				<!-- 연극 리스트 -->
 				<div id="tab-1" class="tab-content current">
 					<div class="theater-content">
-						<div class="theater-unit">
+						<div class="theater-unit" th:each="play : ${playList}">
 							<div class="img-wrap">
-								<img src="../img/poster01.jpg" alt="연극라면">
+								<img th:src="@{${play.playPoster}}" th:alt='${play.playTitle}'>
 							</div>
-							<h4>연극 라면</h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
-						</div>
-						<div class="theater-unit">
-							<div class="img-wrap">
-								<img src="../img/poster02.jpg" alt="옥탑방 고양이">
-							</div>
-							<h4>옥탑방 고양이</h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
-						</div>
-						<div class="theater-unit">
-							<div class="img-wrap">
-								<img src="../img/poster03.png" alt="청춘에 반하다">
-							</div>
-							<h4>청춘에 반하다</h4>
+							<h4 th:text='${play.playTitle}'></h4>
 							<button class="reservation-btn" onclick="">예매하기</button>
 						</div>
 
-						<div class="theater-unit">
-							<div class="img-wrap">
-								<img src="../img/poster01.jpg" alt="연극라면">
-							</div>
-							<h4>연극 라면</h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
-						</div>
-						<div class="theater-unit">
-							<div class="img-wrap">
-								<img src="../img/poster02.jpg" alt="옥탑방 고양이">
-							</div>
-							<h4>옥탑방 고양이</h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
-						</div>
-						<div class="theater-unit">
-							<div class="img-wrap">
-								<img src="../img/poster03.png" alt="청춘에 반하다">
-							</div>
-							<h4>청춘에 반하다</h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
-						</div>
 					</div>
 				</div>
 
@@ -246,8 +256,9 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</div>
-		<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
-			async defer></script>
+	</div>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
+		async defer></script>
 </body>
 </html>
