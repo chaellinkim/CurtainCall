@@ -18,8 +18,12 @@ import com.cc.model.service.PlayService;
 
 @Controller
 public class PlayController {
-	@Autowired
 	private PlayService playService;
+
+	public PlayController(PlayService playService) {
+		super();
+		this.playService = playService;
+	}
 
 	@RequestMapping("/play")
 	public String playList(Model model,
