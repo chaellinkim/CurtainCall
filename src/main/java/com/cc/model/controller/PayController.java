@@ -1,9 +1,13 @@
 package com.cc.model.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.model.dto.UserPlayDto;
 import com.cc.model.service.PlayService;
@@ -25,11 +29,15 @@ public class PayController {
 	}
 	
 	@RequestMapping(value ="/pay/reservation", method = RequestMethod.POST)
-	public String reservation(@RequestBody UserPlayDto userPlayDto) {
-		System.out.println(userPlayDto);
+	@ResponseBody
+	public Map<String,String> reservation(@RequestBody UserPlayDto userPlayDto) {
+		//System.out.println(userPlayDto);
 		userPlayService.insert(userPlayDto);
+		Map<String,String> response = new HashMap<>();
+		String url = "/play";
+		response.put("url",url);
 		
-		return "join";
+		return response;
 	}
 
 }

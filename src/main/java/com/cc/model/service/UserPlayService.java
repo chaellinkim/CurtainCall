@@ -13,7 +13,6 @@ public class UserPlayService {
 	private UserPlayMapper userPlayMapper;
 	
 	
-	
 	public UserPlayService(UserPlayRepository userPlayRepository, UserPlayMapper userPlayMapper) {
 		super();
 		this.userPlayRepository = userPlayRepository;
@@ -22,6 +21,7 @@ public class UserPlayService {
 
 	public void insert(UserPlayDto userPlayDto) {
 		UserPlay userPlay = userPlayMapper.toEntity(userPlayDto);
+		System.out.println(userPlay);
 		userPlayRepository.save(userPlay);
 	}
 }

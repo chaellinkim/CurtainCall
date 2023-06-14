@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="userplay")
+@Table(name="USERPLAY")
 public class UserPlay {
 	@Id
 	@Column(name="reservation_number")

@@ -36,9 +36,9 @@
                 	alert("예매 성공 ");
                     console.log(rsp);
                 	let payVal = {
-                			"merchant_uid" : merchant_uid,
-                			"userId" : buyer_name,
-                			"playId" : 3,
+                			"merchantUid" : merchant_uid,
+                			"userId" : 1,
+                			"playId" : buyer_name,
                 			"playTitle" : name
                 		};
                     console.log(payVal);
@@ -47,9 +47,13 @@
         				url:"/pay/reservation",
         				data:JSON.stringify(payVal),
         				contentType:"application/json",
-        				//dataType:"json",
-        				success:function(){
-        					console.long("success");
+        				dataType:"json",
+        				success:function(response){
+        					console.log("success");
+        					var redirectUrl = response.url;
+        			        if (redirectUrl) {
+        			        	location.href = redirectUrl;
+        			        }
         				},
         				error:function(){
         					alert("통신 실패 ");
