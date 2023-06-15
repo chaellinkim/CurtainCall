@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theater_detail</title>
+<link
+	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
+	rel="stylesheet">
+<!-- 다헤 연극리스트 -->
+<link rel="stylesheet" href="/css/playdetail.css" type="text/css">
+<!-- 아이콘  -->
+<script src="https://kit.fontawesome.com/cd881899b1.js"
+	crossorigin="anonymous"></script>
+<!-- header nav -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<link rel="stylesheet" href="/css/header.css">
+<!-- 제이쿼리 , tab 기능 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+
+		$('ul.tab-btn li').click(function() {
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tab-btn li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		})
+
+	})
+</script>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+		//검색버튼 활성화
+		const searchForm = document.querySelector('.search');
+		const searchInput = document.querySelector('.search-input');
+		const searchIcon = document.querySelector('.icon');
+
+		searchIcon.addEventListener('submit', function(e) {
+			e.preventDefault(); //폼 제출 동작 방지
+			const keyword = searchInput.value;
+			console.log('검색어: ', keyword);
+		})
+
+		//사용자 아이콘 클릭시 마이페이지 이동
+		const userIcon = document.querySelector('.user-icon');
+		userIcon.addEventListener('click', function() {
+			window.location.href = 'place.html';
+		});
+	});
+</script>
+<th:block th:include="header :: head"></th:block>
+</head>
+<body>
+    <!-- 헤더 nav -->
+    <th:block th:include="header :: body"></th:block>
+	<!-- 연극 상세 -->
+	<div id="content-wrap">
+		<!-- 연극 wrap -->
+		<div class="theater-wrap">
+			<!-- 포스터 -->
+			<div class="theater-poster">
+				<img src="./img/poster02.jpg">
+			</div>
+			<!-- 상세정보 -->
+			<div class="theater-info">
+				<h4>
+					<i class="fa-solid fa-clapperboard fa-xs"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></span>
+				</h4>
+				<br>
+				<hr>
+				<br>
+				<p>예매가 : 20000원</p>
+				<br>
+				<p>기간 : 2023.06.12-2023.06.13</p>
+				<br>
+				<p>시청연령 : 만12세 이상</p>
+				<br>
+				<p>장소 : 아트홀 (위치보기)</p>
+			</div>
+		</div>
+		<!-- 예매 박스 -->
+		<div class="reserve-wrap">
+			<div class="reserve-box">
+				<h1>예매박스</h1>
+			</div>
+		</div>
+		<!-- 예매하기 버튼 -->
+		<div class="reserve-btn">
+			<a href="" title="Button push lightblue"
+				class="button btnPush btnLightBlue">예매하기</a>
+		</div>
+		<!-- 추천연극 -->
+		<div class="theater-recommand">
+			<!-- 추천연극 펼치기 / 접기 -->
+			<span id="more" style="CURSOR: hand"
+				onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한
+				연극이 궁금하다면?</span>
+			<div id="story" style="display: none">
+				<!-- 펼친 div -->
+				<div class="recommand-poster">
+					<img onclick="" src="./img/poster01.png"> <img onclick=""
+						src="./img/poster02.jpg"> <img onclick=""
+						src="./img/poster03.jpg">
+				</div>
+			</div>
+		</div>
+		<!-- 정보 , 후기 , 출연진 탭버튼 -->
+		<div class="tab-menu">
+			<ul class="tab-btn">
+				<li class="menu current" data-tab="tab-1"><a
+					style="cursor: pointer">상세정보</a></li>
+				<li class="menu" data-tab="tab-2"><a style="cursor: pointer">관람후기</a></li>
+				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">캐스팅</a></li>
+			</ul>
+		</div>
+		<!-- 정보탭 -->
+		<div id="tab-1" class="tab-content current">
+			<div class="promotion">
+				<img src="./img/theater01.jpg">
+			</div>
+			<div class="statistics">통계 박스</div>
+		</div>
+		<!-- 후기탭 -->
+		<div id="tab-2" class="tab-content">
+			<div class="review">후기</div>
+		</div>
+		<!— 캐스팅탭 —>
+		<div id="tab-3" class="tab-content">
+			<div class="cast">출연진</div>
+		</div>
+	</div>
+	<!— content wrap ( 양옆 여백 )—>
+</body>
+
+</html>

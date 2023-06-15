@@ -1,6 +1,7 @@
 package com.cc.model.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,16 @@ public class PlayController {
 		model.addAttribute("endPage", endPage);
 		
 		return "playlist";
+	}
+	
+	@RequestMapping(value="/play/detail", method=RequestMethod.GET)
+	public String playdetail(String playId, Model model) {
+		System.out.println(playId);
+		Optional<Play> play = playService.selectOne(playId);
+		System.out.println(play);
+		model.addAttribute("play",play);
+		
+		return "playdetail";
 
 	}
 

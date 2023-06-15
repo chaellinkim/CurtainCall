@@ -33,7 +33,7 @@
         <div id="tab-1" class="tab-content current">
             <div class="theater-content">
                 <div class="theater-unit" th:each="item : ${list}">
-                    <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
+                    <a th:href="@{/play/detail(playId=${item.playId})}">    <!-- 해당 연극 상세페이지 이동 -->
                         <div class="theater-poster">
                             <img th:src="@{${item.playPoster}}" th:alt="${item.playTitle}">
                             

@@ -14,10 +14,12 @@ import org.hibernate.annotations.GeneratorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name="PLAY")
+@ToString(exclude = "place") 
 public class Play {
 	@Id
 	@Column(name="play_id")
