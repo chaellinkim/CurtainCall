@@ -30,7 +30,4 @@ public class Actor {
     @Column(name="actor_sns")
     private String actorSNS;
 
-    @Column(name="play_id")
-    private String playId;
-
 }

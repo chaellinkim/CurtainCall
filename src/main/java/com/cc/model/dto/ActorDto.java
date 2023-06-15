@@ -5,5 +5,4 @@ public class ActorDto {
 	private String name;
 	private String img;
 	private String sns;
-	private int play_id;
 }
