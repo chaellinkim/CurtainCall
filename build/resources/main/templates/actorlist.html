@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="../css/actorlist.css" type="text/css"
+	media="all">
+<link rel="stylesheet" href="../css/header.css">
+<link
+	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
+	rel="stylesheet">
+<script src="https://kit.fontawesome.com/fe66fff399.js"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+
+		$('ul.actorlist li').click(function() {
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.actorlist li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		})
+
+	})
+</script>
+</head>
+
+<body>
+	<!-- Header -->
+	<header>
+		<a href="/"><img src="../img/logo.png" id="logo"></img></a>
+		<div id="nav-content">
+			<nav>
+				<ul>
+					<li><a href="/play" class="menu">연극</a></li>
+					<li><a href="/place" class="menu">공연장</a></li>
+					<li><a href="/actor" class="menu">출연진</a></li>
+					<li><a href="/event" class="menu">이벤트</a></li>
+					<li><a href="#" class="menu">관람후기</a></li>
+				</ul>
+			</nav>
+			<div class="right">
+				<form action="" method="get" class="search">
+					<input type="text" class="search-input" placeholder="검색어 입력">
+					<div class="icon">
+						<i class="fas fa-search"></i>
+					</div>
+				</form>
+				<div class="user-icon">
+					<a href="/mypage/pay"> <i class="fas fa-user fa-lg"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+
+	<div class="content-wrap">
+		<div class="main">
+			<!-- 배우 리스트 -->
+			
+
+			<div class="actorlistwrap">
+				<h1 class="nav-name">ACTOR</h1>
+				<ul class="actorlist">
+					<li th:each="actor : ${list}"><span
+						th:text="${actor.actorName}"></span></li>
+				</ul>
+			</div>
+
+			<!-- 배우 상세정보 화면을 띄우는 공간 -->
+			<div id="tab-1" class="tab-content current">
+				<div class="actorwrap">
+					<div class="actorInfo-left">
+						<h1>한소희</h1>
+						<div class="actorimg">
+							<!-- 배우의 이미지 -->
+							<img src="./img/sohee.webp">
+						</div>
+					</div>
+					<div class="actorInfo-right">
+						<div class="actorInfo">
+							<!-- 배우 정보 , sns , 출연작 -->
+							<hr class="hrLine">
+							<div class="infoTitle">생년월일</div>
+							1994년 11월 18일
+							<hr class="hrLine">
+							<div class="infoTitle">인스타그램</div>
+							<div class="instagram">
+								<i class="fa-brands fa-instagram fa-lg"></i> <a
+									href="https://www.instagram.com/xeesoxee/" target="_blank">https://www.instagram.com/xeesoxee/</a>
+							</div>
+							<hr class="hrLine">
+							<div class="infoTitle">출연작</div>
+							<p>부부의세계</p>
+							<p>돈꽃</p>
+							<p>다시만난세계</p>
+							<hr class="hrLine">
+						</div>
+						<!-- 한줄 응원 -->
+						<div class="cheer-container">
+							<div class="infoTitle">한 줄 응원</div>
+							<!-- 댓글 창 -->
+							<div class="comment">
+								<div class="comment-unit">
+									<p class="userName">@두레</p>
+									<p class="content">내 MBTI는 DURE!</p>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@채린</span><br> <span
+										class="content">재치있어요</span>
+								</div>
+								<div class="comment-unit">
+									<p class="userName">@다혜</p>
+									<p class="content">우리조는 4명~</p>
+								</div>
+
+								<div class="comment-unit">
+									<p class="userName">@투머치토커 박영석</p>
+									<p class="content">여기에 댓글 내용이 들어갑니다. 혹시나 내용이 길어지면 어떡하죠?</p>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@두레</span><br> <span
+										class="content">댓글 내용</span>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@두레</span><br> <span
+										class="content">댓글 내용</span>
+								</div>
+							</div>
+							<!-- 글 입력 -->
+							<div class="comment-input">
+								<textarea class="input-field" placeholder="배우를 응원해주세요!"></textarea>
+								<button class="submit-button">
+									<i class="fa-solid fa-heart fa-beat fa-lg"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tab-2" class="tab-content">
+				<div class="actorwrap">
+					<div class="actorInfo-left">
+						<h1>공유</h1>
+						<div class="actorimg">
+							<!-- 배우의 이미지 -->
+							<img src="./img/gong.webp">
+						</div>
+					</div>
+					<div class="actorInfo-right">
+						<div class="actorInfo">
+							<!-- 배우 정보 , sns , 출연작 -->
+							<hr class="hrLine">
+							<div class="infoTitle">생년월일</div>
+							1994년 11월 18일
+							<hr class="hrLine">
+							<div class="infoTitle">인스타그램</div>
+							<div class="instagram">
+								<i class="fa-brands fa-instagram fa-lg"></i>
+								<div>
+									<a href="https://www.instagram.com/gongyoo_official/"
+										target="_blank">https://www.instagram.com/gongyoo_official/</a>
+								</div>
+
+							</div>
+							<hr class="hrLine">
+							<div class="infoTitle">출연작</div>
+							<p>부부의세계</p>
+							<p>돈꽃</p>
+							<p>다시만난세계</p>
+							<hr class="hrLine">
+						</div>
+						<!-- 한줄 응원 -->
+						<div class="cheer-container">
+							<div class="infoTitle">한 줄 응원</div>
+							<!-- 댓글 창 -->
+							<div class="comment">
+								<div class="comment-unit">
+									<p class="userName">@두레</p>
+									<p class="content">내 MBTI는 DURE!</p>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@채린</span><br> <span
+										class="content">재치있어요</span>
+								</div>
+								<div class="comment-unit">
+									<p class="userName">@다혜</p>
+									<p class="content">우리조는 4명~</p>
+								</div>
+
+								<div class="comment-unit">
+									<p class="userName">@투머치토커 박영석</p>
+									<p class="content">여기에 댓글 내용이 들어갑니다. 혹시나 내용이 길어지면 어떡하죠?</p>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@두레</span><br> <span
+										class="content">댓글 내용</span>
+								</div>
+								<div class="comment-unit">
+									<span class="userName">@두레</span><br> <span
+										class="content">댓글 내용</span>
+								</div>
+							</div>
+							<!-- 글 입력 -->
+							<div class="comment-input">
+								<textarea class="input-field" placeholder="배우를 응원해주세요!"></textarea>
+								<button class="submit-button">
+									<i class="fa-solid fa-heart fa-beat fa-lg"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer"></div>
+	</div>
+</body>
+</html>

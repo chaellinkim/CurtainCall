@@ -1,0 +1,155 @@
+*{
+	/* margin:0; */
+    font-family: 'NanumSquare Neo';
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+/* <header> */
+
+body {
+    margin: 0;
+    padding-top: 10vh;
+    overflow-x: hidden;
+}
+
+header {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 11111;
+}
+
+nav {
+    font-weight: bold;
+    /* position: fixed;
+    top: 0; */
+    color: black;
+    /* margin: 2vw 1vw 1vw 2vw; */
+    margin-top: 1.5vw;
+    margin-bottom: 1.5vw;
+    margin-left: 2vw;
+    display: flex;
+    align-items: center;
+}
+
+.left {
+    flex: 3;
+    display: flex;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.nav-left {
+    flex: 1;
+    text-align: center;
+}
+
+.right {
+    flex: 2;
+    display: flex;
+}
+
+.nav-right {
+    flex: 1;
+    text-align: center;
+}
+
+#logo {
+    width: 4vw;
+    height: 2vw;
+}
+
+.user_name{
+    background-color:rgb(195, 214, 255);
+    width: 65vw;
+    height: 20vh;
+}
+
+container{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+}
+
+.mypage{
+    display: flex;
+    width: 65%;
+}
+
+.my{
+    display: flex;
+    justify-content: center;
+    margin: 10%;
+    width: 65%;
+}
+
+.review{
+    display: flex;
+    justify-content: left;
+    align-items: baseline;
+    margin: 10%;
+    flex-direction: column;
+}
+
+img{
+    width: 20%;
+}
+
+#review_title{
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.review_box{
+    margin-top: 1%;
+    display: flex;
+    border: 1px solid rgb(54, 137, 226);
+}
+
+.review_margin{
+    margin:2%;
+    display: flex;
+}
+
+.name{
+    font-weight: 800;
+}
+
+.date{
+    font-size: 12px;
+}
+
+.review_ment{
+    margin-top: 20%;
+}
+
+.content{
+    width: 80%;
+}
+
+.navi{
+    width: 35%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.navi_bar{
+   text-align: left;
+}

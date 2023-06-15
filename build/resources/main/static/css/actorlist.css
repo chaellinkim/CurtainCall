@@ -1,0 +1,185 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+p{
+    margin-bottom: 3px;
+}
+
+/* 배우리스트 감싸는 div */
+.content-wrap{
+    width: 65vw;
+    margin: 10px auto 0 auto;
+}
+.main{
+    display: flex;
+    margin-top: 40px;
+}
+
+/* 배우리스트 div */
+.actorlistwrap{
+    width: 180px;
+    position: relative;
+}
+.actorlistwrap h1{
+    color: #141B82;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+/* 배우리스트 밑줄 , 점 , 색깔 없애기 */
+.actorlist {
+    list-style-type: none;
+    height: 100vh;
+    overflow: scroll;
+}
+/* 리스트 css */
+.actorlist li{
+    box-shadow: 0 5px 25px rgba(102, 102, 102, 0.1);
+    transition: 0.5s;
+    margin : 1px 0;
+    padding: 7px 13px;
+    font-size: 16px;
+}
+.actorlist li:hover {
+    transform: scale(1.1);
+    z-index:100;
+    background-color: #d2d2d2;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .2);
+    color:#fff;
+}
+/* 배우리스트 스크롤바 없애기 */
+.actorlist::-webkit-scrollbar {
+    display: none;
+}
+
+/* 배우상세정보 */
+.actorwrap{
+    margin: 0 0 15px 15px;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+}
+/* 배우 상세페이지 전환 */
+.tab-content{
+   display: none;
+   padding: 0 15px;
+}
+.tab-content.current{
+   display: inherit;
+}
+/* 배우 이름 */
+.actorwrap h1{
+    color: #141B82;
+    display: inline;
+}
+/* 배우이미지 */
+.actorimg{
+    width: 380px;
+    height: 480px;
+    margin-right: 30px;
+    margin-top: 18px;
+}
+.actorimg img{
+    width: 380px;
+    height: 480px;
+}
+
+/* 배우 생년월일 , sns */
+.actorInfo-right{
+    margin-top: 30px;
+}
+.infoTitle{
+    font-weight: bold;
+    padding-bottom: 9px;
+}
+.instagram{
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+.instagram a{
+    color: rgb(107, 107, 107);
+    text-decoration: none;
+    font-size: 14px;
+    word-break:break-all;
+}
+.instagram a:hover{
+    text-decoration: underline;
+}
+.instagram i{
+    color: #141B82;
+}
+.hrLine{
+    color: #d2d2d2;
+    margin: 22px 0;
+}
+
+/* 한 줄 응원 */
+.cheer-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 댓글 창 */
+.comment{
+    display: flex;
+    flex-direction: column;
+    row-gap: 9px;
+    width: 350px;
+    height: 300px;
+    margin-top: 8px;
+    overflow: auto;
+} 
+.comment::-webkit-scrollbar {
+    display: none;
+}
+.comment-unit {
+    background-color: rgb(233, 240, 248);
+    border-radius: 10px;
+    padding: 8px 8px 8px 10px;
+    font-size: 13px;
+    display: table;
+    width: 260px;
+}
+.userName{
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.content{
+    color: rgb(107, 107, 107);
+    margin-top: 2px;
+}
+
+/* 글 입력 */
+.comment-input {
+    display: flex;
+    margin-top: 15px;
+}
+.input-field {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #d2d2d2;
+    border-radius: 4px;
+    resize: none;
+}
+.input-field:focus{
+    outline: none;
+}
+.submit-button {
+    margin-left: 6px;
+    padding: 8px 16px;
+    background-color: white;
+    color: #ccc;
+    border: 1px solid #d2d2d2;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.submit-button:hover{
+    color: #141b82;
+    border: 1.5px solid #141b82;
+}
