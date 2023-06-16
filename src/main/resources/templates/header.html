@@ -29,6 +29,11 @@
         function submitForm() {
             document.querySelector('.search').submit();
         }
+
+        //로그인 후에 나타나는 바
+        function click(){
+	$(.bar).toggle();
+}
         
     </script>
 </head>
@@ -51,9 +56,14 @@
                     <div class="icon" onclick="submitForm()"><i class="fas fa-search"></i></div>
                 </form>
                 <div class="user-icon">
-                        <a href="/mypage/pay">
-                    		<i class="fas fa-user fa-lg"></i>
-                    	</a>
+					<i th:if="${user_state} != 'login'" class="fas fa-lock"></i>
+					<div th:if="${user_state} == 'login'">
+						<i class="fas fa-user fa-lg" onclick="click()"></i>
+						<ul class="bar">
+							<li><a href="/logout">로그아웃</a></li>
+							<li><a href="/mypage/pay">마이페이지</a></li>
+						</ul>
+					</div>
                 </div>
             </div>
         </div>
