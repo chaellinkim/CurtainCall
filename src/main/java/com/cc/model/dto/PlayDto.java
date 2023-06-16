@@ -1,5 +1,7 @@
 package com.cc.model.dto;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
