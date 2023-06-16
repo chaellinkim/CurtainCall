@@ -1,0 +1,74 @@
+*{
+	/* margin:0; */
+    font-family: 'NanumSquare Neo';
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+*::-webkit-scrollbar{
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* <content> */
+
+container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.id_box {
+    width: 23vw;
+    height: 58vh;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #e3e3e3;
+    border-radius: 2vb;
+    /* background-color: #fffbfb; */
+    margin-top: 10vh;
+}
+
+#main_logo {
+    margin-top: 8vh;
+    width: 10vw;
+    height: 9vh;
+}
+
+.id_box form {
+   display: flex;
+   flex-direction: column;
+}
+
+.id_box input {
+    margin: 1vh;
+    width: 15vw;
+    height: 4vh;
+    border: 1px solid #D9D9D9;
+    border-radius: 1vb;
+}
+
+#id_button {
+    margin-top: 3vh;;
+    width: 12vw;
+    height: 4vh;
+    background-color: rgb(18, 82, 151);
+    border: 0px;
+    border-radius: 1vb;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+span{
+    font-weight: bold;
+    margin-top: 3vh;
+    font-size: 25px;
+}

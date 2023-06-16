@@ -10,9 +10,20 @@ a{
     width: 65vw;
     margin: auto;
 }
-.mainTitle{
-    margin-top: 50px;
-    text-align: center;
+.mainTitle {
+    /* margin-top: 50px;
+    text-align: center; */
+    margin-top: 2vh;
+    width : 950px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+.mainTitle a{
+    margin-left: 50px;
+    font-size:40px;
+    font-weight:500;
+    color: #000000;
 }
 /* 공연장 버튼 */
 .tab-place{
@@ -34,6 +45,9 @@ a{
     box-sizing: border-box;
     overflow: hidden;
     cursor: pointer;
+   	display: flex;
+   	align-items: center;
+   	justify-content: center;
 }
 .placeButton img{
     width: 100%;
@@ -68,6 +82,10 @@ a{
     height: 100%;
     padding: 25px 30px;
     background-color: #f0efef;
+    display: flex;
+   	align-items: center;
+   	flex-direction: column;
+   	justify-content: center;
 }
 .address{
     display: flex;
@@ -127,7 +145,7 @@ ul.tabs li.current{
 }
 .theater-content{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 33px;
     grid-row-gap: 48px;
     width: 100vw;

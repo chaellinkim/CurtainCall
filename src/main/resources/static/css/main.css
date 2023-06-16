@@ -1,0 +1,483 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+
+/* ------ 1. 광고 배너 ------ */
+/* 배너 컨테이너 */
+#addBanner {
+    width: 100%;
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+}
+.slide-banner{
+    display: none;
+}
+#addBanner img{
+    vertical-align: middle;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+.dot-container{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.dot{
+    width: 12px;
+    height: 12px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+.active{
+    background-color: #d2d2d2;
+}
+/* Fade 애니메이션 */
+.fade{
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+@-webkit-keyframes fade{
+    from {opacity: .4}
+    to {opacity: 1}
+}
+@keyframes fade{
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+
+/* ------ 2. 연극 주간 랭킹 ------ */
+#week-ranking-wrap {
+    background-color: black;
+    display: flex;
+    padding: 85px 0;
+    position: relative;
+}
+.curtain.left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+.curtain.right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+/* 주간 랭킹 순위 */
+.week-ranking-rank {
+    width: 65vw;
+    margin: 0 auto;
+    text-align: center;
+}
+.week-ranking-rank h2 {
+    font-weight: 800;
+    margin-left: 50px;
+    margin-bottom: 30px;
+    color: white;
+    font-size: 26px;
+    display: inline-block;
+}
+.week-ranking-rank > h2 > span{
+    font-weight: 600;
+    font-size: 14px;
+    margin-left: 10px;
+    color: rgb(107, 107, 107);
+}
+/* 연극 더보기 */
+.add-theater{
+    text-align: end;
+    margin-bottom: 8px;
+}
+.add-theater a {
+    font-size: 14px;
+    color: #d2d2d2;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.add-theater a:hover::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: #d2d2d2;
+    z-index: -1;
+    text-decoration: underline;
+}
+
+/* 연극랭킹 wrap */
+#rank-container {
+    display: flex;
+    justify-content: space-between;
+}
+/* 연극 유닛 */
+.rank-unit{
+    width: 100%;
+    margin-right: 30px;
+    display: block;
+    position: relative;
+}
+.rank-unit:nth-last-of-type(1){
+    margin-right: 0;
+}
+.rank-unit-poster {
+    position: relative;
+    padding-top: 140%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.rank-unit-poster img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.rank-num{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    padding: 11px 0 0 14px;
+    font-size: 1.6em;
+    font-style: italic;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+    display: block;
+    color: white;
+    z-index: 1;
+}
+
+/* 하단 좋아요, 예매 버튼 */
+.btn-container {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    height: 38px;
+}
+.likeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 100%;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid white;
+    font-size: 13px;
+    background-color: black;
+    flex: 1;
+    cursor: pointer;
+}
+.likeBtn i{
+    color: #dc143c;
+    margin-right: 5px;
+}
+.tikettingBtn {
+    height: 38px;
+    border-radius: 5px;
+    margin-left: 6px;
+    background-color:#F5D042;
+    line-height: 2.5;
+    flex: 2;
+    cursor: pointer;
+}
+.tikettingBtn a{
+    display: block;
+    width: 100%;
+    height: 38px;
+    color: white;
+    font-size: 15px;
+}
+
+
+/* ------ 3. 날짜별 상영 가능한 연극 조회 ------ */
+#calendarList {
+    width: 65vw;
+    margin: 80px auto;
+    display: flex;
+    /* background-color: antiquewhite; */
+}
+
+/* 달력 */
+.calbox {
+    flex: 1.5;
+    background-color: white;
+    height: auto;
+    width: 300px;
+    padding: auto 0;
+    border-radius: 5px;
+}
+
+td {
+    width: 37.5px;
+    height: 37.5px;
+}
+
+.Calendar {
+    text-align: center;
+}
+
+.Calendar>thead>tr:first-child>td {
+    font-family: 'Questrial', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.Calendar>thead>tr:last-child>td {
+    font-family: 'Questrial', sans-serif;
+    font-weight: 600;
+}
+
+.Calendar>tbody>tr>td>p {
+    font-family: 'Montserrat', sans-serif;
+    height: 36px;
+    width: 36px;
+    border-radius: 36px;
+    transition-duration: .2s;
+    line-height: 36px;
+    margin: 2.5px;
+    display: block;
+    text-align: center;
+}
+
+.pastDay {
+    color: lightgray;
+}
+
+.today {
+    background-color: #F5D042;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.futureDay {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.futureDay:hover {
+    background: #eee;
+}
+
+.futureDay.choiceDay,
+.today.choiceDay {
+    background: #0A174E;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* 가능한 연극 리스트 */
+#slide-wrap {
+    flex: 3.5;
+    width: 100%;
+    height: 320px;  /*수정*/
+    position: relative;
+    overflow: hidden;
+}
+.slide-container{
+    display: flex;
+    transition: left 0.5s ease-out; /*ease-out: 처음에 느렸다가 점점 빨라짐*/
+    width: 90%;
+    margin: 0 auto;
+}
+.slide-theater {
+    flex: 0 0 33.33%;
+    width: 180px;   /*수정*/
+    text-align: center;
+    /* background-color: aquamarine; */
+    padding: 20px;
+    margin-right: 20px;
+}
+.slide-theater:nth-last-of-type(1){
+    margin-right: 0;
+}
+.slide-poster{
+    position: relative;
+    padding-top: 120%;
+    overflow: hidden;
+    border-radius: 12px;
+    /*수정*/
+    width: 180px;
+    height: 250px;
+}
+.slide-poster img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    /* height: auto; */
+    object-fit: cover;
+    /*수정*/
+    width: 180px;
+    height: 250px;
+}
+.slide-place {
+    display: inline-block;
+    font-size: small;
+    font-weight: bold;
+    color: black;
+    background-color: #d2d2d2;
+    border-radius: 3px;
+    padding: 4px 10px;
+    margin: 5px ;
+}
+/* 새로 오픈한 연극 NEW */
+.new-theater {
+    position: absolute;
+    top: 5;
+    left: 5;
+    margin: 10px;
+    padding: 6px 8px;
+    text-align: center;
+    background-color: #F5D042;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1;
+}
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    color: gray;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1;
+    margin: 0 10px;
+}
+.prev-btn {
+    left: 10px;
+}
+.next-btn {
+    right: 10px;
+}
+
+
+/* ------ 4. 월간 베스트리뷰 ------ */
+#review {
+    width: 65vw;
+    margin: 80px auto;
+}
+/* 리뷰 타이틀 */
+#review > h2 {
+    font-weight: 900;
+    text-align: center;
+    font-size: 26px;
+}
+
+/* 리뷰 wrap*/
+.feed-box {
+    margin-top: 55px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+}
+.feed {
+    width: 100%;
+    margin-right: 50px;
+}
+.feed:nth-last-of-type(1){
+    margin-right: 0;
+}
+
+/* 리뷰 상단 */
+.review-top {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.review-ranking{
+    font-weight: 800;
+    font-size: 18px;
+}
+.review-ranking i{
+    color: #F5D042;
+    margin-right: 3px;
+}
+.review-userid{
+    font-size: 14px;
+    color: rgb(107, 107, 107);
+}
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+/* 리뷰 하단*/
+.review-wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: black;
+}
+.theater-name{
+    font-weight: 800;
+    font-size: 15px;
+}
+.icon-box {
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+}
+.icon-box i{
+    color: #dc143c;
+}
+.likeNum{
+    font-size: 12px;
+}
+.review-content{
+    white-space: nomal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 2줄 이후로 텍스트 자르기 */
+    -webkit-box-orient:vertical;
+    height: 33px;
+    font-size: 14px;
+    color: rgb(121, 121, 121);
+}
+.review-add{
+    margin-top: 15px;
+    font-size: 13px;
+    color: #d2d2d2;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/fe66fff399.js" crossorigin="anonymous"></script>
+    <title>Curtain Call</title>
+    <script>
+        window.onload = function () {
+            // 1. 배너 슬라이드
+            showSlides();
+
+            // 2. buildCalendar 실행
+            buildCalendar();    
+
+            // 3. 리뷰 현재 월 가져오기
+            document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`;
+
+
+            // const slideWrap = document.getElementById('slide-wrap');
+            // const slideContainer = document.querySelector('.slide-container');
+            // const slideTheaters = Array.from(document.querySelectorAll('.slide-theater'));
+            // const prevBtn = document.querySelector('prev-btn');
+            // const nextBtn = document.querySelector('next-btn');
+            // const slideWidth = slideWrap.offsetWidth / 3; // 한 화면에 보여지는 슬라이드 너비
+
+            // slideContainer.style.width = `${slideTheaters.length * slideWidth}px`;  //슬라이드 컨테이너의 너비 설정
+
+            // let currentPosition = 0; // 현재 슬라이드 위치
+
+            // // 이전 슬라이드 보기
+            // prevBtn.addEventListener('click', () => {
+            //     currentPosition--;
+            //     if(currentPosition < 0){
+            //         currentPosition = 0;
+            //     }
+            //     slideContainer.style.transform = `translateX(-${currentPosition * 33.33}%)`;
+            //     // currentPosition += slideWidth;
+            //     // if (currentPosition > 0) {
+            //     //     currentPosition = -(slideWidth * (slideTheaters.length - 3));
+            //     // }
+            //     // slideContainer.style.transform = `translateX(${currentPosition}px)`;
+            // });
+
+            // // 다음 슬라이드 보기
+            // nextBtn.addEventListener('click', () => {
+            //     currentPosition++;
+            //     if(currentPosition > 2){
+            //         currentPosition = 2;
+            //     }
+            //     slideContainer.style.transform = `translateX(-${currentPosition * 33.33}%)`;
+            //     // currentPosition -= slideWidth;
+            //     // if (currentPosition < -(slideWidth * (slideTheaters.length - 3))) {
+            //     //     currentPosition = 0;
+            //     // }
+            //     // slideContainer.style.transform = `translateX(${currentPosition}px)`;
+            // });
+        }
+
+        //1. 배너 이미지 슬라이드 
+        var currentIdx = 0;    // 현재 슬라이드 index
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("slide-banner");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            currentIdx++;   //다음 슬라이드로 이동
+            if (currentIdx >= slides.length) {  //마지막 슬라이드를 넘어가면 처음으로 돌아감
+                currentIdx = 0;
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");   //모든 dot에서 'active' 클래스 제거
+            }
+            slides[currentIdx].style.display = "block";
+            dots[currentIdx].classList.add("active");   //현제 dot에 'active' 클래스 추가
+            setTimeout(showSlides, 3000);   //2초마다 이미지 변경
+        }
+
+        //2. 달력 생성
+        let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+        let today = new Date();     // 페이지를 로드한 날짜를 저장
+        today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+
+        // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
+        function buildCalendar() {
+
+            let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+            let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+            let tbody_Calendar = document.querySelector(".Calendar > tbody");
+            document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+            document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+            while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+                tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+            }
+
+            let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
+
+            for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+                let nowColumn = nowRow.insertCell();        // 열 추가
+            }
+
+            for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+
+                let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+
+                let newDIV = document.createElement("p");
+                newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
+                nowColumn.appendChild(newDIV);
+
+                if (nowDay.getDay() == 6) {                 // 토요일인 경우
+                    nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
+                }
+
+                if (nowDay < today) {                       // 지난날인 경우
+                    newDIV.className = "pastDay";
+                }
+                else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
+                    newDIV.className = "today";
+                    newDIV.onclick = function () { choiceDate(this); }
+                }
+                else {                                      // 미래인 경우
+                    newDIV.className = "futureDay";
+                    newDIV.onclick = function () { choiceDate(this); }
+                }
+            }
+        }
+
+        // 날짜 선택
+        function choiceDate(newDIV) {
+            if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+                document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+            }
+            newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+        }
+
+        // 이전달 버튼 클릭
+        function prevCalendar() {
+            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+            buildCalendar();    // 달력 다시 생성
+        }
+        // 다음달 버튼 클릭
+        function nextCalendar() {
+            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+            buildCalendar();    // 달력 다시 생성
+        }
+
+        // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+        function leftPad(value) {
+            if (value < 10) {
+                value = "0" + value;
+                return value;
+            }
+            return value;
+        }
+
+
+        // 연극 슬라이드
+        document.addEventListener('DOMContentLoaded', function(){
+            
+        })
+        
+
+    </script>
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="../img/logo.png" id="logo"></img></a>
+        <div id="nav-content">
+            <nav>
+                <ul>
+                    <li><a href="/play" class="menu">연극</a></li>
+                    <li><a href="/place" class="menu">공연장</a></li>
+                    <li><a href="/actor" class="menu">출연진</a></li>
+                    <li><a href="/event" class="menu">이벤트</a></li>
+                    <li><a href="#" class="menu">관람후기</a></li>
+                </ul>
+            </nav>
+            <div class="right">
+                <form action="" method="get" class="search">
+                    <input type="text" class="search-input" placeholder="검색어 입력">
+                    <div class="icon"><i class="fas fa-search"></i></div>
+                </form>
+                <div class="user-icon">
+               		<a href="/mypage/pay">
+                    	<i class="fas fa-user fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+	<a href="/login">login</a>
+	<a href="/join">join</a>
+	<a href="/api">api</a>
+    
+    <!-- 2.. 연극 주간 랭킹-->
+    <div id="week-ranking-wrap">
+        <!-- <img class="curtain left" src="../img/left.png"> -->
+        <div class="week-ranking-rank">
+            <h2>주간 랭킹<span>(예매 수 기준)</span></h2>
+            <div class="add-theater">
+                <a href="#">더 많은 연극 보기 +</a> <!-- 연극리스트 페이지로 이동-->
+            </div>
+            <!-- 랭킹 포스터 wrap -->
+            <div id="rank-container">
+                <!-- 개별 연극 -->
+                <div class="rank-unit">
+                    <div class="rank-unit-poster">
+                        <p class="rank-num">1</p>
+                        <img src="../img/poster01.jpg">
+                    </div>
+                    <div class="btn-container">
+                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
+                            <i class="fa-solid fa-heart fa-lg"></i>
+                            325
+                        </button>
+                        <div class="tikettingBtn">
+                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rank-unit">
+                    <div class="rank-unit-poster">
+                        <p class="rank-num">2</p>
+                        <img src="../img/poster02.jpg">
+                    </div>
+                    <div class="btn-container">
+                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
+                            <i class="fa-solid fa-heart fa-lg"></i>
+                            5
+                        </button>
+                        <div class="tikettingBtn">
+                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rank-unit">
+                    <div class="rank-unit-poster">
+                        <p class="rank-num">3</p>
+                        <img src="../img/poster03.png">
+                    </div>
+                    <div class="btn-container">
+                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
+                            <i class="fa-solid fa-heart fa-lg"></i>
+                            35
+                        </button>
+                        <div class="tikettingBtn">
+                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rank-unit">
+                    <div class="rank-unit-poster">
+                        <p class="rank-num">4</p>
+                        <img src="../img/card1.webp">
+                    </div>
+                    <div class="btn-container">
+                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
+                            <i class="fa-solid fa-heart fa-lg"></i>
+                            325
+                        </button>
+                        <div class="tikettingBtn">
+                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <img class="curtain right" src="../img/right.png"> -->
+    </div>
+
+    <!-- 3. 날짜별 상영 가능한 연극 조회 -->
+    <section id="calendarList">
+        <div class="calbox">
+            <table class="Calendar">
+                <thead>
+                    <tr>
+                        <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                        <td colspan="5">
+                            <span id="calYear"></span>년
+                            <span id="calMonth"></span>월
+                        </td>
+                        <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+                    </tr>
+                    <tr>
+                        <td>일</td>
+                        <td>월</td>
+                        <td>화</td>
+                        <td>수</td>
+                        <td>목</td>
+                        <td>금</td>
+                        <td>토</td>
+                    </tr>
+                </thead>
+                <tbody></tbody> <!-- 달력 부분 -->
+            </table>
+        </div>
+
+        <!-- 가능한 연극 리스트 -->
+        <div id="slide-wrap">
+            <div class="slide-container">
+                <div class="slide-theater">
+                    <a href="#" title="연극 보기">
+                        <div class="slide-poster">
+                            <img src="../img/poster03.png"> <!-- 기존 진행중인 연극 -->
+                        </div>
+                        <div class="slide-place">대학로</div>
+                    </a>
+                </div>
+                <div class="slide-theater">
+                    <a href="#" title="연극 보기">
+                        <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
+                        <div class="slide-poster">
+                            <img src="../img/poster01.jpg">
+                        </div>
+                        <div class="slide-place">화성/부산</div>
+                    </a>
+                </div>
+                <div class="slide-theater">
+                    <a href="#" title="연극 보기">
+                        <div class="slide-poster">
+                            <img src="../img/poster02.jpg"> <!-- 기존 진행중인 연극 -->
+                        </div>
+                        <div class="slide-place">대학로</div>
+                    </a>
+                </div>
+                <div class="slide-theater">
+                    <a href="#" title="연극 보기">
+                        <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
+                        <div class="slide-poster">
+                            <img src="../img/card1.webp">
+                        </div>
+                        <div class="slide-place">화성/부산</div>
+                    </a>
+                </div>
+                <div class="slide-theater">
+                    <a href="#" title="연극 보기">
+                        <div class="slide-poster">
+                            <img src="../img/card1.webp"> <!-- 기존 진행중인 연극 -->
+                        </div>
+                        <div class="slide-place">대학로</div>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- &lang: 왼쪽 화살표 / &rang: 오른쪽 화살표 -->
+            <button class="prev-btn">&lang;</button>
+            <button class="next-btn">&rang;</button>
+        </div>
+    </section>
+
+    <!-- 4. 월간 베스트 리뷰 -->
+    <div id="review">
+        <h2 id="review-month"></h2> <!-- script문 -->
+        <div class="feed-box">
+            <!-- 1등 후기 -->
+            <div class="feed">
+                <!-- 리뷰 상단 -->
+                <div class="review-top">
+                    <div class="review-ranking">
+                        <i class="fa-solid fa-crown"></i>
+                        1등
+                    </div>
+                    <div class="review-userid">user1234 님</div>
+                </div>
+                <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image" width="300px" height="300px">
+                <!-- 리뷰 하단 -->
+                <div class="review-wrap">
+                    <div class="theater-name">연극라면</div> <!-- 연극 이름 -->
+                    <div class="icon-box">
+                        <i class="fa-solid fa-heart"></i>
+                        <div class="likeNum">32</div>
+                    </div>
+                </div>
+                <div class="review-content">너무너무 재밌어요~!</div>
+                <!-- 후기 내용 -->
+                <div class="review-add">
+                    <a href="#" target="_blank">더보기</a> <!-- 해당 리뷰 페이지로 이동-->
+                </div>
+            </div>
+
+            <!-- 2등 후기 -->
+            <div class="feed">
+                <!-- 리뷰 상단 -->
+                <div class="review-top">
+                    <div class="review-ranking">
+                        <i class="fa-solid fa-crown"></i>
+                        2등
+                    </div>
+                    <div class="review-userid">user1234 님</div>
+                </div>
+                <img src="../img/review01.jpg" alt="게시물 이미지" class="post-image" width="300px" height="300px">
+                <!-- 리뷰 하단 -->
+                <div class="review-wrap">
+                    <div class="theater-name">연극라면</div> <!-- 연극 이름 -->
+                    <div class="icon-box">
+                        <i class="fa-solid fa-heart"></i>
+                        <div class="likeNum">32</div>
+                    </div>
+                </div>
+                <div class="review-content">너무너무 재밌어요~!</div> <!-- 후기 내용 -->
+                <div class="review-add">
+                    <a href="#" target="_blank">더보기</a> <!-- 해당 리뷰 페이지로 이동-->
+                </div>
+            </div>
+
+            <!-- 3등 후기 -->
+            <div class="feed">
+                <!-- 리뷰 상단 -->
+                <div class="review-top">
+                    <div class="review-ranking">
+                        <i class="fa-solid fa-crown"></i>
+                        3등
+                    </div>
+                    <div class="review-userid">user1234 님</div>
+                </div>
+                <img src="../img/review01.jpg" alt="게시물 이미지" class="post-image" width="300px" height="300px">
+                <!-- 리뷰 하단 -->
+                <div class="review-wrap">
+                    <div class="theater-name">연극라면</div> <!-- 연극 이름 -->
+                    <div class="icon-box">
+                        <i class="fa-solid fa-heart"></i>
+                        <div class="likeNum">32</div>
+                    </div>
+                </div>
+                <div class="review-content">너무너무 재밌어요~!</div> <!-- 후기 내용 -->
+                <div class="review-add">
+                    <a href="#" target="_blank">더보기</a> <!-- 해당 리뷰 페이지로 이동-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. 광고 배너 -->
+    <div id="addBanner">
+        <!-- 슬라이드 이미지 -->
+        <div class="slide-banner fade">
+            <img src="../img/banner01.png" style="width:100%">
+        </div>
+        <div class="slide-banner fade">
+            <img src="../img/banner02.png" style="width:100%">
+        </div>
+        <div class="slide-banner fade">
+            <img src="../img/banner03.png" style="width:100%">
+        </div>
+        <div class="slide-banner fade">
+            <img src="../img/banner01.png" style="width:100%">
+        </div>
+        <div class="slide-banner fade">
+            <img src="../img/banner02.png" style="width:100%">
+        </div>
+
+        <!-- 배너하단 점 -->
+        <div class="dot-container">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+</body>
+
+
+</html>
