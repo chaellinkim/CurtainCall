@@ -26,10 +26,28 @@ public class PlayController {
 		this.playService = playService;
 	}
 
+//	@RequestMapping("/play")
+//	public String playList(Model model,
+//			@PageableDefault(page = 0, size = 12, sort = "playId", direction = Sort.Direction.DESC) Pageable pageable) {
+//		Page<Play> list = playService.selectAll(pageable);
+//
+//		int nowPage = list.getPageable().getPageNumber()+1;
+//		int startPage = 1;
+//		int endPage = list.getTotalPages();
+//
+//		model.addAttribute("list", list);
+//		model.addAttribute("nowPage", nowPage);
+//		model.addAttribute("startPage", startPage);
+//		model.addAttribute("endPage", endPage);
+//
+//		return "playlist";
+//
+//	}
+
 	@RequestMapping("/play")
 	public String playList(Model model,
 			@PageableDefault(page = 0, size = 12, sort = "playId", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Play> list = playService.selectAll(pageable);
+		Page<Play> list = playService.selectPossible(pageable);
 
 		int nowPage = list.getPageable().getPageNumber()+1;
 		int startPage = 1;
@@ -44,9 +62,23 @@ public class PlayController {
 
 	}
 	
+//	@RequestMapping(value="/play/search", method=RequestMethod.GET)
+//	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
+//		Page<Play> list = playService.search(keyword, pageable);
+//		int nowPage = list.getPageable().getPageNumber()+1;
+//		int startPage = 1;
+//		int endPage = list.getTotalPages();
+//
+//		model.addAttribute("list", list);
+//		model.addAttribute("nowPage", nowPage);
+//		model.addAttribute("startPage", startPage);
+//		model.addAttribute("endPage", endPage);
+//		
+//		return "playlist";
+//	}
 	@RequestMapping(value="/play/search", method=RequestMethod.GET)
 	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Play> list = playService.search(keyword, pageable);
+		Page<Play> list = playService.searchPossible(keyword, pageable);
 		int nowPage = list.getPageable().getPageNumber()+1;
 		int startPage = 1;
 		int endPage = list.getTotalPages();
@@ -58,6 +90,7 @@ public class PlayController {
 		
 		return "playlist";
 	}
+	
 	
 	@RequestMapping(value="/play/detail", method=RequestMethod.GET)
 	public String playdetail(String playId, Model model) {

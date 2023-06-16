@@ -1,5 +1,6 @@
 package com.cc.model.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,24 @@ public class PlayService {
 	public Page<Play> selectAll(Pageable pageable){
 		return playRepository.findAll(pageable);
 	}
+	public Page<Play> selectPossible(Pageable pageable){
+		return playRepository.selectPossible(pageable);
+	}
 	
 	public Page<Play> search(String keyword,Pageable pageable){
 		Page<Play> plays = playRepository.findByPlayTitleContaining(keyword, pageable);
 		return plays;
 	}
+	public Page<Play> searchPossible(String keyword,Pageable pageable){
+		Page<Play> plays = playRepository.searchPossible(keyword, pageable);
+		return plays;
+	}
 	public Optional<Play> selectOne(String playId) {
 		Optional<Play> play = playRepository.findById(playId);
 		return play;
+	}
+	public void updateCount(String playId, int count) {
+		playRepository.updateCount(playId, count);
 	}
 	
 }

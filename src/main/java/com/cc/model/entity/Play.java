@@ -51,7 +51,11 @@ public class Play {
 	@Column(name="place_id")
 	private String placeId;
 	
+	@Column(name="count")
+	private int count;
+	
 	@ManyToOne
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
 	private Place place;
+	
 }

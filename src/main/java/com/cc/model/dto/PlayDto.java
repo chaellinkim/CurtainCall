@@ -2,6 +2,7 @@ package com.cc.model.dto;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +32,7 @@ public class PlayDto {
 	private String prfage;
 	private String poster;
 	private String mt10id;
+	private int count;
 		
 	
 }
