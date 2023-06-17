@@ -19,7 +19,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@Entity
+@Entity(name="Play")
 @Table(name="PLAY")
 @ToString(exclude = "place") 
 public class Play {

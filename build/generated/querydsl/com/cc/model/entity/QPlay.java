@@ -22,6 +22,8 @@ public class QPlay extends EntityPathBase<Play> {
 
     public static final QPlay play = new QPlay("play");
 
+    public final NumberPath<Long> count = createNumber("count", Long.class);
+
     public final QPlace place;
 
     public final StringPath placeId = createString("placeId");

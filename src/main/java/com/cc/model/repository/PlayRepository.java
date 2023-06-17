@@ -19,9 +19,13 @@ import com.cc.model.entity.Play;
 public interface PlayRepository extends JpaRepository<Play,String>, PlayRepositoryCustom{
 	Page<Play> findByPlayTitleContaining(String keyword, Pageable pageable);
 	Page<Play> selectPossible(Pageable pageable);
-	Page<Play> searchPossible(String keyword, Pageable pageable);
+	Page<Play> searchPossible(String keyword, Pageable pageable);	
 	
 	@Modifying
-    @Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
-    void updateCount(@Param("playId")String playId, @Param("count") int count);
+	@Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
+	int updateCount(@Param("count")int count, @Param("playId")String playId);
+	
+//	@Modifying
+//    @Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
+//    int updateCount(@Param("playId")String playId, @Param("count")long count);
 }

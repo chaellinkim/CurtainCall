@@ -53,8 +53,9 @@ public class PlayService {
 		Optional<Play> play = playRepository.findById(playId);
 		return play;
 	}
-	public void updateCount(String playId, int count) {
-		playRepository.updateCount(playId, count);
+	public int updateCount(int count, String playId) {
+		//System.out.println("call"+playId+" "+count);
+		return playRepository.updateCount(count, playId);
 	}
 	
 }

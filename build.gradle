@@ -79,3 +79,6 @@ configurations {
    querydsl.extendsFrom compileClasspath
 }
 //querydsl 추가 끝
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '-parameters'
+}
