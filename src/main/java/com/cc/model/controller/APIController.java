@@ -1,22 +1,16 @@
 package com.cc.model.controller;
 
-import java.io.ByteArrayInputStream;
+import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.model.dto.PlaceDto;
 import com.cc.model.dto.PlayDto;
@@ -171,4 +165,5 @@ public class APIController {
        
     }
 	
+
 }
