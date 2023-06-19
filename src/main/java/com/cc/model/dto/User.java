@@ -13,9 +13,10 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int user_id; //식별자
-	
+
+	//주석주석주석
 	//아이디
-	@Column(name = "USER_LOGINID") //오류나서 바꿈
+	@Column(name = "USER_LOGINID")
 	private String userLoginid;
 	private String user_logincypher; //암복호화
 	
