@@ -1,5 +1,7 @@
 package com.cc.model.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,12 @@ import org.hibernate.annotations.GeneratorType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
-@Entity
+@Entity(name="Play")
 @Table(name="PLAY")
+@ToString(exclude = "place") 
 public class Play {
 	@Id
 	@Column(name="play_id")
@@ -47,7 +51,11 @@ public class Play {
 	@Column(name="place_id")
 	private String placeId;
 	
+	@Column(name="count")
+	private int count;
+	
 	@ManyToOne
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
 	private Place place;
+	
 }
