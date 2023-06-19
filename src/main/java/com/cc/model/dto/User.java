@@ -15,7 +15,7 @@ public class User {
 	private int user_id; //식별자
 	
 	//아이디
-	@Column(name = "USER_LOGINID")
+	@Column(name = "USER_LOGINID") //오류나서 바꿈
 	private String userLoginid;
 	private String user_logincypher; //암복호화
 	
