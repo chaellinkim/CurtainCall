@@ -47,11 +47,8 @@ button[type="submit"] {
    cursor: pointer;
    border-radius: 1vb
 }
-/* button[type="submit"]:hover{
-    background-color: rgb(15, 76, 142);
-    color: white;
-}  */
-#get_verification_code {
+
+#id_verification {
    margin-top: 10px;
    background-color:rgb(18, 82, 151);
    border: none;
@@ -67,10 +64,33 @@ button[type="submit"] {
    margin: 0;
    vertical-align: middle;
 }
-#get_verification_code:hover{
+#id_verification:hover{
     background-color: rgb(15, 76, 142);
     color: white;
 }
+
+#get_verification_code {
+	margin-top: 10px;
+	background-color: rgb(18, 82, 151);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 5px;
+	width: 6.5vw;
+	margin: 0;
+	vertical-align: middle;
+}
+
+#get_verification_code:hover {
+	background-color: rgb(15, 76, 142);
+	color: white;
+}
+
 .joinContent {
    width: 100%;
    margin-bottom: 15px;
@@ -90,6 +110,22 @@ button[type="submit"] {
    border-radius: 0.5rem;
 }
 
+input[type="radio"]{
+	  width: 10%;
+	  height: 20%;
+	  margin-left: 4%;
+	  accent-color: rgb(18, 82, 151);
+}
+
 #passwordConfirm {
    width: 43%;
+}
+
+#id {
+	width: 43%;
+}
+
+.joinForm .joinContent:nth-child(7){
+	margin-top:6%;
+	margin-bottom: 6%;
 }
