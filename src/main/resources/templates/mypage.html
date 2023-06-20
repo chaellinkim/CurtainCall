@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>CurtainCall-마이페이지</title>
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/mypage_style.css">
+<link rel="stylesheet" href="../css/pay_style.css">
+<link rel="stylesheet" href="../css/pay_modal.css">
+
+<link rel="stylesheet" href="../css/wish_style.css">
+
+<link rel="stylesheet" href="../css/review_style.css">
+<link rel="stylesheet" href="../css/review_modal.css">
+
+<link rel="stylesheet" href="../css/info_style.css">
+<link rel="stylesheet" href="../css/info_modal.css">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="https://kit.fontawesome.com/fe66fff399.js"
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script type="text/javascript">
+	//Header
+	document.addEventListener('DOMContentLoaded', function() {
+		//검색버튼 활성화
+		const searchForm = document.querySelector('.search');
+		const searchInput = document.querySelector('.search-input');
+		const searchIcon = document.querySelector('.icon');
+
+		searchIcon.addEventListener('click', function(e) {
+			e.preventDefault(); //폼 제출 동작 방지
+			const keyword = searchInput.value;
+			console.log('검색어: ', keyword);
+		})
+	});
+	
+	
+
+	//tab 화면 전환
+	$(document).ready(function() {
+		//연극/맛집에 따른 탭
+		$('ul.tabs li').click(function() {
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+			
+			console.log("#"+tab_id);
+		})
+	});
+
+</script>
+</head>
+
+<body>
+	<!-- Header -->
+	<header>
+		<a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
+		<div id="nav-content">
+			<nav>
+				<ul>
+					<li><a href="/play" class="menu">연극</a></li>
+					<li><a href="/place" class="menu">공연장</a></li>
+					<li><a href="/actor" class="menu">출연진</a></li>
+					<li><a href="/event" class="menu">이벤트</a></li>
+					<li><a href="#" class="menu">관람후기</a></li>
+				</ul>
+			</nav>
+			<div class="right">
+				<form action="/play/search" method="get" class="search">
+					<input type="text" name="keyword" class="search-input"
+						placeholder="검색어 입력">
+					<div class="icon">
+						<i class="fas fa-search"></i>
+					</div>
+				</form>
+				<div class="user-icon">
+					<i th:if="${user_state} != 'login'" class="fas fa-lock"></i>
+					<div th:if="${user_state} == 'login'">
+						<button class="fas fa-user fa-lg"></button>
+						<ul class="bar">
+							<li><a href="/logout">로그아웃</a></li>
+							<li><a href="/mypage">마이페이지</a></li>
+						</ul>
+
+						<!-- 마이페이지바를 띄우기 위한 js코드 -->
+						<script>
+					 	const btn = document.querySelector('.fa-user');
+					    const list = document.querySelector('.bar');
+					    
+					    btn.addEventListener('click', () => {
+					    	list.classList.toggle('on');
+					    });
+					    
+					    list.addEventListener('click', (event) => {
+					        if (event.target.nodeName === "A") {
+					            list.classList.remove('on');
+					        }
+					    });
+					    </script>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- 유저 content -->
+	<div class="user">
+		<div class="user_name">
+			<h3 th:text="${user_name}">
+				두레님 <span th:text="${user_id}">abcd1234</span>
+			</h3>
+		</div>
+	</div>
+
+	<!-- 마이페이지 내용 -->
+
+	<div class="mypage">
+
+		<!-- tab -->
+		<div class="navi">
+			<ul class="tabs">
+				<li class="tab-link current" data-tab="tab-1">예매내역</li>
+				<li class="tab-link" data-tab="tab-2">나의후기</li>
+				<li class="tab-link" data-tab="tab-3">찜 목록</li>
+				<li class="tab-link" data-tab="tab-4">회원정보</li>
+			</ul>
+		</div>
+
+		<!-- 예매내역 -->
+		<div id="tab-1" class="tab-content current">
+			<div class="title">
+				<span>예매내역</span>
+			</div>
+
+			<!-- 나중에 반복되는 요소 -->
+			<!--타임리프로 받아올 때 반복문 사용해주기-->
+			<div class="pay_content">
+
+				<img src="/img/review.jpg" alt="예매">
+				<!-- th:src="${imgUrl}" 넣고 나중에 사진 경로 없애기-->
+
+				<div class="pay_info">
+					<div class="pay_play">2호선 세입자</div>
+					<div class="pay_place">관람 장소 &nbsp; 바탕골 소극장</div>
+					<div class="pay_date">관람 일시 &nbsp; 2023년 5월 31일(수) 15:00</div>
+					<div class="pay_seat">관람 좌석 &nbsp; 현장 선택</div>
+				</div>
+
+				<div class="pay_modal">
+					<button class="modal_button">결제내역 ></button>
+					<img src="img/qr.png">
+				</div>
+				<div class="modal_overlay hidden">
+					<div class="md_content">
+						<div class="modal_text">
+							결제내역
+							<hr>
+						</div>
+						<div class="modal_pay md_payinfo">구매정보</div>
+						<div class="modal_pay">
+							<div class="modal_img">
+								<img src="img/review.jpg" style="width: 7vw">
+							</div>
+							<div class="modal_info">
+								<table>
+									<tr>
+										<th>연극명</th>
+										<td>2호선 세입자</td>
+									</tr>
+									<tr>
+										<th>관람 일자</th>
+										<td>2023년 5월 31일(수) 15:00</td>
+									</tr>
+									<tr>
+										<th>관람 좌석</th>
+										<td>현장 선택</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+						<div class="modal_pay md_accountinfo">결제 정보</div>
+						<div class="modal_pay account">
+							<table>
+								<tr>
+									<th>결제일</th>
+									<td>23.05.30</td>
+								</tr>
+								<tr>
+									<th>결제금액</th>
+									<td>30000</td>
+								</tr>
+								<tr>
+									<th>결제 번호</th>
+									<td>202305301234</td>
+								</tr>
+								<tr>
+									<th>결제 수단</th>
+									<td>네이버페이(간편 결제)</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="modal_footer">
+							<hr>
+							<button class="modal_cancle">❌</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 나의 후기 -->
+		<div id="tab-2" class="tab-content">
+			<div class="title">
+				<span>나의후기</span>
+			</div>
+			<div class="review_content">
+				<img src="/img/review.jpg" alt="예매">
+				<div class="review_info">
+					<div class="review_play">2호선 세입자</div>
+					<div class="review_name">두레</div>
+					<div class="review_date">23.05.31</div>
+					<div class="review_ment">와~ 대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
+				</div>
+				<div class="none">
+					<button class="modal_button">
+						<img src="img/button.png">
+					</button>
+				</div>
+				<div class="modal_overlay hidden">
+					<div class="md_content">
+						<div>&nbsp;</div>
+						<div class="modal_review">
+							<div class="modal_info">
+								<button>
+									<a href="/reviewfdf">리뷰 수정</a>
+								</button>
+								<button style="color: rgb(249, 39, 39)">리뷰 삭제</button>
+								<!--나중에 버튼이 눌려질 때 컨트롤러로 이동하도록 js 만들기-->
+							</div>
+						</div>
+						<div class="modal_footer">
+							<hr>
+							<button class="modal_cancle" type="reset">
+								<img src="img/no.png">
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script src="../js/mypage_script.js"></script>
+
+		<!-- 찜 목록 -->
+		<div id="tab-3" class="tab-content">
+			<div class="title">
+				<span>찜 목록</span>
+			</div>
+			<div class="content">
+				<div class="wish_content"
+					style="background-image: url('/img/review.jpg');">
+					<!--style="background-image: url('${imagePath}')"-->
+					<div class="delete">
+						<button>
+							<img src="/img/delete.png" alt="삭제">
+						</button>
+					</div>
+					<div class="wish_info">2호선 세입자</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 회원정보 == 들어가기 전에 비밀번호 확인해주기-->
+		<div id="tab-4" class="tab-content">
+			<div class="title">
+				<span>회원정보</span>
+			</div>
+			<div class="info_content">
+				<div class="info_info">
+					<table>
+						<tr>
+							<th>아이디</th>
+							<td>abcd1234</td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td>두레</td>
+						</tr>
+						<tr>
+							<th>비밀번호</th>
+							<td>
+								<div class="modal_button" onclick='init()'>비밀번호 변경</div>
+								<div class="modal_overlay hidden">
+									<div class="md_content">
+										<div class="modal_text">
+											<div class="md_passwordinfo">비밀번호 변경</div>
+											<hr style="width: 100%;">
+										</div>
+										<form action="info.html" method="get">
+											<div class="modal_password">
+												<table>
+													<tr>
+														<td>새 비밀번호 입력</td>
+														<td>
+															<div class="in">
+																<input class="put" id="password1" type="password"
+																	placeholder="새 비밀번호"> <span
+																	class="focus-border"></span>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>비밀번호 확인</td>
+														<td>
+															<div class="in">
+																<input class="put" id="password2" type="password"
+																	placeholder="비밀번호 확인" onkeyup="test()"> <span
+																	class="focus-border"></span>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<div id="check"></div>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<hr style="width: 100%;">
+											<div class="modal_footer">
+												<button class="modal_cancle" type="reset" onclick="del()">
+													<div>취소</div>
+												</button>
+												<button class="modal_cancle" type="submit">
+													<div>변경</div>
+												</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<form action="/infomodi" method="get">
+							<tr>
+								<th>이메일</th>
+								<td>
+									<div class="in">
+										<input class="put" type="email" placeholder="Placeholder Text"
+											value="abcd1234@multi.com"> <span
+											class="focus-border"></span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>주민번호</th>
+								<td>000101-4</td>
+							</tr>
+					</table>
+					<div class="button">
+						<hr>
+						<button class="reset" type="reset">취소</button>
+						<button class="submit" type="submit">저장</button>
+					</div>
+					</form>
+				</div>
+			</div>
+			<script src="../js/info.js"></script>
+		</div>
+		
+	</div>
+
+</body>
+</html>
