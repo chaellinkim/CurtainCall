@@ -11,10 +11,11 @@ import lombok.Data;
 //@AllArgsConstructor
 //@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActorDto {
-	private long id;
-	private String name;
-	private String img;
-	private String birth;
-	private String sns;
+public class ActorCommentDto {
+	
+	private int comment_id;
+	private long actor_id;
+	private String user_id;
+	private String content;
+	
 }

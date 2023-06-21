@@ -8,7 +8,7 @@ a{
     text-decoration: none;
 }
 p{
-    margin-bottom: 3px;
+    margin-bottom: 8px;
 }
 
 /* 배우리스트 감싸는 div */
@@ -51,6 +51,11 @@ p{
     background-color: #d2d2d2;
     box-shadow: 0 5px 25px rgba(0, 0, 0, .2);
     color:#fff;
+}
+.actorlist li > a{
+	display: block;
+	width: 100%;
+	cursor: pointer;
 }
 /* 배우리스트 스크롤바 없애기 */
 .actorlist::-webkit-scrollbar {
@@ -138,6 +143,11 @@ p{
 .comment::-webkit-scrollbar {
     display: none;
 }
+.no-comment {
+	text-align: center;
+	margin-top: 110px;
+	color: #ccc;
+}
 .comment-unit {
     background-color: rgb(233, 240, 248);
     border-radius: 10px;
@@ -159,24 +169,27 @@ p{
 .comment-input {
     display: flex;
     margin-top: 15px;
+    align-items: center;
 }
 .input-field {
-    flex: 1;
+	flex: 1;
     padding: 6px 8px;
     border: 1px solid #d2d2d2;
     border-radius: 4px;
     resize: none;
+    heigh: 43px;
 }
 .input-field:focus{
     outline: none;
 }
 .submit-button {
     margin-left: 6px;
-    padding: 8px 16px;
+    padding: 12px 16px;
     background-color: white;
     color: #ccc;
     border: 1px solid #d2d2d2;
     border-radius: 4px;
+    height: 43px;
     cursor: pointer;
 }
 .submit-button:hover{

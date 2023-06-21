@@ -30,9 +30,10 @@ public class PlayService {
 		playRepository.save(play);
 	}
 	
-//	public List<Play> selectAll(){
-//		return playRepository.findAll();
-//	}
+	public List<Play> selectAll(){
+		return playRepository.findAll();
+	}
+	
 	public Page<Play> selectAll(Pageable pageable){
 		return playRepository.findAll(pageable);
 	}

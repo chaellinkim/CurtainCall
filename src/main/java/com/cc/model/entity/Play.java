@@ -1,10 +1,17 @@
 package com.cc.model.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GeneratorType;
@@ -16,9 +23,8 @@ import lombok.Data;
 @Table(name="PLAY")
 public class Play {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="play_id")
-	private int playId;
+	private String playId;
 	
 	@Column(name="play_title")
 	private String playTitle;
@@ -43,4 +49,7 @@ public class Play {
 	
 	@Column(name="place_id")
 	private String placeId;
+	
+	@OneToMany(mappedBy = "play", cascade = CascadeType.REMOVE)
+	private List<ActorPlay> actorPlayList;
 }
