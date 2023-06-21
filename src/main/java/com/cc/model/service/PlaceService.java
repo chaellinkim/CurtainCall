@@ -3,6 +3,7 @@ package com.cc.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.cc.model.dto.PlaceDto;
@@ -28,6 +29,6 @@ public class PlaceService {
 	}
 	
 	public List<Place> selectAll(){
-		return placeRepository.findAll();
+		return placeRepository.findAll(Sort.by(Sort.Direction.ASC, "placeName"));
 	}
 }

@@ -62,7 +62,6 @@ public class APIController {
                 String xmlResponse = response.getBody();
                 System.out.println(xmlResponse);
 
-                try {
                     // 새로운 DocumentBuilderFactory 생성
                     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -85,7 +84,6 @@ public class APIController {
                         
                         RestTemplate restTemplate2 = new RestTemplate();
                         ResponseEntity<String> response2;
-                        try{
                         	response2 = restTemplate2.getForEntity(apiUrl2, String.class);
                         	if (response2.getStatusCode() == HttpStatus.OK) {
                                 String xmlResponse2 = response2.getBody();
@@ -117,7 +115,6 @@ public class APIController {
                                 
                                 System.out.println("장소"+playDto.getMt10id());
                                 
-                                try {
                                 	response3 = restTemplate3.getForEntity(apiUrl3, String.class);
                                 	if(response3.getStatusCode()==HttpStatus.OK) {
                                 		String xmlResponse3 = response3.getBody();
@@ -136,34 +133,17 @@ public class APIController {
                                 		
                                 	}else {
                                 		System.out.println("통신 실패1: " + response2.getStatusCode());
-                                	}
-                                }catch (Exception e) {
-                                    System.out.println("통신 실패2: " + e.getMessage());
-                                    
-                                }
-                                
-                                
+                                	}   
                         	}else {
                         		System.out.println("통신 실패3: " + response2.getStatusCode());
-                        	}
-                        	
-                        } catch (Exception e) {
-                        	e.printStackTrace();
-                            System.out.println("통신 실패4: " + e.getMessage());
-                            
-                        }
+                        	}  
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                
             } else {
                 System.out.println("통신 실패5: " + response.getStatusCode());
                 
             }
         } catch (Exception e) {
-            System.out.println("통신 실패6: " + e.getMessage());
+            System.out.println("통신 실패: " + e.getMessage());
             
         }
         

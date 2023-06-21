@@ -1,0 +1,226 @@
+@charset "UTF-8";
+/* ------ 월간 베스트리뷰 ------ */
+* {
+	font-family: 'NanumSquareNeo';
+	font-size: large;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+#content-wrap {
+	width: 65vw;
+	margin: auto;
+}
+
+#review-list-title {
+	margin-top: 2vh;
+	width: 950px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+
+#review-list-title a {
+	margin-left: 50px;
+	font-size: 40px;
+	font-weight: 500;
+	color: #000000;
+}
+
+#review {
+	width: 65vw;
+	margin: 40px auto;
+}
+/* 리뷰 타이틀 */
+#review>h2 {
+	font-weight: 500;
+	text-align: center;
+	font-size: 26px;
+}
+
+/* 리뷰 wrap*/
+.feed-box {
+	margin-top: 40px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 40px;
+}
+
+.feed {
+	width: 100%;
+	margin-right: 50px;
+}
+
+.feed:nth-last-of-type(1) {
+	margin-right: 0;
+}
+
+/* 리뷰 상단 */
+.review-top {
+	display: flex;
+	align-items: center;
+	column-gap: 16px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.review-ranking {
+	font-weight: 800;
+	font-size: 18px;
+}
+
+.review-ranking i {
+	color: #F5D042;
+	margin-right: 3px;
+}
+
+.review-userid {
+	font-size: 14px;
+	color: rgb(107, 107, 107);
+}
+
+.post-image {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	margin-bottom: 10px;
+}
+/*list*/
+/* 리뷰 하단*/
+.review-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	color: black;
+}
+
+.theater-name {
+	font-weight: 800;
+	font-size: 15px;
+}
+
+.icon-box {
+	display: flex;
+	align-items: center;
+	column-gap: 3px;
+}
+
+.icon-box i {
+	color: #dc143c;
+}
+
+.likeNum {
+	font-size: 12px;
+}
+
+.review-content {
+	white-space: nomal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* 2줄 이후로 텍스트 자르기 */
+	-webkit-box-orient: vertical;
+	height: 33px;
+	font-size: 14px;
+	color: rgb(121, 121, 121);
+}
+
+.review-add {
+	margin-top: 15px;
+	font-size: 13px;
+	color: #d2d2d2;
+	display: flex;
+	align-items: end;
+	justify-content: center;
+}
+
+/* 리뷰 상단 */
+.feed2 .review-top {
+	display: flex;
+	align-items: center;
+	column-gap: 16px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.feed2 .review-userid {
+	font-size: 30px;
+	color: rgb(107, 107, 107);
+}
+
+.feed2 .post-image {
+	width: 50%;
+	height: auto;
+	border-radius: 12px;
+	margin-bottom: 10px;
+}
+/* 리뷰 하단*/
+.feed2 .review-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	color: black;
+}
+
+.feed2 .theater-name {
+	font-weight: 800;
+	font-size: 15px;
+}
+
+.feed2 .icon-box {
+	display: flex;
+	align-items: center;
+	column-gap: 3px;
+}
+
+.feed2 .icon-box i {
+	color: #dc143c;
+}
+
+.feed2 .likeNum {
+	font-size: 12px;
+}
+
+.feed2 .review-content {
+	white-space: nomal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* 2줄 이후로 텍스트 자르기 */
+	-webkit-box-orient: vertical;
+	height: 33px;
+	font-size: 14px;
+	color: rgb(121, 121, 121);
+}
+
+.feed2 .review-add {
+	margin-top: 15px;
+	font-size: 13px;
+	color: #d2d2d2;
+	display: flex;
+	align-items: end;
+	justify-content: center;
+}
+
+.fixed-button {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 60px;
+	height: 60px;
+	background-color: #141B82;
+	border-radius: 50%;
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

@@ -31,9 +31,6 @@ public class PlayService {
 		playRepository.save(play);
 	}
 	
-//	public List<Play> selectAll(){
-//		return playRepository.findAll();
-//	}
 	public Page<Play> selectAll(Pageable pageable){
 		return playRepository.findAll(pageable);
 	}
@@ -56,6 +53,9 @@ public class PlayService {
 	public int updateCount(int count, String playId) {
 		//System.out.println("call"+playId+" "+count);
 		return playRepository.updateCount(count, playId);
+	}
+	public List<Play> selectBestPlay(){
+		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
 	}
 	
 }

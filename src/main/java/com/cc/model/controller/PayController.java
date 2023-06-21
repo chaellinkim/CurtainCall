@@ -36,16 +36,16 @@ public class PayController {
 	@ResponseBody
 	public Map<String,String> reservation(@RequestBody UserPlayDto userPlayDto) {
 		userPlayService.insert(userPlayDto);
-		Optional<Play> play = playService.selectOne(userPlayDto.getPlayId());
-		if(play.get() != null) {
-			int count = play.get().getCount()+1;
-			String playId = userPlayDto.getPlayId();
-			int rowsAffected = playService.updateCount(count, playId);
-			System.out.println(rowsAffected);
-			if (rowsAffected == 0) {
-				System.out.println("실패  ");
-			}
-		}
+//		Optional<Play> play = playService.selectOne(userPlayDto.getPlayId());
+//		if(play.get() != null) {
+//			int count = play.get().getCount()+1;
+//			String playId = userPlayDto.getPlayId();
+//			int rowsAffected = playService.updateCount(count, playId);
+//			System.out.println(rowsAffected);
+//			if (rowsAffected == 0) {
+//				System.out.println("실패  ");
+//			}
+//		}
 		
 		Map<String,String> response = new HashMap<>();
 		String url = "/play";
