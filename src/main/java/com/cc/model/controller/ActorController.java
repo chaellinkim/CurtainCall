@@ -38,35 +38,27 @@ public class ActorController {
 		
 		model1.addAttribute("alist", alist);
 		model2.addAttribute("plist", plist);
-		model2.addAttribute("comments", comments);
+		model3.addAttribute("comments", comments);
 		
 		return "actorlist";
 	}
 
-	@GetMapping("/actor/{actorId}")
-    @ResponseBody
-    public List<ActorComment> getCommentsByActorId(@PathVariable("actorId") long actorId) {
-        return actorCommentService.getCommentsByActorId(actorId);
-    }
-
 	@PostMapping("/actor/comment")
-	@ResponseBody
-	public List<ActorComment> addComment(@RequestParam("acContent") String acContent, @RequestParam("actorId") long actorId) {		
-		ActorComment comment = new ActorComment();
+	public String insertComment(@RequestParam("acContent") String acContent, @RequestParam("actorId") long actorId, Model model) {	
+		Actor actor = actorService.getActorById(actorId);
+	    //actor.setActorId(actorId);
 	    
-	    Actor actor = new Actor();
-	    actor.setActorId(actorId);
-	    
-	    comment.setActor(actor);
-	    comment.setAcContent(acContent);
-
-	    comment.setUserId("ekek");
-
-	    actorCommentService.insert(comment);
-	    System.out.println("댓글 내용: " + comment.getAcContent());
-
-	    List<ActorComment> comments = actorCommentService.selectAll();
-	    return comments;
+	    ActorComment newComment = new ActorComment();
+	    newComment.setAcContent(acContent);
+		newComment.setActor(actor);
+		newComment.setUserId("ekgp");
+		
+		actorCommentService.insert(newComment, actorId);
+		model.addAttribute("newComment", newComment);
+		
+		return "redirect:/actor?actorId=" + actorId;
 	}
+
+	/* DELETE */
 	
 }

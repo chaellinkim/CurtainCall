@@ -1,20 +1,25 @@
 package com.cc.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.model.entity.Actor;
 import com.cc.model.entity.ActorComment;
 import com.cc.model.repository.ActorCommentRepository;
+import com.cc.model.repository.ActorRepository;
 
 @Service
 public class ActorCommentService {
 	private ActorCommentRepository actorCommentRepository;
+	private ActorRepository actorRepository;
 	
 	@Autowired
-	public ActorCommentService(ActorCommentRepository actorCommentRepository) {
+	public ActorCommentService(ActorCommentRepository actorCommentRepository, ActorRepository actorRepository) {
 		this.actorCommentRepository = actorCommentRepository;
+		this.actorRepository = actorRepository;
 	}
 
 	//댓글 출력
@@ -23,7 +28,10 @@ public class ActorCommentService {
 	}
 	
 	//댓글 저장
-	public void insert(ActorComment comment) {
+	public void insert(ActorComment comment, long actorId) {
+		Optional<Actor> actor = actorRepository.findById(actorId);
+		comment.setActor(actor.orElse(null));
+		
 		actorCommentRepository.save(comment);
 	}
 	

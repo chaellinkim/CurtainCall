@@ -1,7 +1,6 @@
 package com.cc.model.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,7 @@ public class ActorService {
 		return actorRepository.findAll();
 	}
 	
-	public Actor getActorById(long actorId) {
-		
-		Optional<Actor> optionalActor = actorRepository.findById(actorId); 
-		return optionalActor.orElse(null);
-		 
-		//return actorRepository.findById(actorId).orElse(null);
+	public Actor getActorById(long actorId) {		 
+		return actorRepository.findById(actorId).orElse(null);
 	}
 }

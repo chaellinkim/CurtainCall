@@ -11,116 +11,63 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 $(document).ready(function () {
+	var urlParams = new URLSearchParams(window.location.search);
+  	var actorId = urlParams.get('actorId');
+
+	if (actorId) {
+	  var tabId = "tab" + actorId;
+	  openTab(tabId, actorId);
+	} else {
+	  $(".tab-link > a:first").click();    // 페이지 로딩시 첫번째 배우 화면 출력
+	}
+	
 	$(".tab-link > a").click(function () {
 	    var tabId = $(this).parent().data("tab");
-	    //console.log(tabId);
 	    var actorId = $(this).parent().data("actor-id");
-	    openTab(tabId, actorId);
-	 	
+	    openTab(tabId, actorId);	 	
 	});
 
-    //loadComments(1);	//첫번째 배우의 댓글 목록 출력
-    //openTab("tab1", 1);
-    
 	function openTab(tabId, actorId) {
 		$("#" + tabId).show();							// 선택한 탭 표시
 		$(".tab-content").not("#" + tabId).hide();		// 모든 탭 내용 숨김
 		
 		console.log("현재 actorId: " + actorId);
-		
-		// 이미 해당 배우의 댓글이 로드되었는지 확인
-		/* if ($("#" + tabId).find(".comment-unit").length === 0) {
-		    loadComments(actorId);
-		    console.log("댓글 로드 완료, 현재 actorId: " + actorId);
-		} */
-		
-		window.history.pushState(null, null, "/actor/" + actorId);	// URL 변경
-		loadComments(actorId);
-	   }
-    
-    // 댓글 로드 함수
-    function loadComments(actorId) {
-        $.ajax({
-            type: "GET",
-            url: "/actor/" + actorId,
-            dataType: "json",
-            data: { actorId: actorId },
-            success: function (response) {
-                var comments = response;    // 받아온 댓글 목록
-				//console.log("response: " + JSON.stringify(response));
-                $("#comment-box").empty();    // 댓글 창 비우기
-
-                if (comments.length > 0) {
-                    // 댓글이 있는 경우
-                    comments.forEach(function (comment) {
-                        var commentHtml =
-                            '<div class="comment-unit">' +
-                            '<p class="userName">@' + comment.userId + '</p>' +
-                            '<p class="content">' + comment.acContent + '</p>' +
-                            '</div>';
-
-                        $("#comment-box").append(commentHtml);
-                        console.log("댓글 있음. actorId: " + actorId);
-                    });
-                } else {
-                    // 댓글이 없는 경우
-                    var noCommentHtml = '<div class="no-comment">' +
-                        '<p>첫 번째 응원을 남겨보세요!</p>' +
-                        '</div>';
-
-                    $("#comment-box").append(noCommentHtml);
-                    console.log("댓글 없음");
-                }
-                //alert("댓글 로드 성공!");
-            },
-            error: function (xhr, status, error) {
-                console.error("현재 actorId: ", actorId);
-                console.error("댓글 로드 오류: ", error);
-                alert("댓글 로드 오류!");
-            }
-        });
-    }
+		window.history.pushState(null, null, "/actor?actorId=" + actorId);	// URL 변경
+	}
 });
 
 //댓글 등록 및 출력
-$(document).on("submit", "#commentForm", function (e) {
-    e.preventDefault();		//기본 제출 동작 막기
-
-    var acContent = $("#acContent").val();
-    var actorId = parseInt($(this).find("#actorId").val());	// 현재 선택된 배우의 ID 가져오기
-
-    if (!acContent || acContent.trim() === "") {
-        alert("내용을 입력해주세요.");
-        return false;
-    } else {
-        $.ajax({
-            type: "POST",
-            url: $(this).attr("action"),
-            data: {
-                acContent: acContent,
-                actorId: actorId
-            },
-            dataType: "json",
-            success: function () {
-                //댓글 추가
-                var commentUnit = $('<div class="comment-unit"></div>');
-                commentUnit.append('<p class="userName">@' + actorId + '</p>');		//나중에 userId로 변경하기
-                commentUnit.append('<p class="content">' + acContent + '</p>');
-
-                $('#comment-box').append(commentUnit);
-
-                //입력 필드 초기화
-                $("#acContent").val("");
-
-                //alert("댓글이 성공적으로 등록되었습니다.");
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                alert("통신 오류!");
-            }
-        });
-    }
-})
+ $('#commentForm').submit(function(event) {
+    event.preventDefault(); // 폼의 기본 동작인 페이지 새로고침을 막음
+    
+    // AJAX 요청을 보내고 새로운 댓글을 추가하는 로직 작성
+    var formData = $(this).serialize(); // 폼 데이터 가져오기
+    $.ajax({
+        type: 'POST',
+        url: '/actor/comment',
+        data: formData,
+        success: function(response) {
+            // 성공적으로 서버로부터 응답을 받았을 때 처리할 로직 작성
+            
+            // 새로운 댓글 HTML 생성
+            var newCommentHtml = '<div class="comment-unit">' +
+                '<p class="userName">@' + response.userId + '</p>' +
+                '<p class="content">' + response.acContent + '</p>' +
+                '</div>';
+            
+            // 새로운 댓글을 댓글 목록에 추가
+            $('.comment').append(newCommentHtml);
+            
+            // 입력 필드 초기화
+            $('#acContent').val('');
+            window.location.href="/actor?actorId=" + actorId;
+        },
+        error: function(error) {
+            // AJAX 요청이 실패했을 때 처리할 로직 작성
+            console.log('Error:', error);
+        }
+    });
+});
 
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -137,14 +84,12 @@ $(document).on("submit", "#commentForm", function (e) {
 			<div class="actorlistwrap">
 				<h1 class="nav-name">ACTOR</h1>
 				<ul class="actorlist">
-					<!-- <th:block th:each="item, itemStat : ${alist}"> -->
 					<li th:each="item, itemStat : ${alist}"
 						class="tab-link"
 						th:data-tab="'tab' + ${item.actorId}"
 						th:data-actor-id="${item.actorId}">
 						<a th:text="${item.actorName}">actor.actorName</a>
 					</li>
-					<!-- </th:block> -->
 				</ul>
 			</div>
 
@@ -189,9 +134,14 @@ $(document).on("submit", "#commentForm", function (e) {
 										<p>첫 번째 응원을 남겨보세요!</p>
 									</div>
 									<!-- 댓글이 있을 경우 -->
-									<div th:unless="${#lists.isEmpty(comments)} and ${comment.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
-										<p class="userName">@userId</p>
+									<div th:if="${!#lists.isEmpty(comments)} and ${comment.actor.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
+										<p class="userName" th:text="|@${comment.userId}|">@comment.userId</p>
 										<p class="content" th:text="${comment.acContent}">comment.acContent</p>
+									</div>
+									<!-- 새로운 댓글이 추가되는 부분 -->
+									<div th:if="${newComment != null}" class="comment-unit">
+									    <p class="userName">newComment.userId</p>
+									    <p class="content">newComment.acContent</p>
 									</div>
 								</div>
 								<!-- 글 입력 -->
