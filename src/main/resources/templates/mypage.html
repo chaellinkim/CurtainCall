@@ -41,18 +41,30 @@
 
 	//tab 화면 전환
 	$(document).ready(function() {
-		//연극/맛집에 따른 탭
-		$('ul.tabs li').click(function() {
-			var tab_id = $(this).attr('data-tab');
+		var urlParams = new URLSearchParams(window.location.search);
+		var tabId = urlParams.get('tabId');
+		
+		if(tabId) {
+			var clickId = "tab" + tabId;
+			openTab(tabId);
+		} else {
+			$(".tab-link > a:first").click(); // 페이지 로딩시 예매내역 화면 출력
+		}
 
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
+		$(".tab-link > a").click(function() {
+			var tabId = $(this).parent().data("tab");
+			var clickId = $(this).parent().data("tabId-id");
+			openTab(tabId);
+		});
 
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-			
-			console.log("#"+tab_id);
-		})
+		function openTab(tabId) {
+			  $("#" + tabId).show(); // 선택한 탭 표시
+			  $(".tab-content").not("#" + tabId).hide(); // 모든 탭 내용 숨김
+
+			  console.log("현재 tabId: " + tabId);
+			  var url = "/mypage?tabId=" + tabId;
+			  window.history.pushState(null, null, url); // URL 변경
+			}
 	});
 
 </script>
@@ -127,15 +139,15 @@
 		<!-- tab -->
 		<div class="navi">
 			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1">예매내역</li>
-				<li class="tab-link" data-tab="tab-2">나의후기</li>
-				<li class="tab-link" data-tab="tab-3">찜 목록</li>
-				<li class="tab-link" data-tab="tab-4">회원정보</li>
+				<li class="tab-link current" data-tab="tab1" th:data-tabId-id="1"><a>예매내역</a></li>
+				<li class="tab-link" data-tab="tab2" th:data-tabId-id="2"><a>나의후기</a></li>
+				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜 목록</a></li>
+				<li class="tab-link" data-tab="tab4" th:data-tabId-id="4"><a>회원정보</a></li>
 			</ul>
 		</div>
 
 		<!-- 예매내역 -->
-		<div id="tab-1" class="tab-content current">
+		<div id="tab1" class="tab-content current">
 			<div class="title">
 				<span>예매내역</span>
 			</div>
@@ -219,7 +231,7 @@
 		</div>
 
 		<!-- 나의 후기 -->
-		<div id="tab-2" class="tab-content">
+		<div id="tab2" class="tab-content">
 			<div class="title">
 				<span>나의후기</span>
 			</div>
@@ -262,26 +274,33 @@
 		<script src="../js/mypage_script.js"></script>
 
 		<!-- 찜 목록 -->
-		<div id="tab-3" class="tab-content">
+		<div id="tab3" class="tab-content">
 			<div class="title">
 				<span>찜 목록</span>
 			</div>
+
 			<div class="content">
+				<div th:each="wish : ${mypage_wish}">
 				<div class="wish_content"
-					style="background-image: url('/img/review.jpg');">
-					<!--style="background-image: url('${imagePath}')"-->
+					th:style="background-image: url('+@{${wish.playposter}}+');">
+
 					<div class="delete">
-						<button>
+						<form action="/mypage_wish" method="post">
+					<input type="hidden" name="playtitle" th:value="${wish.playtitle}">
+					<input type="hidden" name="tabId" value="tab3">
+						<button type="submit">
 							<img src="/img/delete.png" alt="삭제">
 						</button>
+					</form>
 					</div>
-					<div class="wish_info">2호선 세입자</div>
+					<div class="wish_info" th:text="${wish.playtitle}">2호선 세입자</div>
+				</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- 회원정보 == 들어가기 전에 비밀번호 확인해주기-->
-		<div id="tab-4" class="tab-content">
+		<div id="tab4" class="tab-content">
 			<div class="title">
 				<span>회원정보</span>
 			</div>
@@ -290,11 +309,11 @@
 					<table>
 						<tr>
 							<th>아이디</th>
-							<td>abcd1234</td>
+							<td th:text="${user_id}">abcd1234</td>
 						</tr>
 						<tr>
 							<th>이름</th>
-							<td>두레</td>
+							<td th:text="${username}">두레</td>
 						</tr>
 						<tr>
 							<th>비밀번호</th>
@@ -356,14 +375,14 @@
 								<td>
 									<div class="in">
 										<input class="put" type="email" placeholder="Placeholder Text"
-											value="abcd1234@multi.com"> <span
+											th:value="${useremail}"> <span
 											class="focus-border"></span>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<th>주민번호</th>
-								<td>000101-4</td>
+								<td th:text="${userrrn}">000101-4</td>
 							</tr>
 					</table>
 					<div class="button">
