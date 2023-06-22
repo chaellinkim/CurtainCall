@@ -59,4 +59,10 @@ public class UserService {
 		
 		return true;
 	}
+
+	//마이페이지로 회원정보 select
+	public Optional<User> findOne(Integer user_id){
+		
+		return userRep.findById(user_id);
+	}
 }
