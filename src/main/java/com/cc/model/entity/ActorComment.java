@@ -1,8 +1,9 @@
 package com.cc.model.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,8 +27,11 @@ public class ActorComment {
 	@Column(name = "user_loginid")
 	private String userId;
 	
-	@Column(name="actorComment_content")
-	private String acContent;
+	@Column(name="comment_content")
+	private String content;
+	
+	@Column(name="comment_created")
+	private LocalDateTime created;
 	
 	@ManyToOne
 	@JoinColumn(name="actor_id")

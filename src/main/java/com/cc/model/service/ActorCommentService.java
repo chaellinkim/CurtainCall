@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.cc.model.entity.Actor;
@@ -24,7 +25,7 @@ public class ActorCommentService {
 
 	//댓글 출력
 	public List<ActorComment> selectAll() {
-		return actorCommentRepository.findAll();
+		return actorCommentRepository.findAll(Sort.by(Sort.Direction.DESC, "created"));
 	}
 	
 	//댓글 저장

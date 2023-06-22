@@ -1,5 +1,7 @@
 package com.cc.model.controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +37,30 @@ public class ActorController {
 		List<Actor> alist = actorService.selectAll();
 		List<ActorPlay> plist = actorPlayService.selectAll();
 		List<ActorComment> comments = actorCommentService.selectAll();
-		
+		List<Boolean> commentExists = new ArrayList<>();
+		for (Actor actor : alist) {
+	           boolean hasComment = comments.stream()
+	                   .anyMatch(comment -> comment.getActor().getActorId() == actor.getActorId());
+	           commentExists.add(hasComment);
+	       }
+
 		model1.addAttribute("alist", alist);
 		model2.addAttribute("plist", plist);
 		model3.addAttribute("comments", comments);
+		model3.addAttribute("commentExists", commentExists);
 		
 		return "actorlist";
 	}
 
 	@PostMapping("/actor/comment")
-	public String insertComment(@RequestParam("acContent") String acContent, @RequestParam("actorId") long actorId, Model model) {	
+	public String insertComment(@RequestParam("content") String content, @RequestParam("actorId") long actorId, Model model) {	
 		Actor actor = actorService.getActorById(actorId);
 	    //actor.setActorId(actorId);
 	    
 	    ActorComment newComment = new ActorComment();
-	    newComment.setAcContent(acContent);
+	    newComment.setContent(content);
 		newComment.setActor(actor);
+		newComment.setCreated(LocalDateTime.now());
 		newComment.setUserId("ekgp");
 		
 		actorCommentService.insert(newComment, actorId);
