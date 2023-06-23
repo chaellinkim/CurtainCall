@@ -139,6 +139,7 @@ p{
     height: 300px;
     margin-top: 8px;
     overflow: auto;
+    overflow-x: hidden;
 } 
 
 /* 댓글 스크롤바 조정 */
@@ -163,12 +164,31 @@ p{
 	color: #ccc;
 }
 .comment-unit {
+    display: table;
+    width: 350px;
+    position: relative;
+}
+.comment-body {
     background-color: rgb(233, 240, 248);
     border-radius: 10px;
     padding: 8px 8px 8px 10px;
     font-size: 13px;
-    display: table;
     width: 260px;
+}
+#deleteBtn{
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+    color: #ccc;
+    background: none;
+    border: none;
+    padding: 7px;
+    margin: 0;
+}
+#deleteBtn:hover{
+    color: #141B82;
+    cursor: pointer;
 }
 .userName{
     font-weight: bold;

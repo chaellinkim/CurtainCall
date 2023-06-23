@@ -70,5 +70,10 @@ public class ActorController {
 	}
 
 	/* DELETE */
+	/*
+	 * @PostMapping("/actor/comment/delete")
+	 * 
+	 * @ResponseBody public
+	 */
 	
 }

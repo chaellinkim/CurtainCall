@@ -69,8 +69,11 @@ $(document).ready(function () {
 	        data: formData,
 	        success: function(response) { 
 	            var newCommentHtml = "<div class='comment-unit'>" +
+	            	"<div class='comment-body'>" +
 	                "<p class='userName'>@" + response.userId + "</p>" +
 	                "<p class='content'>" + response.content + "</p>" +
+	                "</div>" +
+                    "<button id='deleteBtn'><i class='fa-solid fa-xmark fa-xl'></i></button>" +
 	                "</div>";
 
 	            $(".comment").append(newCommentHtml);
@@ -85,6 +88,9 @@ $(document).ready(function () {
 	        }
 	    });
 	};
+	
+	
+	
 });
 
 </script>
@@ -153,13 +159,23 @@ $(document).ready(function () {
 									</div>
 									<!-- 댓글이 있을 경우 -->
 									<div th:if="${comment.actor.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
-										<p class="userName" th:text="|@${comment.userId}|">@comment.userId</p>
-										<p class="content" th:text="${comment.content}">comment.acContent</p>
+										<div class="comment-body">
+											<p class="userName" th:text="|@${comment.userId}|">@comment.userId</p>
+											<p class="content" th:text="${comment.content}">comment.acContent</p>
+										</div>
+                                    	<button id="deleteBtn" th:if="${comment.userId == loggedInUserId}" onclick="">
+                                    		<i class="fa-solid fa-xmark fa-xl"></i>
+                                    	</button>
 									</div>
 									<!-- 새로운 댓글이 추가되는 부분 -->
 									<div th:if="${newComment != null}" class="comment-unit">
-									    <p class="userName">newComment.userId</p>
-									    <p class="content">newComment.content</p>
+										<div class="comment-body">
+										    <p class="userName">newComment.userId</p>
+										    <p class="content">newComment.content</p>
+										</div>
+                                    	<button id="deleteBtn">
+                                    		<i class="fa-solid fa-xmark fa-xl"></i>
+                                    	</button>
 									</div>
 								</div>
 								<!-- 글 입력 -->
