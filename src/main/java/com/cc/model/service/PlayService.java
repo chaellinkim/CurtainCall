@@ -1,6 +1,7 @@
 package com.cc.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,17 +31,32 @@ public class PlayService {
 		playRepository.save(play);
 	}
 	
-	public List<Play> selectAll(){
+  public List<Play> selectAll(){
 		return playRepository.findAll();
 	}
-	
+  
 	public Page<Play> selectAll(Pageable pageable){
 		return playRepository.findAll(pageable);
+	}
+	public Page<Play> selectPossible(Pageable pageable){
+		return playRepository.selectPossible(pageable);
 	}
 	
 	public Page<Play> search(String keyword,Pageable pageable){
 		Page<Play> plays = playRepository.findByPlayTitleContaining(keyword, pageable);
 		return plays;
+	}
+	public Page<Play> searchPossible(String keyword,Pageable pageable){
+		Page<Play> plays = playRepository.searchPossible(keyword, pageable);
+		return plays;
+	}
+	public Optional<Play> selectOne(String playId) {
+		Optional<Play> play = playRepository.findById(playId);
+		return play;
+	}
+	public int updateCount(int count, String playId) {
+		//System.out.println("call"+playId+" "+count);
+		return playRepository.updateCount(count, playId);
 	}
 	
 }

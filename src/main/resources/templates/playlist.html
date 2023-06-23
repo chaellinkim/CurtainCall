@@ -33,7 +33,7 @@
         <div id="tab-1" class="tab-content current">
             <div class="theater-content">
                 <div class="theater-unit" th:each="item : ${list}">
-                    <a href="#">    <!-- 해당 연극 상세페이지 이동 -->
+                    <a th:href="@{/play/detail(playId=${item.playId})}">    <!-- 해당 연극 상세페이지 이동 -->
                         <div class="theater-poster">
                             <img th:src="@{${item.playPoster}}" th:alt="${item.playTitle}">
                             
@@ -47,7 +47,7 @@
         
         <div class="pagination">
 	        <th:block class="pagination" th:each="page : ${#numbers.sequence(startPage,endPage)}">
-	        	<a th:if ="${page != nowPage}" th:href ="@{/play(page=${page-1})}" th:text="${page}"></a>
+	        	<a th:if ="${page > 0 && page != nowPage}" th:href ="@{/play(page=${page-1})}" th:text="${page}"></a>
 	        	<strong th:if ="${page == nowPage}" th:text="${page}"></strong>
 	        	<span>&nbsp;</span> 
 	        </th:block>

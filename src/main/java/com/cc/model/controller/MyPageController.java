@@ -2,6 +2,8 @@ package com.cc.model.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,27 +13,12 @@ import com.cc.model.entity.Actor;
 import com.cc.model.service.ActorService;
 
 @Controller
-@RequestMapping("/mypage")
+
 public class MyPageController {
 	
-	@RequestMapping("/pay")
-	public String actorList() {
-		
-		return "pay";
-	}
-	@RequestMapping("/review")
-	public String review() {
-		
-		return "review";
-	}
-	@RequestMapping("/wish")
-	public String wish() {
-		
-		return "wish";
-	}
-	@RequestMapping("/info")
-	public String info() {
-		
-		return "info";
+	@RequestMapping("/mypage")
+	public String Mypage(HttpSession session, Model model) {
+		model.addAttribute("user_state", session.getAttribute("user_state")); 
+		return "mypage";
 	}
 }

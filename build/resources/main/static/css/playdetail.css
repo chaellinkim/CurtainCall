@@ -1,0 +1,177 @@
+@charset "UTF-8";
+* {
+    font-family: 'NanumSquareNeo';
+    font-size: large;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* 페이지 양옆 여백 */
+#content-wrap {
+    font: optional;
+    width: 65vw;
+    margin: auto;
+}
+
+.theater-wrap {
+    margin-top: 8vh;
+    background-color: azure;
+    /* 포스터 옆에 정보 나란히 붙히기위해 부모div에 display : flex */
+    display: flex;
+}
+
+/* 포스터 크기 */
+.theater-poster img {
+    width: 20vw;
+    height: 50vh;
+    margin-right: 5vw;
+    border-radius: 12px;
+}
+
+/* 연극 정보 */
+.theater-info {
+    width: 30vw;
+    height: auto;
+    margin-top: 5vh;
+
+}
+
+.theater-info h4 {
+    font-size: 30px;
+}
+
+/* 예매박스 */
+.reserve-wrap {
+    margin-top: 1vh;
+    background-color: pink;
+    height: 40vh;
+    /* 지울것 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 예매하기 버튼 */
+.reserve-btn {
+    height: 10vh;
+    margin-left: 55vw;
+   margin-top: 1vh;
+}
+
+/* https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C */
+.btnLightBlue {
+    background: rgb(233, 240, 248);
+}
+
+a.button {
+    display: block;
+    position: relative;
+    float: left;
+    width: 120px;
+    padding: 0;
+    margin: 10px 20px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: black;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.btnLightBlue.btnPush {
+    box-shadow: 0px 5px 0px 0px #d1dddd;
+}
+
+.btnPush:hover {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.btnLightBlue.btnPush:hover {
+    box-shadow: 0px 0px 0px 0px #b7c6c600;
+}
+
+/* 추천 연극 */
+.theater-recommand {
+    background-color: skyblue;
+    text-align: center;
+    transition: 05.s;
+}
+.theater-recommand span{
+    font-size: 25px;
+}
+.theater-recommand span:hover{
+    color: rgb(163, 160, 160);
+    transition: 0.5s;
+}
+/* 추천연극 포스터 */
+.recommand-poster img{
+    width: 15vw;
+    height: 40vh;
+    border-radius: 12px;
+    margin:30px;
+}
+/* 정보 , 후기 , 출연진 탭 */
+
+/* 위로올라가면 화면위에 붙게끔 */
+.tab-menu {
+    height: 10.5vh;
+    background-color: bisque;
+    position: sticky;
+    top: 0;
+}
+
+.tab-btn {
+    display: flex;
+    list-style-type: none;
+}
+
+.tab-btn li {
+    margin-top: 3.5vh;
+    margin-left: 13vw;
+}
+
+/* 연극상세정보 이미지 */
+.promotion img {
+    width: 65vw;
+}
+
+/* 예매자 통계 */
+.statistics {
+    background-color: pink;
+    height: 30vh;
+    /* 지울것 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 후기 */
+.review {
+    background-color: pink;
+    height: 40vh;
+    /* 지울것 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 캐스팅 */
+.cast {
+    background-color: pink;
+    height: 40vh;
+    /* 지울것 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 화면 전환 */
+.tab-content {
+    display: none;
+}
+
+.tab-content.current {
+    display: inherit;
+}

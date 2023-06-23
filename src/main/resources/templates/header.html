@@ -26,6 +26,9 @@
                 window.location.href = 'place.html';
             }); */
         });
+        function submitForm() {
+            document.querySelector('.search').submit();
+        }
         
     </script>
 </head>
@@ -45,13 +48,34 @@
             <div class="right">
                 <form action="/play/search" method="get" class="search">
                     <input type="text" name="keyword" class="search-input" placeholder="검색어 입력">
-                    <div class="icon"><i class="fas fa-search"></i></div>
+                    <div class="icon" onclick="submitForm()"><i class="fas fa-search"></i></div>
                 </form>
-                <div class="user-icon">
-                        <a href="/mypage/pay">
-                    		<i class="fas fa-user fa-lg"></i>
-                    	</a>
-                </div>
+    				<div class="user-icon">
+					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
+					<div th:if="${user_state} == 'login'">
+						<button class="fas fa-user fa-lg"></button>
+						<ul class="bar">
+							<li><a href="/logout">로그아웃</a></li>
+							<li><a href="/mypage">마이페이지</a></li>
+						</ul>
+						
+						<!-- 마이페이지바를 띄우기 위한 js코드 -->
+						<script>
+					 	const btn = document.querySelector('.fa-user');
+					    const list = document.querySelector('.bar');
+					    
+					    btn.addEventListener('click', () => {
+					    	list.classList.toggle('on');
+					    });
+					    
+					    list.addEventListener('click', (event) => {
+					        if (event.target.nodeName === "A") {
+					            list.classList.remove('on');
+					        }
+					    });
+					    </script>
+					</div>
+				</div>
             </div>
         </div>
     </header>

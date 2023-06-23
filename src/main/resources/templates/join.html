@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,52 +7,213 @@
 <title>회원가입</title>
 <link rel="stylesheet" href="../css/join.css">
 <link rel="stylesheet" href="../css/header.css">
-<link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+<link
+   href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
+   rel="stylesheet">
+<!-- <script type="text/javascript" src="../js/idDuplication.js"></script> -->
+<link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+   document.addEventListener('DOMContentLoaded', function() {
+      //검색버튼 활성화
+      const searchForm = document.querySelector('.search');
+      const searchInput = document.querySelector('.search-input');
+      const searchIcon = document.querySelector('.icon');
+
+      searchIcon.addEventListener('submit', function(e) {
+         e.preventDefault(); //폼 제출 동작 방지
+         const keyword = searchInput.value;
+         console.log('검색어: ', keyword);
+      })
+
+      //사용자 아이콘 클릭시 마이페이지 이동
+      const userIcon = document.querySelector('.user-icon');
+      userIcon.addEventListener('click', function() {
+         window.location.href = 'pay.html';
+      });
+   });
+
+   function confirm() {
+      var p1 = document.getElementById('password').value;
+      var p2 = document.getElementById('passwordConfirm').value;
+
+      if (p1 === p2) {
+         alert("비밀번호가 일치합니다.");
+      } else {
+         alert("비밀번호가 일치하지 않습니다.");
+         document.getElementById('passwordConfirm').value = null;
+      }
+
+   }
+
+   $(document).ready(function() {
+      $('#id_verification').click(function() {
+         console.log("jiji");
+         var id = document.getElementById('id').value;
+         
+         //아이디를 입력하지 않았을 경우
+         if(id === ""){
+            alert("아이디 입력 후 중복확인 버튼을 눌러주세요.");
+            document.getElementById('id').focus();
+            return;
+         }else{
+            document.getElementById('Check').value = "1";
+            console.log(document.getElementById('Check').value);
+         
+         
+         $.ajax({
+            url : '/idcheck',
+            type : 'post',
+            data : {
+               'id' : $('#id').val()
+            },
+            dataType : 'json',
+            success : function(result) {
+               if (result === 0) {
+                  alert("사용 가능한 아이디입니다.");
+               } else {
+                  alert("사용 중인 아이디입니다.");
+               }
+            },
+            error : function(req, status) {
+               alert(status);
+            }
+         })
+         }
+      })
+   });
+   
+   //아이디가 변경되었을 경우   
+   function idCheckInit(){
+      if(document.getElementById('Check').value == "1"){
+         document.getElementById('Check').value = "0";
+      }
+   }
+
+   //중복체크를 하지 않았을 경우
+   function submitCheck(){
+      
+      var idDu = document.getElementById('Check').value;
+      
+      // 중복확인을 하지 않았을 경우
+      if(idDu === "0"){
+         alert("아이디 중복확인을 해주세요.");
+         return false;
+      }
+   }
+</script>
+
 </head>
 <body>
-	<div class="center-box">
-        <div class="logo">
-		    <img src="img/logo.png" alt="로고이미지"  style="width: 13vw; height: auto;">
-        </div>
-		<div class="joinForm">
-			<form action="/login/joincheck" method="post">
-				<input type="hidden" name="onOffNoty" value="Y"> <input
-					type="hidden" name="userLoginType" value="G">
-				<div class="joinContent">
-					<label for="id">아이디</label> <input type="text" id="id"
-						name="userId"><br>
-				</div>
 
-				<div class="joinContent">
-					<label for="password">비밀번호</label> <input type="password"
-						id="password" name="userPw"><br>
-				</div>
+   <header>
+      <a href="/"><img src="../img/logo.png" id="logo"></img></a>
+      <div id="nav-content">
+         <nav>
+            <ul>
+               <li><a href="/play" class="menu">연극</a></li>
+               <li><a href="/place" class="menu">공연장</a></li>
+               <li><a href="/actor" class="menu">출연진</a></li>
+               <li><a href="/event" class="menu">이벤트</a></li>
+               <li><a href="#" class="menu">관람후기</a></li>
+            </ul>
+         </nav>
+         <div class="right">
+            <form action="/play/search" method="get" class="search">
+               <input type="text" name="keyword" class="search-input"
+                  placeholder="검색어 입력">
+               <div class="icon">
+                  <i class="fas fa-search"></i>
+               </div>
+            </form>
+            <div class="user-icon">
+               <a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
+               <div th:if="${user_state} == 'login'">
+                  <button class="fas fa-user fa-lg"></button>
+                  <ul class="bar">
+                     <li><a href="/logout">로그아웃</a></li>
+                     <li><a href="/mypage">마이페이지</a></li>
+                  </ul>
+                  
+                  <!-- 마이페이지바를 띄우기 위한 js코드 -->
+                  <script>
+                   const btn = document.querySelector('.fa-user');
+                   const list = document.querySelector('.bar');
+                   
+                   btn.addEventListener('click', () => {
+                      list.classList.toggle('on');
+                   });
+                   
+                   list.addEventListener('click', (event) => {
+                       if (event.target.nodeName === "A") {
+                           list.classList.remove('on');
+                       }
+                   });
+                   </script>
+               </div>
+            </div>
+         </div>
+      </div>
+   </header>
 
-				<div class="joinContent">
-					<label for="passwordConfirm">비밀번호 확인</label> <input type="password"
-						id="passwordConfirm" name="userPwConfirm">
-					<button type="button"  id="get_verification_code" onclick="">확인</button>
-					<br>
-				</div>
+   <div class="center-box">
+      <div class="logo">
+         <img src="img/logo.png" alt="로고이미지"
+            style="width: 13vw; height: auto;">
+      </div>
+      <div class="joinForm">
+         <form action="/joincheck" method="post">
 
-				<div class="joinContent">
-					<label for="name">이름</label> <input type="text" id="name"
-						name="userName"><br>
-				</div>
-      
-				<div class="joinContent">
-					<label for="jumin">주민등록번호</label> <input type="text" pattern="\d{6}-?" maxlength="7" placeholder="YYMMDD-" required><br>
+            <!-- 로그인 타입 -->
+            <input type="hidden" name="login" th:value="${logintype}">
 
-				</div>
+            <div class="joinContent">
+               <label for="id">아이디</label> <input type="text" id="id"
+                  name="userId" onkeyup="idCheckInit()">
+               <button type="button" id="id_verification">중복 확인</button>
+               <br> <input type="hidden" id="Check" value="0">
+               <!-- 0이 미확인, 1: 확인 -->
+            </div>
 
-				<div class="joinContent">
-					<label for="email">이메일</label> <input type="email" id="email" name="email" required>
-					<br>
-				</div>
+            <div class="joinContent">
+               <label for="password">비밀번호</label> <input type="password"
+                  id="password" name="userPw"><br>
+            </div>
 
-				<button type="submit" id="submitBtn" disabled>가입하기</button>
-			</form>
-		</div>
-	</div>
+            <div class="joinContent">
+               <label for="passwordConfirm">비밀번호 확인</label> <input type="password"
+                  id="passwordConfirm" name="userPwConfirm">
+               <button type="button" id="get_verification_code"
+                  onclick="confirm()">확인</button>
+               <br>
+            </div>
+
+            <div class="joinContent">
+               <label for="name">이름</label> <input type="text" id="name"
+                  name="userName" th:value="${name}"><br>
+            </div>
+
+            <div class="joinContent">
+               <label for="jumin">생년월일</label> <input id="juminInput" name="rrn"
+                  pattern="\d{6}" maxlength="6" placeholder="YYMMDD" type="text"
+                  required><br>
+            </div>
+
+            <div class="joinContent">
+               <label for="email">성별</label> <input type="radio" id="gender"
+                  name="gender" value="F" required>여자 <input type="radio"
+                  id="gender" name="gender" value="M" required>남자 <br>
+            </div>
+
+            <div class="joinContent">
+               <label for="email">이메일</label> <input type="email" id="email"
+                  name="email" th:value="${email}" required> <br>
+            </div>
+
+            <button type="submit" id="submitBtn" onclick="submitCheck()">가입하기</button>
+         </form>
+      </div>
+   </div>
 </body>
 </html>

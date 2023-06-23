@@ -1,0 +1,95 @@
+@charset "UTF-8";
+@font-face {
+   font-family: 'Pretendard-Regular';
+   src:
+      url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
+   font-weight: 400;
+   font-style: normal;
+}
+
+body {
+   font-family: 'Pretendard-Regular', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* 중앙에 위치한 박스 스타일 */
+.center-box {
+    border: 2px solid #c2c2c2;
+    border-radius: 0.8rem;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+}
+
+.center-box .logo {
+    text-align: center;
+    margin-bottom: 20px;
+} 
+
+/* 가입하기 버튼 스타일 */
+button[type="submit"] {
+   width: 27vw;
+   margin-top: 10px;
+   /* #f77f7f; */
+   background-color:rgb(18, 82, 151);
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   border-radius: 1vb
+}
+/* button[type="submit"]:hover{
+    background-color: rgb(15, 76, 142);
+    color: white;
+}  */
+#get_verification_code {
+   margin-top: 10px;
+   background-color:rgb(18, 82, 151);
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 14px;
+   cursor: pointer;
+   border-radius: 5px;
+   width: 6.5vw;
+   margin: 0;
+   vertical-align: middle;
+}
+#get_verification_code:hover{
+    background-color: rgb(15, 76, 142);
+    color: white;
+}
+.joinContent {
+   width: 100%;
+   margin-bottom: 15px;
+}
+
+.joinContent>label {
+   width: 30%;
+   display: inline-block;
+}
+
+.joinContent>input {
+   width: 68%;
+   height: 40px;
+   box-sizing: border-box;
+   display: inline-block;
+   border: 0.7px solid rgb(185, 184, 184);
+   border-radius: 0.5rem;
+}
+
+#passwordConfirm {
+   width: 43%;
+}

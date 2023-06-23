@@ -4,152 +4,123 @@
     align-items: center;
     list-style-type: none;
     margin: 0;
+
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+*::-webkit-scrollbar{
+    display: none; 
 }
 
 a{
     text-decoration: none;
-    color: inherit;
-}
-
-/* <header> */
-
-body {
-    margin: 0;
-    padding-top: 10vh;
-    overflow-x: hidden;
-}
-
-header {
-    background-color: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 11111;
-}
-
-nav {
-    font-weight: bold;
-    /* position: fixed;
-    top: 0; */
     color: black;
-    /* margin: 2vw 1vw 1vw 2vw; */
-    margin-top: 1.5vw;
-    margin-bottom: 1.5vw;
-    margin-left: 2vw;
-    display: flex;
-    align-items: center;
-}
-
-.left {
-    flex: 3;
-    display: flex;
-    margin-left: 10vw;
-    margin-right: 10vw;
-}
-
-.nav-left {
-    flex: 1;
-    text-align: center;
-}
-
-.right {
-    flex: 2;
-    display: flex;
-}
-
-.nav-right {
-    flex: 1;
-    text-align: center;
-}
-
-#logo {
-    width: 4vw;
-    height: 2vw;
 }
 
 .user_name{
-    background-color:rgb(195, 214, 255);
     width: 65vw;
+    background-color:rgb(205, 218, 246);
     height: 20vh;
 }
 
-container{
+.user{
+    margin-left: 17.5vw;
+    margin-right: 17.5vw; 
     display: flex;
     justify-content: center;
     text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+h3{
+    margin-top: 6vh;
+}
+
+.user span{
+    font-size: 18px;
+    font-weight: 500;
 }
 
 ul{
     list-style-type: none;
+    width: 100%;
+    height: 100%;
 }
 
 .mypage{
+    /* border: 1px double rgb(205, 218, 246); */
     display: flex;
-    width: 65%;
-}
-
-.my{
-    display: flex;
-    justify-content: center;
-    margin: 10%;
-    width: 65%;
-}
-
-.review{
-    display: flex;
-    justify-content: left;
+    margin-left: 17.5vw;
+    margin-right: 17.5vw; 
     align-items: baseline;
-    margin: 10%;
-    flex-direction: column;
 }
 
 img{
-    width: 20%;
-}
-
-#review_title{
-    width: 100%;
-    text-align: left;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.review_box{
-    margin-top: 1%;
-    display: flex;
-    border: 1px solid rgb(54, 137, 226);
-}
-
-.review_margin{
-    margin:2%;
-    display: flex;
-}
-
-.name{
-    font-weight: 800;
-}
-
-.date{
-    font-size: 12px;
-}
-
-.review_ment{
-    margin-top: 20%;
-}
-
-.content{
-    width: 80%;
+    width: 9vw;
 }
 
 .navi{
-    width: 35%;
-    height: 100%;
-    display: flex;
-    justify-content: right;
-    align-items: center;
+    width: 10vw;
 }
 
-.navi_bar{
-   text-align: left;
+.navi ul{
+    width: 7vw;
+    padding: 0;
+    border: 3px  #b3b8f8;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px 2px rgb(161, 192, 255);
+}
+
+.navi ul li{
+    text-align: center;
+    padding: 6px;
+}
+
+.tab-content{
+    margin-left: 5vw;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    width: 60%;
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/* tabs 구현 */
+
+/* �뿰洹�,留쏆쭛 �꺆*/
+ul.tabs{
+    list-style: none;
+    margin-top: 50px;
+}
+ul.tabs li{
+    background: none;
+    display: inline-block;
+    padding: 13px 30px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+ul.tabs li.current{
+    color: #141B82;
+    border-bottom: 3px solid #141b82;
+    font-weight: bolder;
+}
+
+/* �뿰洹� 由ъ뒪�듃 */
+.tab-content{
+    display: none;
+    padding: 25px 0;
+}
+.tab-content.current{
+    display: inherit;
+    display: flex;
 }

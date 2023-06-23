@@ -1,5 +1,8 @@
 package com.cc.model.dto;
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,7 +23,7 @@ import lombok.ToString;
 //@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayDto {
-	private String id;
+	private String mt20id;
 	private String prfnm;
 	private String pcseguidance;
 	private String prfpdfrom;
@@ -29,6 +32,6 @@ public class PlayDto {
 	private String prfage;
 	private String poster;
 	private String mt10id;
-		
+	private int count;		
 	
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+    <link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
+	<th:block th:include="header :: head"></th:block>
+</head>
+<body>
+    <!-- 헤더 nav -->
+    <th:block th:include="header :: body"></th:block>
+    <!-- 연극 리스트 -->
+    <div id="content-wrap">
+        <!-- 연극 타이틀 및 정렬  -->
+        <div>
+            <div id="theater-list-title">
+                <a>연극 목록</a>
+            </div>
+            <hr>
+            <div class="theater-sort">
+                <ul>
+                    <li><a href="#">최신순</a></li>
+                    <li><a href="#">인기순</a></li>
+                    <li><a href="#">좋아요순</a></li>
+                    <li><a href="#">랜덤순</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="tab-1" class="tab-content current">
+            <div class="theater-content">
+                <div class="theater-unit" th:each="item : ${list}">
+                    <a th:href="@{/play/detail(playId=${item.playId})}">    <!-- 해당 연극 상세페이지 이동 -->
+                        <div class="theater-poster">
+                            <img th:src="@{${item.playPoster}}" th:alt="${item.playTitle}">
+                            
+                        </div>
+                        <h4 th:text="${item.playTitle}"></h4>
+                        <p th:text="${item.playFrom} + ' ~ ' + ${item.playTo}"></p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination">
+	        <th:block class="pagination" th:each="page : ${#numbers.sequence(startPage,endPage)}">
+	        	<a th:if ="${page > 0 && page != nowPage}" th:href ="@{/play(page=${page-1})}" th:text="${page}"></a>
+	        	<strong th:if ="${page == nowPage}" th:text="${page}"></strong>
+	        	<span>&nbsp;</span> 
+	        </th:block>
+        </div>
+    </div>
+</body>
+</html>
