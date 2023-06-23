@@ -41,70 +41,70 @@ public class IndexController {
 			session.removeAttribute("email");
 		}
 
-		//È¸¿ø°¡ÀÔ ½Ã¿¡ ÇÊ¿äÇÑ Á¤º¸
+		//íšŒì›ê°€ì… ì‹œì— í•„ìš”í•œ ì •ë³´
 		session.setAttribute("logintype", "local");
 		
 		return "login";
 	}
 	
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	@PostMapping("/logincheck")
 	public String logincheck(HttpSession session, Model model, String id, String password) throws NoSuchAlgorithmException {
-		// ¿©±â¿¡ ¾ÆÀÌµğ¶û ºñ¹Ğ¹øÈ£ È®ÀÎÇØÁÖ°í, db¿¡ ÀúÀåµÈ Á¤º¸¶û ÀÏÄ¡ÇÏ¸é
-		// ¼¼¼Ç¿¡ »ç¿ëÀÚ ½Äº°ÀÚ ³Ö¾îÁÖ±â(user_id)
+		// ì—¬ê¸°ì— ì•„ì´ë””ë‘ ë¹„ë°€ë²ˆí˜¸ í™•ì¸í•´ì£¼ê³ , dbì— ì €ì¥ëœ ì •ë³´ë‘ ì¼ì¹˜í•˜ë©´
+		// ì„¸ì…˜ì— ì‚¬ìš©ì ì‹ë³„ì ë„£ì–´ì£¼ê¸°(user_id)
 		
 		String url = "";
 		int user_id = 0;
 		
 		Optional<User> user = userSvc.loginfindid(id);
 		
-		//id°¡ db¿¡ Á¸ÀçÇÏ´ÂÁö ¸ÕÀú È®ÀÎ
+		//idê°€ dbì— ì¡´ì¬í•˜ëŠ”ì§€ ë¨¼ì € í™•ì¸
 		if(user.isEmpty()) {
-				model.addAttribute("msg", "ÀÏÄ¡ÇÏ´Â È¸¿øÁ¤º¸°¡ ¾ø½À´Ï´Ù.");
+				model.addAttribute("msg", "ì¼ì¹˜í•˜ëŠ” íšŒì›ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
 				return "login";
 		}else {
 			String password_encode = sha256.encrypt(password);
 			if(user.orElse(new User()).getUser_passwordcypher().equals(password_encode)) {
-				//ºñ¹Ğ¹øÈ£ ÀÏÄ¡ÇÏ´Â °æ¿ì
+				//ë¹„ë°€ë²ˆí˜¸ ì¼ì¹˜í•˜ëŠ” ê²½ìš°
 				user_id = user.orElse(new User()).getUser_id();
-				session.setAttribute("user_id", user_id); //½Äº°ÀÚ ÀúÀå(»ç¿ëÀÚ Á¤º¸ ºÒ·¯¿À±â)
-				session.setAttribute("user_state", "login"); //·Î±×ÀÎÀÌ µÈ´Ù¸é user_state¿¡ loginÀÌ¶ó´Â »óÅÂ ³Ö¾îÁÖ±â
-				session.setAttribute("password_encode", password_encode); //¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ --> ¸¶ÀÌÆäÀÌÁö¿¡¼­ »ç¿ëÇÏ·Á°ø 
+				session.setAttribute("user_id", user_id); //ì‹ë³„ì ì €ì¥(ì‚¬ìš©ì ì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°)
+				session.setAttribute("user_state", "login"); //ë¡œê·¸ì¸ì´ ëœë‹¤ë©´ user_stateì— loginì´ë¼ëŠ” ìƒíƒœ ë„£ì–´ì£¼ê¸°
+				session.setAttribute("password_encode", password_encode); //ì•”í˜¸í™”ëœ ë¹„ë°€ë²ˆí˜¸ --> ë§ˆì´í˜ì´ì§€ì—ì„œ ì‚¬ìš©í•˜ë ¤ê³µ 
 				model.addAttribute("user_id", session.getAttribute("user_id"));
 				return "redirect:/";
 			}else {
-				//ºñ¹Ğ¹øÈ£ ÀÏÄ¡ÇÏÁö ¾Ê´Â °æ¿ì 
-				model.addAttribute("msg", "¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä");
+				//ë¹„ë°€ë²ˆí˜¸ ì¼ì¹˜í•˜ì§€ ì•ŠëŠ” ê²½ìš° 
+				model.addAttribute("msg", "ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”");
 				return "login";
 			}
 		}
 	}
 	
-	//È¸¿ø°¡ÀÔ ÆäÀÌÁö·Î ³Ñ¾î°¡±â
+	//íšŒì›ê°€ì… í˜ì´ì§€ë¡œ ë„˜ì–´ê°€ê¸°
 	@RequestMapping("/join")
 	public String join(Model model, HttpSession session) {
-		// name°ú email °ªÀ» »ç¿ëÇÏ¿© Ã³¸®
+		// nameê³¼ email ê°’ì„ ì‚¬ìš©í•˜ì—¬ ì²˜ë¦¬
 		model.addAttribute("name", session.getAttribute("name"));
 		model.addAttribute("email", session.getAttribute("email"));
 		model.addAttribute("logintype", session.getAttribute("logintype"));
 		return "join";
 	}
 
-	//È¸¿øÁ¤º¸ ÀúÀå
-	//ÀúÀåÇÏ±â Àü¿¡ ÇØÁà¾ß ÇÒ °Í --> ¾ÏÈ£È­, ÀÌ¸§ ¸¶½ºÅ·
+	//íšŒì›ì •ë³´ ì €ì¥
+	//ì €ì¥í•˜ê¸° ì „ì— í•´ì¤˜ì•¼ í•  ê²ƒ --> ì•”í˜¸í™”, ì´ë¦„ ë§ˆìŠ¤í‚¹
 	@PostMapping("/joincheck")
 	public String joincheck(String login, String userId, String userPw, String userName, String rrn, String gender, String email) throws Exception {
 		
-		//¾Ïº¹È£È­
+		//ì•”ë³µí˜¸í™”
 		String idcypher =  aes256.encrypt(userId);
 		String namecypher = aes256.encrypt(userName);
 		String rrncypher = aes256.encrypt(rrn);
 		String emailcypher = aes256.encrypt(email);
 		
-		//¾ÏÈ£È­
+		//ì•”í˜¸í™”
 		String passwordcypher = sha256.encrypt(userPw);
 		
-		//¸¶½ºÅ·
+		//ë§ˆìŠ¤í‚¹
 		String maskingName = Masking(userName);
 		
 		if(userSvc.userInsert(userId, idcypher, userPw, passwordcypher, userName, namecypher, 
@@ -118,7 +118,7 @@ public class IndexController {
 	}
 	
 	
-	//È¸¿øÁ¤º¸ ÀÌ¸§ ¸¶½ºÅ·
+	//íšŒì›ì •ë³´ ì´ë¦„ ë§ˆìŠ¤í‚¹
 	public String Masking(String name) {
 		
 		String frsName = name.substring(0,1);
@@ -133,19 +133,27 @@ public class IndexController {
 		return frsName+maskingMid+lstName ;
 	}
 
-	//¾ÆÀÌµğ Áßº¹Ã¼Å©
+	//ì•„ì´ë”” ì¤‘ë³µì²´í¬
 	@ResponseBody
 	@PostMapping("/idcheck")
 	public int idcheck(String id) {
 		int result;
 		
 		if(userSvc.loginidCheck(id)) {
-			result = 1; //»ç¿ë ºÒ°¡
+			result = 1; //ì‚¬ìš© ë¶ˆê°€
 		}else {
-			result = 0; //»ç¿ë °¡´É
+			result = 0; //ì‚¬ìš© ê°€ëŠ¥
 		}
 		System.out.println(result);
 		
 		return result;
+	}
+
+	//ë¡œê·¸ì•„ì›ƒ
+	@RequestMapping("/logout")
+	public String Logout(HttpSession session) {
+		
+		session.removeAttribute("user_state");
+		return "redirect:/";
 	}
 }
