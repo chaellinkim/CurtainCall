@@ -18,6 +18,31 @@
 		/* let nowMonth = new Date();
 		document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`; */
 	}
+	var modal = document.getElementById("myModal");
+	var btn = document.getElementById("openModal");
+	var span = document.getElementsByClassName("modal-close")[0];
+
+	function register() {
+		var modal = document.getElementById("myModal");
+		modal.style.display = "block";
+	}
+	function close(){
+		var modal = document.getElementById("myModal");
+		modal.style.display = "none";
+	}
+
+	/* var span = document.getElementsByClassName("modal-close")[0];
+	span.addEventListener("click", function() {
+		var modal = document.getElementById("myModal");
+		modal.style.display = "none";
+	});
+
+	window.addEventListener("click", function(event) {
+		var modal = document.getElementById("myModal");
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}); */
 </script>
 </head>
 <body>
@@ -140,8 +165,32 @@
 			<!-- 후기 내용 -->
 		</div>
 
-		<div class="fixed-button">+</div>
+		<div class="fixed-button" id="openModal" onclick="register()">+</div>
+
+		<div class="modal" id="myModal">
+			<div class="modal-content">
+				<div class="modal-title">
+					<h2>관람후기 작성하기</h2>
+					<span class="modal-close" onclick="close()">&times;</span>
+				</div>
+				<form class="modal-form" action="/submit-review" method="POST">
+					<div class="modal-form-left">
+						<input type="file" accept="image/*">
+					</div>
+					<div class="modal-form-right">
+						<input type="text" placeholder="userid" name="userid">
+						<textarea placeholder="내용을 입력하세요" name="content"></textarea>
+					</div>
+				</form>
+				<div class="modal-form-button">
+					<button type="submit">등록하기</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </body>
 </html>
+
+
+
