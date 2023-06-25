@@ -65,6 +65,14 @@
 			  var url = "/mypage?tabId=" + tabId;
 			  window.history.pushState(null, null, url); // URL 변경
 			}
+		  // 뒤로가기 이벤트 처리
+		  window.addEventListener('popstate', function(event) {
+		    var urlParams = new URLSearchParams(window.location.search);
+		    var tabId = urlParams.get('tabId');
+		    if (tabId) {
+		      openTab(tabId);
+    }
+  });
 	});
 
 </script>
