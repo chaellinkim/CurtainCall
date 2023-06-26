@@ -19,7 +19,7 @@ a {
 
 .theater-wrap {
     margin-top: 8vh;
-    background-color: azure;
+    
     /* 포스터 옆에 정보 나란히 붙히기위해 부모div에 display : flex */
     display: flex;
 }
@@ -95,7 +95,7 @@ a.button {
     box-shadow: 0px 0px 0px 0px #b7c6c600;
 }
 
-/* 추천 연극 */
+/* 추천 연극
 .theater-recommand {
     background-color: skyblue;
     text-align: center;
@@ -108,21 +108,24 @@ a.button {
     color: rgb(163, 160, 160);
     transition: 0.5s;
 }
-/* 추천연극 포스터 */
+/* 추천연극 포스터 
 .recommand-poster img{
     width: 15vw;
     height: 40vh;
     border-radius: 12px;
     margin:30px;
-}
+} */
+
 /* 정보 , 후기 , 출연진 탭 */
 
 /* 위로올라가면 화면위에 붙게끔 */
 .tab-menu {
-    height: 10.5vh;
-    background-color: bisque;
+    height: 10vh;
+    background-color: white;
     position: sticky;
-    top: 0;
+    top:0;
+    border-bottom: 2px solid rgb(221, 221, 221); 
+    padding-bottom: -2px;
 }
 
 .tab-btn {
@@ -134,39 +137,238 @@ a.button {
     margin-top: 3.5vh;
     margin-left: 13vw;
 }
-
 /* 연극상세정보 이미지 */
 .promotion img {
     width: 65vw;
 }
 
 /* 예매자 통계 */
-.statistics {
-    background-color: pink;
-    height: 30vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.statistics h4{
+    font-size: 30px;
+    text-align: center;
+    margin-top: 10px;
 }
-/* 후기 */
-.review {
-    background-color: pink;
-    height: 40vh;
-    /* 지울것 */
+.statistics-container {
+
     display: flex;
-    justify-content: center;
+  }
+  
+  .statistics-box {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-}
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+  }
+  
+  .statistics-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .statistics-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .statistics-label {
+    font-weight: bold;
+  }
+  canvas {
+    float: right;
+  }
 /* 캐스팅 */
 .cast {
-    background-color: pink;
-    height: 40vh;
-    /* 지울것 */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 4개의 열을 생성 */
+    grid-gap: 10px; /* 이미지 사이의 간격 설정 */
+}
+.cast img{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-top: 20px;
+    object-fit: cover;
+}
+.cast-info{
+    text-align: center;
+}
+.cast-info p{
+    font-size: 20px;
+    font-weight: 500;
+}
+/* 관람후기 */
+.detailBox {
+    width:65vw;
+    height: auto;
+    margin-bottom: 20vh;
+}
+
+.commentBox {
+    padding:10px;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:50%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+/* 후기 첨부사진 */
+.commentImage {
+    width: 80%;
+    margin-right:5px;
+    height:100%;
+}
+.commentImage img {
+    width:200px;
+    height: 200px;
+    border-radius:5%;
+    margin-bottom: 10px;
+}
+/* 후기 내용 */
+.commentText{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 100%;
+    float: left;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    padding:10px;
+    
+}
+/* 닉네임 크기 조절 */
+.userName p{
+    font-size: 15px;
+    color: #aaa;
+}
+/* 좋아요 css */
+
+.container .love {
+    font-size: 0.9rem;
+    color: #ff4f8f;
+  }
+  .container .wrapper {
+    float: right;
+    margin-bottom: 10px;
+    padding-left: 140px;
+  }
+  .container .wrapper .like-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+    margin: 0 auto;
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .container .wrapper .like-button .like-overlay {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ff4f8f;
+    transform: scale(0);
+    transition: all 0.4s;
+    z-index: 0;
+  }
+  .container .wrapper .like-button i.not-liked {
+    display: block;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+  .container .wrapper .like-button i.is-liked {
+    display: none;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+  .container .wrapper .like-button.is-active .like-overlay {
+    transform: scale(1);
+  }
+  .container .wrapper .like-button.is-active i.not-liked {
+    display: none;
+  }
+  .container .wrapper .like-button.is-active i.is-liked {
+    display: block;
+  }
+  @keyframes bouncy {
+    from, to {
+      transform: scale(1, 1);
+    }
+    25% {
+      transform: scale(0.9, 1.1);
+    }
+    50% {
+      transform: scale(1.1, 0.9);
+    }
+    75% {
+      transform: scale(0.95, 1.05);
+    }
+  }
+  .bouncy {
+    animation: bouncy 0.6s;
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
+  }
+  
+  .link-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #6dacff;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s;
+  }
+  .link-button img {
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
+  .link-button:hover {
+    transform: scale(1.1) rotate(180deg);
+    background: #ff4f8f;
+  }/*# sourceMappingURL=like-btn01.css.map */
+  
 /* 화면 전환 */
 .tab-content {
     display: none;
@@ -175,3 +377,31 @@ a.button {
 .tab-content.current {
     display: inherit;
 }
+
+.datepicker-container {
+  max-width: 600px; /* 원하는 가로 크기 */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+  h2 {
+    text-align: center;
+  }
+
+  .datepicker {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 300px; /* 원하는 캘린더 가로 크기 */
+    height: 250px; /* 원하는 캘린더 세로 크기 */
+  }
+  .ui-datepicker-prev {
+    margin-right: 70px; /* 간격 크기 조절 */
+  }
+  .ui-datepicker-next {
+    margin-left: 70px;;
+  }
+
+
