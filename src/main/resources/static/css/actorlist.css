@@ -8,7 +8,7 @@ a{
     text-decoration: none;
 }
 p{
-    margin-bottom: 3px;
+    margin-bottom: 8px;
 }
 
 /* 배우리스트 감싸는 div */
@@ -51,6 +51,11 @@ p{
     background-color: #d2d2d2;
     box-shadow: 0 5px 25px rgba(0, 0, 0, .2);
     color:#fff;
+}
+.actorlist li > a{
+	display: block;
+	width: 100%;
+	cursor: pointer;
 }
 /* 배우리스트 스크롤바 없애기 */
 .actorlist::-webkit-scrollbar {
@@ -128,23 +133,62 @@ p{
 /* 댓글 창 */
 .comment{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     row-gap: 9px;
     width: 350px;
     height: 300px;
     margin-top: 8px;
     overflow: auto;
+    overflow-x: hidden;
 } 
+
+/* 댓글 스크롤바 조정 */
 .comment::-webkit-scrollbar {
-    display: none;
+    width: 7px;
+}
+.comment::webkit-scrollbar-track {
+	background-color: transparent;
+}
+.comment::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #d2d2d2
+}
+.comment::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+.no-comment {
+	text-align: center;
+	margin-bottom: 150px;
+	color: #ccc;
 }
 .comment-unit {
+    display: table;
+    width: 350px;
+    position: relative;
+}
+.comment-body {
     background-color: rgb(233, 240, 248);
     border-radius: 10px;
     padding: 8px 8px 8px 10px;
     font-size: 13px;
-    display: table;
     width: 260px;
+}
+#deleteBtn{
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+    color: #ccc;
+    background: none;
+    border: none;
+    padding: 7px;
+    margin: 0;
+}
+#deleteBtn:hover{
+    color: #141B82;
+    cursor: pointer;
 }
 .userName{
     font-weight: bold;
@@ -159,24 +203,27 @@ p{
 .comment-input {
     display: flex;
     margin-top: 15px;
+    align-items: center;
 }
 .input-field {
-    flex: 1;
+	flex: 1;
     padding: 6px 8px;
     border: 1px solid #d2d2d2;
     border-radius: 4px;
     resize: none;
+    heigh: 43px;
 }
 .input-field:focus{
     outline: none;
 }
 .submit-button {
     margin-left: 6px;
-    padding: 8px 16px;
+    padding: 12px 16px;
     background-color: white;
     color: #ccc;
     border: 1px solid #d2d2d2;
     border-radius: 4px;
+    height: 43px;
     cursor: pointer;
 }
 .submit-button:hover{

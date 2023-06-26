@@ -1,4 +1,4 @@
-package com.cc.model.dto;
+package com.cc.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +13,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int user_id; //식별자
-
-	//주석주석주석
+	
 	//아이디
 	@Column(name = "USER_LOGINID")
 	private String userLoginid;
 	private String user_logincypher; //암복호화
 	
 	//비밀번호
+	@Column(name = "USER_PASSWORD")
 	private String user_password;
 	private String user_passwordcypher; //암호화
 	
@@ -34,11 +34,23 @@ public class User {
 	private String user_rrncypher; //암복호화
 	
 	//이메일
-	private String user_email;
+	@Column(name = "USER_EMAIL")
+	private String useremail;
 	private String user_emailcypher; //암복호화
 	
 	//로그인방식
 	private String user_logintype;
+	
+	//성별
+	private String user_gender;
+	
+	public String getUser_gender() {
+		return user_gender;
+	}
+
+	public void setUser_gender(String user_gender) {
+		this.user_gender = user_gender;
+	}
 
 	public int getUser_id() {
 		return user_id;
@@ -121,11 +133,11 @@ public class User {
 	}
 
 	public String getUser_email() {
-		return user_email;
+		return useremail;
 	}
 
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setUser_email(String useremail) {
+		this.useremail = useremail;
 	}
 
 	public String getUser_emailcypher() {

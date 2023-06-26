@@ -6,24 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.model.entity.Actor;
-import com.cc.model.mapper.PlayMapper;
 import com.cc.model.repository.ActorRepository;
-import com.cc.model.repository.PlayRepository;
 
 @Service
 public class ActorService {
-
 	private ActorRepository actorRepository;
 	
-	@Autowired
+	@Autowired	//출연진 리스트
 	public ActorService(ActorRepository actorRepository) {
-		super();
 		this.actorRepository = actorRepository;
 	}
 	
 	public List<Actor> selectAll(){
 		return actorRepository.findAll();
 	}
-
 	
+	public Actor getActorById(long actorId) {		 
+		return actorRepository.findById(actorId).orElse(null);
+	}
 }

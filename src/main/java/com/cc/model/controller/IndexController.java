@@ -1,6 +1,7 @@
 package com.cc.model.controller;
 
 import java.security.NoSuchAlgorithmException;
+
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
-import com.cc.model.dto.User;
+import com.cc.model.entity.User;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.service.UserService;
 
 @Controller
 public class IndexController {
-	
+
 	@Autowired
 	private UserService userSvc;
 	
@@ -29,10 +30,10 @@ public class IndexController {
 	
 	AES256 aes256 = new AES256();
 	SHA256 sha256 = new SHA256();
-	
+
 	@RequestMapping("/login")
 	public String login(HttpSession session) {
-		
+
 		if (session.getAttribute("name") != null) {
 			session.removeAttribute("name");
 		}
@@ -43,10 +44,10 @@ public class IndexController {
 
 		//회원가입 시에 필요한 정보
 		session.setAttribute("logintype", "local");
-		
+
 		return "login";
 	}
-	
+
 	//로그인
 	@PostMapping("/logincheck")
 	public String logincheck(HttpSession session, Model model, String id, String password) throws NoSuchAlgorithmException {
@@ -79,7 +80,7 @@ public class IndexController {
 			}
 		}
 	}
-	
+
 	//회원가입 페이지로 넘어가기
 	@RequestMapping("/join")
 	public String join(Model model, HttpSession session) {
