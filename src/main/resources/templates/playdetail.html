@@ -70,17 +70,22 @@
         <div class="theater-wrap">
             <!-- 포스터 -->
             <div class="theater-poster">
-                <img src="./img/poster02.jpg">
+                <img th:if="${play.isPresent()}" th:src="@{${play.get().playPoster}}">
             </div>
             <!-- 상세정보 -->
             <div class="theater-info">
                 <h4><i class="fa-solid fa-clapperboard fa-xs"></i>&nbsp;<span
 						th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></span></h4><br>
                 <hr><br>
-                <p><i class="fa-solid fa-coins fa-lg"></i>&nbsp;20000원</p><br>
-                <p><i class="fa-regular fa-calendar-days fa-lg"></i>&nbsp;2023.06.12-2023.06.13</p><br>
-                <p><i class="fa-solid fa-user fa-lg"></i>&nbsp;만12세 이상</p><br>
-                <p><i class="fa-solid fa-location-dot fa-lg"></i>&nbsp;아트홀 (위치보기) </p>
+                <p><i class="fa-solid fa-coins fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playPrice}"></span></p><br>
+                <p><i class="fa-regular fa-calendar-days fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playFrom}"></span><span>~</span><span
+						th:if="${play.isPresent()}" th:text="${play.get().playTo}"></span></p><br>
+                <p><i class="fa-solid fa-user fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playAge}"></span></p><br>
+                <p><i class="fa-solid fa-location-dot fa-lg"></i>&nbsp;<span
+						th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span></p>
             </div>
         </div>
         <!-- 예매 박스 -->
@@ -245,41 +250,11 @@
         </div>
         <!-- 캐스팅탭 -->
         <div id="tab-3" class="tab-content">
-            <div class="cast">
+            <div class="cast" th:each="item : ${actor}">
                 <div class="cast-info">
                     <a href="">
                         <img src="./img/actor01.jpg">
-                        <p>한소희</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="./img/actor02.jpg">
-                        <p>공유</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="./img/actor03.jpeg">
-                        <p>손석구</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="./img/actor04.jpg">
-                        <p>김지원</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="./img/actor03.jpeg">
-                        <p>손석구</p>
-                    </a>
-                </div>
-                  <div class="cast-info">
-                    <a href="">
-                        <img src="./img/actor01.jpg">
-                        <p>한소희</p>
+                        <p th:text="${item.actorId}"></p>
                     </a>
                 </div>
             </div>

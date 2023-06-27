@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 //@Getter
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class MailDto {
     private String toAddress; // 받는 이메일 주소
