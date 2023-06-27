@@ -189,6 +189,13 @@ geoLocation(); */
 				th:data-tab="'place-' + ${itemStat.index+1}"><span
 				th:text="${item.placeName} "></span></li>
 		</ul>
+		<div class="pagination">
+	        <th:block class="pagination" th:each="page : ${#numbers.sequence(startPage,endPage)}">
+	        	<a th:if ="${page > 0 && page != nowPage}" th:href ="@{/place(page=${page-1})}" th:text="${page}"></a>
+	        	<strong th:if ="${page == nowPage}" th:text="${page}"></strong>
+	        	<span>&nbsp;</span> 
+	        </th:block>
+        </div>
 
 		<div th:each="item : ${list}"
 			th:with="playList=${listPlay[itemStat.index]}">
@@ -202,7 +209,7 @@ geoLocation(); */
 						<br>
 						<div class="address">
 							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b><span
-								 th:text="${item.placeAddr}"></span>
+								th:text="${item.placeAddr}"></span>
 							<div class="map-popup">
 								<!-- 지도 팝업창 -->
 								<i class="fa-solid fa-location-dot innerIcon"></i> <span

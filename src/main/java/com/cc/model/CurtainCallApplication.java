@@ -15,17 +15,5 @@ public class CurtainCallApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CurtainCallApplication.class, args);
 	}
-
-	@RequestMapping("/")
-	public String main(HttpSession session, Model model) {
-		
-		//로그인 상태 확인 (로그인 된 상태: user_state, 로그인 안 된 상태: null)
-		model.addAttribute("user_state", session.getAttribute("user_state")); 
-		model.addAttribute("user_id", session.getAttribute("user_id"));
-				
-		System.out.println((String)session.getAttribute("user_state"));
-				
-		return "main";
-	}
 }
 

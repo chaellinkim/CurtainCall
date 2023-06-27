@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +29,8 @@ public class PlaceController {
 	}
 
 	@RequestMapping("/place")
-	public String list(Model model) {
-		List<Place> listPlace = placeService.selectAll();
+	public String list(Model model, @PageableDefault(page=0, size=18, sort="placeName", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Place> listPlace = placeService.selectAll(pageable);
 		List<List<Play>> listPlay = new ArrayList<>();
 	
 		for (Place place : listPlace) {
@@ -37,8 +41,16 @@ public class PlaceController {
 				listPlay.add(null);
 			}
 		}
+		int nowPage = listPlace.getPageable().getPageNumber()+1;
+		int startPage = 1;
+		int endPage = listPlace.getTotalPages();
+
 		model.addAttribute("list", listPlace);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		model.addAttribute("listPlay", listPlay);
+		
 		return "placelist";
 	}
 }

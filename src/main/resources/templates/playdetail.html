@@ -2,142 +2,341 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>theater_detail</title>
-<link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
-<!-- 다헤 연극리스트 -->
-<link rel="stylesheet" href="/css/playdetail.css" type="text/css">
-<!-- 아이콘  -->
-<script src="https://kit.fontawesome.com/cd881899b1.js"
-	crossorigin="anonymous"></script>
-<!-- header nav -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<link rel="stylesheet" href="/css/header.css">
-<!-- 제이쿼리 , tab 기능 -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
-	$(document).ready(function() {
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theater_detail</title>
+    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+    <!-- 다헤 연극리스트 -->
+    <link rel="stylesheet" href="/css/playdetail.css">
+    <!-- 아이콘  -->
+    <script src="https://kit.fontawesome.com/cd881899b1.js" crossorigin="anonymous"></script>
+    <!-- header nav -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <!-- 제이쿼리 , tab 기능 -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 예매 하기  -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <th:block th:include="header :: head"></th:block>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-		$('ul.tab-btn li').click(function() {
-			var tab_id = $(this).attr('data-tab');
+    <script>
+            $(document).ready(function(){
+        
+        $('ul.tab-btn li').click(function(){
+            var tab_id = $(this).attr('data-tab');
 
-			$('ul.tab-btn li').removeClass('current');
-			$('.tab-content').removeClass('current');
+            $('ul.tab-btn li').removeClass('current');
+            $('.tab-content').removeClass('current');
 
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-		})
+            $(this).addClass('current');
+            $("#"+tab_id).addClass('current');
+        })
 
-	})
-</script>
-<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function() {
-		//검색버튼 활성화
-		const searchForm = document.querySelector('.search');
-		const searchInput = document.querySelector('.search-input');
-		const searchIcon = document.querySelector('.icon');
+    })
+   
+    </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            //검색버튼 활성화
+            const searchForm = document.querySelector('.search');
+            const searchInput = document.querySelector('.search-input');
+            const searchIcon = document.querySelector('.icon');
 
-		searchIcon.addEventListener('submit', function(e) {
-			e.preventDefault(); //폼 제출 동작 방지
-			const keyword = searchInput.value;
-			console.log('검색어: ', keyword);
-		})
+            searchIcon.addEventListener('submit', function (e) {
+                e.preventDefault();     //폼 제출 동작 방지
+                const keyword = searchInput.value;
+                console.log('검색어: ', keyword);
+            })
 
-		//사용자 아이콘 클릭시 마이페이지 이동
-		const userIcon = document.querySelector('.user-icon');
-		userIcon.addEventListener('click', function() {
-			window.location.href = 'place.html';
-		});
-	});
-</script>
-<th:block th:include="header :: head"></th:block>
+            //사용자 아이콘 클릭시 마이페이지 이동
+            const userIcon = document.querySelector('.user-icon');
+            userIcon.addEventListener('click', function () {
+                window.location.href = 'place.html';
+            });
+        });
+    </script>
 </head>
+
 <body>
     <!-- 헤더 nav -->
     <th:block th:include="header :: body"></th:block>
-	<!-- 연극 상세 -->
-	<div id="content-wrap">
-		<!-- 연극 wrap -->
-		<div class="theater-wrap">
-			<!-- 포스터 -->
-			<div class="theater-poster">
-				<img src="./img/poster02.jpg">
-			</div>
-			<!-- 상세정보 -->
-			<div class="theater-info">
-				<h4>
-					<i class="fa-solid fa-clapperboard fa-xs"></i>&nbsp;<span
-						th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></span>
-				</h4>
-				<br>
-				<hr>
-				<br>
-				<p>예매가 : 20000원</p>
-				<br>
-				<p>기간 : 2023.06.12-2023.06.13</p>
-				<br>
-				<p>시청연령 : 만12세 이상</p>
-				<br>
-				<p>장소 : 아트홀 (위치보기)</p>
-			</div>
-		</div>
-		<!-- 예매 박스 -->
-		<div class="reserve-wrap">
-			<div class="reserve-box">
-				<h1>예매박스</h1>
-			</div>
-		</div>
-		<!-- 예매하기 버튼 -->
-		<div class="reserve-btn">
-			<a href="" title="Button push lightblue"
-				class="button btnPush btnLightBlue">예매하기</a>
-		</div>
-		<!-- 추천연극 -->
-		<div class="theater-recommand">
-			<!-- 추천연극 펼치기 / 접기 -->
-			<span id="more" style="CURSOR: hand"
-				onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한
-				연극이 궁금하다면?</span>
-			<div id="story" style="display: none">
-				<!-- 펼친 div -->
-				<div class="recommand-poster">
-					<img onclick="" src="./img/poster01.png"> <img onclick=""
-						src="./img/poster02.jpg"> <img onclick=""
-						src="./img/poster03.jpg">
-				</div>
-			</div>
-		</div>
-		<!-- 정보 , 후기 , 출연진 탭버튼 -->
-		<div class="tab-menu">
-			<ul class="tab-btn">
-				<li class="menu current" data-tab="tab-1"><a
-					style="cursor: pointer">상세정보</a></li>
-				<li class="menu" data-tab="tab-2"><a style="cursor: pointer">관람후기</a></li>
-				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">캐스팅</a></li>
-			</ul>
-		</div>
-		<!-- 정보탭 -->
-		<div id="tab-1" class="tab-content current">
-			<div class="promotion">
-				<img src="./img/theater01.jpg">
-			</div>
-			<div class="statistics">통계 박스</div>
-		</div>
-		<!-- 후기탭 -->
-		<div id="tab-2" class="tab-content">
-			<div class="review">후기</div>
-		</div>
-		<!— 캐스팅탭 —>
-		<div id="tab-3" class="tab-content">
-			<div class="cast">출연진</div>
-		</div>
-	</div>
-	<!— content wrap ( 양옆 여백 )—>
+    <!-- 연극 상세 -->
+    <div id="content-wrap">
+        <!-- 연극 wrap -->
+        <div class="theater-wrap">
+            <!-- 포스터 -->
+            <div class="theater-poster">
+                <img src="./img/poster02.jpg">
+            </div>
+            <!-- 상세정보 -->
+            <div class="theater-info">
+                <h4><i class="fa-solid fa-clapperboard fa-xs"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></span></h4><br>
+                <hr><br>
+                <p><i class="fa-solid fa-coins fa-lg"></i>&nbsp;20000원</p><br>
+                <p><i class="fa-regular fa-calendar-days fa-lg"></i>&nbsp;2023.06.12-2023.06.13</p><br>
+                <p><i class="fa-solid fa-user fa-lg"></i>&nbsp;만12세 이상</p><br>
+                <p><i class="fa-solid fa-location-dot fa-lg"></i>&nbsp;아트홀 (위치보기) </p>
+            </div>
+        </div>
+        <!-- 예매 박스 -->
+        <div class="reserve-wrap">
+            <div class="reserve-box">
+                <div class="datepicker-container">
+                    <h2>예매 날짜 선택</h2>
+                    <div class="datepicker"></div>
+                  </div>
+            </div>
+        </div>
+        <!-- 예매하기 버튼 -->
+        <div class="reserve-btn">
+            <a href="" title="Button push lightblue" class="button btnPush btnLightBlue">예매하기</a>
+        </div>
+        <!-- 추천연극 
+        <div class="theater-recommand">
+            추천연극 ㄴ펼치기 / 접기 
+            <span id="more" style="CURSOR: hand" onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한 연극이 궁금하다면?</span>
+            <div id="story" style="display: none">
+                 펼친 div 
+                <div class="recommand-poster">
+                    <img onclick="" src="./img/poster01.png">
+                    <img onclick="" src="./img/poster02.jpg">
+                    <img onclick="" src="./img/poster03.jpg">
+                </div>
+            </div>
+        </div> 추천연극 다시 활성화 -->
+        <!-- 정보 , 후기 , 출연진 탭버튼 -->
+        <div class="tab-menu">
+            <ul class="tab-btn">
+                <li class="menu current" data-tab="tab-1"><a style="cursor:pointer">상세정보</a></li>
+                <li class="menu" data-tab="tab-2"><a style="cursor:pointer">관람후기</a></li>
+                <li class="menu" data-tab="tab-3"><a style="cursor:pointer">출연진</a></li>
+            </ul>
+        </div>
+        <!-- 정보탭 -->
+        <div id="tab-1" class="tab-content current">
+            <div class="promotion">
+                <img src="./img/theater01.jpg">
+            </div>
+            <!-- 예매자 통계 -->
+            <div class="statistics">
+                <h4>예매자 통계</h4>
+                <!-- 성별 통계 -->
+                <div class="statistics-container">
+                    <div class="statistics-box">
+                      <h2 class="statistics-heading">성별 통계</h2>
+                      <div class="statistics-row">
+                        <span class="statistics-label"><i class="fa-solid fa-mars"></i></span>
+                        <span class="statistics-value">n 명</span>
+                      </div>
+                      <div class="statistics-row">
+                        <span class="statistics-label"><i class="fa-solid fa-venus"></i></span>
+                        <span class="statistics-value">n 명</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 나이 통계 -->
+                  <canvas id="age-chart" width="650" height="500"></canvas>
+            </div>
+        </div>
+        <!-- 후기탭 -->
+        <div id="tab-2" class="tab-content">
+            <div class="review">
+                <div class="detailBox">
+                    <div class="actionBox">
+                        <ul class="commentList">
+                            <li>
+                                <div class="userName">
+                                    <p>고양이희</p><span class="date sub-text">on March 5th, 2014</span>
+                                </div>
+                                <div class="commentText">
+                                    <p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
+                                </div>
+                                <div class="commentImage">
+                                    <img src="./img/review01.jpeg" />
+                                    <img src="./img/review01.jpeg" />
+                                </div>
+                                 <!-- 좋아요 버튼 -->
+                                 <div class="container">
+                                    <div class="wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                          <i class="material-icons not-liked bouncy"><i class="fa-regular fa-heart"></i></i>
+                                          <i class="material-icons is-liked bouncy"><i class="fa-solid fa-heart"></i></i>
+                                          <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+                                  </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="userName">
+                                    <p>노잼</p><span class="date sub-text">on March 5th, 2014</span>
+                                </div>
+                                <div class="commentText">
+                                    <p>괜히본듯 .. </p>
+                                </div>
+                                <div class="commentImage">
+                                    <img src="./img/review01.jpeg" />
+                                </div>
+                                 <!-- 좋아요 버튼 -->
+                                 <div class="container">
+                                    <div class="wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                          <i class="material-icons not-liked bouncy"><i class="fa-regular fa-heart"></i></i>
+                                          <i class="material-icons is-liked bouncy"><i class="fa-solid fa-heart"></i></i>
+                                          <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+                                  </div>
+                                  <hr>
+                            </li>
+                            <li>
+                                <div class="userName">
+                                    <p>영석</p><span class="date sub-text">on March 5th, 2014</span>
+                                </div>
+                                <div class="commentText">
+                                    <p> 정말 최고의 연극이었어용~~</p>
+                                </div>
+                                <div class="commentImage">
+                                    <img src="./img/review01.jpeg" />
+                                </div>
+                                 <!-- 좋아요 버튼 -->
+                                 <div class="container">
+                                    <div class="wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                          <i class="material-icons not-liked bouncy"><i class="fa-regular fa-heart"></i></i>
+                                          <i class="material-icons is-liked bouncy"><i class="fa-solid fa-heart"></i></i>
+                                          <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+                                  </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="userName">
+                                    <p>고양이희</p><span class="date sub-text">on March 5th, 2014</span>
+                                </div>
+                                <div class="commentText">
+                                    <p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
+                                </div>
+                                <div class="commentImage">
+                                    <img src="./img/review01.jpeg" />
+                                </div>
+                                  <!-- 좋아요 버튼 -->
+                                  <div class="container">
+                                    <div class="wrapper">
+                                        <a href="javascript:void(0);" class="like-button">
+                                          <i class="material-icons not-liked bouncy"><i class="fa-regular fa-heart"></i></i>
+                                          <i class="material-icons is-liked bouncy"><i class="fa-solid fa-heart"></i></i>
+                                          <span class="like-overlay"></span>
+                                        </a>
+                                    </div>
+                                  </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 캐스팅탭 -->
+        <div id="tab-3" class="tab-content">
+            <div class="cast">
+                <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor01.jpg">
+                        <p>한소희</p>
+                    </a>
+                </div>
+                <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor02.jpg">
+                        <p>공유</p>
+                    </a>
+                </div>
+                <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor03.jpeg">
+                        <p>손석구</p>
+                    </a>
+                </div>
+                <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor04.jpg">
+                        <p>김지원</p>
+                    </a>
+                </div>
+                <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor03.jpeg">
+                        <p>손석구</p>
+                    </a>
+                </div>
+                  <div class="cast-info">
+                    <a href="">
+                        <img src="./img/actor01.jpg">
+                        <p>한소희</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div> <!-- content wrap ( 양옆 여백 )-->
+    <!-- 좋아요버튼 js -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+  
+  $('.like-button').click(function(){
+      $(this).toggleClass('is-active');
+  })
+
+})
+    </script>
+    <!-- 통계 js -->
+    <script>
+        // 나이별 통계 데이터
+        const ageData = {
+          labels: ['10대', '20대', '30대', '40대', '50대 이상'],
+          datasets: [{
+            label: '인원 수',
+            data: [10, 23, 20, 10, 5],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        };
+    
+        // 그래프 생성
+        const ctx = document.getElementById('age-chart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: ageData,
+          options: {
+            responsive : false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                stepSize: 5,
+              }
+            }
+          }
+        });
+      </script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script>
+        $(function() {
+          $(".datepicker").datepicker({
+            format: "mm yy dd",
+            minDate: 0 ,
+            dayNamesMin: ['일','월','화','수','목' , '금' , '토'] ,
+            monthNames:['1','2','3','4','5','6','7','8','9','10','11','12']
+          });
+        });
+      </script>
 </body>
 
 </html>
