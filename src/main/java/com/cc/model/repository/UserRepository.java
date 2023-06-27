@@ -21,4 +21,9 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	
 	//이메일에 해당하는 정보를 가져옴
 	Optional<User> findByUseremail(String email);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE USER SET USER_PASSWORD=?1,USER_PASSWORDCYPHER=?2 WHERE USER_EMAIL=?3")
+	int updatePassword(String tmpCypher, String tmpPassword, String userEmail);
 }

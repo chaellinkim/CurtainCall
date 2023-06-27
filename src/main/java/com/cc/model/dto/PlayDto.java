@@ -32,7 +32,6 @@ public class PlayDto {
 	private String prfage;
 	private String poster;
 	private String mt10id;
-	private int count;
-		
+	private int count;		
 	
 }
