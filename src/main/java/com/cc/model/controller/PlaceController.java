@@ -29,7 +29,7 @@ public class PlaceController {
 	}
 
 	@RequestMapping("/place")
-	public String list(Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String list(Model model, @PageableDefault(page=0, size=18, sort="placeName", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Place> listPlace = placeService.selectAll(pageable);
 		List<List<Play>> listPlay = new ArrayList<>();
 	
@@ -45,11 +45,10 @@ public class PlaceController {
 		int startPage = 1;
 		int endPage = listPlace.getTotalPages();
 
+		model.addAttribute("list", listPlace);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
-		model.addAttribute("list", listPlace);
 		model.addAttribute("listPlay", listPlay);
 		
 		return "placelist";

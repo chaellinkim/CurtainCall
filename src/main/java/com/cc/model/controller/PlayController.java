@@ -77,7 +77,7 @@ public class PlayController {
 //		return "playlist";
 //	}
 	@RequestMapping(value="/play/search", method=RequestMethod.GET)
-	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playTitle", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Play> list = playService.searchPossible(keyword, pageable);
 		int nowPage = list.getPageable().getPageNumber()+1;
 		int startPage = 1;
