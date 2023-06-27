@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +27,9 @@ public class PlaceController {
 	}
 
 	@RequestMapping("/place")
-	public String list(Model model) {
+	public String list(HttpSession session, Model model) {
 		List<Place> listPlace = placeService.selectAll();
+		
 		List<List<Play>> listPlay = new ArrayList<>();
 	
 		for (Place place : listPlace) {
@@ -37,8 +40,18 @@ public class PlaceController {
 				listPlay.add(null);
 			}
 		}
+		/*
+		Map<String, List<Play>> playMap = new HashMap<>();
+
+		  for (Place place : listPlace) {
+		    List<Play> playList = place.getPlayList();
+		    playMap.put(place.getPlaceName(), playList);
+		  }
+		*/
 		model.addAttribute("list", listPlace);
-		model.addAttribute("listPlay", listPlay);
+		model.addAttribute("listPlay", listPlay); 
+			/* model.addAttribute("playMap", playMap); */
+		model.addAttribute("user_state", session.getAttribute("user_state"));
 		return "placelist";
 	}
 }

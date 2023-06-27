@@ -70,7 +70,7 @@ $(document).ready(function () {
 	        success: function(response) { 
 	            var newCommentHtml = "<div class='comment-unit'>" +
 	            	"<div class='comment-body'>" +
-	                "<p class='userName'>@" + response.userId + "</p>" +
+	                "<p class='userName'>@" + response.userLoginid + "</p>" +
 	                "<p class='content'>" + response.content + "</p>" +
 	                "</div>" +
                     "<button id='deleteBtn'><i class='fa-solid fa-xmark fa-xl'></i></button>" +
@@ -89,6 +89,10 @@ $(document).ready(function () {
 	    });
 	};
 	
+	//댓글 삭제하기
+	
+	
+	
 });
 
 </script>
@@ -106,7 +110,7 @@ $(document).ready(function () {
 			<div class="actorlistwrap">
 				<h1 class="nav-name">ACTOR</h1>
 				<ul class="actorlist">
-					<li th:each="item, itemStat : ${alist}"
+					<li th:each="item : ${alist}"
 						class="tab-link"
 						th:data-tab="'tab' + ${item.actorId}"
 						th:data-actor-id="${item.actorId}">
@@ -116,7 +120,7 @@ $(document).ready(function () {
 			</div>
 
 			<!-- 배우 상세정보 화면을 띄우는 공간 -->
-			<div th:each="item, itemStat : ${alist}">
+			<div th:each="item : ${alist}">
 				<div th:id="'tab' + ${item.actorId}" class="tab-content" th:data-actor-id="${item.actorId}">
 					<div class="actorwrap">
 						<div class="actorInfo-left">
@@ -158,17 +162,17 @@ $(document).ready(function () {
 									<!-- 댓글이 있을 경우 -->
 									<div th:if="${comment.actor.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
 										<div class="comment-body">
-											<p class="userName" th:text="|@${comment.userId}|">@comment.userId</p>
+											<p class="userName" th:text="|@${comment.userLoginid}|">@comment.userId</p>
 											<p class="content" th:text="${comment.content}">comment.acContent</p>
 										</div>
-                                    	<button id="deleteBtn" th:if="${comment.userId == loggedInUserId}" onclick="">
+                                    	<button id="deleteBtn" th:if="${comment.userLoginid == loggedInUserId}" th:onclick="'deleteComment(' + ${comment.commentId} + ')'">
                                     		<i class="fa-solid fa-xmark fa-xl"></i>
                                     	</button>
 									</div>
 									<!-- 새로운 댓글이 추가되는 부분 -->
 									<div th:if="${newComment != null}" class="comment-unit">
 										<div class="comment-body">
-										    <p class="userName">newComment.userId</p>
+										    <p class="userName">newComment.userLoginid</p>
 										    <p class="content">newComment.content</p>
 										</div>
                                     	<button id="deleteBtn">
@@ -197,4 +201,5 @@ $(document).ready(function () {
 	<div class="footer"></div>
 
 </body>
+
 </html>

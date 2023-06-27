@@ -8,6 +8,7 @@ a{
 }
 #content-wrap{
     width: 65vw;
+    min-width: 865px;
     margin: auto;
 }
 .mainTitle {
@@ -33,13 +34,10 @@ a{
     grid-row-gap: 7px;
     margin-top: 30px;
 }
-.tab-place li.current{
-    border: 2px solid rgb(18, 82, 151);
-}
-.placeButton{
+.place-link{
     display: block;
     width: 100%;
-    height: 42px;
+    height: 45px;
     border: 1.5px solid #d2d2d2;
     border-radius: 5px;
     box-sizing: border-box;
@@ -49,17 +47,27 @@ a{
    	align-items: center;
    	justify-content: center;
 }
-.placeButton img{
-    width: 100%;
-    height: 42px;
-    box-sizing: border-box;
-    object-fit: cover;
-    text-align: center;
+.place-link:hover{
+    border: 2px solid #141B82;
+}
+.place-link a{
+	display: block;
+	width: 100%;
+	/* 글자 한 줄...처리
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	 */
+	padding: 3px 6px;
+	text-align: center;
+}
+.place-link.active{
+    border: 2px solid #141B82;
 }
 .place-content{
     display: none;
 }
-.place-content.current{
+.place-content.active{
     display: block;
 }
 /* 공연장 정보 */
@@ -71,14 +79,9 @@ a{
     border-radius: 3px;
     margin-top: 20px;
 }
-.placeInfo img{
-    width: 20vw;
-    height: 200px;
-    object-fit: contain;
-}
 .info-content{
     box-sizing: border-box;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     padding: 25px 30px;
     background-color: #f0efef;
@@ -100,16 +103,19 @@ a{
     align-items: center;
     margin-left: 7px;
 }
-a{
+.link{
+    display: flex;
+    align-items: center;
+}
+.link > a{
     color: black;
+}
+.link a:hover{
+    text-decoration: underline;
 }
 .innerIcon{
     margin-left:4px;
     color: #7c7c7f;   
-}
-.link{
-    display: flex;
-    align-items: center;
 }
 .map{
     font-size: 11px;
@@ -129,26 +135,27 @@ ul.tabs li{
     font-weight: bold;
     cursor: pointer;
 }
-ul.tabs li.current{
+ul.tabs li.active{
     color: #141B82;
     border-bottom: 3px solid #141b82;
     font-weight: bolder;
 }
-/* 연극 리스트 */
-.tab-content{
+.play-content{
     display: none;
     padding: 25px 0;
 }
-.tab-content.current{
+.play-content.active{
     display: inherit;
     display: flex;
 }
+/* 연극 리스트 */
 .theater-content{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 33px;
     grid-row-gap: 48px;
     width: 100vw;
+    min-width: 865px;
 }
 .theater-unit{
     display: flex;
@@ -175,6 +182,14 @@ ul.tabs li.current{
     transform: scale(1.1);
     overflow: hidden;
 }
+.theater-unit h4{
+	display: block;	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	text-align: center;
+}
 /* 예약하기 버튼 */
 .reservation-btn{
     width: 80%;
@@ -193,6 +208,8 @@ ul.tabs li.current{
     color: white;
     font-weight: bolder;
 }
+
+/* 맛집 리스트 */
 /* 지도api */
 #map{
     width: 650px;
@@ -200,7 +217,6 @@ ul.tabs li.current{
     border: 1px solid green;
     margin-right: 60px;
 }
-/* 맛집 리스트 */
 .eat-content{
     width: 250px;
     height: 400px;

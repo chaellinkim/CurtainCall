@@ -16,7 +16,7 @@ import com.cc.model.repository.ActorRepository;
 public class ActorCommentService {
 	private ActorCommentRepository actorCommentRepository;
 	private ActorRepository actorRepository;
-	
+
 	@Autowired
 	public ActorCommentService(ActorCommentRepository actorCommentRepository, ActorRepository actorRepository) {
 		this.actorCommentRepository = actorCommentRepository;
@@ -29,9 +29,10 @@ public class ActorCommentService {
 	}
 	
 	//댓글 저장
-	public void insert(ActorComment comment, long actorId) {
+	public void insert(ActorComment comment, long actorId, String loginId) {
 		Optional<Actor> actor = actorRepository.findById(actorId);
 		comment.setActor(actor.orElse(null));
+		comment.setUserLoginid(loginId);
 		
 		actorCommentRepository.save(comment);
 	}
@@ -41,4 +42,8 @@ public class ActorCommentService {
 		return actorCommentRepository.findByActor_actorId(actorId);
     }
 
+	//댓글 삭제
+	public void delete(long commentId) {
+		actorCommentRepository.deleteById(commentId);
+	}
 }

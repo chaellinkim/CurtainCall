@@ -25,7 +25,7 @@ public class ActorComment {
     private Long commentId;
 	
 	@Column(name = "user_loginid")
-	private String userId;
+	private String userLoginid;
 	
 	@Column(name="comment_content")
 	private String content;
