@@ -187,6 +187,7 @@ a.button {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 한 줄에 4개의 열을 생성 */
     grid-gap: 10px; /* 이미지 사이의 간격 설정 */
+    grid-row-gap: 20px;
 }
 .cast img{
     border-radius: 50%;
@@ -194,9 +195,11 @@ a.button {
     height: 150px;
     margin-top: 20px;
     object-fit: cover;
+    margin-bottom: 20px;
 }
 .cast-info{
     text-align: center;
+    margin-bottom: 50px;
 }
 .cast-info p{
     font-size: 20px;

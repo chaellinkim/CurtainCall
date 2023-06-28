@@ -25,12 +25,6 @@ public class PayController {
 		this.userPlayService = userPlayService;
 		this.playService = playService;
 	}
-
-	@RequestMapping("/pay")
-	public String pay() {
-		
-		return "playpayment";
-	}
 	
 	@RequestMapping(value ="/pay/reservation", method = RequestMethod.POST)
 	@ResponseBody

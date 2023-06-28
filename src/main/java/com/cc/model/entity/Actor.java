@@ -15,10 +15,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name="ACTOR")
+@ToString(exclude = {"commentList","actorPlaylist"}) 
 public class Actor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

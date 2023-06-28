@@ -9,11 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
 @IdClass(ActorPlayId.class)
 @Table(name="ACTORPLAY")
+@ToString(exclude = "play") 
 public class ActorPlay {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
