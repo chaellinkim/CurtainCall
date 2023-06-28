@@ -31,7 +31,7 @@
 	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script>
+<script th:inline="javascript">
 	var IMP = window.IMP;
 	IMP.init("imp52160681");
 
@@ -43,18 +43,21 @@
 	var minutes = today.getMinutes(); // 분
 	var seconds = today.getSeconds(); // 초
 	//var milliseconds = today.getMilliseconds();
-	var makeMerchantUid = year + month + day + hours + minutes + seconds;
+	var makeMerchantUid = year + month + day + hours + minutes + seconds+1000;
 
 	function requestPay() {
 		console.log(makeMerchantUid);
 		var merchant_uid = "IMP" + makeMerchantUid;
-		var name = '연극 리어왕 ';
+		var name = /*[[${play.get().playTitle}]]*/;
+		var amount = parseInt(/*[[${play.get().playPrice}]]*/);
+	    console.log(amount);
+	    console.log(name);
 		var buyer_name = '아임포트 기술지원팀';
 		var buyer_email = 'Iamport@chai.finance';
 		IMP.request_pay({
 			pg : "html5_inicis.INIpayTest",
 			merchant_uid : "IMP" + makeMerchantUid,
-			name : '연극 리어왕 ',
+			name : name,
 			amount : 100,
 			buyer_name : '아임포트 기술지원팀',
 			buyer_email : 'Iamport@chai.finance',
