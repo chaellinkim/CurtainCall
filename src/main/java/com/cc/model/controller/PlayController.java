@@ -109,7 +109,6 @@ public class PlayController {
 		List<Actor> actorList = new ArrayList<>();
 		for(ActorPlay a : actorPlay) {
 			actorList.add(a.getActor());
-			//System.out.println(a.getActor());
 		}
 
 		model.addAttribute("play",play);
