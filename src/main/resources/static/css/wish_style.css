@@ -2,15 +2,15 @@
 .content{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 25px;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
     margin-top: 5%;
 }
 
 .wish_content{
     padding: 4%;
-    width: 9vw;
-    height: 26vh;
+    width: 10vw;
+    height: 27.5vh;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;

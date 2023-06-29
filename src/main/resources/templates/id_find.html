@@ -5,79 +5,91 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <title>CurtainCall-아이디찾기</title>
-    <link href="style/header.css" rel="stylesheet" type="text/css">
-    <link href="style/id_find_style.css" rel="stylesheet" type="text/css">
+
+    <link href="../css/id_find_style.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
+    $('#password_button').on('click', function(){
+        checkEmail();
+    });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
+    function checkEmail(){
+        const memberName = $('#name').val();
+		const memberEmail = $('#email').val();
+		console.log(memberName);
+		console.log(memberEmail);
+		
+        if(memberName === "" || memberEmail === ""){
+            alert("이름 또는 이메일을 입력해주세요");
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '/login/checkName',
+                data: {
+                	"memberName" : memberName,
+                    "memberEmail": memberEmail
+                },
+                dataType : 'json',
+                success: function(result){
+                console.log("result :" + result);
+                if (result.success){
+                	sendEmail(result.userId);
+                	alert('이메일로 아이디를 전송하였습니다.');
+                    window.location.href="/login";
+                    
+                } else if(result.success){
+                	alert('이름 또는 이메일이 잘못 입력되었습니다.');
+                }
+                }, 
+                error : function(error){
+                alert(JSON.stringify(error));
+            }
+        })
+        }
+    }
 
-            searchIcon.addEventListener('submit', function (e) {
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
-            //사용자 아이콘 클릭시 마이페이지 이동
-            const userIcon = document.querySelector('.user-icon');
-            userIcon.addEventListener('click', function () {
-                window.location.href = 'pay.html';
-            });
-        });
+    function sendEmail(result){
+    	console.log("result :" + result);
+        const memberEmail = $('#email').val();
+		console.log("시작");
+        $.ajax({
+            type: 'POST',
+            url: '/login/sendId',
+            data: {
+              	"memberId" : result,
+                "memberEmail": memberEmail
+            },
+            error: function(error){
+                alert(JSON.stringify(error));
+            }
+        })
+    }
 
     </script>
 
 </head>
 
 <body>
-    <header>
-        <a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
-        <div id="nav-content">
-            <nav>
-                <ul>
-                    <li><a href="#" class="menu">연극</a></li>
-                    <li><a href="#" class="menu">공연장</a></li>
-                    <li><a href="#" class="menu">출연진</a></li>
-                    <li><a href="#" class="menu">이벤트</a></li>
-                    <li><a href="#" class="menu">관람후기</a></li>
-                </ul>
-            </nav>
-            <div class="right">
-                <form action="" method="get" class="search">
-                    <input type="text" class="search-input" placeholder="검색어 입력">
-                    <div class="icon"><i class="fas fa-search"></i></div>
-                </form>
-                <div class="user-icon">
-                    <i class="fas fa-user fa-lg"></i>
-                </div>
-            </div>
-        </div>
-    </header>
-
     
     <container>
         <div class="id_box">
-            <a href="login.html"><img id="main_logo" src="img/main_logo.png"></a>
+            <a href="/"><img id="main_logo" src="../img/main_logo.png"></a>
 
             <span>아이디 찾기</span>
 
-            <form action="/" method="get">
                 <table>
                     <tr>
                         <th>이름</th>
-                        <td><input type="text" name="name" placeholder="이름"></td><br>
+                        <td><input type="text" id="name" name="name" placeholder="이름"></td><br>
                     </tr>
                     <tr>
                         <th>이메일</th>
-                        <td><input pattern=".+@*" type="email" name="id" placeholder="이메일"></td>
+                        <td><input pattern=".+@*"  id="email" type="email" name="email" placeholder="이메일"></td>
                     </tr>
                 </table>
 
-                <button id="id_button" type="submit">아이디 찾기</button>
-            </form>
+                <button id="id_button" onclick="checkEmail()" >아이디 찾기</button>
+
         </div>
     </container>
 </body>

@@ -10,17 +10,91 @@
 	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
 	rel="stylesheet">
 <!-- 다헤 연극리스트 -->
-<link rel="stylesheet" href="/css/playdetail.css" type="text/css">
+<link rel="stylesheet" href="/css/playdetail.css">
 <!-- 아이콘  -->
 <script src="https://kit.fontawesome.com/cd881899b1.js"
 	crossorigin="anonymous"></script>
 <!-- header nav -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<link rel="stylesheet" href="/css/header.css">
 <!-- 제이쿼리 , tab 기능 -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
+<!-- chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- 예매 하기  -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<th:block th:include="header :: head"></th:block>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script th:inline="javascript">
+	var IMP = window.IMP;
+	IMP.init("imp52160681");
+
+	var today = new Date();
+	var year = today.getFullYear(); // 현재 연도 반환
+	var month = today.getMonth() + 1; // 현재 월 반환 (0부터 시작하므로 1을 더해야 실제 월이 됨)
+	var day = today.getDate();
+	var hours = today.getHours(); // 시
+	var minutes = today.getMinutes(); // 분
+	var seconds = today.getSeconds(); // 초
+	//var milliseconds = today.getMilliseconds();
+	var makeMerchantUid = year + month + day + hours + minutes + seconds+1000;
+
+	function requestPay() {
+		console.log(makeMerchantUid);
+		var merchant_uid = "IMP" + makeMerchantUid;
+		var name = /*[[${play.get().playTitle}]]*/;
+		var amount = parseInt(/*[[${play.get().playPrice}]]*/);
+	    console.log(amount);
+	    console.log(name);
+		var buyer_name = '아임포트 기술지원팀';
+		var buyer_email = 'Iamport@chai.finance';
+		IMP.request_pay({
+			pg : "html5_inicis.INIpayTest",
+			merchant_uid : "IMP" + makeMerchantUid,
+			name : name,
+			amount : 100,
+			buyer_name : '아임포트 기술지원팀',
+			buyer_email : 'Iamport@chai.finance',
+			buyer_postcode : makeMerchantUid
+		}, function(rsp) { // callback
+			if (rsp.success) {
+				alert("예매 성공 ");
+				console.log(rsp);
+				let payVal = {
+					"merchantUid" : merchant_uid,
+					"userId" : 1,
+					"playId" : "PF220036",
+					"playTitle" : name
+				};
+				console.log(payVal);
+				$.ajax({
+					type : "post",
+					url : "/pay/reservation",
+					data : JSON.stringify(payVal),
+					contentType : "application/json",
+					dataType : "json",
+					success : function(response) {
+						console.log("success");
+						var redirectUrl = response.url;
+						if (redirectUrl) {
+							location.href = redirectUrl;
+						}
+					},
+					error : function() {
+						alert("통신 실패 ");
+					}
+				});
+			} else {
+				console.log(rsp);
+			}
+		});
+	}
 	$(document).ready(function() {
 
 		$('ul.tab-btn li').click(function() {
@@ -31,11 +105,10 @@
 
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
-		})
+		});
 
-	})
-</script>
-<script type="text/javascript">
+	});
+	
 	document.addEventListener('DOMContentLoaded', function() {
 		//검색버튼 활성화
 		const searchForm = document.querySelector('.search');
@@ -55,18 +128,20 @@
 		});
 	});
 </script>
-<th:block th:include="header :: head"></th:block>
+
 </head>
+
 <body>
-    <!-- 헤더 nav -->
-    <th:block th:include="header :: body"></th:block>
+	<!-- 헤더 nav -->
+	<th:block th:include="header :: body"></th:block>
 	<!-- 연극 상세 -->
 	<div id="content-wrap">
 		<!-- 연극 wrap -->
 		<div class="theater-wrap">
 			<!-- 포스터 -->
 			<div class="theater-poster">
-				<img src="./img/poster02.jpg">
+				<img th:if="${play.isPresent()}"
+					th:src="@{${play.get().playPoster}}">
 			</div>
 			<!-- 상세정보 -->
 			<div class="theater-info">
@@ -77,48 +152,62 @@
 				<br>
 				<hr>
 				<br>
-				<p>예매가 : 20000원</p>
+				<p>
+					<i class="fa-solid fa-coins fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playPrice}"></span>
+				</p>
 				<br>
-				<p>기간 : 2023.06.12-2023.06.13</p>
+				<p>
+					<i class="fa-regular fa-calendar-days fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playFrom}"></span><span>~</span><span
+						th:if="${play.isPresent()}" th:text="${play.get().playTo}"></span>
+				</p>
 				<br>
-				<p>시청연령 : 만12세 이상</p>
+				<p>
+					<i class="fa-solid fa-user fa-lg"></i>&nbsp;<span
+						th:if="${play.isPresent()}" th:text="${play.get().playAge}"></span>
+				</p>
 				<br>
-				<p>장소 : 아트홀 (위치보기)</p>
+				<p>
+					<i class="fa-solid fa-location-dot fa-lg"></i>&nbsp;<span
+						th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span>
+				</p>
 			</div>
 		</div>
 		<!-- 예매 박스 -->
 		<div class="reserve-wrap">
 			<div class="reserve-box">
-				<h1>예매박스</h1>
+				<div class="datepicker-container">
+					<h2>예매 날짜 선택</h2>
+					<div class="datepicker"></div>
+				</div>
 			</div>
 		</div>
 		<!-- 예매하기 버튼 -->
 		<div class="reserve-btn">
-			<a href="" title="Button push lightblue"
-				class="button btnPush btnLightBlue">예매하기</a>
+			<a title="Button push lightblue"
+				class="button btnPush btnLightBlue" onclick="requestPay()">예매하기</a>
 		</div>
-		<!-- 추천연극 -->
-		<div class="theater-recommand">
-			<!-- 추천연극 펼치기 / 접기 -->
-			<span id="more" style="CURSOR: hand"
-				onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한
-				연극이 궁금하다면?</span>
-			<div id="story" style="display: none">
-				<!-- 펼친 div -->
-				<div class="recommand-poster">
-					<img onclick="" src="./img/poster01.png"> <img onclick=""
-						src="./img/poster02.jpg"> <img onclick=""
-						src="./img/poster03.jpg">
-				</div>
-			</div>
-		</div>
+		<!-- 추천연극 
+        <div class="theater-recommand">
+            추천연극 ㄴ펼치기 / 접기 
+            <span id="more" style="CURSOR: hand" onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한 연극이 궁금하다면?</span>
+            <div id="story" style="display: none">
+                 펼친 div 
+                <div class="recommand-poster">
+                    <img onclick="" src="./img/poster01.png">
+                    <img onclick="" src="./img/poster02.jpg">
+                    <img onclick="" src="./img/poster03.jpg">
+                </div>
+            </div>
+        </div> 추천연극 다시 활성화 -->
 		<!-- 정보 , 후기 , 출연진 탭버튼 -->
 		<div class="tab-menu">
 			<ul class="tab-btn">
 				<li class="menu current" data-tab="tab-1"><a
 					style="cursor: pointer">상세정보</a></li>
 				<li class="menu" data-tab="tab-2"><a style="cursor: pointer">관람후기</a></li>
-				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">캐스팅</a></li>
+				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">출연진</a></li>
 			</ul>
 		</div>
 		<!-- 정보탭 -->
@@ -126,18 +215,202 @@
 			<div class="promotion">
 				<img src="./img/theater01.jpg">
 			</div>
-			<div class="statistics">통계 박스</div>
+			<!-- 예매자 통계 -->
+			<div class="statistics">
+				<h4>예매자 통계</h4>
+				<!-- 성별 통계 -->
+				<div class="statistics-container">
+					<div class="statistics-box">
+						<h2 class="statistics-heading">성별 통계</h2>
+						<div class="statistics-row">
+							<span class="statistics-label"><i class="fa-solid fa-mars"></i></span>
+							<span class="statistics-value">n 명</span>
+						</div>
+						<div class="statistics-row">
+							<span class="statistics-label"><i
+								class="fa-solid fa-venus"></i></span> <span class="statistics-value">n
+								명</span>
+						</div>
+					</div>
+				</div>
+				<!-- 나이 통계 -->
+				<canvas id="age-chart" width="650" height="500"></canvas>
+			</div>
 		</div>
 		<!-- 후기탭 -->
 		<div id="tab-2" class="tab-content">
-			<div class="review">후기</div>
+			<div class="review">
+				<div class="detailBox">
+					<div class="actionBox">
+						<ul class="commentList">
+							<li>
+								<div class="userName">
+									<p>고양이희</p>
+									<span class="date sub-text">on March 5th, 2014</span>
+								</div>
+								<div class="commentText">
+									<p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ
+										ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
+										ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
+								</div>
+								<div class="commentImage">
+									<img src="./img/review01.jpeg" /> <img
+										src="./img/review01.jpeg" />
+								</div> <!-- 좋아요 버튼 -->
+								<div class="container">
+									<div class="wrapper">
+										<a href="javascript:void(0);" class="like-button"> <i
+											class="material-icons not-liked bouncy"><i
+												class="fa-regular fa-heart"></i></i> <i
+											class="material-icons is-liked bouncy"><i
+												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
+										</a>
+									</div>
+								</div>
+								<hr>
+							</li>
+							<li>
+								<div class="userName">
+									<p>노잼</p>
+									<span class="date sub-text">on March 5th, 2014</span>
+								</div>
+								<div class="commentText">
+									<p>괜히본듯 ..</p>
+								</div>
+								<div class="commentImage">
+									<img src="./img/review01.jpeg" />
+								</div> <!-- 좋아요 버튼 -->
+								<div class="container">
+									<div class="wrapper">
+										<a href="javascript:void(0);" class="like-button"> <i
+											class="material-icons not-liked bouncy"><i
+												class="fa-regular fa-heart"></i></i> <i
+											class="material-icons is-liked bouncy"><i
+												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
+										</a>
+									</div>
+								</div>
+								<hr>
+							</li>
+							<li>
+								<div class="userName">
+									<p>영석</p>
+									<span class="date sub-text">on March 5th, 2014</span>
+								</div>
+								<div class="commentText">
+									<p>정말 최고의 연극이었어용~~</p>
+								</div>
+								<div class="commentImage">
+									<img src="./img/review01.jpeg" />
+								</div> <!-- 좋아요 버튼 -->
+								<div class="container">
+									<div class="wrapper">
+										<a href="javascript:void(0);" class="like-button"> <i
+											class="material-icons not-liked bouncy"><i
+												class="fa-regular fa-heart"></i></i> <i
+											class="material-icons is-liked bouncy"><i
+												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
+										</a>
+									</div>
+								</div>
+								<hr>
+							</li>
+							<li>
+								<div class="userName">
+									<p>고양이희</p>
+									<span class="date sub-text">on March 5th, 2014</span>
+								</div>
+								<div class="commentText">
+									<p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ
+										ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
+										ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
+								</div>
+								<div class="commentImage">
+									<img src="./img/review01.jpeg" />
+								</div> <!-- 좋아요 버튼 -->
+								<div class="container">
+									<div class="wrapper">
+										<a href="javascript:void(0);" class="like-button"> <i
+											class="material-icons not-liked bouncy"><i
+												class="fa-regular fa-heart"></i></i> <i
+											class="material-icons is-liked bouncy"><i
+												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
+										</a>
+									</div>
+								</div>
+								<hr>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-		<!— 캐스팅탭 —>
+		<!-- 캐스팅탭 -->
 		<div id="tab-3" class="tab-content">
-			<div class="cast">출연진</div>
+			<div class="cast">
+				<div class="cast-info" th:each="item : ${actor}">
+					<a href=""> <img src="./img/actor01.jpg">
+						<p th:text="${item.actorName}"></p>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
-	<!— content wrap ( 양옆 여백 )—>
+	<!-- content wrap ( 양옆 여백 )-->
+	<!-- 좋아요버튼 js -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('.like-button').click(function() {
+				$(this).toggleClass('is-active');
+			})
+
+		})
+	</script>
+	<!-- 통계 js -->
+	<script>
+		// 나이별 통계 데이터
+		const ageData = {
+			labels : [ '10대', '20대', '30대', '40대', '50대 이상' ],
+			datasets : [ {
+				label : '인원 수',
+				data : [ 10, 23, 20, 10, 5 ],
+				backgroundColor : 'rgba(54, 162, 235, 0.5)',
+				borderColor : 'rgba(54, 162, 235, 1)',
+				borderWidth : 1
+			} ]
+		};
+
+		// 그래프 생성
+		const ctx = document.getElementById('age-chart').getContext('2d');
+		new Chart(ctx, {
+			type : 'bar',
+			data : ageData,
+			options : {
+				responsive : false,
+				scales : {
+					y : {
+						beginAtZero : true,
+						stepSize : 5,
+					}
+				}
+			}
+		});
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$(".datepicker").datepicker(
+					{
+						format : "mm yy dd",
+						minDate : 0,
+						dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+						monthNames : [ '1', '2', '3', '4', '5', '6', '7', '8',
+								'9', '10', '11', '12' ]
+					});
+		});
+	</script>
 </body>
 
 </html>

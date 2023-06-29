@@ -1,5 +1,6 @@
 package com.cc.model.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,16 +15,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cc.model.entity.Actor;
+import com.cc.model.entity.ActorPlay;
+import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
+import com.cc.model.service.PlaceService;
 import com.cc.model.service.PlayService;
 
 @Controller
 public class PlayController {
 	private PlayService playService;
+	private PlaceService placeService;
 
-	public PlayController(PlayService playService) {
+	public PlayController(PlayService playService, PlaceService placeService) {
 		super();
 		this.playService = playService;
+		this.placeService = placeService;
 	}
 
 //	@RequestMapping("/play")
@@ -77,7 +84,7 @@ public class PlayController {
 //		return "playlist";
 //	}
 	@RequestMapping(value="/play/search", method=RequestMethod.GET)
-	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playTitle", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Play> list = playService.searchPossible(keyword, pageable);
 		int nowPage = list.getPageable().getPageNumber()+1;
 		int startPage = 1;
@@ -96,11 +103,17 @@ public class PlayController {
 	public String playdetail(String playId, Model model) {
 		System.out.println(playId);
 		Optional<Play> play = playService.selectOne(playId);
-		System.out.println(play);
-		model.addAttribute("play",play);
+		Optional<Place> place = placeService.selectOne(play.get().getPlaceId());
+		List<ActorPlay> actorPlay = play.get().getActorPlayList();
 		
+		List<Actor> actorList = new ArrayList<>();
+		for(ActorPlay a : actorPlay) {
+			actorList.add(a.getActor());
+		}
+
+		model.addAttribute("play",play);
+		model.addAttribute("place",place);
+		model.addAttribute("actor",actorList);
 		return "playdetail";
-
 	}
-
 }

@@ -219,79 +219,31 @@
             </div>
         </div>
     </header>
-	<a href="/login">login</a>
-	<a href="/join">join</a>
+    
 	<a href="/api">api</a>
-	<a href="/pay">pay</a>
     
     <!-- 2.. 연극 주간 랭킹-->
     <div id="week-ranking-wrap">
         <!-- <img class="curtain left" src="../img/left.png"> -->
         <div class="week-ranking-rank">
-            <h2>주간 랭킹<span>(예매 수 기준)</span></h2>
+            <h2>누적 랭킹<span>(예매 수 기준)</span></h2>
             <div class="add-theater">
-                <a href="#">더 많은 연극 보기 +</a> <!-- 연극리스트 페이지로 이동-->
+                <a href="/play">더 많은 연극 보기 +</a> <!-- 연극리스트 페이지로 이동-->
             </div>
             <!-- 랭킹 포스터 wrap -->
             <div id="rank-container">
                 <!-- 개별 연극 -->
-                <div class="rank-unit">
+                <div class="rank-unit" th:each ="play:${bestPlay}">
                     <div class="rank-unit-poster">
-                        <p class="rank-num">1</p>
-                        <img src="../img/poster01.jpg">
+                        <p class="rank-num" th:text="${playStat.index+1}"></p>
+                        <img th:src="@{${play.playPoster}}">
                     </div>
                     <div class="btn-container">
                         <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
                             <i class="fa-solid fa-heart fa-lg"></i>
-                            325
                         </button>
                         <div class="tikettingBtn">
-                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="rank-unit">
-                    <div class="rank-unit-poster">
-                        <p class="rank-num">2</p>
-                        <img src="../img/poster02.jpg">
-                    </div>
-                    <div class="btn-container">
-                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
-                            <i class="fa-solid fa-heart fa-lg"></i>
-                            5
-                        </button>
-                        <div class="tikettingBtn">
-                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="rank-unit">
-                    <div class="rank-unit-poster">
-                        <p class="rank-num">3</p>
-                        <img src="../img/poster03.png">
-                    </div>
-                    <div class="btn-container">
-                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
-                            <i class="fa-solid fa-heart fa-lg"></i>
-                            35
-                        </button>
-                        <div class="tikettingBtn">
-                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="rank-unit">
-                    <div class="rank-unit-poster">
-                        <p class="rank-num">4</p>
-                        <img src="../img/card1.webp">
-                    </div>
-                    <div class="btn-container">
-                        <button class="likeBtn"> <!-- 좋아요 수 올라가기 -->
-                            <i class="fa-solid fa-heart fa-lg"></i>
-                            325
-                        </button>
-                        <div class="tikettingBtn">
-                            <a href="#" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+                            <a th:href="@{/play/detail(playId=${play.playId})}" title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
                         </div>
                     </div>
                 </div>
@@ -299,6 +251,7 @@
         </div>
         <!-- <img class="curtain right" src="../img/right.png"> -->
     </div>
+    
 
     <!-- 3. 날짜별 상영 가능한 연극 조회 -->
     <section id="calendarList">
