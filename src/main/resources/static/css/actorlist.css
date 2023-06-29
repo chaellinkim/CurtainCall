@@ -175,7 +175,7 @@ p{
     font-size: 13px;
     width: 260px;
 }
-#deleteBtn{
+.deleteBtn{
     position: absolute;
     top: 50%;
     right: 40px;
@@ -186,7 +186,7 @@ p{
     padding: 7px;
     margin: 0;
 }
-#deleteBtn:hover{
+.deleteBtn:hover{
     color: #141B82;
     cursor: pointer;
 }

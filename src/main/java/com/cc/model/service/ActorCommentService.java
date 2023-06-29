@@ -46,4 +46,8 @@ public class ActorCommentService {
 	public void delete(long commentId) {
 		actorCommentRepository.deleteById(commentId);
 	}
+	
+	public Optional<ActorComment> findById(long commentId) {
+		return actorCommentRepository.findById(commentId);
+	}
 }

@@ -62,6 +62,12 @@ $(document).ready(function () {
 
 	//댓글 등록 및 출력
 	function addComment() {    
+		var content = $("#content").val();
+		if (content.trim() === "") {
+	        alert("댓글 내용을 입력해주세요.");
+	        return false;
+	    }
+		
 	    var formData = $("#commentForm").serialize(); // 데이터 직렬화하여 가져오기
 	    $.ajax({
 	        type: "POST",
@@ -73,7 +79,7 @@ $(document).ready(function () {
 	                "<p class='userName'>@" + response.userLoginid + "</p>" +
 	                "<p class='content'>" + response.content + "</p>" +
 	                "</div>" +
-                    "<button id='deleteBtn'><i class='fa-solid fa-xmark fa-xl'></i></button>" +
+                    "<button class='deleteBtn'><i class='fa-solid fa-xmark fa-xl'></i></button>" +
 	                "</div>";
 
 	            $(".comment").append(newCommentHtml);
@@ -88,12 +94,51 @@ $(document).ready(function () {
 	        }
 	    });
 	};
-	
-	//댓글 삭제하기
-	
-	
-	
 });
+
+$(document).on("click", ".deleteBtn", function() {
+    var commentId = $(this).siblings("input[type=hidden]").val();
+    deleteComment(commentId);
+});
+//댓글 삭제하기
+function deleteComment(commentId){
+	var check = confirm("삭제하시겠습니까?");
+	if(check === true){
+		$.ajax({
+			type: "DELETE",
+			url: "/actor/comment/" + commentId,
+			/* success: function(response){
+				
+				alert("댓글이 삭제되었습니다." + response.message);
+				window.location.href="/actor";
+			}, */
+			/* success: function(result){
+				console.log("result: " + result);
+				if(result == 0){
+					alert("댓글 삭제되지 않았습니다.");
+				}else{
+					alert("댓글이 삭제되었습니다.");
+					//window.location.reload();
+					//location.href="/actor?actorId=" + actorId;
+					window.location.href="/actor";
+				}
+				
+			}, */
+			success : function(response) {
+                console.log("success");
+                var redirectUrl = response.url;
+                if (redirectUrl) {
+                    location.href = redirectUrl;
+                }
+            },
+			error: function(error){
+				console.log(error);
+				console.log("commentId: " + commentId);
+				alert("댓글 삭제에 실패했습니다.");
+			}
+		})
+	}
+}
 
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -161,11 +206,12 @@ $(document).ready(function () {
 									</div>
 									<!-- 댓글이 있을 경우 -->
 									<div th:if="${comment.actor.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
+										<input type="hidden" th:value="${comment.commentId}">
 										<div class="comment-body">
 											<p class="userName" th:text="|@${comment.userLoginid}|">@comment.userId</p>
 											<p class="content" th:text="${comment.content}">comment.acContent</p>
 										</div>
-                                    	<button id="deleteBtn" th:if="${comment.userLoginid == loggedInUserId}" th:onclick="'deleteComment(' + ${comment.commentId} + ')'">
+                                    	<button class="deleteBtn" th:if="${comment.userLoginid == userLoginid}" >
                                     		<i class="fa-solid fa-xmark fa-xl"></i>
                                     	</button>
 									</div>
@@ -175,7 +221,7 @@ $(document).ready(function () {
 										    <p class="userName">newComment.userLoginid</p>
 										    <p class="content">newComment.content</p>
 										</div>
-                                    	<button id="deleteBtn">
+                                    	<button class="deleteBtn">
                                     		<i class="fa-solid fa-xmark fa-xl"></i>
                                     	</button>
 									</div>

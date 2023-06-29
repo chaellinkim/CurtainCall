@@ -18,7 +18,7 @@ var article_subject = $('input[name=article_subject]').val();
 
 var la = [[${list[0].la}]];
 var lo = [[${list[0].lo}]];
-console.log(la,lo);
+//console.log(la,lo);
     
 $(document).ready(function(){
 	var urlParams = new URLSearchParams(window.location.search);
@@ -31,63 +31,48 @@ $(document).ready(function(){
 	}else {
 		var firstPlaceId = $(".place-link > a:first").data("place-id");
 		var firstTabId = "place" + firstPlaceId;
-		/* $("#" + firstTabId).addClass("active"); */
 		openTab(firstTabId, firstPlaceId);
-		//openTab2("tab1");
 	}
-  	//var selectedPlaceName = ""; // 선택된 탭의 placeName를 저장
 
 	//장소 탭
     $(".place-link").click(function(){
         var tabId = $(this).data("tab");
-        var placeId = $(this).data("place-id");       
-		openTab(tabId, placeId);	
+        var placeId = $(this).data("place-id");   
+        var playTab = "eat" + placeId;
+		
+		openTab(tabId, placeId);
+		openTab2(playTab);		//default값으로 연극탭 선택
     });	
   	
   	//연극/맛집 탭
     $(".play-link").click(function(){
-        var tabId = $(this).data("tab");
-        var placeId = $(this).data("place-id");
-		openTab2(tabId, placeId);
+        var tabId = $(this).data("tab");       
+		openTab2(tabId);
     });
   	
 	function openTab(tabId, placeId) {
-		$(".place-link").removeClass("active");
-	 	$(".play-link").removeClass("active");		
+		$(".place-link").removeClass("active");		
 		$(".place-content").removeClass("active");
-		$(".play-content").removeClass("active");
+		
 		$("#" + tabId).addClass("active");
-		
-		var playTabId = "play-" + tabId.substr(5); // play-content 탭 ID 생성
-	    $("#" + playTabId).addClass("active");
-		
-		// 해당 placeName에 대응하는 play-content 요소도 보이도록 수정
-		/* $(".play-content").removeClass("active");
-		$("#").addClass("active"); */
+		$("[data-tab=" + tabId + "]").addClass("active");
 		
 		la = $("#"+tabId).find("input[name=place_la]").val();
     	lo = $("#"+tabId).find("input[name=place_lo]").val();
-    	//console.log(la + ":" +lo);
-		console.log("현재 placeId: " + placeId);
+    	console.log(la + ":" +lo);
+		//console.log("현재 placeId: " + placeId);
 		window.history.pushState(null, null, "/place?placeId=" + placeId);	// URL 변경
 	}
 
-    function openTab2(tabId, placeId) {
-    	$(".place-content .play-link").removeClass("active");
+    function openTab2(tabId) {
+    	$(".play-link").removeClass("active");
 		$(".play-content").removeClass("active");
+		
+		$("[data-tab=" + tabId + "]").addClass("active");
 		$("#" + tabId).addClass("active");
 		
 		$(".eat-content").empty();
 		initMap();	//현재 위치 중심으로 맛집 가져오기
-		
-		/* var playContent = $("#" + tabId).closest(".play-content");
-	    var playTabId = $(playContent).data("place-id"); */
-
-	    /* if (playTabId === placeId) {
-	        $(playContent).find(".play-content").show();
-	    } else {
-	        $(playContent).find(".play-content").hide();
-	    } */
     }
     
   //장소별 지도 및 맛집 리스트 출력
@@ -99,8 +84,7 @@ $(document).ready(function(){
 			zoom : 17
 		};
 
-		var map = new google.maps.Map(document.getElementById('map'),
-				mapOptions);
+		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 		var marker = new google.maps.Marker({
 			position : place,
@@ -116,7 +100,7 @@ $(document).ready(function(){
 
 		placesService.nearbySearch(request, function(results, status) {
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
-				console.log(results); // 가져온 맛집 정보 출력
+				//console.log(results); // 가져온 맛집 정보 출력
 				
 				for (let i = 0; i < 20; i++) {
 					$(".eat-content").append(`
@@ -125,8 +109,8 @@ $(document).ready(function(){
 						        <div class="eat-title">${results[i].name}</div>
 						      </div>
 						      <p class="eat-side">
-						        <span>${results[i].rating}</span>
-						        <span>&nbsp;</span>
+						        <span><i class="fa-solid fa-star" style="color: #F5D042"></i> ${results[i].rating}</span>
+						        <span>&nbsp;&nbsp;</span>
 						        <span>리뷰 ${results[i].user_ratings_total}</span>
 						      </p>
 						    </div>
@@ -138,7 +122,6 @@ $(document).ready(function(){
 		});
 	}
 });
-
 
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -154,12 +137,36 @@ $(document).ready(function(){
 		</div>
 		<hr>
 		<!-- 공연장 리스트 -->
-		<ul class="tab-place">
+		<!-- <ul class="tab-place">
 			<li th:each="item : ${list}" class="place-link"
 				th:data-tab="'place' + ${item.placeId}" th:data-place-id="${item.placeId}">
 				<a th:text="${item.placeName}"></a>
 			</li>
-		</ul>
+		</ul> -->
+		<div class="tab-container">
+			<div class="tab-controls">
+				<button class="prev-btn">
+					<i class="fas fa-chevron-left"></i>
+				</button>
+			</div>
+			<div class="tab-place slider">
+				<ul class="tab-row">
+					<li th:each="item, itemStat : ${list}" class="place-link"
+						th:data-tab="'place' + ${item.placeId}"
+						th:data-place-id="${item.placeId}" 
+						th:if="${itemStat.index >= __${currentTabIndex}__ * __${numVisibleTabs}__} and ${itemStat.index < (__${currentTabIndex}__ + 1) * __${numVisibleTabs}__}">
+						<a th:text="${item.placeName}"></a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-controls">
+				<button class="next-btn"
+						th:onclick="nextButtonClick(/*[[${currentTabIndex}]]*/, /*[[${numVisibleTabs}]]*/)">
+					<i class="fas fa-chevron-right"></i>
+				</button>
+			</div>
+			<input type="hidden" id="currentTabIndex" th:value="${currentTabIndex}" />
+		</div>
 
 		<div th:each="item, itemStat : ${list}"
 			 th:with="playList=${listPlay[itemStat.index]}">
@@ -231,6 +238,42 @@ $(document).ready(function(){
 		</div>			
 	</div>
 
+<script th:inline="javascript">
+	var currentIndex = 0;
+	var itemsPerPage = 15;
+	var numItems = "[[${list.size()}]]";
+	 
+	function nextButtonClick(currentTabIndex, numVisibleTabs) {
+		if (currentIndex + itemsPerPage < numItems) {
+			currentIndex += itemsPerPage;
+	        showTabs();
+		}
+	
+	    // Thymeleaf 변수 값 업데이트
+	    var newCurrentTabIndex = Math.floor(currentIndex / numVisibleTabs);
+	    var currentTabIndexInput = document.getElementById("currentTabIndex");
+	    currentTabIndexInput.value = newCurrentTabIndex;
+	    console.log("currentTabIndex: " + currentTabIndex + ", numVisibleTabs: " + numVisibleTabs);
+	}
+	function showTabs() {
+		$(".tab-row > li").hide();
+		$(".tab-row > li").slice(currentIndex, currentIndex + itemsPerPage).show();
+		console.log("현재 index: " +  currentIndex);
+	}
+
+  $(document).ready(function() {
+      $(".prev-btn").click(function() {
+         if (currentIndex > 0) {
+            currentIndex -= itemsPerPage;
+            showTabs();
+         }
+      });
+
+      showTabs();
+  });
+  
+  
+</script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
 		async defer></script>

@@ -2,7 +2,9 @@ package com.cc.model.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,6 +73,7 @@ public class ActorController {
 		
 		String userLoginid = (String)session.getAttribute("userLoginid");		
 		newComment.setUserLoginid(userLoginid);
+		session.setAttribute("userLoginid", userLoginid);
 		
 		actorCommentService.insert(newComment, actorId, userLoginid);
 		model.addAttribute("newComment", newComment);
@@ -78,16 +82,30 @@ public class ActorController {
 	}
 
 	/* DELETE */
+	@DeleteMapping("/actor/comment/{commentId}")
+	public Map<String, String> deleteComment(@PathVariable long commentId) {
+		Map<String,String> response = new HashMap<>();
+        String message = "성공";
+        response.put("message", message);
+		actorCommentService.delete(commentId);
+		return response;
+	}
 	/*
-	 * @PostMapping("/actor/comment/delete")
-	 * 
-	 * @ResponseBody public
-	 * 
-	 * @DeleteMapping("/comments/{commentId}")
-    	public String deleteComment(@PathVariable int commentId) {
-        	commentService.deleteComment(commentId);
-        return "redirect:/comments";
-    }
-	 */
+	@DeleteMapping("/actor/comment/{commentId}")
+	public long deleteComment(@PathVariable long commentId) {
+		long result;
+		Optional<ActorComment> comment = actorCommentService.findById(commentId);
+		if(comment.isEmpty()) {
+			System.out.println("댓글을 못불러옴");
+			result = 0;
+			return result;
+		}else {
+			actorCommentService.delete(commentId);
+			return commentId;
+		}
+	}
+	*/
+
+	 
 	
 }
