@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.cc.model.cypher.SHA256;
 import com.cc.model.entity.User;
 import com.cc.model.repository.UserRepository;
 
@@ -88,9 +88,9 @@ public class UserService {
     /** 임시 비밀번호로 업데이트 
      * @throws Exception **/
     public int updatePassword(String tmpPassword, String userEmail) throws Exception {
-    	AES256 aes256 = new AES256();
+    	SHA256 sha256 = new SHA256();
     	
-    	String tmpCypher = aes256.encrypt(tmpPassword); //임시비밀번호를 암호화
+    	String tmpCypher = sha256.encrypt(tmpPassword); //임시비밀번호를 암호화
     	
     	return userRep.updatePassword(tmpCypher, tmpPassword, userEmail);
     }
