@@ -54,7 +54,8 @@ public class Play {
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
 	private Place place;
   
-  @OneToMany(mappedBy = "play", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "play", cascade = CascadeType.REMOVE)
 	private List<ActorPlay> actorPlayList;
+  
 	
 }
