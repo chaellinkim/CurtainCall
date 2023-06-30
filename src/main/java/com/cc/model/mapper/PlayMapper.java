@@ -18,7 +18,7 @@ public class PlayMapper {
         playDto.setPrfage(play.getPlayAge());
         playDto.setPoster(play.getPlayPoster());
         playDto.setMt10id(play.getPlaceId());
-        playDto.setCount(play.getCount());
+        playDto.setPrice(play.getPrice());
         return playDto;
     }
 
@@ -34,6 +34,7 @@ public class PlayMapper {
         play.setPlayPoster(playDto.getPoster());
         play.setPlaceId(playDto.getMt10id());
         play.setCount(playDto.getCount());
+        play.setPrice(playDto.getPrice());
         return play;
     }
 }

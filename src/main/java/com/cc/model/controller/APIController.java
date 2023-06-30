@@ -87,9 +87,8 @@ public class APIController {
                         	response2 = restTemplate2.getForEntity(apiUrl2, String.class);
                         	if (response2.getStatusCode() == HttpStatus.OK) {
                                 String xmlResponse2 = response2.getBody();
-                                System.out.println("그대로" + xmlResponse2);
                                 JSONObject jsonObject = XML.toJSONObject(xmlResponse2);
-                                System.out.println("json 출력"+jsonObject.toString());
+
                                 
                                 // String jsonEx = "{\"id\":1,\"prfnm\":\"타이틀\",\"pcseguidance\":\"공연명 \",\"pcseguidance\":\"가격 \",\"prfpdfrom\":\"2023.06.10\",\"prfpdto\":\"2023.06.10\",\"prfage\":\"나이 \",\"poster\":\"링크 \",\"mt10id\":\"placeid\"}";
                                 ObjectMapper objectMapper = new ObjectMapper();
@@ -99,6 +98,13 @@ public class APIController {
                                 JsonNode rootNode = objectMapper.readTree(jsonObject.toString());
                                 JsonNode dbNode = rootNode.path("dbs").path("db");
                                 playDto = objectMapper.readValue(dbNode.toString(), PlayDto.class);
+                                
+                                System.out.println("*** "+playDto);
+                                System.out.println("*** "+playDto.getPrfnm());
+                                System.out.println("*** "+playDto.getPcseguidance());
+                                String pricee = playDto.getPcseguidance();
+                                int priceNumber = Integer.parseInt(pricee.replaceAll("[^\\d]", ""));
+                                System.out.println("*** "+priceNumber);
                                 
                                 playService.insert(playDto);
                                 
