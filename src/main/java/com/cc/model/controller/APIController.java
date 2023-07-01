@@ -103,8 +103,13 @@ public class APIController {
                                 System.out.println("*** "+playDto.getPrfnm());
                                 System.out.println("*** "+playDto.getPcseguidance());
                                 String pricee = playDto.getPcseguidance();
-                                int priceNumber = Integer.parseInt(pricee.replaceAll("[^\\d]", ""));
+                                String priceNumber = pricee.replaceAll("[^\\d]", "");
+
+								if (priceNumber.isEmpty()) {
+								    priceNumber = "0";
+								}
                                 System.out.println("*** "+priceNumber);
+                                playDto.setPrice(priceNumber);
                                 
                                 playService.insert(playDto);
                                 

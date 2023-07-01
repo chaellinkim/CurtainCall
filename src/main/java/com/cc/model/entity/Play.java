@@ -51,7 +51,7 @@ public class Play {
 	private int count;
 	
 	@Column(name="price")
-	private int price;
+	private String price;
 	
 	@ManyToOne
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
