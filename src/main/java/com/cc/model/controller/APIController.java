@@ -99,16 +99,28 @@ public class APIController {
                                 JsonNode dbNode = rootNode.path("dbs").path("db");
                                 playDto = objectMapper.readValue(dbNode.toString(), PlayDto.class);
                                 
-                                System.out.println("*** "+playDto);
-                                System.out.println("*** "+playDto.getPrfnm());
-                                System.out.println("*** "+playDto.getPcseguidance());
-                                String pricee = playDto.getPcseguidance();
-                                String priceNumber = pricee.replaceAll("[^\\d]", "");
+                                String price = playDto.getPcseguidance();
+                                String dayTime = playDto.getDtguidance();
+                                String priceNumber = price.replaceAll("[^\\d]", "");
+                                String day;
+                                String time;
 
 								if (priceNumber.isEmpty()) {
 								    priceNumber = "0";
 								}
-                                System.out.println("*** "+priceNumber);
+								int bracketIndex = dayTime.indexOf("(");
+								if (bracketIndex != -1) {
+								    // 괄호 이전의 문자열은 요일에 저장
+								    day = dayTime.substring(0, bracketIndex).trim();
+								    
+								    // 괄호 안의 문자열은 시간에 저장 (괄호 제거 후 공백 제거)
+								    time = dayTime.substring(bracketIndex + 1, dayTime.length() - 1).trim();
+								} else {
+								    // 괄호가 없을 경우 예외 처리
+								    day = "";
+								    time = "";
+								}
+								System.out.println("******"+day+"-----"+time);
                                 playDto.setPrice(priceNumber);
                                 
                                 playService.insert(playDto);
