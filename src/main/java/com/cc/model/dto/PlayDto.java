@@ -34,5 +34,7 @@ public class PlayDto {
 	private String mt10id;
 	private int count;		
 	private String price;
+	private String day;
+	private String time;
 	
 }

@@ -122,6 +122,9 @@ public class APIController {
 								}
 								System.out.println("******"+day+"-----"+time);
                                 playDto.setPrice(priceNumber);
+                                playDto.setDay(day);
+                                playDto.setTime(time);
+                                System.out.println("*******playdto 출력!!!!"+playDto.toString());
                                 
                                 playService.insert(playDto);
                                 
