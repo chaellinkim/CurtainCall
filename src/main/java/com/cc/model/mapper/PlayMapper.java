@@ -35,6 +35,7 @@ public class PlayMapper {
         play.setPlayAge(playDto.getPrfage());
         play.setPlayPoster(playDto.getPoster());
         play.setPlaceId(playDto.getMt10id());
+        play.setPrice(playDto.getPrice());
         play.setDay(playDto.getDay());
         play.setTime(playDto.getTime());
         return play;

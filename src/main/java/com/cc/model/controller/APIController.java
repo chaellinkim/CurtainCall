@@ -46,7 +46,7 @@ public class APIController {
         String url2 = "http://www.kopis.or.kr/openApi/restful/prfplc";
         String serviceKey = "722233b68ffa4883ae5213ccf16565a5";
         String stDate = "20200101";
-        String edDate = "20230630";
+        String edDate = "20231030";
         String rows = "100";
         String cPage = "1";
 
@@ -78,7 +78,6 @@ public class APIController {
                     for (int i = 0; i < dbList.getLength(); i++) {
                         Element dbElement = (Element) dbList.item(i);
                         String mt20id = dbElement.getElementsByTagName("mt20id").item(0).getTextContent();
-                        System.out.println(mt20id);
                        
                         String apiUrl2 = url +"/"+mt20id+"?service=" + serviceKey;
                         
@@ -120,16 +119,11 @@ public class APIController {
 								    day = "";
 								    time = "";
 								}
-								System.out.println("******"+day+"-----"+time);
                                 playDto.setPrice(priceNumber);
                                 playDto.setDay(day);
                                 playDto.setTime(time);
-                                System.out.println("*******playdto 출력!!!!"+playDto.toString());
                                 
                                 playService.insert(playDto);
-                                
-                                System.out.println("-----");
-                                System.out.println("playdto 출력!!!!"+playDto.toString());
                                 
                              // 필요한 태그의 값을 가져옵니다.
                              // String prfnm = jsonObject.getJSONObject("db").getString("prfnm");
