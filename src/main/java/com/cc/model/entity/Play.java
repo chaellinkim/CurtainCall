@@ -50,6 +50,15 @@ public class Play {
 	@Column(name="count")
 	private int count;
 	
+	@Column(name="price")
+	private String price;
+	
+	@Column(name="day")
+	private String day;
+	
+	@Column(name="time")
+	private String time;
+	
 	@ManyToOne
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
 	private Place place;

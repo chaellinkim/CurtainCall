@@ -49,7 +49,7 @@
 		console.log(makeMerchantUid);
 		var merchant_uid = "IMP" + makeMerchantUid;
 		var name = /*[[${play.get().playTitle}]]*/;
-		var amount = parseInt(/*[[${play.get().playPrice}]]*/);
+		var amount = /*[[${play.get().price}]]*/;
 	    console.log(amount);
 	    console.log(name);
 		var buyer_name = '아임포트 기술지원팀';
@@ -58,7 +58,7 @@
 			pg : "html5_inicis.INIpayTest",
 			merchant_uid : "IMP" + makeMerchantUid,
 			name : name,
-			amount : 100,
+			amount : amount,
 			buyer_name : '아임포트 기술지원팀',
 			buyer_email : 'Iamport@chai.finance',
 			buyer_postcode : makeMerchantUid

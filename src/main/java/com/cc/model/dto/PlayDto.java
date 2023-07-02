@@ -33,5 +33,8 @@ public class PlayDto {
 	private String poster;
 	private String mt10id;
 	private int count;		
+	private String price;
+	private String day;
+	private String time;
 	
 }
