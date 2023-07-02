@@ -1,189 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>event_list</title>
     <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
-    <!-- 다헤 연극리스트 -->
     <link rel="stylesheet" href="./css/eventlist.css" type="text/css" media="all">
-    <!-- header nav -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <link rel="stylesheet" href="./css/header.css">
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
-
-            searchIcon.addEventListener('submit', function (e) {
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
-            //사용자 아이콘 클릭시 마이페이지 이동
-            const userIcon = document.querySelector('.user-icon');
-            userIcon.addEventListener('click', function () {
-                window.location.href = 'place.html';
-            });
-        });
-    </script>
+    <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
     <!-- 헤더 nav -->
-    <div class="header">
-        <header>
-            <a href="#"><img src="./img/logo.png" id="logo"></img></a>
-            <div id="nav-content">
-                <nav>
-                    <ul>
-                        <li><a href="/play" class="menu">연극</a></li>
-	                    <li><a href="/place" class="menu">공연장</a></li>
-	                    <li><a href="/actor" class="menu">출연진</a></li>
-	                    <li><a href="/event" class="menu">이벤트</a></li>
-	                    <li><a href="#" class="menu">관람후기</a></li>
-                    </ul>
-                </nav>
-                <div class="right">
-                    <form action="" method="get" class="search">
-                        <input type="text" class="search-input" placeholder="검색어 입력">
-                        <div class="icon"><i class="fas fa-search"></i></div>
-                    </form>
-                    <div class="user-icon">
-                        <i class="fas fa-user fa-lg"></i>
-                    </div>
-                </div>
-            </div>
-        </header>
-    </div>
+    <th:block th:include="header :: body"></th:block>
+    
     <!-- 연극 리스트 -->
     <div id="content-wrap">
-        <!-- 연극 타이틀 및 정렬  -->
-        <div>
-            <div id="theater-list-title">
-                <a>이벤트</a>
-            </div>
-            <hr>
-            <div class="event-sort">
-                <ul>
-                    <li><a href="#">진행중</a></li>
-                    <li><a href="#">진행 예정</a></li>
-
-                </ul>
-            </div>
-        </div>
-        <div id="tab-1" class="tab-content">
-            <a href="#">
+		<h1 id="theater-list-title">이벤트</h1>
+		<hr>
+		<div class="event-sort">
+		    <ul>
+		        <li><a href="#">진행중</a></li>
+		        <li><a href="#">진행 예정</a></li>
+		    </ul>
+		</div>
+        
+       	<div id="tab-1" class="tab-content" th:each="list : ${list}">
+            <a th:href="@{/event/detail(eventId=${list.eventId})}">
                 <div class="event-poster">
-                    <img src="./img/event_poster01.jpg">
+                    <img th:src="${list.eventImg}" th:alt="${list.eventTitle}">
                 </div>
                 <!-- 글 내용 -->
                 <div class="writed">
-                    <h4>대한민국 연극제 in 세종</h4><br>
-                    <p id="date">2022.03.04-2023-05.07</p><br>
-                    <p class="writed-content">대한민국 연극제는 1983년부터 개최된 국내 최대 연극제로, 세종에서는 올해 처음 개최되는 행사라 주목받았다.
-
-                        그러나 개막을 사흘 앞둔 지난 8월 25일 코로나19 확산으로 인해 잠정 연기됐다.
-
-                        시와 대한민국연극제 조직위원회는 최근 코로나19가 안정세에 접어듦에 따라 7일부터 오는 11월 7일까지 조치원 세종문화예술회관, 반곡동 비오케이(BOK) 아트센터에서 이
-                        행사를
-                        재개하기로 했다.
-
-                        이번 연극제에는 전국 시·도 예선전을 거쳐 뽑힌 대표 작품 17편과 차세대 신진 연극인들의 무대인 네트워킹 페스티벌 참가작 8편 등 총 25편의 공연이 차례로 무대에
-                        오른다.
-
-                        다만 현재 특별 방역기간을 고려해 오는 11일까지 진행되는 공연 7편은 비대면(무관객)으로 진행된다.
-
-                        출처 : 세종포스트(http://www.sjpost.co.kr)</p>
+                    <h4 th:text="${list.eventTitle}"></h4>
+                    <p id="date" th:text="${list.eventFrom} + '~' + ${list.eventTo}"></p>
+                    <p th:text="${list.eventContent}" class="writed-content"></p>
                 </div>
             </a>
         </div>
-        <div id="tab-1" class="tab-content">
-            <a href="#">
-                <div class="event-poster">
-                    <img src="./img/event_poster02.jpg">
-                </div>
-                <!-- 글 내용 -->
-                <div class="writed">
-                    <h4>충남 연극제</h4><br>
-                    <p id="date">2022.03.04-2023-05.07</p><br>
-                    <p class="writed-content">
-                        (사)한국연극협회 홍성지부(지부장 이재운)는 5일부터 오는 8일까지 홍주문화회관 대공연장에서 ‘제39회 충남연극제’를 코로나19로 인한 사회적 거리두기 동참으로 무관중 개최한다.
-
-                        충남연극제는 대한민국 최고의 연극축제인 대한민국 연극제에 참가할 충남대표를 선발하기 위해 매해 개최된다. 충남연극제에서 대상을 수상한 작품은 오는 7월 17일로 예정된 ‘제39회 대한민국연극제 in 안동·예천’에 진출하게 된다. 특히 홍성에서는 지난 2015년에 이어 7년 만에 개최해 그 의미가 더한다.
-                        
-                        이번 충남연극제에는 극단 홍성무대의 ‘나비, 꿈, 소녀 그리다.’, (사)한국연극협회 청양지부의 ‘환상 속엔 아직 그대가 있다.’, 극단 천안의 ‘일몰’이 열띤 경연을 펼친다. 또한 비경연팀으로 극단 예촌의 ‘가족 뮤지컬 콩쥐 팥쥐’가 출전한다.
-                        
-                        특히 극단 홍성무대의 ‘나비, 꿈, 소녀 그리다.’는 한복의 수를 놓는 것이 꿈이었던 어린 소녀가 가족을 위해 돈을 벌기 위해 떠났다가 위안부가 되는 일제 강점기의 아픔을 그린 연극이다.
-                        
-                        (사)한국연극협회가 주관하는 이번 연극제는 코로나로 인한 사회적 거리두기에 동참해 현장무관중, 비대면으로 이뤄진다. 공연작품들은 홍성군 유튜브 공식채널에 2주간 게시될 예정이다.
-                        
-                        한편 극단 홍성무대는 지난 2019년 37회 충남연극제에서 대상을 받아 대한민국연극제에 충남 대표로 참가한 바 있다.</p>
-                </div>
-            </a>
-        </div>
-        <div id="tab-1" class="tab-content">
-            <a href="#">
-                <div class="event-poster">
-                    <img src="./img/event_poster03.jpg">
-                </div>
-                <!-- 글 내용 -->
-                <div class="writed">
-                    <h4>고마나루 연극제</h4><br>
-                    <p id="date">2022.03.04-2023-05.07</p><br>
-                    <p class="writed-content">
-                        중부권 최대 규모의 연극경연대회인 제18회 고마나루연극제가 오는 7일 개막해 15일까지 9일간 공주시 일원에서 열린다.
-                        공주시가 주최하고 (사)한국연극협회 공주지부가 주관하는 고마나루연극제는 전국의 각 연극협회 및 연극단체로부터 접수된 연극작품들 중 엄선한 작품들이 경연을 펼치는 자리다.
-                        
-                        이번 연극제에는 극단 맥 ‘삼태사’, 도화원엔터테인먼트 ‘흑성-블랙스타’, 극단 대학로극장 ‘배뱅이 굿’ 등 지난 6월 10일부터 7월 12일까지 공모와 심사를 통해 선정된 6개 작품이 공주문예회관 및 공주시 일원에서 선보인다.
-                        
-                        공연 장면을 성우의 내레이션 등으로 전달해 시각장애를 가진 관람객도 함께 즐길 수 있도록 배리어프리 공연을 경연작에 포함시켰다.
-                        
-                        단체 부문 대상에게는 문화체육관광부 장관상과 함께 1000만원의 상금이 수여되고, 연출과 연기, 무대기술 등 개인 부문별 시상도 진행된다.
-                        
-                        
-                        특히, 올해는 그동안의 과제였던 연극제의 국제화 방안을 모색하기 위한 다양한 시도가 엿보인다.
-                        
-                        카자흐스탄 국립아카데미고려극장의 작품이 국내 공연팀과 현지 예술가와의 온라인 협업을 통해 제작한 ‘안녕, 굴사르’ 작품이 초청공연 무대에 오른다.
-                        
-                        이를 포함해 7일부터 15일까지 모두 6편의 초청공연이 관객을 만난다.
-                        
-                        한편, 시는 이번 연극제의 모든 출연진과 스태프, 관계자 등을 대상으로 코로나19 진단검사를 사전에 실시할 예정이다.</p>
-                </div>
-            </a>
-        </div>
-        <div id="tab-1" class="tab-content">
-            <a href="#">
-                <div class="event-poster">
-                    <img src="./img/event_poster01.jpg">
-                </div>
-                <!-- 글 내용 -->
-                <div class="writed">
-                    <h4>대한민국 연극제 in 세종</h4><br>
-                    <p id="date">2022.03.04-2023-05.07</p><br>
-                    <p class="writed-content">대한민국 연극제는 1983년부터 개최된 국내 최대 연극제로, 세종에서는 올해 처음 개최되는 행사라 주목받았다.
-
-                        그러나 개막을 사흘 앞둔 지난 8월 25일 코로나19 확산으로 인해 잠정 연기됐다.
-
-                        시와 대한민국연극제 조직위원회는 최근 코로나19가 안정세에 접어듦에 따라 7일부터 오는 11월 7일까지 조치원 세종문화예술회관, 반곡동 비오케이(BOK) 아트센터에서 이
-                        행사를
-                        재개하기로 했다.
-
-                        이번 연극제에는 전국 시·도 예선전을 거쳐 뽑힌 대표 작품 17편과 차세대 신진 연극인들의 무대인 네트워킹 페스티벌 참가작 8편 등 총 25편의 공연이 차례로 무대에
-                        오른다.
-
-                        다만 현재 특별 방역기간을 고려해 오는 11일까지 진행되는 공연 7편은 비대면(무관객)으로 진행된다.
-
-                        출처 : 세종포스트(http://www.sjpost.co.kr)</p>
-                </div>
-            </a>
-        </div>
-    </div> <!— content wrap ( 양옆 여백 )—>
+    </div>
 </body>
 
 </html>

@@ -16,9 +16,7 @@
     <div id="content-wrap">
         <!-- 연극 타이틀 및 정렬  -->
         <div>
-            <div id="theater-list-title">
-                <a>연극 목록</a>
-            </div>
+            <h1 id="theater-list-title">연극</h1>
             <hr>
             <div class="theater-sort">
                 <ul>
@@ -36,9 +34,8 @@
                     <a th:href="@{/play/detail(playId=${item.playId})}">    <!-- 해당 연극 상세페이지 이동 -->
                         <div class="theater-poster">
                             <img th:src="@{${item.playPoster}}" th:alt="${item.playTitle}">
-                            
                         </div>
-                        <h4 th:text="${item.playTitle}"></h4>
+                        <h4 class="theater-title" th:text="${item.playTitle}"></h4>
                         <p th:text="${item.playFrom} + ' ~ ' + ${item.playTo}"></p>
                     </a>
                 </div>

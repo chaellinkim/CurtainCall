@@ -23,7 +23,6 @@ import lombok.Data;
 @Table(name="PLACE")
 public class Place {
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="place_id")
 	private String placeId;
 	
