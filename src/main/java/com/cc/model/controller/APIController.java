@@ -46,7 +46,7 @@ public class APIController {
         String url2 = "http://www.kopis.or.kr/openApi/restful/prfplc";
         String serviceKey = "722233b68ffa4883ae5213ccf16565a5";
         String stDate = "20200101";
-        String edDate = "20230630";
+        String edDate = "20231030";
         String rows = "100";
         String cPage = "1";
 
@@ -78,7 +78,6 @@ public class APIController {
                     for (int i = 0; i < dbList.getLength(); i++) {
                         Element dbElement = (Element) dbList.item(i);
                         String mt20id = dbElement.getElementsByTagName("mt20id").item(0).getTextContent();
-                        System.out.println(mt20id);
                        
                         String apiUrl2 = url +"/"+mt20id+"?service=" + serviceKey;
                         
@@ -87,9 +86,8 @@ public class APIController {
                         	response2 = restTemplate2.getForEntity(apiUrl2, String.class);
                         	if (response2.getStatusCode() == HttpStatus.OK) {
                                 String xmlResponse2 = response2.getBody();
-                                System.out.println("그대로" + xmlResponse2);
                                 JSONObject jsonObject = XML.toJSONObject(xmlResponse2);
-                                System.out.println("json 출력"+jsonObject.toString());
+
                                 
                                 // String jsonEx = "{\"id\":1,\"prfnm\":\"타이틀\",\"pcseguidance\":\"공연명 \",\"pcseguidance\":\"가격 \",\"prfpdfrom\":\"2023.06.10\",\"prfpdto\":\"2023.06.10\",\"prfage\":\"나이 \",\"poster\":\"링크 \",\"mt10id\":\"placeid\"}";
                                 ObjectMapper objectMapper = new ObjectMapper();
@@ -100,10 +98,32 @@ public class APIController {
                                 JsonNode dbNode = rootNode.path("dbs").path("db");
                                 playDto = objectMapper.readValue(dbNode.toString(), PlayDto.class);
                                 
-                                playService.insert(playDto);
+                                String price = playDto.getPcseguidance();
+                                String dayTime = playDto.getDtguidance();
+                                String priceNumber = price.replaceAll("[^\\d]", "");
+                                String day;
+                                String time;
+
+								if (priceNumber.isEmpty()) {
+								    priceNumber = "0";
+								}
+								int bracketIndex = dayTime.indexOf("(");
+								if (bracketIndex != -1) {
+								    // 괄호 이전의 문자열은 요일에 저장
+								    day = dayTime.substring(0, bracketIndex).trim();
+								    
+								    // 괄호 안의 문자열은 시간에 저장 (괄호 제거 후 공백 제거)
+								    time = dayTime.substring(bracketIndex + 1, dayTime.length() - 1).trim();
+								} else {
+								    // 괄호가 없을 경우 예외 처리
+								    day = "";
+								    time = "";
+								}
+                                playDto.setPrice(priceNumber);
+                                playDto.setDay(day);
+                                playDto.setTime(time);
                                 
-                                System.out.println("-----");
-                                System.out.println("playdto 출력!!!!"+playDto.toString());
+                                playService.insert(playDto);
                                 
                              // 필요한 태그의 값을 가져옵니다.
                              // String prfnm = jsonObject.getJSONObject("db").getString("prfnm");
