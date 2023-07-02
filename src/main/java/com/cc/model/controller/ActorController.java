@@ -85,8 +85,8 @@ public class ActorController {
 	@DeleteMapping("/actor/comment/{commentId}")
 	public Map<String, String> deleteComment(@PathVariable long commentId) {
 		Map<String,String> response = new HashMap<>();
-        String message = "성공";
-        response.put("message", message);
+		String url = "/actor";
+        response.put("url",url);
 		actorCommentService.delete(commentId);
 		return response;
 	}
