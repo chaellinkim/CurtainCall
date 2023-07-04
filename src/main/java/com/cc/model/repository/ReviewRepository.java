@@ -1,0 +1,32 @@
+package com.cc.model.repository;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cc.model.entity.Review;
+
+//리뷰 db 만들면 jpa 상속 하기
+@Repository
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+   
+   
+   @Transactional
+   @Modifying
+   @Query("UPDATE REVIEW SET REVIEW_COUNT = REVIEW_COUNT + 1 WHERE REVIEW_ID = ?1")
+   int update(long review_id);
+   
+ //ReviewRepository
+
+   @Query("SELECT R FROM REVIEW R WHERE PLAY_TITLE = ?1 ORDER BY REVIEW_DATE DESC")
+   List<Review> findByPlay_title(String play_title);
+   
+   @Query("SELECT R FROM REVIEW R ORDER BY REVIEW_DATE DESC")
+   List<Review> findAllDESC();
+}

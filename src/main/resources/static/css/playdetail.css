@@ -47,12 +47,7 @@ a {
 /* 예매박스 */
 .reserve-wrap {
     margin-top: 1vh;
-    background-color: pink;
     height: 40vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 /* 예매하기 버튼 */
@@ -271,107 +266,7 @@ a.button {
     font-size: 15px;
     color: #aaa;
 }
-/* 좋아요 css */
 
-.container .love {
-    font-size: 0.9rem;
-    color: #ff4f8f;
-  }
-  .container .wrapper {
-    float: right;
-    margin-bottom: 10px;
-    padding-left: 140px;
-  }
-  .container .wrapper .like-button {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    text-decoration: none;
-    overflow: hidden;
-  }
-  .container .wrapper .like-button .like-overlay {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ff4f8f;
-    transform: scale(0);
-    transition: all 0.4s;
-    z-index: 0;
-  }
-  .container .wrapper .like-button i.not-liked {
-    display: block;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-  }
-  .container .wrapper .like-button i.is-liked {
-    display: none;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-  }
-  .container .wrapper .like-button.is-active .like-overlay {
-    transform: scale(1);
-  }
-  .container .wrapper .like-button.is-active i.not-liked {
-    display: none;
-  }
-  .container .wrapper .like-button.is-active i.is-liked {
-    display: block;
-  }
-  @keyframes bouncy {
-    from, to {
-      transform: scale(1, 1);
-    }
-    25% {
-      transform: scale(0.9, 1.1);
-    }
-    50% {
-      transform: scale(1.1, 0.9);
-    }
-    75% {
-      transform: scale(0.95, 1.05);
-    }
-  }
-  .bouncy {
-    animation: bouncy 0.6s;
-    animation-duration: 0.6s;
-    animation-fill-mode: both;
-  }
-  
-  .link-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #6dacff;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.4s;
-  }
-  .link-button img {
-    width: 32px;
-    height: 32px;
-    display: block;
-  }
-  .link-button:hover {
-    transform: scale(1.1) rotate(180deg);
-    background: #ff4f8f;
-  }/*# sourceMappingURL=like-btn01.css.map */
-  
 /* 화면 전환 */
 .tab-content {
     display: none;
@@ -380,7 +275,7 @@ a.button {
 .tab-content.current {
     display: inherit;
 }
-
+/* 달력 */
 .datepicker-container {
   max-width: 600px; /* 원하는 가로 크기 */
   margin: 0 auto;

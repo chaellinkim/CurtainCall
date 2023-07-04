@@ -1,196 +1,300 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./css/review.css">
 <link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
+   href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
+   rel="stylesheet">
 
 <title>Insert title here</title>
 <th:block th:include="header :: head"></th:block>
+<link rel="stylesheet" href="/css/review.css">
+<script
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/fe66fff399.js"
-	crossorigin="anonymous"></script>
+   crossorigin="anonymous"></script>
 <script>
-	window.onload = function() {
+        window.onload = function () {
 
-		// 리뷰 현재 월 가져오기
-		/* let nowMonth = new Date();
-		document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`; */
-	}
-	var modal = document.getElementById("myModal");
-	var btn = document.getElementById("openModal");
-	var span = document.getElementsByClassName("modal-close")[0];
+            // 리뷰 현재 월 가져오기
+            /* let nowMonth = new Date();
+            document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`; */
+        }
+        var modal = document.getElementById("myModal");
+        var modalbtn = document.getElementById("openModal");
+        var span = document.getElementsByClassName("modal-close")[0];
+//         var state = document.getElementById("state").value;
 
-	function register() {
-		var modal = document.getElementById("myModal");
-		modal.style.display = "block";
-	}
-	function close(){
-		var modal = document.getElementById("myModal");
-		modal.style.display = "none";
-	}
+        function register() {
+            var state = document.getElementById("state").value;
+            if(state === ''){
+            alert('로그인 후 이용 가능합니다.');
+            window.location.href="/login";
+            }else{
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            }
+        }
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
 
-	/* var span = document.getElementsByClassName("modal-close")[0];
-	span.addEventListener("click", function() {
-		var modal = document.getElementById("myModal");
-		modal.style.display = "none";
-	});
-
-	window.addEventListener("click", function(event) {
-		var modal = document.getElementById("myModal");
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	}); */
-</script>
+        /* var span = document.getElementsByClassName("modal-close")[0];
+        span.addEventListener("click", function() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        });
+    
+        window.addEventListener("click", function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }); */
+    </script>
 </head>
+
 <body>
-	<!-- 헤더 nav -->
-	<th:block th:include="header :: body"></th:block>
-	<!-- 후기 리스트 -->
-	<!-- 4. 월간 베스트 리뷰 -->
-	<div id="review">
-		<h2 id="review-month">Montly Best</h2>
-		<div class="feed-box">
-			<!-- 1등 후기 -->
-			<div class="feed">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 1등
-					</div>
-					<div class="review-userid">user1234 님</div>
-				</div>
-				<img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
-					</div>
-				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
-				<!-- 후기 내용 -->
-			</div>
+   <!-- 헤더 nav -->
+   <th:block th:include="header :: body"></th:block>
+   <!-- 후기 리스트 -->
+   <!-- 4. 월간 베스트 리뷰 -->
+   <div id="review">
+      <h2 id="review-month">Montly Best</h2>
+      <div class="feed-box">
+         <!-- 1등 후기 -->
+         <div class="feed">
+            <!-- 리뷰 상단 -->
+            <div class="review-top">
+               <div class="review-ranking">
+                  <i class="fa-solid fa-crown"></i> 1등
+               </div>
+               <div class="review-userid">user1234</div>
+            </div>
+            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
+               width="300px" height="300px">
+            <!-- 리뷰 하단 -->
+            <div class="review-wrap">
+               <div class="theater-name">연극라면</div>
+               <!-- 연극 이름 -->
+               <div class="icon-box">
+                  <i class="fa-solid fa-heart"></i>
+                  <div class="likeNum">32</div>
+               </div>
+            </div>
+            <div class="review-content">너무너무 재밌어요~!</div>
+            <!-- 후기 내용 -->
+         </div>
 
-			<!-- 2등 후기 -->
-			<div class="feed">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 2등
-					</div>
-					<div class="review-userid">user1234 님</div>
-				</div>
-				<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
-					</div>
-				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
-				<!-- 후기 내용 -->
-			</div>
+         <!-- 2등 후기 -->
+         <div class="feed">
+            <!-- 리뷰 상단 -->
+            <div class="review-top">
+               <div class="review-ranking">
+                  <i class="fa-solid fa-crown"></i> 2등
+               </div>
+               <div class="review-userid">user1234</div>
+            </div>
+            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
+               width="300px" height="300px">
+            <!-- 리뷰 하단 -->
+            <div class="review-wrap">
+               <div class="theater-name">연극라면</div>
+               <!-- 연극 이름 -->
+               <div class="icon-box">
+                  <i class="fa-solid fa-heart"></i>
+                  <div class="likeNum">32</div>
+               </div>
+            </div>
+            <div class="review-content">너무너무 재밌어요~!</div>
+            <!-- 후기 내용 -->
+         </div>
 
-			<!-- 3등 후기 -->
-			<div class="feed">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 3등
-					</div>
-					<div class="review-userid">user1234 님</div>
-				</div>
-				<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
-					</div>
-				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
-				<!-- 후기 내용 -->
-			</div>
-		</div>
-		<hr>
-		<div class="feed2">
-			<!-- 리뷰 상단 -->
-			<div class="review-top">
-				<div class="review-userid">user1234 님</div>
-			</div>
-			<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-				width="300px" height="300px">
-			<!-- 리뷰 하단 -->
-			<div class="review-wrap">
-				<div class="theater-name">연극라면</div>
-				<!-- 연극 이름 -->
-				<div class="icon-box">
-					<i class="fa-solid fa-heart"></i>
-					<div class="likeNum">32</div>
-				</div>
-			</div>
-			<div class="review-content">너무너무 재밌어요~!</div>
-			<!-- 후기 내용 -->
-		</div>
-		<div class="feed2">
-			<!-- 리뷰 상단 -->
-			<div class="review-top">
-				<div class="review-userid">user1234 님</div>
-			</div>
-			<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-				width="300px" height="300px">
-			<!-- 리뷰 하단 -->
-			<div class="review-wrap">
-				<div class="theater-name">연극라면</div>
-				<!-- 연극 이름 -->
-				<div class="icon-box">
-					<i class="fa-solid fa-heart"></i>
-					<div class="likeNum">32</div>
-				</div>
-			</div>
-			<div class="review-content">너무너무 재밌어요~!</div>
-			<!-- 후기 내용 -->
-		</div>
+         <!-- 3등 후기 -->
+         <div class="feed">
+            <!-- 리뷰 상단 -->
+            <div class="review-top">
+               <div class="review-ranking">
+                  <i class="fa-solid fa-crown"></i> 3등
+               </div>
+               <div class="review-userid">user1234</div>
+            </div>
+            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
+               width="300px" height="300px">
+            <!-- 리뷰 하단 -->
+            <div class="review-wrap">
+               <div class="theater-name">연극라면</div>
+               <!-- 연극 이름 -->
+               <div class="icon-box">
+                  <i class="fa-solid fa-heart"></i>
+                  <div class="likeNum">32</div>
+               </div>
+            </div>
+            <div class="review-content">너무너무 재밌어요~!</div>
+            <!-- 후기 내용 -->
+         </div>
+      </div>
+      <hr>
+      <div class="feed2" th:each="review:${review}">
+         <!-- 리뷰 상단 -->
+	         <div class="review-top">
+	            <i class="fa-solid fa-user"></i>
+	              <div class="review-userid" th:text="${review.userName}">user1234</div>
+	         </div>
+	         <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+	            alt="게시물 이미지" class="post-image" width="300px" height="300px">
+	         <!-- 리뷰 하단 -->
+	         <div class="review-wrap">
+	            <!-- 좋아요 -->
+	            <div class="icon-box">
+	               <button class="like-button">
+	                  <i class="fa-solid fa-heart" th:attr="data-review-id=${review.review_id}"
+	                     onclick="likeClick(this)"></i>
+	               </button>
+	               <div class="likeNum" th:text="${review.review_count}">32</div>
+	            </div>
+	         </div>
+	         <div class="theater-name">
+	            <i class="fa-solid fa-clapperboard"></i><span
+	               th:text="${review.play_title}">연극라면</span>
+	         </div>
+	         <!-- 연극 이름 -->
+	         <div class="review-content" th:text="${review.review_comment}">너무너무
+	            재밌어요~!</div>
+	         <!-- 후기 내용 -->
+	        <hr class="hrLine">
+      </div>
 
-		<div class="fixed-button" id="openModal" onclick="register()">+</div>
 
-		<div class="modal" id="myModal">
-			<div class="modal-content">
-				<div class="modal-title">
-					<h2>관람후기 작성하기</h2>
-					<span class="modal-close" onclick="close()">&times;</span>
-				</div>
-				<form class="modal-form" action="/submit-review" method="POST">
-					<div class="modal-form-left">
-						<input type="file" accept="image/*">
-					</div>
-					<div class="modal-form-right">
-						<span>userId</span>
-						<textarea placeholder="내용을 입력하세요" name="content"></textarea>
-					</div>
-				</form>
-				<div class="modal-form-button">
-					<button type="submit">등록하기</button>
-				</div>
-			</div>
-		</div>
-	</div>
+      <input type="hidden" id="state" th:value="${user_state}">
+      <div class="fixed-button" id="openModal" onclick="register()">+</div>
 
+      <div class="modal" id="myModal">
+         <div class="modal-content">
+            <div class="modal-title">
+               <h2>관람후기 작성하기</h2>
+               <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <form class="modal-form" action="/submit-review" method="post"
+               enctype="multipart/form-data">
+               <!-- 영화선택 드롭다운 -->
+               <!-- Contenedor -->
+               <div class="container">
+                  <div class="form">
+                     <div class="selectbox selectbox--unselect" data-option="">
+                        <div class="selectbox__displayWord">-- 연극 선택 --</div>
+                        <div class="option-container">
+
+                           <div class="option-container__option"
+                              th:each="title,iterStat: ${playtitle}">
+                              <input type="radio" th:id="${'category_'+title}"
+                                 class="option__radio" th:value="${title}" name="category">
+                              <label class="option__label" th:for="${'category_'+title}"
+                                 th:text="${title}">연극 라면</label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- 내용 입력칸 -->
+               <div class="modal-form-left">
+                  <input type="file" accept="image/*" multiple="multiple" name="img">
+               </div>
+               <div class="modal-form-right">
+                  <textarea placeholder="내용을 입력하세요" name="content"></textarea>
+               </div>
+
+               <!-- 파일 업로드 버튼 -->
+               <div class="modal-form-button">
+                  <div id="container">
+                     <button class="learn-more">
+                        <span class="circle" aria-hidden="true"> <span
+                           class="icon arrow"></span>
+                        </span> <span class="button-text">등록 하기</span>
+                     </button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <script>
+        // 드롭다운 js
+        const selectbox = document.querySelector(".selectbox");
+        const selectboxDisplay = document.querySelector(".selectbox__displayWord");
+        const submitbtn = document.querySelector(".learn-more");
+        const optionList = document.querySelectorAll(".option-container__option");
+        /* 좋아요 js */
+//         $(document).ready(function () {
+           
+//             $('.like-button').click(function () {
+//                 $.ajax({
+//                    url: '/review/likecount',
+//                    type: 'post',
+//                    data: {
+//                       'content' : ${}
+//                    }
+//                 })
+//             })
+
+//         })
+
+      function likeClick(element){
+           
+         var review_id = element.getAttribute("data-review-id");
+         
+           console.log(review_id);
+             $.ajax({
+                url: '/review/likecount',
+                type: 'post',
+                data: {
+                   'review_id' : review_id
+                },
+                dataType : 'json',
+                success : function(result){
+                   if(result === "true") {
+                      
+                   }else{
+                      location.reload();
+                   }
+                }
+         });
+        }
+		
+	      selectboxDisplay.addEventListener("click", (e) => {
+	          e.stopPropagation();
+	          selectbox.classList.toggle("selectbox--active");
+	      });
+	
+	      function shakeBox() {
+	          selectbox.classList.add("selectbox--shake");
+	          setTimeout(() => {
+	              selectbox.classList.remove("selectbox--shake");
+	          }, 300);
+	      }
+	
+	      optionList.forEach((option, index) => {
+	          option.addEventListener("click", (e) => {
+	              e.stopPropagation();
+	
+	              let label = option.querySelector("label");
+	              selectboxDisplay.innerHTML = label.innerHTML.length > 17 ? label.innerHTML.substring(0, 17) + "..." : label.innerHTML;
+	              selectbox.setAttribute("data-option", label.getAttribute("data-value"));
+	              selectbox.classList.remove("selectbox--active", "selectbox--unselect");
+	          });
+	      });
+	
+	      submitbtn.addEventListener("click", () => {
+	          if (selectbox.classList.contains("selectbox--unselect")) shakeBox();
+	      });
+	
+	      window.addEventListener("click", () => {
+	          selectbox.classList.remove("selectbox--active");
+	      });
+
+    </script>
 </body>
+
 </html>
-
-
-
