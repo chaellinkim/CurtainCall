@@ -14,53 +14,155 @@ a {
 #content-wrap {
     font: optional;
     width: 65vw;
+    min-width: 865px;
     margin: auto;
 }
-
 .theater-wrap {
-    margin-top: 8vh;
-    background-color: azure;
-    /* 포스터 옆에 정보 나란히 붙히기위해 부모div에 display : flex */
-    display: flex;
+	display: flex;
+    margin-top: 70px;
+    margin-bottom: 25px;
 }
-
 /* 포스터 크기 */
 .theater-poster img {
-    width: 20vw;
-    height: 50vh;
-    margin-right: 5vw;
+    width: 265px;
+    height: 365px;
+    overflow: hidden;
+    margin-right: 55px;
     border-radius: 12px;
 }
 
 /* 연극 정보 */
 .theater-info {
-    width: 30vw;
+    width: 100%;
     height: auto;
     margin-top: 5vh;
-
 }
-
-.theater-info h4 {
-    font-size: 30px;
+.theater-title {
+	display: flex;
+	align-items: center;
+	column-gap: 4px;
+	margin-bottom: 20px;
+}
+.theater-title h1{
+	font-size: 28px;
+	font-weight: 800;
+}
+.theater-detail{
+	display: flex;
+	align-items: center;
+	column-gap: 4px;
+	margin-bottom: 22px;
+}
+.theater-detail.first {
+	margin-top: 28px;
 }
 
 /* 예매박스 */
 .reserve-wrap {
     margin-top: 1vh;
-    background-color: pink;
     height: 40vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
+/* 예매박스 */
+.reserve-wrap {
+    margin-top: 1vh;
+    height: 40vh;
+    margin-bottom: 5vh;
+}
+/* step1 */
+.step-1{
+    margin-left: 20px;
+    float: left;
+}
+.step-1 h1{
+    color: #6dacff;
+}
+/* 달력 css */
+.calbox {
+    flex: 1.5;
+    background-color: white;
+    height: auto;
+    width: 300px;
+    padding: auto 0;
+    border-radius: 5px;
+    margin-left: 120px;
+    margin-right: 10px;
+}
+
+td {
+    width: 37.5px;
+    height: 37.5px;
+}
+
+.Calendar {
+    text-align: center;
+}
+
+.Calendar>thead>tr:first-child>td {
+    font-family: 'Questrial', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.Calendar>thead>tr:last-child>td {
+    font-family: 'Questrial', sans-serif;
+    font-weight: 600;
+}
+
+.Calendar>tbody>tr>td>p {
+    font-family: 'Montserrat', sans-serif;
+    height: 36px;
+    width: 36px;
+    border-radius: 36px;
+    transition-duration: .2s;
+    line-height: 36px;
+    margin: 2.5px;
+    display: block;
+    text-align: center;
+}
+
+.pastDay {
+    color: lightgray;
+}
+
+.today {
+    background-color: #F5D042;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.futureDay {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.futureDay:hover {
+    background: #eee;
+}
+
+.futureDay.choiceDay,
+.today.choiceDay {
+    background: #0A174E;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* 시간선택 */
+.step-2{
+
+}
+.step-2 h1{
+    color: #6dacff;
+}
 /* 예매하기 버튼 */
 .reserve-btn {
     height: 10vh;
     margin-left: 55vw;
-   margin-top: 1vh;
+    margin-top: 1vh;
 }
+
 
 /* https://inpa.tistory.com/entry/CSS-%F0%9F%92%8D-%EB%B2%84%ED%8A%BC-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%AA%A8%EC%9D%8C */
 .btnLightBlue {
@@ -95,7 +197,7 @@ a.button {
     box-shadow: 0px 0px 0px 0px #b7c6c600;
 }
 
-/* 추천 연극 */
+/* 추천 연극
 .theater-recommand {
     background-color: skyblue;
     text-align: center;
@@ -108,21 +210,24 @@ a.button {
     color: rgb(163, 160, 160);
     transition: 0.5s;
 }
-/* 추천연극 포스터 */
+/* 추천연극 포스터 
 .recommand-poster img{
     width: 15vw;
     height: 40vh;
     border-radius: 12px;
     margin:30px;
-}
+} */
+
 /* 정보 , 후기 , 출연진 탭 */
 
 /* 위로올라가면 화면위에 붙게끔 */
 .tab-menu {
-    height: 10.5vh;
-    background-color: bisque;
+    height: 10vh;
+    background-color: white;
     position: sticky;
-    top: 0;
+    top:0;
+    border-bottom: 2px solid rgb(221, 221, 221); 
+    padding-bottom: -2px;
 }
 
 .tab-btn {
@@ -134,39 +239,141 @@ a.button {
     margin-top: 3.5vh;
     margin-left: 13vw;
 }
-
 /* 연극상세정보 이미지 */
 .promotion img {
     width: 65vw;
 }
 
 /* 예매자 통계 */
-.statistics {
-    background-color: pink;
-    height: 30vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.statistics h4{
+    font-size: 30px;
+    text-align: center;
+    margin-top: 10px;
 }
-/* 후기 */
-.review {
-    background-color: pink;
-    height: 40vh;
-    /* 지울것 */
+.statistics-container {
+
     display: flex;
-    justify-content: center;
+  }
+  
+  .statistics-box {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-}
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+  }
+  
+  .statistics-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .statistics-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .statistics-label {
+    font-weight: bold;
+  }
+  canvas {
+    float: right;
+  }
 /* 캐스팅 */
 .cast {
-    background-color: pink;
-    height: 40vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 4개의 열을 생성 */
+    grid-gap: 10px; /* 이미지 사이의 간격 설정 */
+    grid-row-gap: 20px;
 }
+.cast img{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-top: 20px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.cast-info{
+    text-align: center;
+    margin-bottom: 50px;
+}
+.cast-info p{
+    font-size: 20px;
+    font-weight: 500;
+}
+/* 관람후기 */
+.detailBox {
+    width:65vw;
+    height: auto;
+    margin-bottom: 20vh;
+}
+
+.commentBox {
+    padding:10px;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:50%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+/* 후기 첨부사진 */
+.commentImage {
+    width: 80%;
+    margin-right:5px;
+    height:100%;
+}
+.commentImage img {
+    width:200px;
+    height: 200px;
+    border-radius:5%;
+    margin-bottom: 10px;
+}
+/* 후기 내용 */
+.commentText{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 100%;
+    float: left;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    padding:10px;
+    
+}
+/* 닉네임 크기 조절 */
+.userName p{
+    font-size: 15px;
+    color: #aaa;
+}
+
 /* 화면 전환 */
 .tab-content {
     display: none;
@@ -175,3 +382,31 @@ a.button {
 .tab-content.current {
     display: inherit;
 }
+/* 달력 */
+.datepicker-container {
+  max-width: 600px; /* 원하는 가로 크기 */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+  h2 {
+    text-align: center;
+  }
+
+  .datepicker {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 300px; /* 원하는 캘린더 가로 크기 */
+    height: 250px; /* 원하는 캘린더 세로 크기 */
+  }
+  .ui-datepicker-prev {
+    margin-right: 70px; /* 간격 크기 조절 */
+  }
+  .ui-datepicker-next {
+    margin-left: 70px;;
+  }
+
+

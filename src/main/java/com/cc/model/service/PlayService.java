@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cc.model.dto.PlayDto;
 import com.cc.model.entity.Play;
 import com.cc.model.mapper.PlayMapper;
+import com.cc.model.mapper.ReviewMapper;
 import com.cc.model.repository.PlayRepository;
 
 @Service
@@ -31,10 +32,6 @@ public class PlayService {
 		playRepository.save(play);
 	}
 	
-  public List<Play> selectAll(){
-		return playRepository.findAll();
-	}
-  
 	public Page<Play> selectAll(Pageable pageable){
 		return playRepository.findAll(pageable);
 	}
@@ -58,5 +55,13 @@ public class PlayService {
 		//System.out.println("call"+playId+" "+count);
 		return playRepository.updateCount(count, playId);
 	}
+	public List<Play> selectBestPlay(){
+		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
+	}
 	
+	//playService
+
+	   public List<ReviewMapper> selectTitle(){
+	      return playRepository.findAllByOrderByPlayTitleAsc();
+	   }
 }

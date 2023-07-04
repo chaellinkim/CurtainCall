@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event_detail</title>    
+    <link rel="stylesheet" href="/css/eventdetail.css" type="text/css" media="all">
+    <!-- header nav -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cd881899b1.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        // 홈페이지 div 로 스크롤
+        function scrollToHomepage() {
+            var homepage = document.getElementById('homepage');
+            homepage.scrollIntoView({ behavior: 'smooth'});
+        }
+        // 상세정보 div 로 스크롤
+         function scrollToDetail() {
+            var eventcontent = document.getElementById('event-content');
+            eventcontent.scrollIntoView({ behavior: 'smooth'});
+        }
+         // 장소 div 로 스크롤
+         function scrollToPlace() {
+            var eventplace = document.getElementById('event-place');
+            eventplace.scrollIntoView({ behavior: 'smooth'});
+        }
+    
+    </script>
+    <th:block th:include="header :: head"></th:block>
+</head>
+<body>
+    <!-- 헤더 nav -->
+    <th:block th:include="header :: body"></th:block>
+    
+    <!-- 이벤트 상세 페이지 -->
+    <div id="content-wrap"> <!-- 양옆 여백 -->
+        <div id="homepage" class="content-info"> <!-- 개요 div -->
+            <h1 th:if="${event.isPresent()}" th:text="${event.get().eventTitle}"></h1>
+            <p th:if="${event.isPresent()}" th:text="${event.get().eventFrom} + ' ~ ' + ${event.get().eventTo}"></p><br>
+            <p>우리나라 현대 연극의 흐름과 방향을 한번에</p><br>
+        </div>
+        <!-- tab 버튼 -->
+        <div id="tab-btn">
+            <ul class="tab-nav">
+                <li onclick="scrollToDetail()"><a style="cursor:pointer" class="menu">상세정보</a></li>
+                <li onclick="scrollToHomepage()"><a style="cursor:pointer" class="menu">홈페이지</a></li>
+                <li onclick="scrollToPlace()"><a style="cursor:pointer" class="menu">장소</a></li>
+            </ul>
+        </div>
+        <!-- 홈페이지 div -->
+        <div class="homepage">
+            <p><i class="fa-sharp fa-solid fa-house" style="color: #ccd9ef;"></i>홈페이지 : <a th:if="${event.isPresent()}" th:href="${event.get().eventHompage}" target="_blank" th:text="${event.get().eventHompage}"></a></p>
+        </div>
+        <!-- 연극제 내용 -->
+        <div id="event-content" class="event-content">
+            <div id="event-img">
+                <img th:if="${event.isPresent()}" th:src="${event.get().eventImg}" th:alt="${event.get().eventTitle}">
+            </div>
+        </div>
+        <!-- 장소 div -->
+        <div id="event-place" class="event-place">
+            <br><br>
+            <p th:if="${event.isPresent()}" th:text="'행사장소 : ' + ${event.get().eventPlace}">
+            	<i class="fa-solid fa-camera-movie"></i>
+            </p>
+        </div>
+    </div> <!--  content wrap ( 양옆 여백 ) -->
+</body>
+
+</html>

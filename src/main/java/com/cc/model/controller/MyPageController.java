@@ -1,25 +1,24 @@
 package com.cc.model.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cc.model.entity.Actor;
-import com.cc.model.service.ActorService;
-
-import java.util.Optional;
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
+import com.cc.model.entity.User;
+import com.cc.model.entity.Wish;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.repository.WishRepository;
 import com.cc.model.service.UserService;
 import com.cc.model.service.WishService;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 

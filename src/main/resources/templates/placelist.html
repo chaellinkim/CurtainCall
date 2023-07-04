@@ -2,211 +2,275 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>Google Maps API Example</title>
+<title>CurtainCall</title>
 <link rel="stylesheet" href="../css/placelist.css">
-<link rel="stylesheet" href="../css/header.css">
-<link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
-<script src="https://kit.fontawesome.com/fe66fff399.js"
-	crossorigin="anonymous"></script>
+<link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
-/* //script문에 추가
-var article_subject = $('input[name=article_subject]').val();
-
-//html에 추가
-<input type="hidden" name="article_subject" th:value="${article.subject}"> */
-
-var la = [[${list[0].la}]];
-var lo = [[${list[0].lo}]];
-console.log(la,lo);
-
-//Header
-document.addEventListener('DOMContentLoaded', function(){
-    //검색버튼 활성화
-    const searchForm = document.querySelector('.search');
-    const searchInput = document.querySelector('.search-input');
-    const searchIcon = document.querySelector('.icon');
-
-    searchIcon.addEventListener('click', function(e){
-        e.preventDefault();     //폼 제출 동작 방지
-        const keyword = searchInput.value;
-        console.log('검색어: ', keyword);
-    })
-
-    //사용자 아이콘 클릭시 마이페이지 이동
-    const userIcon = document.querySelector('.user-icon');
-    userIcon.addEventListener('click', function(){
-        window.location.href = 'place.html';
-    });
-});
-
+    /* //script문에 추가
+    var article_subject = $('input[name=article_subject]').val();
     
-//tab 화면 전환
-$(document).ready(function(){
-	//let btn = document.getElementsByClassName()
-	
-    //장소에 따른 탭
-    $('.tab-place li').click(function(){
-    	
-        var tabId = $(this).data("tab");
+    //html에 추가
+    <input type="hidden" name="article_subject" th:value="${article.subject}"> */
 
-        $('.tab-place li').removeClass('current');
-        $('.place-content').removeClass('current');
+    var la = [[${ list[0].la }]];
+    var lo = [[${ list[0].lo }]];
+    //console.log(la,lo);
 
-        $(this).addClass('current');
-        $("#"+tabId).addClass('current');
+    $(document).ready(function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var placeId = urlParams.get('placeId');
 
-        la = $("#"+tabId).children()[0].value;
-    	lo = $("#"+tabId).children()[1].value;
-    	console.log(la + ":" +lo);
+        // 첫 번째 탭을 기본으로 설정
+        if (placeId) {
+            var tabId = "place" + placeId;
+            var playId = "play" + placeId;
+
+            openTab(tabId, placeId);
+            setTimeout(function () {
+                openTab2(playId);
+            }, 0);
+        } else {
+            var firstPlaceId = $(".place-link > a:first").parent().data("place-id");
+            var firstTabId = "place" + firstPlaceId;
+            var firstPlayTabId = "play" + firstPlaceId;
+
+            openTab(firstTabId, firstPlaceId);
+            setTimeout(function () {		// 첫 번째 탭의 첫 번째 하위 탭을 선택
+                openTab2(firstPlayTabId);
+            }, 0);
+        }
+
+        //장소 탭
+        $(".place-link").click(function () {
+            var tabId = $(this).data("tab");
+            var placeId = $(this).data("place-id");
+            var playTab = "play" + placeId;
+
+            openTab(tabId, placeId);
+            openTab2(playTab);		//default값으로 연극탭 선택
+        });
+
+        //연극/맛집 탭
+        $(".play-link").click(function () {
+            var tabId = $(this).data("tab");
+            openTab2(tabId);
+        });
+
+        function openTab(tabId, placeId) {
+            $(".place-link").removeClass("active");
+            $(".place-content").removeClass("active");
+
+            $("#" + tabId).addClass("active");
+            $("[data-tab=" + tabId + "]").addClass("active");
+
+            la = $("#" + tabId).find("input[name=place_la]").val();
+            lo = $("#" + tabId).find("input[name=place_lo]").val();
+
+            window.history.pushState(null, null, "/place?placeId=" + placeId);	// URL 변경
+        }
+
+        function openTab2(tabId) {
+            $(".play-link").removeClass("active");
+            $(".play-content").removeClass("active");
+
+            $("[data-tab=" + tabId + "]").addClass("active");
+            $("#" + tabId).addClass("active");
+
+            $(".eat-content").empty();
+            initMap(tabId);	//현재 위치 중심으로 맛집 가져오기
+        }
+
+      	//장소별 지도 및 맛집 리스트 출력
+        var maps = [];
+        var markers = [];
+        var infoWindows = [];	//마커별 정보 창 저장 변수
+        var currentInfoWindow = null; // 현재 열린 정보 창 변수
+
+        function initMap(tabId) {
+            var mapDivId = document.getElementById(tabId).querySelector("#map");
+            console.log(mapDivId);
+            var place = new google.maps.LatLng(la, lo);
+            var mapOptions = {
+                center: place,
+                zoom: 16
+            };
+
+            maps[tabId] = new google.maps.Map(mapDivId, mapOptions);
+            markers[tabId] = [];
+            infoWindows[tabId] = [];
+
+            var placesService = new google.maps.places.PlacesService(maps[tabId]);
+            var request = {
+                location: place,
+                radius: 1200, // 검색 반경 설정 (미터 단위)
+                type: "restaurant"
+            };
+
+            placesService.nearbySearch(request, function (results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    for (let i = 0; i < results.length; i++) {
+                        if (results[i].rating >= 4.0) {
+
+                            $(".eat-content").append(`
+                                <a class="eat-place" href="#">
+                                  <div class="eat-head">
+                                    <div class="eat-title">${results[i].name}</div>
+                                  </div>
+                                  <p class="eat-side">
+                                    <span><i class="fa-solid fa-star" style="color: #F5D042"></i> ${results[i].rating}</span>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <span>리뷰 ${results[i].user_ratings_total}</span>
+                                  </p>
+                                </a>
+                             `);
+
+                            // 장소의 위치에 마커 표시
+                            var placeLocation = results[i].geometry.location;
+                            var marker = new google.maps.Marker({
+                                position: placeLocation,
+                                map: maps[tabId]
+                            });
+                            markers[tabId].push(marker);
+
+                            // 현재 장소 위치에도 마커 표시
+                            var centerMarker = new google.maps.Marker({
+                                position: place,
+                                map: maps[tabId],
+                                icon: {
+                                    url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                                    scaledSize: new google.maps.Size(40, 40),
+                                    anchor: new google.maps.Point(10, 40)
+                                }
+                            });
+                            markers[tabId].push(centerMarker);
+
+                            var placeId = results[i].place_id;
+                            var mapLink = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+
+                            // 정보 창 생성
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: `
+								  <div>
+							      <h3><a href="${mapLink}" target="_blank" title="Google 지도에서 보기" class="map-title">${results[i].name}</a></h3>
+							      <p>${results[i].plus_code.compound_code.slice(8)}&nbsp;${results[i].vicinity}</p>
+							    </div>
+							  `
+                            });
+                            infoWindows[tabId].push(infoWindow);
+
+                            // 마커 클릭 이벤트 처리
+                            marker.addListener("click", function (marker, infoWindow) {
+                                return function () {
+                                    console.log(results);
+                                    // 현재 열린 정보 창이 있으면 닫기
+                                    if (currentInfoWindow) {
+                                        currentInfoWindow.close();
+                                    }
+
+                                    var content = `
+						            <div>
+						                <h3><a href="${mapLink}" target="_blank" title="Google 지도에서 보기" class="map-title">${results[i].name}</a></h3>
+						                <p>${results[i].plus_code.compound_code.slice(8)}&nbsp;${results[i].vicinity}</p>
+						            </div>
+						        `;
+                                    var infoWindow = new google.maps.InfoWindow({
+                                        content: content
+                                    });
+                                    infoWindows[tabId].push(infoWindow);
+
+                                    // 정보 창 열기
+                                    infoWindow.open(maps[tabId], marker);
+                                    currentInfoWindow = infoWindow;
+                                };
+                            }(marker, infoWindow, results[i]));
+                        }
+                    }
+                }
+            })
+        }
         
+     	// 맛집 리스트 클릭 이벤트 처리
+        $(".eat-content").on("click", ".eat-place", function(event) {
+            event.preventDefault(); // 기본 동작 방지
+            var tabId = $(this).closest(".play-content").attr("id");
+            var placeId = $(this).index();
+            
+		    // 현재 열린 정보 창이 있으면 닫기
+		    if (currentInfoWindow) {
+		    	currentInfoWindow.close();
+		    }
+            // 클릭한 장소의 마커와 정보 창 표시
+            markers[tabId][placeId].setVisible(true);
+            infoWindows[tabId][placeId].open(maps[tabId], markers[tabId][placeId]);
+            
+            currentInfoWindow = infoWindows[tabId][placeId];
+            
+            return false; // 추가: 클릭 이벤트 전파 방지
+        });
     });
-
-    //연극/맛집에 따른 탭
-    $('ul.tabs li').click(function(){
-        var tab_id = $(this).attr('data-tab');
-
-        $('ul.tabs li').removeClass('current');
-        $('.tab-content').removeClass('current');
-
-        $(this).addClass('current');
-        $("#"+tab_id).addClass('current');
-    });
-});
-//현재 위치를 이용하여 위도, 경도 구하기
-/* var latitude;
-var longitude;
-var map;
-var geocoder;
-
-
-var showPosition = (position) =>{
-	la = position.coords.latitude;  //위도
-	lo = position.coords.longitude;//경도
-}
-
-var geoLocation = () =>{
-	if(navigator.geolocation){
-		//**콜백함수: 파라미터로 함수를 전달받아, 함수의 내부에서 실행하는 함수
-		navigator.geolocation.getCurrentPosition(showPosition);
-
-	}else{}
-}
-geoLocation(); */ 
-	function initMap() {
-		console.log(la + ":" +lo);
-		var place = new google.maps.LatLng(la,lo);
-		var mapOptions = {
-			center : place,
-			zoom : 17
-		};
-
-		var map = new google.maps.Map(document.getElementById('map'),
-				mapOptions);
-
-		var marker = new google.maps.Marker({
-			position : place,
-			map : map
-		});
-
-		var placesService = new google.maps.places.PlacesService(map);
-		var request = {
-			location : place,
-			radius : 1000, // 검색 반경 설정 (미터 단위)
-			type : 'restaurant' 
-		};
-
-		placesService.nearbySearch(request, function(results, status) {
-			if (status === google.maps.places.PlacesServiceStatus.OK) {
-				console.log(results); // 가져온 맛집 정보 출력
-				
-				for (let i = 0; i < 20; i++) {
-					$(".eat-content").append(`
-						    <div class="eat-place">
-						      <div class="eat-head">
-						        <div class="eat-title">${results[i].name}</div>
-						      </div>
-						      <p class="eat-side">
-						        <span>${results[i].rating}</span>
-						        <span>&nbsp;</span>
-						        <span>리뷰 ${results[i].user_ratings_total}</span>
-						      </p>
-						    </div>
-						  `);
-				}
-			} else {
-				console.log('검색 결과가 없습니다.');
-			}
-		});
-	}
-	
-
-	
 </script>
+<th:block th:include="header :: head"></th:block>
 </head>
 <body>
 	<!-- Header -->
-	<header>
-		<a href="/"><img src="../img/logo.png" id="logo"></img></a>
-		<div id="nav-content">
-			<nav>
-				<ul>
-					<li><a href="/play" class="menu">연극</a></li>
-					<li><a href="/place" class="menu">공연장</a></li>
-					<li><a href="/actor" class="menu">출연진</a></li>
-					<li><a href="/event" class="menu">이벤트</a></li>
-					<li><a href="#" class="menu">관람후기</a></li>
-				</ul>
-			</nav>
-			<div class="right">
-				<form action="" method="get" class="search">
-					<input type="text" class="search-input" placeholder="검색어 입력">
-					<div class="icon">
-						<i class="fas fa-search"></i>
-					</div>
-				</form>
-				<div class="user-icon">
-					<a href="/mypage/pay"> <i class="fas fa-user fa-lg"></i>
-					</a>
-				</div>
-			</div>
-		</div>
-	</header>
+	<th:block th:include="header :: body"></th:block>
 
+	<!-- Body Wrap -->
 	<div id="content-wrap">
-		<div class="mainTitle">
-			<a>공연장</a>
-		</div>
+		<h1 id="theater-list-title">공연장</h1>
 		<hr>
-		<!-- <h2 class="mainTitle">공연장</h2> -->
-		<!-- 공연장 목록 -->
-		<ul class="tab-place">
-			<li th:each="item : ${list}"
-				th:class="${itemStat.index == 0 ? 'placeButton current' : 'placeButton'}"
-				th:data-tab="'place-' + ${itemStat.index+1}"><span
-				th:text="${item.placeName} "></span></li>
-		</ul>
 
-		<div th:each="item : ${list}"
-			th:with="playList=${listPlay[itemStat.index]}">
-			<div th:id="'place-' + ${itemStat.index+1}"
-				th:class="${itemStat.index == 0 ? 'place-content current' : 'place-content'}">
+		<!-- 공연장 리스트 -->
+		<!-- <ul class="tab-place">
+			<li th:each="item : ${list}" class="place-link"
+				th:data-tab="'place' + ${item.placeId}" th:data-place-id="${item.placeId}">
+				<a th:text="${item.placeName}"></a>
+			</li>
+		</ul> -->
+		<div class="tab-container">
+			<div class="tab-controls">
+				<button class="prev-btn">
+					<i class="fas fa-chevron-left"></i>
+				</button>
+			</div>
+			<div class="tab-place slider">
+				<ul class="tab-row">
+					<li th:each="item, itemStat : ${list}" class="place-link"
+						th:data-tab="'place' + ${item.placeId}"
+						th:data-place-id="${item.placeId}" 
+						th:if="${itemStat.index >= __${currentTabIndex}__ * __${numVisibleTabs}__} and ${itemStat.index < (__${currentTabIndex}__ + 1) * __${numVisibleTabs}__}">
+						<a th:text="${item.placeName}"></a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-controls">
+				<button class="next-btn"
+						th:onclick="nextButtonClick(/*[[${currentTabIndex}]]*/, /*[[${numVisibleTabs}]]*/)">
+					<i class="fas fa-chevron-right"></i>
+				</button>
+			</div>
+			<input type="hidden" id="currentTabIndex" th:value="${currentTabIndex}" />
+		</div>
+
+		<!-- Tab 부분 -->
+		<div th:each="item, itemStat : ${list}"
+			 th:with="playList=${listPlay[itemStat.index]}">
+			<div th:id="'place' + ${item.placeId}" th:data-place-id="${item.placeId}" class="place-content">
 				<input type="hidden" name="place_la" th:value="${item.la}">
 				<input type="hidden" name="place_lo" th:value="${item.lo}">
 				<div class="placeInfo">
 					<div class="info-content">
 						<h3 th:text=${item.placeName}></h3>
-						<br>
 						<div class="address">
-							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b><span
-								 th:text="${item.placeAddr}"></span>
+							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b>
+							<span th:text="${item.placeAddr}"></span>
 							<div class="map-popup">
 								<!-- 지도 팝업창 -->
-								<i class="fa-solid fa-location-dot innerIcon"></i> <span
-									class="map">지도보기</span>
+								<i class="fa-solid fa-location-dot innerIcon"></i> 
+								<span class="map">지도보기</span>
 							</div>
 						</div>
 						<p>
@@ -214,34 +278,41 @@ geoLocation(); */
 								th:text="${item.placePhone}"></span>
 						</p>
 						<p class="link">
-							<b>홈페이지 :</b>&nbsp;<a th:href="${item.placeLink}" target="_blank"><span
-								th:text="${item.placeLink}"></span><i
-								class="fa-solid fa-share-from-square innerIcon"></i></a>
+							<b>홈페이지 :</b>&nbsp;
+							<a th:href="${item.placeLink}" target="_blank">
+								<span th:text="${item.placeLink}"></span>
+								<i class="fa-solid fa-share-from-square innerIcon"></i>
+							</a>
 						</p>
 					</div>
 				</div>
-
+				
+				<!-- 연극/맛집 탭 -->
 				<ul class="tabs">
-					<li class="tab-link current" data-tab="tab-1">연극</li>
-					<li class="tab-link" data-tab="tab-2">맛집</li>
+					<li class="play-link active" th:data-tab="'play' + ${item.placeId}" th:data-place-id="${item.placeId}">연극</li>
+					<li class="play-link" th:data-tab="'eat' + ${item.placeId}" th:data-place-id="${item.placeId}">맛집</li>
 				</ul>
-
+	
 				<!-- 연극 리스트 -->
-				<div id="tab-1" class="tab-content current">
+				<div th:id="'play' + ${item.placeId}" class="play-content" th:data-place-id="${item.placeId}">
 					<div class="theater-content">
-						<div class="theater-unit" th:each="play : ${playList}">
+						<div class="theater-unit" th:each="play : ${playList}" >
 							<div class="img-wrap">
-								<img th:src="@{${play.playPoster}}" th:alt='${play.playTitle}'>
+								<a class="theater-link" th:href="@{/play/detail(playId=${play.playId})}" title="연극 보기">
+									<img th:src="@{${play.playPoster}}" th:alt='${play.playTitle}'>
+								</a>
 							</div>
 							<h4 th:text='${play.playTitle}'></h4>
-							<button class="reservation-btn" onclick="">예매하기</button>
+							<div class="reservation-btn">
+								<a th:href="@{/play/detail(playId=${play.playId})}">예매하기</a>
+							</div>
 						</div>
-
 					</div>
 				</div>
-
+				
+		
 				<!-- 맛집 리스트 -->
-				<div id="tab-2" class="tab-content">
+				<div th:id="'eat' + ${item.placeId}" class="play-content" th:data-place-id="${item.placeId}">		
 					<div id="map"></div>
 					<div class="eat-content">
 						<a class="eat-place" href="#">
@@ -252,11 +323,48 @@ geoLocation(); */
 								<!-- <span>피자</span>&nbsp;&nbsp; <span>리뷰999+</span> -->
 							</p>
 						</a>
-					</div>
+					</div>				
 				</div>
 			</div>
-		</div>
+		</div>			
 	</div>
+
+<script th:inline="javascript">
+	var currentIndex = 0;
+	var itemsPerPage = 15;
+	var numItems = "[[${list.size()}]]";
+	 
+	function nextButtonClick(currentTabIndex, numVisibleTabs) {
+		if (currentIndex + itemsPerPage < numItems) {
+			currentIndex += itemsPerPage;
+	        showTabs();
+		}
+	
+	    // Thymeleaf 변수 값 업데이트
+	    var newCurrentTabIndex = Math.floor(currentIndex / numVisibleTabs);
+	    var currentTabIndexInput = document.getElementById("currentTabIndex");
+	    currentTabIndexInput.value = newCurrentTabIndex;
+	    console.log("currentTabIndex: " + currentTabIndex + ", numVisibleTabs: " + numVisibleTabs);
+	}
+	function showTabs() {
+		$(".tab-row > li").hide();
+		$(".tab-row > li").slice(currentIndex, currentIndex + itemsPerPage).show();
+		console.log("현재 index: " +  currentIndex);
+	}
+
+  $(document).ready(function() {
+      $(".prev-btn").click(function() {
+         if (currentIndex > 0) {
+            currentIndex -= itemsPerPage;
+            showTabs();
+         }
+      });
+
+      showTabs();
+  });
+  
+  
+</script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
 		async defer></script>

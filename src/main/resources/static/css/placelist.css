@@ -8,38 +8,29 @@ a{
 }
 #content-wrap{
     width: 65vw;
+    min-width: 865px;
     margin: auto;
 }
-.mainTitle {
-    /* margin-top: 50px;
-    text-align: center; */
-    margin-top: 2vh;
-    width : 950px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-}
-.mainTitle a{
-    margin-left: 50px;
-    font-size:40px;
-    font-weight:500;
-    color: #000000;
+#theater-list-title{
+	padding: 45px 0 30px 30px;
+    font-size: 40px;
+    font-weight: 600;
+    /* color: #141B82; */
 }
 /* 공연장 버튼 */
-.tab-place{
+/* .tab-place{
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-column-gap: 7px;
     grid-row-gap: 7px;
     margin-top: 30px;
-}
-.tab-place li.current{
-    border: 2px solid rgb(18, 82, 151);
-}
-.placeButton{
+    width: 100%;
+  	overflow: hidden;
+} */
+/* .place-link{
     display: block;
     width: 100%;
-    height: 42px;
+    height: 45px;
     border: 1.5px solid #d2d2d2;
     border-radius: 5px;
     box-sizing: border-box;
@@ -49,17 +40,94 @@ a{
    	align-items: center;
    	justify-content: center;
 }
-.placeButton img{
-    width: 100%;
-    height: 42px;
-    box-sizing: border-box;
-    object-fit: cover;
-    text-align: center;
+.place-link:hover{
+    border: 2px solid #141B82;
 }
+.place-link a{
+	display: block;
+	width: 100%;	
+	padding: 3px 6px;
+	text-align: center;
+}
+.place-link.active{
+    border: 2px solid #141B82;
+} */
+
+.tab-container {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .tab-place {
+    width: calc(100% - 65px);
+    overflow: hidden;
+  }
+
+  .tab-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 8px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .place-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    border: 1.5px solid #d2d2d2;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  .tab-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  .prev-btn,
+  .next-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #555555;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .prev-btn {
+    margin-right: 12px;
+  }
+
+  .next-btn {
+    margin-left: 8px;
+  }
+
+.place-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 830px) {
+  .tab-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .place-content{
     display: none;
 }
-.place-content.current{
+.place-content.active{
     display: block;
 }
 /* 공연장 정보 */
@@ -71,14 +139,9 @@ a{
     border-radius: 3px;
     margin-top: 20px;
 }
-.placeInfo img{
-    width: 20vw;
-    height: 200px;
-    object-fit: contain;
-}
 .info-content{
     box-sizing: border-box;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     padding: 25px 30px;
     background-color: #f0efef;
@@ -87,12 +150,16 @@ a{
    	flex-direction: column;
    	justify-content: center;
 }
+.info-content h3{
+	font-size: 23px;
+	margin-bottom: 16px;
+}
 .address{
     display: flex;
     align-items: center;
 }
 .info-content p, .address{
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 5px;
 }
 .map-popup{
@@ -100,16 +167,19 @@ a{
     align-items: center;
     margin-left: 7px;
 }
-a{
+.link{
+    display: flex;
+    align-items: center;
+}
+.link > a{
     color: black;
+}
+.link a:hover{
+    text-decoration: underline;
 }
 .innerIcon{
     margin-left:4px;
     color: #7c7c7f;   
-}
-.link{
-    display: flex;
-    align-items: center;
 }
 .map{
     font-size: 11px;
@@ -124,95 +194,141 @@ ul.tabs{
 ul.tabs li{
     background: none;
     display: inline-block;
-    padding: 13px 30px;
-    font-size: 17px;
+    padding: 16px 30px;
+    font-size: 19px;
     font-weight: bold;
     cursor: pointer;
 }
-ul.tabs li.current{
+ul.tabs li.active{
     color: #141B82;
     border-bottom: 3px solid #141b82;
-    font-weight: bolder;
+    font-weight: 800;
 }
-/* 연극 리스트 */
-.tab-content{
+.play-content{
     display: none;
-    padding: 25px 0;
+    padding: 30px 0;
 }
-.tab-content.current{
+.play-content.active{
     display: inherit;
     display: flex;
 }
+/* 연극 리스트 */
 .theater-content{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 33px;
-    grid-row-gap: 48px;
+    grid-column-gap: 60px;
+    grid-row-gap: 45px;
     width: 100vw;
+    min-width: 865px;
 }
 .theater-unit{
     display: flex;
+    display: block;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 330px;
     border-radius: 10px;
     overflow: hidden;
+}
+.theater-link{
+	diplay: block;
 }
 .img-wrap{
-    width: 100%;
-    height: 230px;
-    margin-bottom: 16px;
+    position: relative;
+    padding-top: 130%;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
 .theater-unit img{
-    width: 100%;
-    height: 230px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
     transition: all 0.2s linear;
 }
 .theater-unit img:hover{
     transform: scale(1.1);
     overflow: hidden;
 }
+.theater-unit h4{
+	display: block;	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	text-align: center;
+}
 /* 예약하기 버튼 */
 .reservation-btn{
     width: 80%;
-    padding: 6px 0;
+    height: 35px;
+    margin: 10px auto 0 auto;
     background-color: white;
-    border: 1.5px solid rgb(18, 82, 151);
-    border-radius: 3px;
-    color: rgb(15, 76, 142);
-    margin-top: 8px;
+    border: 1.5px solid #141b82;
+    border-radius: 3px;   
     cursor: pointer;
     box-shadow: 1px 1px 1px lightgray;
     font-weight: bold;
 }
-.reservation-btn:hover{
-    background-color: rgb(18, 82, 151);
+.reservation-btn:hover,
+.reservation-btn a:hover{
+    background-color: #141b82;
     color: white;
-    font-weight: bolder;
+	font-weight: 600;
 }
+.reservation-btn a {
+	display: block;
+	width: 100%;
+	height: 36px;
+	padding-top: 8px;
+	text-align: center;
+	color: #141b82;
+	box-sizing: border-box;
+}
+
+/* 맛집 리스트 */
 /* 지도api */
 #map{
-    width: 650px;
-    height: 400px;
+    width: 700px;
+    height: 430px;
     border: 1px solid green;
     margin-right: 60px;
 }
-/* 맛집 리스트 */
+.map-title:hover{
+	text-decoration: underline;
+}
 .eat-content{
-    width: 250px;
-    height: 400px;
+    width: 300px;
+    height: 430px;
     overflow-y: scroll;
 }
 .eat-place{
     display: block;
-    width: 180px;
-    margin-bottom: 25px;
+    width: 285px;
+    padding: 11px 0 11px 6px;
 }
+.eat-place:hover{
+    background-color: rgb(233, 240, 248);
+}
+/* 스크롤바 조정 */
 .eat-content::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+    width: 7px;
+}
+.eat-content::webkit-scrollbar-track {
+	background-color: transparent;
+}
+.eat-content::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #d2d2d2;
+}
+.eat-content::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
 }
 .eat-head{
     display: flex;
@@ -227,4 +343,18 @@ ul.tabs li.current{
 .eat-title{
     font-size: 14px;
     font-weight: 600;
+}
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.pagination th:block {
+  display: inline-block;
+  margin-right: 10px;
+}
+.pagination strong {
+  color: rgb(18, 82, 151);
+  text-decoration: underline;
+  display: inline-block;
 }

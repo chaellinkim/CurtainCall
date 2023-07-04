@@ -1,0 +1,79 @@
+@charset "UTF-8";
+* {
+    font-family: 'NanumSquareNeo';
+    font-size: large;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+/* 페이지 양옆 여백 */
+#content-wrap {
+    font: optional;
+    width: 65vw;
+    min-width: 865px;
+    margin: auto;
+}
+/* 개요부분 */
+.content-info{
+    margin-bottom: 5vh;
+    text-align: center;
+    width: 65vw;
+    height: 18vh;
+   
+}
+.content-info h1{
+    font-size: 45px;
+    margin-top: 10vh;
+    margin-bottom: 24px;
+}
+/* 탭 버튼 */
+#tab-btn{
+    background-color: white;
+    position: sticky;
+    top: 0;
+}
+.tab-nav{
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    border-bottom: 1.5px solid gainsboro;
+}
+.tab-nav li{
+    width: 100%;
+    text-align: center;
+}
+.tab-nav a{
+    text-decoration: none;
+}
+/* 상세 정보 */
+.event-content{
+    background-color: rgb(233, 240, 248);
+}
+#event-img img{
+    width:65vw;
+    height: auto;
+}
+/* 홈페이지 div */
+.homepage{
+    width: 65vw;
+    height: 12vh;
+    padding-top: 50px;
+    text-align: center;
+}
+.homepage > p > i{
+	margin-right: 6px;
+}
+.homepage a:hover {
+	border-bottom: 1px solid;
+}
+/* 연극제 장소 */
+.event-place{
+    width: 65vw;
+    height: 12vh;
+    text-align: center;
+}

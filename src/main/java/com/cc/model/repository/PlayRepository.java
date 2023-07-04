@@ -1,6 +1,7 @@
 package com.cc.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -13,19 +14,27 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cc.model.entity.Play;
+import com.cc.model.mapper.ReviewMapper;
 
 @Transactional
 @Repository
 public interface PlayRepository extends JpaRepository<Play,String>, PlayRepositoryCustom{
 	Page<Play> findByPlayTitleContaining(String keyword, Pageable pageable);
 	Page<Play> selectPossible(Pageable pageable);
-	Page<Play> searchPossible(String keyword, Pageable pageable);	
+	Page<Play> searchPossible(String keyword, Pageable pageable);
 	
-	@Modifying
-	@Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
-	int updateCount(@Param("count")int count, @Param("playId")String playId);
+	//Optional<Play> findTop4ByOrderByCountDesc();
+	List<Play> findTop4ByOrderByCountDescPlayToDesc();
 	
 //	@Modifying
-//    @Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
-//    int updateCount(@Param("playId")String playId, @Param("count")long count);
+//	@Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
+//	int updateCount(@Param("count")int count, @Param("playId")String playId);
+	
+	@Modifying
+	@Query("UPDATE Play p SET p.count = ?1 WHERE p.playId = ?2")
+	int updateCount(int count, String playId);
+	
+	//playrepository
+
+	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
 }

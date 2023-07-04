@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,11 +23,11 @@ import lombok.Data;
 @Table(name="PLACE")
 public class Place {
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="place_id")
 	private String placeId;
 	
 	@Column(name="place_name")
+	//@OrderBy("placeName ASC")
 	private String placeName;
 	
 	@Column(name="place_addr")

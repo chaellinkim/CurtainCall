@@ -8,24 +8,23 @@
 a{
     text-decoration: none;
 }
+
 /* 연극 목록 로고 div */
+#content-wrap{
+    width: 65vw;
+    min-width: 865px;
+    margin: auto;
+}
 #theater-list-title{
-    margin-top: 2vh;
-    width : 950px;
-    height: 100px;
-    display: flex;
-    align-items: center;
+	padding: 45px 0 30px 30px;
+    font-size: 40px;
+    font-weight: 600;
+    /* color: #141B82; */
 }
-/* 연극 목록 로고 글씨 */
-#theater-list-title a{
-    margin-left: 50px;
-    font-size:40px;
-    font-weight:500;
-    color: #000000;
-}
+
 /* 정렬 버튼 */
 .theater-sort{
-    width: 65vw;
+	float: right;
     padding: 10px 0;
 }
 .theater-sort li{
@@ -45,13 +44,13 @@ a{
 
 /* 연극목록 css */
 #content-wrap{
-    font: optional;
+    /* font: optional; */
     width: 65vw;
     margin: auto;
-    
+    min-width: 865px;
 }
 .theater-content{
-    margin-top: 5vh;
+    margin-top: 50px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 60px;
@@ -65,13 +64,22 @@ a{
     justify-content: center;
     width: 100%;
     margin-right: 30px;
+    overflow: hidden;
+}
+.theater-unit > a{
+	display: block;
+	width: 100%;
+}
+.theater-unit img:hover{
+    transform: scale(1.1);
+    overflow: hidden;
 }
 .theater-poster {
     position: relative;
-    padding-top: 140%;
+    padding-top: 130%;
     overflow: hidden;
     border-radius: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 .theater-poster img{
     position: absolute;
@@ -82,12 +90,20 @@ a{
     max-width: 100%;
     height: auto;
     object-fit: cover;
+    transition: all 0.2s linear;
 }
 /* 연극제목 마진줄이기 */
-.theater-unit h4{
-    margin: 0;
-    text-align: center;
-    font-weight: 700;
+.theater-title{
+  display: flex;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 5px 3px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* 연극기간 폰트 줄이기 */
 .theater-unit p{
