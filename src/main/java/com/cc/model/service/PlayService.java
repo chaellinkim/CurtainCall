@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cc.model.dto.PlayDto;
 import com.cc.model.entity.Play;
 import com.cc.model.mapper.PlayMapper;
+import com.cc.model.mapper.ReviewMapper;
 import com.cc.model.repository.PlayRepository;
 
 @Service
@@ -61,4 +62,9 @@ public class PlayService {
 		return playRepository.findPlaysByDayAndDateBetween(weekday, date);
 	}
 	
+	//playService
+
+	   public List<ReviewMapper> selectTitle(){
+	      return playRepository.findAllByOrderByPlayTitleAsc();
+	   }
 }
