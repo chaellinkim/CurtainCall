@@ -106,29 +106,96 @@
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
 		});
+		
+		/* // 1. buildCalendar 실행
+        buildCalendar(); */
 
 	});
 	
-	document.addEventListener('DOMContentLoaded', function() {
-		//검색버튼 활성화
-		const searchForm = document.querySelector('.search');
-		const searchInput = document.querySelector('.search-input');
-		const searchIcon = document.querySelector('.icon');
+	
+	//2. 달력 생성
+    /* let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+    let today = new Date();     // 페이지를 로드한 날짜를 저장
+    today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
 
-		searchIcon.addEventListener('submit', function(e) {
-			e.preventDefault(); //폼 제출 동작 방지
-			const keyword = searchInput.value;
-			console.log('검색어: ', keyword);
-		})
+    // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
+    function buildCalendar() {
 
-		//사용자 아이콘 클릭시 마이페이지 이동
-		const userIcon = document.querySelector('.user-icon');
-		userIcon.addEventListener('click', function() {
-			window.location.href = 'place.html';
-		});
-	});
+        let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+        let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+        let tbody_Calendar = document.querySelector(".Calendar > tbody");
+        document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+        document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+        while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+            tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+        }
+
+        let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
+
+        for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+            let nowColumn = nowRow.insertCell();        // 열 추가
+        }
+
+        for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+
+            let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+
+            let newDIV = document.createElement("p");
+            newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
+            nowColumn.appendChild(newDIV);
+
+            if (nowDay.getDay() == 6) {                 // 토요일인 경우
+                nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
+            }
+
+            if (nowDay < today) {                       // 지난날인 경우
+                newDIV.className = "pastDay";
+            }
+            else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
+                newDIV.className = "today";
+                newDIV.onclick = function () { choiceDate(this); }
+            }
+            else {                                      // 미래인 경우
+                newDIV.className = "futureDay";
+                newDIV.onclick = function () { choiceDate(this); }
+            }
+        }
+    } */
+    
+
+    // 날짜 선택
+    function choiceDate(newDIV) {
+        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+        }
+        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+    }
+
+    // 이전달 버튼 클릭
+    function prevCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+        buildCalendar();    // 달력 다시 생성
+    }
+    // 다음달 버튼 클릭
+    function nextCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+        buildCalendar();    // 달력 다시 생성
+    }
+
+    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+    function leftPad(value) {
+        if (value < 10) {
+            value = "0" + value;
+            return value;
+        }
+        return value;
+    }
+
+	
 </script>
-
+<th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
@@ -141,48 +208,69 @@
 			<!-- 포스터 -->
 			<div class="theater-poster">
 				<img th:if="${play.isPresent()}"
-					th:src="@{${play.get().playPoster}}">
+					 th:src="@{${play.get().playPoster}}">
 			</div>
 			<!-- 상세정보 -->
 			<div class="theater-info">
-				<h4>
-					<i class="fa-solid fa-clapperboard fa-xs"></i>&nbsp;<span
-						th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></span>
-				</h4>
-				<br>
+				<div class="theater-title">
+					<i class="fa-solid fa-clapperboard fa-lg"></i>&nbsp;
+					<h1 th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></h1>
+				</div>
 				<hr>
-				<br>
-				<p>
-					<i class="fa-solid fa-coins fa-lg"></i>&nbsp;<span
-						th:if="${play.isPresent()}" th:text="${play.get().playPrice}"></span>
-				</p>
-				<br>
-				<p>
-					<i class="fa-regular fa-calendar-days fa-lg"></i>&nbsp;<span
-						th:if="${play.isPresent()}" th:text="${play.get().playFrom}"></span><span>~</span><span
-						th:if="${play.isPresent()}" th:text="${play.get().playTo}"></span>
-				</p>
-				<br>
-				<p>
-					<i class="fa-solid fa-user fa-lg"></i>&nbsp;<span
-						th:if="${play.isPresent()}" th:text="${play.get().playAge}"></span>
-				</p>
-				<br>
-				<p>
-					<i class="fa-solid fa-location-dot fa-lg"></i>&nbsp;<span
-						th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span>
-				</p>
+				<div class="theater-detail first">
+					<i class="fa-solid fa-coins"></i>&nbsp;
+					<span th:if="${play.isPresent()}" th:text="${play.get().playPrice}"></span>
+				</div>
+				<div class="theater-detail">
+					<i class="fa-regular fa-calendar-check"></i>&nbsp;
+					<span th:if="${play.isPresent()}" th:text="${play.get().playFrom}"></span>
+					<span>~</span>
+					<span th:if="${play.isPresent()}" th:text="${play.get().playTo}"></span>
+				</div>
+				<div class="theater-detail">
+					<i class="fa-solid fa-user"></i>&nbsp;
+					<span th:if="${play.isPresent()}" th:text="${play.get().playAge}"></span>
+				</div>
+				<div class="theater-detail">
+					<i class="fa-solid fa-location-dot"></i>&nbsp;
+					<span th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span>
+				</div>
 			</div>
 		</div>
 		<!-- 예매 박스 -->
 		<div class="reserve-wrap">
 			<div class="reserve-box">
-				<div class="datepicker-container">
-					<h2>예매 날짜 선택</h2>
-					<div class="datepicker"></div>
+				<div class="step-1">
+					<h1>STEP.1</h1>
+					<br>
+					<p>예매하기</p>
+				</div>
+				<div class="calbox">
+					<table class="Calendar">
+						<thead>
+							<tr>
+								<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
+								<td colspan="5"><span id="calYear"></span>년 <span
+									id="calMonth"></span>월</td>
+								<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
+							</tr>
+							<tr>
+								<td>일</td>
+								<td>월</td>
+								<td>화</td>
+								<td>수</td>
+								<td>목</td>
+								<td>금</td>
+								<td>토</td>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<!-- 달력 부분 -->
+					</table>
 				</div>
 			</div>
 		</div>
+
 		<!-- 예매하기 버튼 -->
 		<div class="reserve-btn">
 			<a title="Button push lightblue"
@@ -397,20 +485,7 @@
 			}
 		});
 	</script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script>
-		$(function() {
-			$(".datepicker").datepicker(
-					{
-						format : "mm yy dd",
-						minDate : 0,
-						dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
-						monthNames : [ '1', '2', '3', '4', '5', '6', '7', '8',
-								'9', '10', '11', '12' ]
-					});
-		});
-	</script>
+
 </body>
 
 </html>

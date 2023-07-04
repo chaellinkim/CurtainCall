@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <title>CurtainCall</title>
 <link rel="stylesheet" href="../css/placelist.css">
-<link rel="stylesheet" href="../css/header.css">
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -84,7 +83,7 @@
             initMap(tabId);	//현재 위치 중심으로 맛집 가져오기
         }
 
-        //장소별 지도 및 맛집 리스트 출력
+      	//장소별 지도 및 맛집 리스트 출력
         var maps = [];
         var markers = [];
         var infoWindows = [];	//마커별 정보 창 저장 변수
@@ -114,7 +113,7 @@
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     for (let i = 0; i < results.length; i++) {
                         if (results[i].rating >= 4.0) {
-                        	
+
                             $(".eat-content").append(`
                                 <a class="eat-place" href="#">
                                   <div class="eat-head">
@@ -135,62 +134,58 @@
                                 map: maps[tabId]
                             });
                             markers[tabId].push(marker);
-                            
-                         	// 현재 장소 위치에도 마커 표시
+
+                            // 현재 장소 위치에도 마커 표시
                             var centerMarker = new google.maps.Marker({
-                              	position: place,
-                              	map: maps[tabId],
+                                position: place,
+                                map: maps[tabId],
                                 icon: {
-                                	url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-                                	scaledSize: new google.maps.Size(40, 40),
-                                    anchor: new google.maps.Point(20, 40)
+                                    url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                                    scaledSize: new google.maps.Size(40, 40),
+                                    anchor: new google.maps.Point(10, 40)
                                 }
                             });
                             markers[tabId].push(centerMarker);
 
                             var placeId = results[i].place_id;
-							var mapLink = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
-							
-                         	// 정보 창 생성
-							var infoWindow = new google.maps.InfoWindow({
-							  content: `
+                            var mapLink = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+
+                            // 정보 창 생성
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: `
 								  <div>
 							      <h3><a href="${mapLink}" target="_blank" title="Google 지도에서 보기" class="map-title">${results[i].name}</a></h3>
-							      <p>평점: ${results[i].rating}</p>
-							      <p>리뷰 수: ${results[i].user_ratings_total}</p>
+							      <p>${results[i].plus_code.compound_code.slice(8)}&nbsp;${results[i].vicinity}</p>
 							    </div>
 							  `
-							});
-							infoWindows[tabId].push(infoWindow);
+                            });
+                            infoWindows[tabId].push(infoWindow);
 
-                         	// 마커 클릭 이벤트 처리
-                           	marker.addListener("click", function (marker, infoWindow) {
-							  return function() {
-								  console.log(results);
-							    // 현재 열린 정보 창이 있으면 닫기
-							    if (currentInfoWindow) {
-							    	currentInfoWindow.close();
-							    }
-	
-							    var content = `
+                            // 마커 클릭 이벤트 처리
+                            marker.addListener("click", function (marker, infoWindow) {
+                                return function () {
+                                    console.log(results);
+                                    // 현재 열린 정보 창이 있으면 닫기
+                                    if (currentInfoWindow) {
+                                        currentInfoWindow.close();
+                                    }
+
+                                    var content = `
 						            <div>
 						                <h3><a href="${mapLink}" target="_blank" title="Google 지도에서 보기" class="map-title">${results[i].name}</a></h3>
-						                <p>평점: ${results[i].rating}</p>
-						                <p>리뷰 수: ${results[i].user_ratings_total}</p>
+						                <p>${results[i].plus_code.compound_code.slice(8)}&nbsp;${results[i].vicinity}</p>
 						            </div>
 						        `;
-						        var infoWindow = new google.maps.InfoWindow({
-						            content: content
-						        });
-						        infoWindows[tabId].push(infoWindow);
+                                    var infoWindow = new google.maps.InfoWindow({
+                                        content: content
+                                    });
+                                    infoWindows[tabId].push(infoWindow);
 
-                             	// 정보 창 열기
-                                infoWindow.open(maps[tabId], marker);
-                                currentInfoWindow = infoWindow;
-                              };
-                           }(marker, infoWindow, results[i]));
-                        } else {
-                            console.log('검색 결과가 없습니다.');
+                                    // 정보 창 열기
+                                    infoWindow.open(maps[tabId], marker);
+                                    currentInfoWindow = infoWindow;
+                                };
+                            }(marker, infoWindow, results[i]));
                         }
                     }
                 }
@@ -301,9 +296,11 @@
 				<!-- 연극 리스트 -->
 				<div th:id="'play' + ${item.placeId}" class="play-content" th:data-place-id="${item.placeId}">
 					<div class="theater-content">
-						<div class="theater-unit" th:each="play : ${playList}">
+						<div class="theater-unit" th:each="play : ${playList}" >
 							<div class="img-wrap">
-								<img th:src="@{${play.playPoster}}" th:alt='${play.playTitle}'>
+								<a class="theater-link" th:href="@{/play/detail(playId=${play.playId})}" title="연극 보기">
+									<img th:src="@{${play.playPoster}}" th:alt='${play.playTitle}'>
+								</a>
 							</div>
 							<h4 th:text='${play.playTitle}'></h4>
 							<div class="reservation-btn">

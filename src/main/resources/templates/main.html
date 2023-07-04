@@ -1,89 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/header.css">
     <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe66fff399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+    <link rel="stylesheet" href="../css/main.css">
     <title>Curtain Call</title>
     <script>
         window.onload = function () {
-            // 1. 배너 슬라이드
-            showSlides();
-
-            // 2. buildCalendar 실행
+            // 1. buildCalendar 실행
             buildCalendar();    
 
-            // 3. 리뷰 현재 월 가져오기
+            // 2. 리뷰 현재 월 가져오기
             document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`;
-
-
-            // const slideWrap = document.getElementById('slide-wrap');
-            // const slideContainer = document.querySelector('.slide-container');
-            // const slideTheaters = Array.from(document.querySelectorAll('.slide-theater'));
-            // const prevBtn = document.querySelector('prev-btn');
-            // const nextBtn = document.querySelector('next-btn');
-            // const slideWidth = slideWrap.offsetWidth / 3; // 한 화면에 보여지는 슬라이드 너비
-
-            // slideContainer.style.width = `${slideTheaters.length * slideWidth}px`;  //슬라이드 컨테이너의 너비 설정
-
-            // let currentPosition = 0; // 현재 슬라이드 위치
-
-            // // 이전 슬라이드 보기
-            // prevBtn.addEventListener('click', () => {
-            //     currentPosition--;
-            //     if(currentPosition < 0){
-            //         currentPosition = 0;
-            //     }
-            //     slideContainer.style.transform = `translateX(-${currentPosition * 33.33}%)`;
-            //     // currentPosition += slideWidth;
-            //     // if (currentPosition > 0) {
-            //     //     currentPosition = -(slideWidth * (slideTheaters.length - 3));
-            //     // }
-            //     // slideContainer.style.transform = `translateX(${currentPosition}px)`;
-            // });
-
-            // // 다음 슬라이드 보기
-            // nextBtn.addEventListener('click', () => {
-            //     currentPosition++;
-            //     if(currentPosition > 2){
-            //         currentPosition = 2;
-            //     }
-            //     slideContainer.style.transform = `translateX(-${currentPosition * 33.33}%)`;
-            //     // currentPosition -= slideWidth;
-            //     // if (currentPosition < -(slideWidth * (slideTheaters.length - 3))) {
-            //     //     currentPosition = 0;
-            //     // }
-            //     // slideContainer.style.transform = `translateX(${currentPosition}px)`;
-            // });
+        
+            // 3. 배너 슬라이드
+            showSlides();
         }
 
-        //1. 배너 이미지 슬라이드 
-        var currentIdx = 0;    // 현재 슬라이드 index
-        function showSlides() {
-            var i;
-            var slides = document.getElementsByClassName("slide-banner");
-            var dots = document.getElementsByClassName("dot");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            currentIdx++;   //다음 슬라이드로 이동
-            if (currentIdx >= slides.length) {  //마지막 슬라이드를 넘어가면 처음으로 돌아감
-                currentIdx = 0;
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].classList.remove("active");   //모든 dot에서 'active' 클래스 제거
-            }
-            slides[currentIdx].style.display = "block";
-            dots[currentIdx].classList.add("active");   //현제 dot에 'active' 클래스 추가
-            setTimeout(showSlides, 3000);   //2초마다 이미지 변경
-        }
-
-        //2. 달력 생성
+        //1. 달력 생성
         let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
         let today = new Date();     // 페이지를 로드한 날짜를 저장
         today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
@@ -163,66 +104,78 @@
         }
 
 
-        // 연극 슬라이드
-        document.addEventListener('DOMContentLoaded', function(){
-            
+      	//2. 연극 슬라이드(slick-slider 사용)
+        $(document).ready(function(){
+            $("#slide-container").slick({
+                slide: "div",
+                dots: true,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                arrows: true,
+                pauseOnHover: true,
+                prevArrow: "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
+                nextArrow: "<button type='button' class='slick-next slick-arrow'>Next</button>",
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true,
+                            dots: true
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            })
         })
         
-
+        //3. 배너 이미지 슬라이드 
+        var currentIdx = 0;    // 현재 슬라이드 index
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("slide-banner");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            currentIdx++;   //다음 슬라이드로 이동
+            if (currentIdx >= slides.length) {  //마지막 슬라이드를 넘어가면 처음으로 돌아감
+                currentIdx = 0;
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");   //모든 dot에서 'active' 클래스 제거
+            }
+            slides[currentIdx].style.display = "block";
+            dots[currentIdx].classList.add("active");   //현제 dot에 'active' 클래스 추가
+            setTimeout(showSlides, 3000);   //2초마다 이미지 변경
+        }
+        
     </script>
+<th:block th:include="header :: head"></th:block>
 </head>
-
 <body>
-    <header>
-        <a href="/"><img src="../img/logo.png" id="logo"></img></a>
-        <div id="nav-content">
-            <nav>
-                <ul>
-                    <li><a href="/play" class="menu">연극</a></li>
-                    <li><a href="/place" class="menu">공연장</a></li>
-                    <li><a href="/actor" class="menu">출연진</a></li>
-                    <li><a href="/event" class="menu">이벤트</a></li>
-                    <li><a href="#" class="menu">관람후기</a></li>
-                </ul>
-            </nav>
-            <div class="right">
-                <form action="" method="get" class="search">
-                    <input type="text" class="search-input" placeholder="검색어 입력">
-                    <div class="icon"><i class="fas fa-search"></i></div>
-                </form>
-				<div class="user-icon">
-					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
-					<div th:if="${user_state} == 'login'">
-						<button class="fas fa-user fa-lg"></button>
-						<ul class="bar">
-							<li><a href="/logout">로그아웃</a></li>
-							<li><a href="/mypage">마이페이지</a></li>
-						</ul>
-						
-						<!-- 마이페이지바를 띄우기 위한 js코드 -->
-						<script>
-					 	const btn = document.querySelector('.fa-user');
-					    const list = document.querySelector('.bar');
-					    
-					    btn.addEventListener('click', () => {
-					    	list.classList.toggle('on');
-					    });
-					    
-					    list.addEventListener('click', (event) => {
-					        if (event.target.nodeName === "A") {
-					            list.classList.remove('on');
-					        }
-					    });
-					    </script>
-					</div>
-				</div>
-            </div>
-        </div>
-    </header>
+    <!-- Header -->
+	<th:block th:include="header :: body"></th:block>
     
 	<a href="/api">api</a>
     
-    <!-- 2.. 연극 주간 랭킹-->
+    <!-- 1. 연극 주간 랭킹-->
     <div id="week-ranking-wrap">
         <!-- <img class="curtain left" src="../img/left.png"> -->
         <div class="week-ranking-rank">
@@ -253,7 +206,7 @@
     </div>
     
 
-    <!-- 3. 날짜별 상영 가능한 연극 조회 -->
+    <!-- 2. 날짜별 상영 가능한 연극 조회 -->
     <section id="calendarList">
         <div class="calbox">
             <table class="Calendar">
@@ -281,60 +234,45 @@
         </div>
 
         <!-- 가능한 연극 리스트 -->
-        <div id="slide-wrap">
-            <div class="slide-container">
-                <div class="slide-theater">
-                    <a href="#" title="연극 보기">
-                        <div class="slide-poster">
-                            <img src="../img/poster03.png"> <!-- 기존 진행중인 연극 -->
-                        </div>
-                        <div class="slide-place">대학로</div>
-                    </a>
-                </div>
-                <div class="slide-theater">
-                    <a href="#" title="연극 보기">
-                        <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
-                        <div class="slide-poster">
-                            <img src="../img/poster01.jpg">
-                        </div>
-                        <div class="slide-place">화성/부산</div>
-                    </a>
-                </div>
-                <div class="slide-theater">
-                    <a href="#" title="연극 보기">
-                        <div class="slide-poster">
-                            <img src="../img/poster02.jpg"> <!-- 기존 진행중인 연극 -->
-                        </div>
-                        <div class="slide-place">대학로</div>
-                    </a>
-                </div>
-                <div class="slide-theater">
-                    <a href="#" title="연극 보기">
-                        <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
-                        <div class="slide-poster">
-                            <img src="../img/card1.webp">
-                        </div>
-                        <div class="slide-place">화성/부산</div>
-                    </a>
-                </div>
-                <div class="slide-theater">
-                    <a href="#" title="연극 보기">
-                        <div class="slide-poster">
-                            <img src="../img/card1.webp"> <!-- 기존 진행중인 연극 -->
-                        </div>
-                        <div class="slide-place">대학로</div>
-                    </a>
-                </div>
+        <div id="slide-container">
+            <div class="slide-theater">
+                <a href="#" title="연극 보기" class="slide-inner">
+                    <div class="slide-poster">
+                        <img src="../img/poster03.png"> <!-- 기존 진행중인 연극 -->
+                    </div>
+                    <div class="slide-place">대학로</div>
+                </a>
             </div>
-
-
-            <!-- &lang: 왼쪽 화살표 / &rang: 오른쪽 화살표 -->
-            <button class="prev-btn">&lang;</button>
-            <button class="next-btn">&rang;</button>
+            <div class="slide-theater">
+                <a href="#" title="연극 보기" class="slide-inner">
+                    <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
+                    <div class="slide-poster">
+                        <img src="../img/card1.webp">
+                    </div>
+                    <div class="slide-place">화성/부산</div>
+                </a>
+            </div>
+            <div class="slide-theater">
+                <a href="#" title="연극 보기" class="slide-inner">
+                    <div class="slide-poster">
+                        <img src="../img/poster03.png"> <!-- 기존 진행중인 연극 -->
+                    </div>
+                    <div class="slide-place">대학로</div>
+                </a>
+            </div>
+            <div class="slide-theater">
+                <a href="#" title="연극 보기" class="slide-inner">
+                    <div class="new-theater">NEW</div> <!-- 한 달 안에 오픈한 연극 -->
+                    <div class="slide-poster">
+                        <img src="../img/card1.webp">
+                    </div>
+                    <div class="slide-place">화성/부산</div>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- 4. 월간 베스트 리뷰 -->
+    <!-- 3. 월간 베스트 리뷰 -->
     <div id="review">
         <h2 id="review-month"></h2> <!-- script문 -->
         <div class="feed-box">
@@ -416,7 +354,7 @@
         </div>
     </div>
 
-    <!-- 1. 광고 배너 -->
+    <!-- 4. 광고 배너 -->
     <div id="addBanner">
         <!-- 슬라이드 이미지 -->
         <div class="slide-banner fade">
