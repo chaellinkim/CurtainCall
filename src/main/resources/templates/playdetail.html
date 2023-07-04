@@ -18,14 +18,8 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" href="/css/header.css">
-   <!-- 제이쿼리 , tab 기능 -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- 예매 하기  -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 제이쿼리 , tab 기능 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 	$(document).ready(function() {
 
@@ -40,8 +34,6 @@
 		})
 
 	})
-	
-
 </script>
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() {
@@ -62,85 +54,6 @@
 			window.location.href = 'place.html';
 		});
 	});
-	
-	//2. 달력 생성
-    let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
-    let today = new Date();     // 페이지를 로드한 날짜를 저장
-    today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
-
-    // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
-    function buildCalendar() {
-
-        let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
-        let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
-
-        let tbody_Calendar = document.querySelector(".Calendar > tbody");
-        document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
-        document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
-
-        while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
-            tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-        }
-
-        let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
-
-        for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
-            let nowColumn = nowRow.insertCell();        // 열 추가
-        }
-
-        for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
-
-            let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
-
-            let newDIV = document.createElement("p");
-            newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
-            nowColumn.appendChild(newDIV);
-
-            if (nowDay.getDay() == 6) {                 // 토요일인 경우
-                nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
-            }
-
-            if (nowDay < today) {                       // 지난날인 경우
-                newDIV.className = "pastDay";
-            }
-            else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-                newDIV.className = "today";
-                newDIV.onclick = function () { choiceDate(this); }
-            }
-            else {                                      // 미래인 경우
-                newDIV.className = "futureDay";
-                newDIV.onclick = function () { choiceDate(this); }
-            }
-        }
-    }
-
-    // 날짜 선택
-    function choiceDate(newDIV) {
-        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-        }
-        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-    }
-
-    // 이전달 버튼 클릭
-    function prevCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-        buildCalendar();    // 달력 다시 생성
-    }
-    // 다음달 버튼 클릭
-    function nextCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-        buildCalendar();    // 달력 다시 생성
-    }
-
-    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-    function leftPad(value) {
-        if (value < 10) {
-            value = "0" + value;
-            return value;
-        }
-        return value;
-    }
 </script>
 <th:block th:include="header :: head"></th:block>
 </head>
@@ -153,7 +66,7 @@
 		<div class="theater-wrap">
 			<!-- 포스터 -->
 			<div class="theater-poster">
-				<img src="/img/poster02.jpg">
+				<img src="./img/poster02.jpg">
 			</div>
 			<!-- 상세정보 -->
 			<div class="theater-info">
@@ -176,34 +89,7 @@
 		<!-- 예매 박스 -->
 		<div class="reserve-wrap">
 			<div class="reserve-box">
-				    <div class="step-1">
-                    <h1>STEP.1</h1><br>
-                    <p>예매하기</p>
-                </div>
-                <div class="calbox">
-                    <table class="Calendar">
-                        <thead>
-                            <tr>
-                                <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
-                                <td colspan="5">
-                                    <span id="calYear"></span>년
-                                    <span id="calMonth"></span>월
-                                </td>
-                                <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
-                            </tr>
-                            <tr>
-                                <td>일</td>
-                                <td>월</td>
-                                <td>화</td>
-                                <td>수</td>
-                                <td>목</td>
-                                <td>금</td>
-                                <td>토</td>
-                            </tr>
-                        </thead>
-                        <tbody></tbody> <!-- 달력 부분 -->
-                    </table>    
-                </div>
+				<h1>예매박스</h1>
 			</div>
 		</div>
 		<!-- 예매하기 버튼 -->
@@ -211,165 +97,47 @@
 			<a href="" title="Button push lightblue"
 				class="button btnPush btnLightBlue">예매하기</a>
 		</div>
+		<!-- 추천연극 -->
+		<div class="theater-recommand">
+			<!-- 추천연극 펼치기 / 접기 -->
+			<span id="more" style="CURSOR: hand"
+				onclick="if(story.style.display=='none') {story.style.display='';more.innerText='- 접기'} else {story.style.display='none';more.innerText='비슷한 연극이 궁금하다면?'}">비슷한
+				연극이 궁금하다면?</span>
+			<div id="story" style="display: none">
+				<!-- 펼친 div -->
+				<div class="recommand-poster">
+					<img onclick="" src="./img/poster01.png"> <img onclick=""
+						src="./img/poster02.jpg"> <img onclick=""
+						src="./img/poster03.jpg">
+				</div>
+			</div>
+		</div>
 		<!-- 정보 , 후기 , 출연진 탭버튼 -->
 		<div class="tab-menu">
 			<ul class="tab-btn">
 				<li class="menu current" data-tab="tab-1"><a
 					style="cursor: pointer">상세정보</a></li>
 				<li class="menu" data-tab="tab-2"><a style="cursor: pointer">관람후기</a></li>
-				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">출연진</a></li>
+				<li class="menu" data-tab="tab-3"><a style="cursor: pointer">캐스팅</a></li>
 			</ul>
 		</div>
 		<!-- 정보탭 -->
-	 	<div id="tab-1" class="tab-content current">
-            <div class="promotion">
-                <img src="/img/theater01.jpg">
-            </div>
-            <!-- 예매자 통계 -->
-            <div class="statistics">
-                <h4>예매자 통계</h4>
-                <!-- 성별 통계 -->
-                <div class="statistics-container">
-                    <div class="statistics-box">
-                        <h2 class="statistics-heading">성별 통계</h2>
-                        <div class="statistics-row">
-                            <span class="statistics-label"><i class="fa-solid fa-mars"></i></span>
-                            <span class="statistics-value">n 명</span>
-                        </div>
-                        <div class="statistics-row">
-                            <span class="statistics-label"><i class="fa-solid fa-venus"></i></span>
-                            <span class="statistics-value">n 명</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- 나이 통계 -->
-                <canvas id="age-chart" width="650" height="500"></canvas>
-            </div>
-        </div>
+		<div id="tab-1" class="tab-content current">
+			<div class="promotion">
+				<img src="./img/theater01.jpg">
+			</div>
+			<div class="statistics">통계 박스</div>
+		</div>
 		<!-- 후기탭 -->
 		<div id="tab-2" class="tab-content">
-            <div class="review">
-                <div class="detailBox">
-                    <div class="actionBox">
-                        <ul class="commentList">
-                        <li th:if="${#lists.size(review)} == 0">
-                        <div class="nocomment">
-                                   	<span>작성된 후기가 없습니다. 첫 번째 후기를 남겨주세요!</span>
-                        </div>
-                        </li>
-                            <li th:if="${#lists.size(review)} > 0" th:each="review : ${review}">
-                                <div class="userName">
-                                    <p>고양이희</p><span class="date sub-text" th:text="${review.review_date}">on March 5th, 2014</span>
-                                    
-                                </div>
-                                <div class="commentText">
-                                    <p th:text="${review.review_comment}">보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
-                                        ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
-                                </div>
-                                <div class="commentImage">
-                                    <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"/>
-                                </div>
-                                <!-- 좋아요 버튼 -->
-                                <div class="container">
-                                    <div class="wrapper">
-                                        <a href="javascript:void(0);" class="like-button">
-                                            <i class="material-icons not-liked bouncy"><i
-                                                    class="fa-regular fa-heart"></i></i>
-                                            <i class="material-icons is-liked bouncy"><i
-                                                    class="fa-solid fa-heart"></i></i>
-                                            <span class="like-overlay"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <hr>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-	 <!-- 캐스팅탭 -->
-        <div id="tab-3" class="tab-content">
-            <div class="cast">
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor01.jpg">
-                        <p>한소희</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor02.jpg">
-                        <p>공유</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor03.jpeg">
-                        <p>손석구</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor04.jpg">
-                        <p>김지원</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor03.jpeg">
-                        <p>손석구</p>
-                    </a>
-                </div>
-                <div class="cast-info">
-                    <a href="">
-                        <img src="/img/actor01.jpg">
-                        <p>한소희</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div> <!-- 양옆 여백 div 끝 -->
- <!-- 좋아요버튼 js -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('.like-button').click(function () {
-                $(this).toggleClass('is-active');
-            })
-
-        })
-    </script>
-    <!-- 통계 js -->
-    <script>
-        // 나이별 통계 데이터
-        const ageData = {
-            labels: ['10대', '20대', '30대', '40대', '50대 이상'],
-            datasets: [{
-                label: '인원 수',
-                data: [10, 23, 20, 10, 5],
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-
-        // 그래프 생성
-        const ctx = document.getElementById('age-chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: ageData,
-            options: {
-                responsive: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        stepSize: 5,
-                    }
-                }
-            }
-        });
-    </script>
+			<div class="review">후기</div>
+		</div>
+		<!— 캐스팅탭 —>
+		<div id="tab-3" class="tab-content">
+			<div class="cast">출연진</div>
+		</div>
+	</div>
+	<!— content wrap ( 양옆 여백 )—>
 </body>
 
 </html>
