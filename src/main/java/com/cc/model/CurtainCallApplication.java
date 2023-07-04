@@ -15,5 +15,6 @@ public class CurtainCallApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CurtainCallApplication.class, args);
 	}
+	
 }
 
