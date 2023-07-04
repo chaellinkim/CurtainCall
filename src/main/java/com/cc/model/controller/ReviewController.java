@@ -48,7 +48,6 @@ public class ReviewController {
    public String reviewList(HttpSession session, Model model) {
       
 	  List<Review> review = reviewRep.findAllDESC();
-      
       List<User> user = userRep.findAll();
       
       for (Review rev : review) {
