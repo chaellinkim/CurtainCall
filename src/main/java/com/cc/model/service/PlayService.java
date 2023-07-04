@@ -58,7 +58,5 @@ public class PlayService {
 		//System.out.println("call"+playId+" "+count);
 		return playRepository.updateCount(count, playId);
 	}
-		public List<ReviewMapper> selectTitle(){
-		return playRepository.findAllByOrderByPlayTitleAsc();
-	}
+	
 }
