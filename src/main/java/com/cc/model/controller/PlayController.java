@@ -24,6 +24,8 @@ import com.cc.model.entity.ActorPlay;
 import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
+import com.cc.model.entity.User;
+import com.cc.model.repository.UserRepository;
 import com.cc.model.service.PlaceService;
 import com.cc.model.service.PlayService;
 import com.cc.model.service.ReviewService;
@@ -32,7 +34,7 @@ import com.cc.model.service.ReviewService;
 public class PlayController {
 	private PlayService playService;
 	private PlaceService placeService;
-	 private ReviewService reviewService;
+	private ReviewService reviewService;
 
 	public PlayController(PlayService playService, PlaceService placeService, ReviewService reviewService) {
 		super();
@@ -40,6 +42,9 @@ public class PlayController {
 		this.placeService = placeService;
 		this.reviewService = reviewService;
 	}
+
+	@Autowired
+	private UserRepository userRep;
 
 //	@RequestMapping("/play")
 //	public String playList(Model model,
@@ -60,11 +65,11 @@ public class PlayController {
 //	}
 
 	@RequestMapping("/play")
-	public String playList(Model model,HttpSession session,
+	public String playList(Model model, HttpSession session,
 			@PageableDefault(page = 0, size = 12, sort = "playId", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Play> list = playService.selectPossible(pageable);
 
-		int nowPage = list.getPageable().getPageNumber()+1;
+		int nowPage = list.getPageable().getPageNumber() + 1;
 		int startPage = 1;
 		int endPage = list.getTotalPages();
 
@@ -72,12 +77,12 @@ public class PlayController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("user_state", session.getAttribute("user_state")); 
+		model.addAttribute("user_state", session.getAttribute("user_state"));
 
 		return "playlist";
 
 	}
-	
+
 //	@RequestMapping(value="/play/search", method=RequestMethod.GET)
 //	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playId", direction = Sort.Direction.DESC) Pageable pageable) {
 //		Page<Play> list = playService.search(keyword, pageable);
@@ -92,10 +97,11 @@ public class PlayController {
 //		
 //		return "playlist";
 //	}
-	@RequestMapping(value="/play/search", method=RequestMethod.GET)
-	public String playList(String keyword, Model model, @PageableDefault(page=0, size=12, sort="playTitle", direction = Sort.Direction.DESC) Pageable pageable) {
+	@RequestMapping(value = "/play/search", method = RequestMethod.GET)
+	public String playList(String keyword, Model model,
+			@PageableDefault(page = 0, size = 12, sort = "playTitle", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Play> list = playService.searchPossible(keyword, pageable);
-		int nowPage = list.getPageable().getPageNumber()+1;
+		int nowPage = list.getPageable().getPageNumber() + 1;
 		int startPage = 1;
 		int endPage = list.getTotalPages();
 
@@ -103,40 +109,46 @@ public class PlayController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		
+
 		return "playlist";
 	}
-	
-	
-	@RequestMapping(value="/play/detail", method=RequestMethod.GET)
-	public String playdetail(@RequestParam("playId")String playId, Model model) {
+
+	@RequestMapping(value = "/play/detail", method = RequestMethod.GET)
+	public String playdetail(@RequestParam("playId") String playId, Model model,HttpSession session) {
 		System.out.println(playId);
 		Optional<Play> play = playService.selectOne(playId);
 		Optional<Place> place = placeService.selectOne(play.get().getPlaceId());
 		List<ActorPlay> actorPlay = play.get().getActorPlayList();
-	    System.out.println(play);
-	    model.addAttribute("play",play);
-	    
-		  //관람후기
-	    String playtitle = play.orElse(new Play()).getPlayTitle();
-	    List<Review> review = reviewService.selectOne(playtitle);
+		System.out.println(play);
+		model.addAttribute("play", play);
+		List<User> user = userRep.findAll();
+
+		// 관람후기
+		String playtitle = play.orElse(new Play()).getPlayTitle();
+		List<Review> review = reviewService.selectOne(playtitle);
 		List<Actor> actorList = new ArrayList<>();
-		for(ActorPlay a : actorPlay) {
+		for (ActorPlay a : actorPlay) {
 			actorList.add(a.getActor());
 		}
 		for (Review rev : review) {
-	           byte[] imageData = rev.getReview_img();
-	           String encodedImageData = Base64.encodeBase64String(imageData);
-	           rev.setEncodedImage(encodedImageData);
-	    }
+			byte[] imageData = rev.getReview_img();
+			String encodedImageData = Base64.encodeBase64String(imageData);
+			rev.setEncodedImage(encodedImageData);
 
-		model.addAttribute("play",play);
-		model.addAttribute("place",place);
-		model.addAttribute("actor",actorList);
+			int UserId = rev.getUser_id();
+
+			for (User u : user) {
+				if (UserId == u.getUser_id()) {
+					rev.setUserName(u.getUser_namemasking());
+				}
+			}
+		}
+		model.addAttribute("play", play);
+		model.addAttribute("place", place);
+		model.addAttribute("actor", actorList);
 		model.addAttribute("review", review);
+		model.addAttribute("user_state", session.getAttribute("user_state"));
 		return "playdetail";
 	}
-	
-	  
 
 }

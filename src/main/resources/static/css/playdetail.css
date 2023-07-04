@@ -369,7 +369,7 @@ a.button {
     
 }
 /* 닉네임 크기 조절 */
-.userName p{
+.userName{
     font-size: 15px;
     color: #aaa;
 }
