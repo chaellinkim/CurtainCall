@@ -34,7 +34,9 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
 	@Query("UPDATE Play p SET p.count = ?1 WHERE p.playId = ?2")
 	int updateCount(int count, String playId);
 	
+	@Query("SELECT p FROM Play p WHERE p.day = ?1 AND p.playFrom <= ?2 AND p.playTo >= ?2")
+    List<Play> findPlaysByDayAndDateBetween(String weekday, String date);
+  
 	//playrepository
-
 	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
 }

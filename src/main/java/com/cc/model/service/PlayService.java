@@ -58,6 +58,9 @@ public class PlayService {
 	public List<Play> selectBestPlay(){
 		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
 	}
+	public List<Play> selectDatePlay(String weekday, String date){
+		return playRepository.findPlaysByDayAndDateBetween(weekday, date);
+	}
 	
 	//playService
 
