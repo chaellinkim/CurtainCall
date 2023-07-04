@@ -28,4 +28,7 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
 //	@Modifying
 //    @Query("UPDATE Play p SET p.count = :count WHERE p.playId = :playId")
 //    int updateCount(@Param("playId")String playId, @Param("count")long count);
+
+	//이름순으로 연극명 가져오기
+	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
 }
