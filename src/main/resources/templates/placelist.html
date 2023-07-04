@@ -248,11 +248,12 @@
 			</div>
 			<div class="tab-controls">
 				<button class="next-btn"
-						th:onclick="nextButtonClick(/*[[${currentTabIndex}]]*/, /*[[${numVisibleTabs}]]*/)">
+						th:onclick="'nextButtonClick(' + ${currentTabIndex} + ', ' + ${numVisibleTabs} + ')'">
 					<i class="fas fa-chevron-right"></i>
 				</button>
 			</div>
 			<input type="hidden" id="currentTabIndex" th:value="${currentTabIndex}" />
+			<input type="hidden" id="numVisibleTabs" th:value="${numVisibleTabs}" />
 		</div>
 
 		<!-- Tab 부분 -->
@@ -330,40 +331,34 @@
 	</div>
 
 <script th:inline="javascript">
-	var currentIndex = 0;
-	var itemsPerPage = 15;
-	var numItems = "[[${list.size()}]]";
-	 
-	function nextButtonClick(currentTabIndex, numVisibleTabs) {
-		if (currentIndex + itemsPerPage < numItems) {
-			currentIndex += itemsPerPage;
-	        showTabs();
-		}
-	
-	    // Thymeleaf 변수 값 업데이트
-	    var newCurrentTabIndex = Math.floor(currentIndex / numVisibleTabs);
-	    var currentTabIndexInput = document.getElementById("currentTabIndex");
-	    currentTabIndexInput.value = newCurrentTabIndex;
-	    console.log("currentTabIndex: " + currentTabIndex + ", numVisibleTabs: " + numVisibleTabs);
-	}
-	function showTabs() {
-		$(".tab-row > li").hide();
-		$(".tab-row > li").slice(currentIndex, currentIndex + itemsPerPage).show();
-		console.log("현재 index: " +  currentIndex);
-	}
-
-  $(document).ready(function() {
-      $(".prev-btn").click(function() {
-         if (currentIndex > 0) {
-            currentIndex -= itemsPerPage;
-            showTabs();
-         }
-      });
-
-      showTabs();
-  });
-  
-  
+    var numItems = /*[[${list.size()}]]*/ 0;
+    
+    function nextButtonClick(currentTabIndex, numVisibleTabs) {
+        if (currentTabIndex + numVisibleTabs < numItems) {
+            currentTabIndex += numVisibleTabs;
+            showTabs(currentTabIndex, numVisibleTabs);
+        }
+    }
+    
+    function showTabs(currentTabIndex, numVisibleTabs) {
+        $(".tab-row > li").hide();
+        $(".tab-row > li").slice(currentTabIndex, currentTabIndex + numVisibleTabs).show();
+        console.log("현재 currentTabIndex: " + currentTabIndex);
+    }
+    
+    $(document).ready(function() {
+        var currentTabIndex = parseInt($("#currentTabIndex").val());
+        var numVisibleTabs = parseInt($("#numVisibleTabs").val());
+        
+        $(".prev-btn").click(function() {
+            if (currentTabIndex > 0) {
+                currentTabIndex -= numVisibleTabs;
+                showTabs(currentTabIndex, numVisibleTabs);
+            }
+        });
+        
+        showTabs(currentTabIndex, numVisibleTabs);
+    });
 </script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"

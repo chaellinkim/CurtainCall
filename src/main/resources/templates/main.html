@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
     <link rel="stylesheet" href="../css/main.css">
     <title>Curtain Call</title>
-    <script>
+    <script th:inline = "javascript">
         window.onload = function () {
             // 1. buildCalendar 실행
             buildCalendar();    
@@ -166,6 +166,8 @@
             setTimeout(showSlides, 3000);   //2초마다 이미지 변경
         }
         
+        var session = [[${session.user_loginId}]];
+        console.log("session: " + session);
     </script>
 <th:block th:include="header :: head"></th:block>
 </head>

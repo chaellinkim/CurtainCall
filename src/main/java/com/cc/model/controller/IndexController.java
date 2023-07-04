@@ -56,6 +56,7 @@ public class IndexController {
 		
 		String url = "";
 		int user_id = 0;
+		String user_loginId = "";
 		
 		Optional<User> user = userSvc.loginfindid(id);
 		
@@ -68,9 +69,11 @@ public class IndexController {
 			if(user.orElse(new User()).getUser_passwordcypher().equals(password_encode)) {
 				//비밀번호 일치하는 경우
 				user_id = user.orElse(new User()).getUser_id();
+				user_loginId = user.orElse(new User()).getUser_loginid();
 				session.setAttribute("user_id", user_id); //식별자 저장(사용자 정보 불러오기)
 				session.setAttribute("user_state", "login"); //로그인이 된다면 user_state에 login이라는 상태 넣어주기
 				session.setAttribute("password_encode", password_encode); //암호화된 비밀번호 --> 마이페이지에서 사용하려공 
+				session.setAttribute("user_loginId", user_loginId);	//실제 사용자 아이디 가져오기
 				model.addAttribute("user_id", session.getAttribute("user_id"));
 				return "redirect:/";
 			}else {

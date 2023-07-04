@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>출연진 리스트</title>
+<title>CurtainCall</title>
 <link rel="stylesheet" href="../css/actorlist.css" type="text/css" media="all">
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
+<script th:inline = "javascript">
 $(document).ready(function () {
+	var sessionUserLoginId = [[${session.user_loginId}]];	//로그인중인 userLoginId 가져오기
+	console.log("session: " + sessionUserLoginId);
+	
 	var urlParams = new URLSearchParams(window.location.search);
   	var actorId = urlParams.get('actorId');
 
@@ -97,37 +100,22 @@ $(document).ready(function () {
 });
 
 $(document).on("click", ".deleteBtn", function() {
-    var commentId = $(this).siblings("input[type=hidden]").val();
-    deleteComment(commentId);
+    var commentId = $(this).siblings("input[name=commentId]").val();
+    var actorId = $(this).siblings("input[name=actorId]").val();
+    deleteComment(actorId, commentId);
 });
+
 //댓글 삭제하기
-function deleteComment(commentId){
+function deleteComment(actorId, commentId){
 	var check = confirm("삭제하시겠습니까?");
 	if(check === true){
 		$.ajax({
 			type: "DELETE",
-			url: "/actor/comment/" + commentId,
-			/* success: function(response){
-				
-				alert("댓글이 삭제되었습니다." + response.message);
-				window.location.href="/actor";
-			}, */
-			/* success: function(result){
-				console.log("result: " + result);
-				if(result == 0){
-					alert("댓글 삭제되지 않았습니다.");
-				}else{
-					alert("댓글이 삭제되었습니다.");
-					//window.location.reload();
-					//location.href="/actor?actorId=" + actorId;
-					window.location.href="/actor";
-				}
-				
-			}, */
+			url: "/actor/" + actorId + "/comment/" + commentId,
 			success : function(response) {
-                console.log("success");
                 var redirectUrl = response.url;
                 if (redirectUrl) {
+                	alert("댓글이 삭제되었습니다.");
                     location.href = redirectUrl;
                 }
             },
@@ -189,9 +177,11 @@ function deleteComment(commentId){
 								</div>
 								<hr class="hrLine">
 								<div class="infoTitle">출연작</div>
-								<p th:each="plist : ${plist}" th:if="${plist.actor.actorId == item.actorId}">
-									<span th:text="${plist.play.playTitle}">plist.playId.playTitle</span>
-								</p>
+								<div class="actor-play">
+									<p th:each="plist : ${plist}" th:if="${plist.actor.actorId == item.actorId}">
+										<span th:text="|- ${plist.play.playTitle}|">plist.playId.playTitle</span>
+									</p>
+								</div>
 								<hr class="hrLine">
 							</div>
 							
@@ -206,22 +196,23 @@ function deleteComment(commentId){
 									</div>
 									<!-- 댓글이 있을 경우 -->
 									<div th:if="${comment.actor.actorId == item.actorId}" th:each="comment : ${comments}" class="comment-unit">
-										<input type="hidden" th:value="${comment.commentId}">
+										<input type="hidden" name="commentId" th:value="${comment.commentId}">
+										<input type="hidden" name="actorId" th:value="${comment.actor.actorId}">
 										<div class="comment-body">
 											<p class="userName" th:text="|@${comment.userLoginid}|">@comment.userId</p>
 											<p class="content" th:text="${comment.content}">comment.acContent</p>
 										</div>
-                                    	<button class="deleteBtn" th:if="${comment.userLoginid == userLoginid}" >
+                                    	<button class="deleteBtn" th:if="${comment.userLoginid == user_loginId}" >
                                     		<i class="fa-solid fa-xmark fa-xl"></i>
                                     	</button>
 									</div>
 									<!-- 새로운 댓글이 추가되는 부분 -->
 									<div th:if="${newComment != null}" class="comment-unit">
 										<div class="comment-body">
-										    <p class="userName">newComment.userLoginid</p>
+										    <p class="userName">session.userLoginid</p>
 										    <p class="content">newComment.content</p>
 										</div>
-                                    	<button class="deleteBtn">
+										<button class="deleteBtn" >
                                     		<i class="fa-solid fa-xmark fa-xl"></i>
                                     	</button>
 									</div>

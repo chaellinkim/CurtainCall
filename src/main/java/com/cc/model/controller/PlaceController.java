@@ -45,11 +45,13 @@ public class PlaceController {
 	
 		int currentTabIndex = 0;
 		int numVisibleTabs = 15;
+		int maxTabIndex = (int)Math.ceil(listPlace.size() / numVisibleTabs) - 1;
 		
 		model.addAttribute("list", listPlace);
 		model.addAttribute("listPlay", listPlay);
 		model.addAttribute("currentTabIndex", currentTabIndex);
 		model.addAttribute("numVisibleTabs", numVisibleTabs);
+		model.addAttribute("maxTabIndex", maxTabIndex);
 		model.addAttribute("user_state", session.getAttribute("user_state"));
 		return "placelist";
 	}

@@ -57,7 +57,8 @@ public class ActorController {
 		model.addAttribute("plist", plist);
 		model.addAttribute("comments", comments);
 		model.addAttribute("commentExists", commentExists);
-		model.addAttribute("user_state", session.getAttribute("user_state")); 
+		model.addAttribute("user_state", session.getAttribute("user_state"));
+		model.addAttribute("user_loginId", session.getAttribute("user_loginId"));
 		
 		return "actorlist";
 	}
@@ -71,9 +72,8 @@ public class ActorController {
 		newComment.setActor(actor);
 		newComment.setCreated(LocalDateTime.now());
 		
-		String userLoginid = (String)session.getAttribute("userLoginid");		
+		String userLoginid = (String)session.getAttribute("user_loginId");
 		newComment.setUserLoginid(userLoginid);
-		session.setAttribute("userLoginid", userLoginid);
 		
 		actorCommentService.insert(newComment, actorId, userLoginid);
 		model.addAttribute("newComment", newComment);
@@ -82,30 +82,14 @@ public class ActorController {
 	}
 
 	/* DELETE */
-	@DeleteMapping("/actor/comment/{commentId}")
-	public Map<String, String> deleteComment(@PathVariable long commentId) {
+	@ResponseBody
+	@DeleteMapping("/actor/{actorId}/comment/{commentId}")
+	public Map<String, String> deleteComment(@PathVariable long actorId, @PathVariable long commentId) {
 		Map<String,String> response = new HashMap<>();
-		String url = "/actor";
+		String url = "/actor?actorId=" + actorId;
         response.put("url",url);
 		actorCommentService.delete(commentId);
 		return response;
-	}
-	/*
-	@DeleteMapping("/actor/comment/{commentId}")
-	public long deleteComment(@PathVariable long commentId) {
-		long result;
-		Optional<ActorComment> comment = actorCommentService.findById(commentId);
-		if(comment.isEmpty()) {
-			System.out.println("댓글을 못불러옴");
-			result = 0;
-			return result;
-		}else {
-			actorCommentService.delete(commentId);
-			return commentId;
-		}
-	}
-	*/
-
-	 
+	}	 
 	
 }
