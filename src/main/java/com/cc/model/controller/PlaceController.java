@@ -45,7 +45,7 @@ public class PlaceController {
 	
 		int currentTabIndex = 0;
 		int numVisibleTabs = 15;
-		int maxTabIndex = (int)Math.ceil(listPlace.size() / numVisibleTabs) - 1;
+		int maxTabIndex = listPlace.size();
 		
 		model.addAttribute("list", listPlace);
 		model.addAttribute("listPlay", listPlay);
@@ -55,15 +55,5 @@ public class PlaceController {
 		model.addAttribute("user_state", session.getAttribute("user_state"));
 		return "placelist";
 	}
-	
-	/*
-	 * @RequestMapping(value = "/nextButtonClick", method = RequestMethod.POST)
-	 * 
-	 * @ResponseBody public List<Place> nextButtonClick(@RequestParam int
-	 * currentTabIndex) { currentTabIndex++; // 다음 탭 인덱스 계산
-	 * 
-	 * List<Place> tabData = placeService.getUpdatedTabs(currentTabIndex,
-	 * numVisibleTabs); // 업데이트된 탭 데이터 반환 return tabData; }
-	 */
-	
+
 }

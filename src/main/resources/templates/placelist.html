@@ -7,14 +7,7 @@
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script type="text/javascript">
-
-    /* //script문에 추가
-    var article_subject = $('input[name=article_subject]').val();
-    
-    //html에 추가
-    <input type="hidden" name="article_subject" th:value="${article.subject}"> */
-
+<script th:inline="javascript">
     var la = [[${ list[0].la }]];
     var lo = [[${ list[0].lo }]];
     //console.log(la,lo);
@@ -79,8 +72,10 @@
             $("[data-tab=" + tabId + "]").addClass("active");
             $("#" + tabId).addClass("active");
 
-            $(".eat-content").empty();
-            initMap(tabId);	//현재 위치 중심으로 맛집 가져오기
+            if(tabId.includes("eat")){		//맛집탭일 경우에만 지도 불러오기
+            	$(".eat-content").empty();
+                initMap(tabId);	//현재 위치 중심으로 맛집 가져오기
+            }
         }
 
       	//장소별 지도 및 맛집 리스트 출력
@@ -232,28 +227,26 @@
 		</ul> -->
 		<div class="tab-container">
 			<div class="tab-controls">
-				<button class="prev-btn">
+				<button class="prev-btn" onclick="prevButtonClick()">
 					<i class="fas fa-chevron-left"></i>
 				</button>
 			</div>
 			<div class="tab-place slider">
 				<ul class="tab-row">
 					<li th:each="item, itemStat : ${list}" class="place-link"
-						th:data-tab="'place' + ${item.placeId}"
-						th:data-place-id="${item.placeId}" 
-						th:if="${itemStat.index >= __${currentTabIndex}__ * __${numVisibleTabs}__} and ${itemStat.index < (__${currentTabIndex}__ + 1) * __${numVisibleTabs}__}">
+						th:data-tab="'place' + ${item.placeId}" th:data-place-id="${item.placeId}"> 
 						<a th:text="${item.placeName}"></a>
 					</li>
 				</ul>
 			</div>
 			<div class="tab-controls">
-				<button class="next-btn"
-						th:onclick="'nextButtonClick(' + ${currentTabIndex} + ', ' + ${numVisibleTabs} + ')'">
+				<button class="next-btn" onclick="nextButtonClick()">
 					<i class="fas fa-chevron-right"></i>
 				</button>
 			</div>
 			<input type="hidden" id="currentTabIndex" th:value="${currentTabIndex}" />
 			<input type="hidden" id="numVisibleTabs" th:value="${numVisibleTabs}" />
+			<input type="hidden" id="maxTabIndex" th:value="${maxTabIndex}" />
 		</div>
 
 		<!-- Tab 부분 -->
@@ -331,37 +324,35 @@
 	</div>
 
 <script th:inline="javascript">
-    var numItems = /*[[${list.size()}]]*/ 0;
-    
-    function nextButtonClick(currentTabIndex, numVisibleTabs) {
-        if (currentTabIndex + numVisibleTabs < numItems) {
-            currentTabIndex += numVisibleTabs;
-            showTabs(currentTabIndex, numVisibleTabs);
-        }
-    }
-    
-    function showTabs(currentTabIndex, numVisibleTabs) {
-        $(".tab-row > li").hide();
-        $(".tab-row > li").slice(currentTabIndex, currentTabIndex + numVisibleTabs).show();
-        console.log("현재 currentTabIndex: " + currentTabIndex);
-    }
-    
+	var currentTabIndex = parseInt($("#currentTabIndex").val());
+	var numVisibleTabs = parseInt($("#numVisibleTabs").val());
+	var maxTabIndex = parseInt($("#maxTabIndex").val());
+	
+	function nextButtonClick() {
+	    if (currentTabIndex + numVisibleTabs < maxTabIndex) {
+	        currentTabIndex += numVisibleTabs;
+	        console.log("currentIdex: " + currentTabIndex);
+	        showTabs();
+	    }
+	}
+	function prevButtonClick() {
+	    if (currentTabIndex > 0) {
+	        currentTabIndex -= numVisibleTabs;
+	        console.log("currentIdex: " + currentTabIndex);
+	        showTabs();
+	    }
+	}
+	function showTabs() {
+	    $(".tab-row > li").hide();
+	    $(".tab-row > li").slice(currentTabIndex, currentTabIndex + numVisibleTabs).show();
+	}
+
     $(document).ready(function() {
-        var currentTabIndex = parseInt($("#currentTabIndex").val());
-        var numVisibleTabs = parseInt($("#numVisibleTabs").val());
-        
-        $(".prev-btn").click(function() {
-            if (currentTabIndex > 0) {
-                currentTabIndex -= numVisibleTabs;
-                showTabs(currentTabIndex, numVisibleTabs);
-            }
-        });
-        
-        showTabs(currentTabIndex, numVisibleTabs);
+        showTabs();
     });
 </script>
 	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap"
-		async defer></script>
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap" async defer>
+	</script>
 </body>
 </html>
