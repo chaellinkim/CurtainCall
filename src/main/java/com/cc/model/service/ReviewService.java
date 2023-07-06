@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
 import com.cc.model.repository.ReviewRepository;
 
@@ -61,5 +62,8 @@ public class ReviewService {
    public List<Review> selectOne(String play_title){
 	      return reviewRep.findByPlay_title(play_title);
 	   }
+   public List<Review> selectBestReview(){
+		return reviewRep.findTop3ByOrderByCountDesc();
+	}
    
 }

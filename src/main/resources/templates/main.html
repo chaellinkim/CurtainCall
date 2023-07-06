@@ -11,7 +11,8 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet"
@@ -99,87 +100,98 @@
 		let selectedDate = new Date(nowMonth.getFullYear(),
 				nowMonth.getMonth(), newDIV.innerHTML);
 		console.log(selectedDate);
-		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
+		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ]; 2023-07-11 금요일
 		const year = selectedDate.getFullYear();
 		const month = leftPad(selectedDate.getMonth() + 1);
 		const day = leftPad(selectedDate.getDate());
 		const date = year + "-" + month + "-" + day;
 		const weekday = weekdays[selectedDate.getDay()];
+		
+		weekday == ${play.time}
+		${play.to} >=date>=${play.to} 
 
 		let dateVal = {
 			"weekday" : weekday,
 			"date" : date
 		};
-		$.ajax({
-			type : "post",
-			url : "/date",
-			data : JSON.stringify(dateVal),
-			contentType : "application/json",
-			dataType : "json",
-			success : function(response) {
-				console.log("success");
-				console.log(response);
-				var calendarList = $("#calendarList");
-				var slideContainer = $("<div>").attr("id", "slide-container");
-				$("#slide-container").remove();
-				// response 리스트의 각 항목을 순회하면서 div를 생성
-				response.list.forEach(function(item) {
-					var slideTheater = $("<div>").addClass("slide-theater");
-					var slideInner = $("<a>").attr("href", "/play/detail?playId="+item.playId).attr("title","연극 보기").addClass("slide-inner");
-					var slidePoster = $("<div>").addClass("slide-poster");
-					var posterImg = $("<img>").attr("src", item.playPoster);
-					var slidePlace = $("<div>").addClass("slide-place").text(item.place);
+		$
+				.ajax({
+					type : "post",
+					url : "/date",
+					data : JSON.stringify(dateVal),
+					contentType : "application/json",
+					dataType : "json",
+					success : function(response) {
+						console.log("success");
+						console.log(response);
+						var calendarList = $("#calendarList");
+						var slideContainer = $("<div>").attr("id",
+								"slide-container");
+						$("#slide-container").remove();
+						// response 리스트의 각 항목을 순회하면서 div를 생성
+						response.list.forEach(function(item) {
+							var slideTheater = $("<div>").addClass(
+									"slide-theater");
+							var slideInner = $("<a>").attr("href",
+									"/play/detail?playId=" + item.playId).attr(
+									"title", "연극 보기").addClass("slide-inner");
+							var slidePoster = $("<div>").addClass(
+									"slide-poster");
+							var posterImg = $("<img>").attr("src",
+									item.playPoster);
+							var slidePlace = $("<div>").addClass("slide-place")
+									.text(item.place);
 
-					slidePoster.append(posterImg);
-					slideInner.append(slidePoster);
-					slideInner.append(slidePlace);
-					slideTheater.append(slideInner);
-					slideContainer.append(slideTheater);
-					calendarList.append(slideContainer);
-				
+							slidePoster.append(posterImg);
+							slideInner.append(slidePoster);
+							slideInner.append(slidePlace);
+							slideTheater.append(slideInner);
+							slideContainer.append(slideTheater);
+							calendarList.append(slideContainer);
+
+						});
+
+						$("#slide-container")
+								.slick(
+										{
+											slide : "div",
+											dots : true,
+											infinite : false,
+											speed : 300,
+											slidesToShow : 3,
+											slidesToScroll : 3,
+											arrows : true,
+											pauseOnHover : true,
+											prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
+											nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
+											responsive : [ {
+												breakpoint : 1024,
+												settings : {
+													slidesToShow : 3,
+													slidesToScroll : 3,
+													infinite : true,
+													dots : true
+												}
+											}, {
+												breakpoint : 600,
+												settings : {
+													slidesToShow : 2,
+													slidesToScroll : 2
+												}
+											}, {
+												breakpoint : 480,
+												settings : {
+													slidesToShow : 1,
+													slidesToScroll : 1
+												}
+											} ]
+										})
+
+					},
+					error : function() {
+						alert("통신 실패 ");
+					}
 				});
-
-				$("#slide-container")
-				.slick(
-						{
-							slide : "div",
-							dots : true,
-							infinite : false,
-							speed : 300,
-							slidesToShow : 3,
-							slidesToScroll : 3,
-							arrows : true,
-							pauseOnHover : true,
-							prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
-							nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
-							responsive : [ {
-								breakpoint : 1024,
-								settings : {
-									slidesToShow : 3,
-									slidesToScroll : 3,
-									infinite : true,
-									dots : true
-								}
-							}, {
-								breakpoint : 600,
-								settings : {
-									slidesToShow : 2,
-									slidesToScroll : 2
-								}
-							}, {
-								breakpoint : 480,
-								settings : {
-									slidesToShow : 1,
-									slidesToScroll : 1
-								}
-							} ]
-						})
-
-			},
-			error : function() {
-				alert("통신 실패 ");
-			}
-		});
 	}
 
 	// 이전달 버튼 클릭
@@ -335,97 +347,47 @@
 				<!-- 달력 부분 -->
 			</table>
 		</div>
-	<!-- 가능한 연극 리스트 -->
-	
+		<!-- 가능한 연극 리스트 -->
+
 	</section>
 
 	<!-- 3. 월간 베스트 리뷰 -->
 	<div id="review">
 		<h2 id="review-month"></h2>
 		<!-- script문 -->
+		<div class="add-theater">
+				<a href="/review">더 많은 리뷰 보기 +</a>
+				<!-- 리뷰 리스트 페이지로 이동-->
+			</div>
 		<div class="feed-box">
-			<!-- 1등 후기 -->
-			<div class="feed">
+			<div class="feed" th:each="review:${bestReview}">
 				<!-- 리뷰 상단 -->
 				<div class="review-top">
 					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 1등
+						<i class="fa-solid fa-crown"></i> <span
+							th:text="${reviewStat.index+1}+'등'"></span>
 					</div>
-					<div class="review-userid">user1234 님</div>
+					<div class="review-userid">
+						<span th:text="${review.userName}"></span>
+					</div>
 				</div>
-				<img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
+				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+					alt="게시물 이미지" class="post-image" width="300px" height="300px">
 				<!-- 리뷰 하단 -->
 				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
+					<div class="theater-name">
+						<i class="fa-solid fa-clapperboard"></i><span
+							th:text="${review.play_title}">연극라면</span>
+					</div>
 					<!-- 연극 이름 -->
 					<div class="icon-box">
 						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
+						<div class="likeNum" th:text="${review.review_count}">32</div>
 					</div>
 				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
+				<div class="review-content" th:text="${review.review_comment}">너무너무
+	            재밌어요~!</div>
 				<!-- 후기 내용 -->
-				<div class="review-add">
-					<a href="#" target="_blank">더보기</a>
-					<!-- 해당 리뷰 페이지로 이동-->
-				</div>
-			</div>
-
-			<!-- 2등 후기 -->
-			<div class="feed">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 2등
-					</div>
-					<div class="review-userid">user1234 님</div>
-				</div>
-				<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
-					</div>
-				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
-				<!-- 후기 내용 -->
-				<div class="review-add">
-					<a href="#" target="_blank">더보기</a>
-					<!-- 해당 리뷰 페이지로 이동-->
-				</div>
-			</div>
-
-			<!-- 3등 후기 -->
-			<div class="feed">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> 3등
-					</div>
-					<div class="review-userid">user1234 님</div>
-				</div>
-				<img src="../img/review01.jpg" alt="게시물 이미지" class="post-image"
-					width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">연극라면</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum">32</div>
-					</div>
-				</div>
-				<div class="review-content">너무너무 재밌어요~!</div>
-				<!-- 후기 내용 -->
-				<div class="review-add">
-					<a href="#" target="_blank">더보기</a>
-					<!-- 해당 리뷰 페이지로 이동-->
-				</div>
 			</div>
 		</div>
 	</div>
