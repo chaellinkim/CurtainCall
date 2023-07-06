@@ -104,11 +104,22 @@
                 type: "restaurant"
             };
 
+            // 현재 장소 위치에도 마커 표시
+            var centerMarker = new google.maps.Marker({
+                position: place,
+                map: maps[tabId],
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                    scaledSize: new google.maps.Size(40, 40),
+                    anchor: new google.maps.Point(10, 40)
+                }
+            });
+            markers[tabId].push(centerMarker);
+            
             placesService.nearbySearch(request, function (results, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     for (let i = 0; i < results.length; i++) {
                         if (results[i].rating >= 4.0) {
-
                             $(".eat-content").append(`
                                 <a class="eat-place" href="#">
                                   <div class="eat-head">
@@ -130,18 +141,6 @@
                             });
                             markers[tabId].push(marker);
 
-                            // 현재 장소 위치에도 마커 표시
-                            var centerMarker = new google.maps.Marker({
-                                position: place,
-                                map: maps[tabId],
-                                icon: {
-                                    url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-                                    scaledSize: new google.maps.Size(40, 40),
-                                    anchor: new google.maps.Point(10, 40)
-                                }
-                            });
-                            markers[tabId].push(centerMarker);
-
                             var placeId = results[i].place_id;
                             var mapLink = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
 
@@ -157,9 +156,10 @@
                             infoWindows[tabId].push(infoWindow);
 
                             // 마커 클릭 이벤트 처리
-                            marker.addListener("click", function (marker, infoWindow) {
+                            marker.addListener("click", function (marker, infoWindow, result) {
                                 return function () {
-                                    console.log(results);
+                                    var placeId = result.place_id;
+    								var mapLink = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
                                     // 현재 열린 정보 창이 있으면 닫기
                                     if (currentInfoWindow) {
                                         currentInfoWindow.close();
@@ -170,8 +170,9 @@
 						                <h3><a href="${mapLink}" target="_blank" title="Google 지도에서 보기" class="map-title">${results[i].name}</a></h3>
 						                <p>${results[i].plus_code.compound_code.slice(8)}&nbsp;${results[i].vicinity}</p>
 						            </div>
-						        `;
-                                    var infoWindow = new google.maps.InfoWindow({
+						        	`;
+
+						        	var infoWindow = new google.maps.InfoWindow({
                                         content: content
                                     });
                                     infoWindows[tabId].push(infoWindow);
@@ -192,14 +193,15 @@
             event.preventDefault(); // 기본 동작 방지
             var tabId = $(this).closest(".play-content").attr("id");
             var placeId = $(this).index();
+            //console.log("index: "+ placeId);
             
 		    // 현재 열린 정보 창이 있으면 닫기
 		    if (currentInfoWindow) {
 		    	currentInfoWindow.close();
 		    }
             // 클릭한 장소의 마커와 정보 창 표시
-            markers[tabId][placeId].setVisible(true);
-            infoWindows[tabId][placeId].open(maps[tabId], markers[tabId][placeId]);
+            markers[tabId][placeId+1].setVisible(true);
+            infoWindows[tabId][placeId].open(maps[tabId], markers[tabId][placeId+1]);
             
             currentInfoWindow = infoWindows[tabId][placeId];
             
@@ -218,13 +220,7 @@
 		<h1 id="theater-list-title">공연장</h1>
 		<hr>
 
-		<!-- 공연장 리스트 -->
-		<!-- <ul class="tab-place">
-			<li th:each="item : ${list}" class="place-link"
-				th:data-tab="'place' + ${item.placeId}" th:data-place-id="${item.placeId}">
-				<a th:text="${item.placeName}"></a>
-			</li>
-		</ul> -->
+		<!-- 공연장 리스트 탭 -->
 		<div class="tab-container">
 			<div class="tab-controls">
 				<button class="prev-btn" onclick="prevButtonClick()">
@@ -258,26 +254,23 @@
 				<div class="placeInfo">
 					<div class="info-content">
 						<h3 th:text=${item.placeName}></h3>
-						<div class="address">
+						<div>
 							<b>주 &nbsp;&nbsp;&nbsp;&nbsp; 소 : </b>
 							<span th:text="${item.placeAddr}"></span>
-							<div class="map-popup">
-								<!-- 지도 팝업창 -->
-								<i class="fa-solid fa-location-dot innerIcon"></i> 
-								<span class="map">지도보기</span>
-							</div>
 						</div>
-						<p>
-							<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> <span
-								th:text="${item.placePhone}"></span>
-						</p>
-						<p class="link">
-							<b>홈페이지 :</b>&nbsp;
-							<a th:href="${item.placeLink}" target="_blank">
-								<span th:text="${item.placeLink}"></span>
-								<i class="fa-solid fa-share-from-square innerIcon"></i>
-							</a>
-						</p>
+						<div>
+							<b>전 &nbsp;&nbsp;&nbsp;&nbsp; 화 :</b> 
+							<span th:text="${item.placePhone}"></span>
+						</div>
+						<div class="link">
+							<div class="link-label"><b>홈페이지 :</b></div>
+							<div class="link-detail">
+								<a th:href="${item.placeLink}" target="_blank">
+									<span th:text="${item.placeLink}" class="homepage"></span>
+								</a>
+							</div>
+							<div><i class="fa-solid fa-share-from-square innerIcon"></i></div>
+						</div>
 					</div>
 				</div>
 				
@@ -323,34 +316,38 @@
 		</div>			
 	</div>
 
-<script th:inline="javascript">
-	var currentTabIndex = parseInt($("#currentTabIndex").val());
-	var numVisibleTabs = parseInt($("#numVisibleTabs").val());
-	var maxTabIndex = parseInt($("#maxTabIndex").val());
+	<script th:inline="javascript">
+		var numVisibleTabs = parseInt($("#numVisibleTabs").val());
+		var maxTabIndex = parseInt($("#maxTabIndex").val());
+		
+		function nextButtonClick() {
+			var currentTabIndex = parseInt(localStorage.getItem("currentTabIndex")) || 0;
+		    if (currentTabIndex + numVisibleTabs < maxTabIndex) {
+		        currentTabIndex += numVisibleTabs;
+		        localStorage.setItem("currentTabIndex", currentTabIndex);
+		        console.log("currentIdex: " + currentTabIndex);
+		        showTabs();
+		    }
+		}
+		function prevButtonClick() {
+			var currentTabIndex = parseInt(localStorage.getItem("currentTabIndex")) || 0;
+		    if (currentTabIndex > 0) {
+		        currentTabIndex -= numVisibleTabs;
+		        localStorage.setItem("currentTabIndex", currentTabIndex);
+		        console.log("currentIdex: " + currentTabIndex);
+		        showTabs();
+		    }
+		}
+		function showTabs() {
+			var currentTabIndex = parseInt(localStorage.getItem("currentTabIndex")) || 0;
+		    $(".tab-row > li").hide();
+		    $(".tab-row > li").slice(currentTabIndex, currentTabIndex + numVisibleTabs).show();
+		}
 	
-	function nextButtonClick() {
-	    if (currentTabIndex + numVisibleTabs < maxTabIndex) {
-	        currentTabIndex += numVisibleTabs;
-	        console.log("currentIdex: " + currentTabIndex);
+	    $(document).ready(function() {
 	        showTabs();
-	    }
-	}
-	function prevButtonClick() {
-	    if (currentTabIndex > 0) {
-	        currentTabIndex -= numVisibleTabs;
-	        console.log("currentIdex: " + currentTabIndex);
-	        showTabs();
-	    }
-	}
-	function showTabs() {
-	    $(".tab-row > li").hide();
-	    $(".tab-row > li").slice(currentTabIndex, currentTabIndex + numVisibleTabs).show();
-	}
-
-    $(document).ready(function() {
-        showTabs();
-    });
-</script>
+	    });
+	</script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap" async defer>
 	</script>

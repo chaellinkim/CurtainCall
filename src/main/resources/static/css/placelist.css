@@ -18,27 +18,40 @@ a{
     /* color: #141B82; */
 }
 /* 공연장 버튼 */
-/* .tab-place{
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 7px;
-    grid-row-gap: 7px;
-    margin-top: 30px;
-    width: 100%;
-  	overflow: hidden;
-} */
-/* .place-link{
-    display: block;
-    width: 100%;
-    height: 45px;
+.tab-container {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.tab-place {
+    width: calc(100% - 65px);
+    overflow: hidden;
+}
+.tab-row {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-gap: 8px;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	overflow: hidden;
+}
+.place-link {
+	display: block;
+	width: 100%;
+	height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
     border: 1.5px solid #d2d2d2;
     border-radius: 5px;
     box-sizing: border-box;
     overflow: hidden;
     cursor: pointer;
-   	display: flex;
-   	align-items: center;
-   	justify-content: center;
+    
 }
 .place-link:hover{
     border: 2px solid #141B82;
@@ -48,88 +61,45 @@ a{
 	width: 100%;	
 	padding: 3px 6px;
 	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .place-link.active{
     border: 2px solid #141B82;
-} */
-
-.tab-container {
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
+}
+.tab-controls {
     display: flex;
     align-items: center;
-  }
-
-  .tab-place {
-    width: calc(100% - 65px);
-    overflow: hidden;
-  }
-
-  .tab-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 8px;
-    padding: 0;
-    margin: 0;
-  }
-
-  .place-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 45px;
-    border: 1.5px solid #d2d2d2;
-    border-radius: 5px;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
-
-  .tab-controls {
-    display: flex;
-    align-items: center;
-  }
-
-  .prev-btn,
-  .next-btn {
+}
+.prev-btn,
+.next-btn {
     background: none;
     border: none;
     font-size: 20px;
     color: #555555;
     cursor: pointer;
     padding: 5px;
-  }
-
-  .prev-btn {
+}
+.prev-btn:hover,
+.next-btn:hover{
+	color: #141B82;
+}
+.prev-btn {
     margin-right: 12px;
-  }
-
-  .next-btn {
+}
+.next-btn {
     margin-left: 8px;
-  }
-
-.place-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-@media (max-width: 830px) {
-  .tab-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
+/* 하단 탭 display */
 .place-content{
     display: none;
 }
 .place-content.active{
     display: block;
 }
+
 /* 공연장 정보 */
 .placeInfo{
     display: flex;
@@ -137,13 +107,12 @@ a{
     height: 200px;
     border: 2px solid #d2d2d2;
     border-radius: 3px;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 .info-content{
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 25px 30px;
     background-color: #f0efef;
     display: flex;
    	align-items: center;
@@ -152,40 +121,46 @@ a{
 }
 .info-content h3{
 	font-size: 23px;
+	margin-top: 10px;
 	margin-bottom: 16px;
 }
-.address{
-    display: flex;
-    align-items: center;
-}
-.info-content p, .address{
-    font-size: 15px;
-    margin-bottom: 5px;
-}
-.map-popup{
-    display: flex;
-    align-items: center;
-    margin-left: 7px;
+.info-content div{
+    margin-bottom: 10px;
 }
 .link{
     display: flex;
     align-items: center;
+    justify-content: center;
+	width: 80%;
+	overflow: hidden;
 }
-.link > a{
+.link-label{
+	width: 9%;
+	min-width: 75px;
+}
+.link-detail{
+	max-width: 87%;
+}
+.link > a {
+	display: block;
     color: black;
+    max-width: 100%;
 }
-.link a:hover{
-    text-decoration: underline;
+.homepage{
+	display: inline-block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.homepage:hover{
+	text-decoration: underline;
 }
 .innerIcon{
     margin-left:4px;
     color: #7c7c7f;   
 }
-.map{
-    font-size: 11px;
-    color: #7c7c7f;
-    margin-left: 3px;
-}
+
 /* 연극,맛집 탭*/
 ul.tabs{
     list-style: none;
