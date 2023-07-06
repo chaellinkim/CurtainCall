@@ -64,77 +64,38 @@
    <div id="review">
       <h2 id="review-month">Montly Best</h2>
       <div class="feed-box">
-         <!-- 1등 후기 -->
-         <div class="feed">
-            <!-- 리뷰 상단 -->
-            <div class="review-top">
-               <div class="review-ranking">
-                  <i class="fa-solid fa-crown"></i> 1등
-               </div>
-               <div class="review-userid">user1234</div>
-            </div>
-            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
-               width="300px" height="300px">
-            <!-- 리뷰 하단 -->
-            <div class="review-wrap">
-               <div class="theater-name">연극라면</div>
-               <!-- 연극 이름 -->
-               <div class="icon-box">
-                  <i class="fa-solid fa-heart"></i>
-                  <div class="likeNum">32</div>
-               </div>
-            </div>
-            <div class="review-content">너무너무 재밌어요~!</div>
-            <!-- 후기 내용 -->
-         </div>
-
-         <!-- 2등 후기 -->
-         <div class="feed">
-            <!-- 리뷰 상단 -->
-            <div class="review-top">
-               <div class="review-ranking">
-                  <i class="fa-solid fa-crown"></i> 2등
-               </div>
-               <div class="review-userid">user1234</div>
-            </div>
-            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
-               width="300px" height="300px">
-            <!-- 리뷰 하단 -->
-            <div class="review-wrap">
-               <div class="theater-name">연극라면</div>
-               <!-- 연극 이름 -->
-               <div class="icon-box">
-                  <i class="fa-solid fa-heart"></i>
-                  <div class="likeNum">32</div>
-               </div>
-            </div>
-            <div class="review-content">너무너무 재밌어요~!</div>
-            <!-- 후기 내용 -->
-         </div>
-
-         <!-- 3등 후기 -->
-         <div class="feed">
-            <!-- 리뷰 상단 -->
-            <div class="review-top">
-               <div class="review-ranking">
-                  <i class="fa-solid fa-crown"></i> 3등
-               </div>
-               <div class="review-userid">user1234</div>
-            </div>
-            <img src="./img/review01.jpg" alt="게시물 이미지" class="post-image"
-               width="300px" height="300px">
-            <!-- 리뷰 하단 -->
-            <div class="review-wrap">
-               <div class="theater-name">연극라면</div>
-               <!-- 연극 이름 -->
-               <div class="icon-box">
-                  <i class="fa-solid fa-heart"></i>
-                  <div class="likeNum">32</div>
-               </div>
-            </div>
-            <div class="review-content">너무너무 재밌어요~!</div>
-            <!-- 후기 내용 -->
-         </div>
+         <div class="feed-box">
+			<!-- 1등 후기 -->
+			<div class="feed" th:each="review:${bestReview}">
+				<!-- 리뷰 상단 -->
+				<div class="review-top">
+					<div class="review-ranking">
+						<i class="fa-solid fa-crown"></i> <span
+							th:text="${reviewStat.index+1}+'등'"></span>
+					</div>
+					<div class="review-userid">
+						<span th:text="${review.userName}"></span>
+					</div>
+				</div>
+				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+					alt="게시물 이미지" class="post-image" width="300px" height="300px">
+				<!-- 리뷰 하단 -->
+				<div class="review-wrap">
+					<div class="theater-name">
+						<i class="fa-solid fa-clapperboard"></i><span
+							th:text="${review.play_title}">연극라면</span>
+					</div>
+					<!-- 연극 이름 -->
+					<div class="icon-box">
+						<i class="fa-solid fa-heart"></i>
+						<div class="likeNum" th:text="${review.review_count}">32</div>
+					</div>
+				</div>
+				<div class="review-content" th:text="${review.review_comment}">너무너무
+	            재밌어요~!</div>
+				<!-- 후기 내용 -->
+			</div>
+		</div>
       </div>
       <hr>
       <div class="feed2" th:each="review:${review}">
