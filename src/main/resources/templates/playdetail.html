@@ -34,7 +34,6 @@
 <script th:inline="javascript">
 	var IMP = window.IMP;
 	IMP.init("imp52160681");
-
 	var today = new Date();
 	var year = today.getFullYear(); // 현재 연도 반환
 	var month = today.getMonth() + 1; // 현재 월 반환 (0부터 시작하므로 1을 더해야 실제 월이 됨)
@@ -45,6 +44,7 @@
 	//var milliseconds = today.getMilliseconds();
 	var makeMerchantUid = year + month + day + hours + minutes + seconds+1000;
 
+	
 	function requestPay() {
 		console.log(makeMerchantUid);
 		var merchant_uid = "IMP" + makeMerchantUid;
@@ -114,86 +114,149 @@
 	});
 	
 	
-	//2. 달력 생성
-    /* let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
-    let today = new Date();     // 페이지를 로드한 날짜를 저장
-    today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+	window.onload = function() {
+		// 1. buildCalendar 실행
+		buildCalendar();
+		
 
-    // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
-    function buildCalendar() {
+	}
 
-        let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
-        let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+	//1. 달력 생성
+	let nowMonth = new Date(); // 현재 달을 페이지를 로드한 날의 달로 초기화
+	let calToday = new Date(); // 페이지를 로드한 날짜를 저장 , 이름 today에서 calToday로 변경
+	calToday.setHours(0, 0, 0, 0); // 비교 편의를 위해 today의 시간을 초기화
 
-        let tbody_Calendar = document.querySelector(".Calendar > tbody");
-        document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
-        document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+	// 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
+	function buildCalendar() {
 
-        while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
-            tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-        }
+		let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1); // 이번달 1일
+		let lastDate = new Date(nowMonth.getFullYear(),
+				nowMonth.getMonth() + 1, 0); // 이번달 마지막날
 
-        let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
+		let tbody_Calendar = document.querySelector(".Calendar > tbody");
+		document.getElementById("calYear").innerText = nowMonth.getFullYear(); // 연도 숫자 갱신
+		document.getElementById("calMonth").innerText = leftPad(nowMonth
+				.getMonth() + 1); // 월 숫자 갱신
+		
+		while (tbody_Calendar.rows.length > 0) { // 이전 출력결과가 남아있는 경우 초기화
+			tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+		}
 
-        for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
-            let nowColumn = nowRow.insertCell();        // 열 추가
-        }
+		let nowRow = tbody_Calendar.insertRow(); // 첫번째 행 추가           
 
-        for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+		for (let j = 0; j < firstDate.getDay(); j++) { // 이번달 1일의 요일만큼
+			let nowColumn = nowRow.insertCell(); // 열 추가
+		}
+		var playstart = [[${play.get().playFrom}]];
+		var playend = [[${play.get().playTo}]];
+		var playtime = [[${play.get().time}]];
+		var playweekday = [[${play.get().day}]];
+		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
+		console.log(playstart+" start");
+		console.log(playend+ " end");
+		console.log(playweekday);
+		for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay
+				.getDate() + 1)) { // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
 
-            let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+			let nowColumn = nowRow.insertCell(); // 새 열을 추가하고
 
-            let newDIV = document.createElement("p");
-            newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
-            nowColumn.appendChild(newDIV);
+			let newDIV = document.createElement("p");
+			newDIV.innerHTML = leftPad(nowDay.getDate()); // 추가한 열에 날짜 입력
+			nowColumn.appendChild(newDIV);
+			
+			
+			if (nowDay.getDay() == 6) { // 토요일인 경우
+				nowRow = tbody_Calendar.insertRow(); // 새로운 행 추가
+			}
+			const weekday = weekdays[nowDay.getDay()];
+			//console.log(weekday);
+			console.log(nowDay);
+			
+			const year = nowDay.getFullYear();
+			const month = leftPad(nowDay.getMonth() + 1);
+			const day = leftPad(nowDay.getDate());
+			const date = year + "-" + month + "-" + day;
+			console.log(date);
+			
+			if (nowDay < calToday||(weekday != playweekday||date<playstart||date>playend)) { // 지난날인 경우
+				newDIV.className = "pastDay";
+			
+			} else if (nowDay.getFullYear() == calToday.getFullYear()
+					&& nowDay.getMonth() == calToday.getMonth()
+					&& nowDay.getDate() == calToday.getDate()) { // 오늘인 경우           
+				newDIV.className = "today";
+				newDIV.onclick = function() {
+					choiceDate(this);
+				}
+			} else { // 미래인 경우
+				newDIV.className = "futureDay";
+				newDIV.onclick = function() {
+					choiceDate(this);
+				}
+			}
+		}
+	}
+	
+	// 날짜 선택
+	function choiceDate(newDIV) {
+		if (document.getElementsByClassName("choiceDay")[0]) { // 기존에 선택한 날짜가 있으면
+			document.getElementsByClassName("choiceDay")[0].classList
+					.remove("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
+		}
+		newDIV.classList.add("choiceDay"); // 선택된 날짜에 "choiceDay" class 추가
+		console.log(newDIV.classList);
+		let selectedDate = new Date(nowMonth.getFullYear(),
+				nowMonth.getMonth(), newDIV.innerHTML);
+		console.log(selectedDate)
+		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
+		const year = selectedDate.getFullYear();
+		const month = leftPad(selectedDate.getMonth() + 1);
+		const day = leftPad(selectedDate.getDate());
+		const date = year + "-" + month + "-" + day;
+		const weekday = weekdays[selectedDate.getDay()];
+		
+		let dateVal = {
+				"weekday" : weekday,
+				"date" : date
+		};
+	}
+	
+	
+	const date = year + "-" + month + "-" + day;
+	
+	/* 데이터베이스에 저장된 연극의 상영기간 (시작 , 종료)을 가져옴 */
+	var playstart = [[${play.get().playFrom}]];
+	var playend = [[${play.get().playTo}]];
+	var playtime = [[${play.get().time}]];
+	
+	// 정해진 기간에만 예매 가능하도록 설정
+	console.log(playstart);
+	console.log(playend);
+	
+	/* date 는 선택했을때에 만들어내는 날짜 ,db에 날짜 형식이 yyyy-mm-dd 형식이므로 date를 이용해 똑같이 맞춰줌 */
+	
+	
+				// 이전달 버튼 클릭
+				function prevCalendar() {
+					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1,
+							nowMonth.getDate()); // 현재 달을 1 감소
+					buildCalendar(); // 달력 다시 생성
+				}
+				// 다음달 버튼 클릭
+				function nextCalendar() {
+					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1,
+							nowMonth.getDate()); // 현재 달을 1 증가
+					buildCalendar(); // 달력 다시 생성
+				}
 
-            if (nowDay.getDay() == 6) {                 // 토요일인 경우
-                nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
-            }
-
-            if (nowDay < today) {                       // 지난날인 경우
-                newDIV.className = "pastDay";
-            }
-            else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-                newDIV.className = "today";
-                newDIV.onclick = function () { choiceDate(this); }
-            }
-            else {                                      // 미래인 경우
-                newDIV.className = "futureDay";
-                newDIV.onclick = function () { choiceDate(this); }
-            }
-        }
-    } */
-    
-
-    // 날짜 선택
-    function choiceDate(newDIV) {
-        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-        }
-        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-    }
-
-    // 이전달 버튼 클릭
-    function prevCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-        buildCalendar();    // 달력 다시 생성
-    }
-    // 다음달 버튼 클릭
-    function nextCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-        buildCalendar();    // 달력 다시 생성
-    }
-
-    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-    function leftPad(value) {
-        if (value < 10) {
-            value = "0" + value;
-            return value;
-        }
-        return value;
-    }
-
+				// input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+				function leftPad(value) {
+					if (value < 10) {
+						value = "0" + value;
+						return value;
+					}
+					return value;
+				}
 	
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -244,31 +307,58 @@
 				<div class="step-1">
 					<h1>STEP.1</h1>
 					<br>
-					<p>예매하기</p>
+					<p>날짜 선택</p>
 				</div>
-				<div class="calbox">
-					<table class="Calendar">
-						<thead>
-							<tr>
-								<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
-								<td colspan="5"><span id="calYear"></span>년 <span
-									id="calMonth"></span>월</td>
-								<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
-							</tr>
-							<tr>
-								<td>일</td>
-								<td>월</td>
-								<td>화</td>
-								<td>수</td>
-								<td>목</td>
-								<td>금</td>
-								<td>토</td>
-							</tr>
-						</thead>
-						<tbody></tbody>
-						<!-- 달력 부분 -->
-					</table>
-				</div>
+				<!-- 캘린더 변경 -->
+				<section id="calendarList">
+					<div class="calbox">
+						<table class="Calendar">
+							<thead>
+								<tr>
+									<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
+									<td colspan="5"><span id="calYear"></span>년 <span
+										id="calMonth"></span>월</td>
+									<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
+								</tr>
+								<tr>
+									<td>일</td>
+									<td>월</td>
+									<td>화</td>
+									<td>수</td>
+									<td>목</td>
+									<td>금</td>
+									<td>토</td>
+								</tr>
+							</thead>
+							<tbody></tbody>
+							<!-- 달력 부분 -->
+						</table>
+					</div>
+				<!-- 가능한 연극 리스트 -->
+				</section>
+					<div class="step-2">
+						<h1>STEP.2</h1>
+						<br>
+						<p>시간 선택</p>
+					</div>
+					<!-- 시간선택 드롭다운  -->
+					<div class="timeDropdown">
+						<div class="container">
+						  <form class="form">
+						    <div class="selectbox selectbox--unselect" data-option="">
+						      <div class="selectbox__displayWord">
+						        연극 시간 선택
+						      </div>
+						      <div class="option-container">
+						        <div class="option-container__option">
+						          <input type="radio" class="option__radio" name="category">
+						          <label class="option__label" th:if="${play.isPresent()}" th:text="${play.get().time}">11:00</label>
+						        </div>
+						      </div>
+						    </div>
+						  </form>
+						</div>
+					</div>
 			</div>
 		</div>
 
@@ -302,7 +392,7 @@
 		<!-- 정보탭 -->
 		<div id="tab-1" class="tab-content current">
 			<div class="promotion">
-				<img src="/img/theater01.jpg">
+				<img src="./img/theater01.jpg">
 			</div>
 			<!-- 예매자 통계 -->
 			<div class="statistics">
@@ -333,7 +423,7 @@
 	                    <div class="actionBox">
 	                        <ul class="commentList">
 	                            <li th:each="review:${review}">
-	                                <div class="userName" th:text="${review.userName}">
+	                                <div class="userName">
 	                                    <p>고양이희</p>
 	                                </div>
 	                                <div class="commentText" th:text="${review.review_comment}">
@@ -365,6 +455,30 @@
 	<!-- content wrap ( 양옆 여백 )-->
 	<!-- 통계 js -->
 	<script>
+		 const selectbox = document.querySelector(".selectbox");
+	     const selectboxDisplay = document.querySelector(".selectbox__displayWord");
+	     const submitbtn = document.querySelector(".learn-more");
+	     const optionList = document.querySelectorAll(".option-container__option");
+		/* 시간선택 드롭다운  */
+		 selectboxDisplay.addEventListener("click", (e) => {
+	         e.stopPropagation();
+	         selectbox.classList.toggle("selectbox--active");
+	     });
+	
+	     optionList.forEach((option, index) => {
+	         option.addEventListener("click", (e) => {
+	             e.stopPropagation();
+	
+	             let label = option.querySelector("label");
+	             selectboxDisplay.innerHTML = label.innerHTML.length > 17 ? label.innerHTML.substring(0, 17) + "..." : label.innerHTML;
+	             selectbox.setAttribute("data-option", label.getAttribute("data-value"));
+	             selectbox.classList.remove("selectbox--active", "selectbox--unselect");
+	         });
+	     });
+	     
+	     window.addEventListener("click", () => {
+	         selectbox.classList.remove("selectbox--active");
+	     });
 		// 나이별 통계 데이터
 		const ageData = {
 			labels : [ '10대', '20대', '30대', '40대', '50대 이상' ],
