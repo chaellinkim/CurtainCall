@@ -1,5 +1,6 @@
 package com.cc.model.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
 import com.cc.model.entity.User;
@@ -74,7 +76,7 @@ public class MainController {
 	
 	@RequestMapping(value ="/date", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,List<Play>> reservation(@RequestBody String date) {
+	public Map<String,List<?>> reservation(@RequestBody String date) {
 		ObjectMapper objectMapper = new ObjectMapper();
 	    Map<String, String> requestBody = null;
 	    try {
@@ -87,10 +89,15 @@ public class MainController {
 	    String selectedDate = requestBody.get("date");
 	    
 	    List<Play> list = playService.selectDatePlay(selectedWeekday, selectedDate);
+	    List<Place> placeList = new ArrayList<>();
+	    for(Play play : list) {
+	    	placeList.add(play.getPlace());
+	    }
 	    
-		Map<String,List<Play>> response = new HashMap<>();
+		Map<String,List<?>> response = new HashMap<>();
 		
 		response.put("list",list);
+		response.put("placeList",placeList);
 		
 		return response;
 	}

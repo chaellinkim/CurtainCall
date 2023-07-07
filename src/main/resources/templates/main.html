@@ -100,16 +100,13 @@
 		let selectedDate = new Date(nowMonth.getFullYear(),
 				nowMonth.getMonth(), newDIV.innerHTML);
 		console.log(selectedDate);
-		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ]; 2023-07-11 금요일
+		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
 		const year = selectedDate.getFullYear();
 		const month = leftPad(selectedDate.getMonth() + 1);
 		const day = leftPad(selectedDate.getDate());
 		const date = year + "-" + month + "-" + day;
 		const weekday = weekdays[selectedDate.getDay()];
 		
-		weekday == ${play.time}
-		${play.to} >=date>=${play.to} 
-
 		let dateVal = {
 			"weekday" : weekday,
 			"date" : date
@@ -129,18 +126,13 @@
 								"slide-container");
 						$("#slide-container").remove();
 						// response 리스트의 각 항목을 순회하면서 div를 생성
-						response.list.forEach(function(item) {
-							var slideTheater = $("<div>").addClass(
-									"slide-theater");
-							var slideInner = $("<a>").attr("href",
-									"/play/detail?playId=" + item.playId).attr(
-									"title", "연극 보기").addClass("slide-inner");
-							var slidePoster = $("<div>").addClass(
-									"slide-poster");
-							var posterImg = $("<img>").attr("src",
-									item.playPoster);
-							var slidePlace = $("<div>").addClass("slide-place")
-									.text(item.place);
+						response.list.forEach(function(item,index) {
+							var slideTheater = $("<div>").addClass("slide-theater");
+							var slideInner = $("<a>").attr("href","/play/detail?playId=" + item.playId).attr("title", "연극 보기").addClass("slide-inner");
+							var slidePoster = $("<div>").addClass("slide-poster");
+							var posterImg = $("<img>").attr("src",item.playPoster);
+							var slidePlace = $("<div>").addClass("slide-place").text(response.placeList[index].placeName);
+							console.log(item.place);
 
 							slidePoster.append(posterImg);
 							slideInner.append(slidePoster);
