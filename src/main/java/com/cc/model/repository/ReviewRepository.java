@@ -10,12 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
 
 //리뷰 db 만들면 jpa 상속 하기
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-   
+   //bestReview
+   List<Review> findTop3ByOrderByCountDesc();
    
    @Transactional
    @Modifying

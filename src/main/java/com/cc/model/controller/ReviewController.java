@@ -74,6 +74,24 @@ public class ReviewController {
       model.addAttribute("review", review);
       model.addAttribute("playtitle", playtitle);
       model.addAttribute("user_state", session.getAttribute("user_state"));
+      
+    //리뷰 top3
+    		List <Review> bestReview = reviewSvc.selectBestReview();
+    	      
+    	      for (Review rev : bestReview) {
+    	           byte[] imageData = rev.getReview_img();
+    	           String encodedImageData = Base64.encodeBase64String(imageData);
+    	           rev.setEncodedImage(encodedImageData);
+    	           
+    	           int UserId =rev.getUser_id();
+    	           
+    	           for(User u: user) {
+    	              if(UserId == u.getUser_id()) {
+    	                 rev.setUserName(u.getUser_namemasking());
+    	              }
+    	           }
+    	       }
+    		model.addAttribute("bestReview",bestReview);
       return "review";
    }
    

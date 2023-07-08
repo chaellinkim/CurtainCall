@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,19 +16,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cc.model.dto.UserPlayDto;
+import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
+import com.cc.model.entity.Review;
+import com.cc.model.entity.User;
+import com.cc.model.repository.UserRepository;
 import com.cc.model.service.PlayService;
+import com.cc.model.service.ReviewService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MainController {
 	private PlayService playService;
-	
-	public MainController(PlayService playService) {
+	private ReviewService reviewSvc;
+	@Autowired
+	private UserRepository userRep;
+
+	public MainController(PlayService playService, ReviewService reviewSvc) {
 		super();
 		this.playService = playService;
+		this.reviewSvc = reviewSvc;
 	}
 
 	@RequestMapping("/")
@@ -42,14 +51,32 @@ public class MainController {
 		//예매 top4
 		List <Play> bestPlay = playService.selectBestPlay();
 		model.addAttribute("bestPlay",bestPlay);
-		System.out.println(bestPlay);
+		
+		//리뷰 top3
+		List <Review> bestReview = reviewSvc.selectBestReview();
+		List<User> user = userRep.findAll();
+	      
+	      for (Review rev : bestReview) {
+	           byte[] imageData = rev.getReview_img();
+	           String encodedImageData = Base64.encodeBase64String(imageData);
+	           rev.setEncodedImage(encodedImageData);
+	           
+	           int UserId =rev.getUser_id();
+	           
+	           for(User u: user) {
+	              if(UserId == u.getUser_id()) {
+	                 rev.setUserName(u.getUser_namemasking());
+	              }
+	           }
+	       }
+		model.addAttribute("bestReview",bestReview);
 				
 		return "main";
 	}
 	
 	@RequestMapping(value ="/date", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,List<Play>> reservation(@RequestBody String date) {
+	public Map<String,List<?>> reservation(@RequestBody String date) {
 		ObjectMapper objectMapper = new ObjectMapper();
 	    Map<String, String> requestBody = null;
 	    try {
@@ -62,10 +89,15 @@ public class MainController {
 	    String selectedDate = requestBody.get("date");
 	    
 	    List<Play> list = playService.selectDatePlay(selectedWeekday, selectedDate);
+	    List<Place> placeList = new ArrayList<>();
+	    for(Play play : list) {
+	    	placeList.add(play.getPlace());
+	    }
 	    
-		Map<String,List<Play>> response = new HashMap<>();
+		Map<String,List<?>> response = new HashMap<>();
 		
 		response.put("list",list);
+		response.put("placeList",placeList);
 		
 		return response;
 	}
