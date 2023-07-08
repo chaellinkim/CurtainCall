@@ -147,7 +147,6 @@
                      <div class="selectbox selectbox--unselect" data-option="">
                         <div class="selectbox__displayWord">-- 연극 선택 --</div>
                         <div class="option-container">
-
                            <div class="option-container__option"
                               th:each="title,iterStat: ${playtitle}">
                               <input type="radio" th:id="${'category_'+title}"
@@ -228,13 +227,6 @@
 	          e.stopPropagation();
 	          selectbox.classList.toggle("selectbox--active");
 	      });
-	
-	      function shakeBox() {
-	          selectbox.classList.add("selectbox--shake");
-	          setTimeout(() => {
-	              selectbox.classList.remove("selectbox--shake");
-	          }, 300);
-	      }
 	
 	      optionList.forEach((option, index) => {
 	          option.addEventListener("click", (e) => {

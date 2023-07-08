@@ -8,59 +8,63 @@
 
 /* <login> */
 
-.con{
-    width: 100vw;
+#content-wrap{
+    width: 100%;
+    height: 80vh;
+    min-width: 865px;
     display: flex;
     justify-content: center;
 }
 
 .login_box {
     width: 23vw;
-    height: 58vh;
+    height: 62vh;
+    min-width: 380px;
+    min-height: 520px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     border: 2px solid #e3e3e3;
     border-radius: 2vb;
     margin-top: 10vh;
 }
 
 #main_logo {
-    margin-top: 8vh;
-    width: 10vw;
-    height: 9vh;
+    margin-bottom: 38px;
+    width: 50%;
+    height: auto;
 }
 
 .login_box form {
-    margin-top:2vh;
-    height:16vh;
+    width: 65%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
 }
 
 .login_box input {
-    margin: 1vh;
-    width:15vw;
-    height:4vh;
+    margin-bottom: 12px;
+    padding: 14px 8px;
+    width: 100%;
     border: 1px solid #D9D9D9;
-    border-radius: 1vb;
+    border-radius: 8px;
 }
 
 #login_button {
-    width:15vw;
-    height:4vh;
+    width: 265px;
+    height: 44px;
     background-color: rgb(18, 82, 151);
-    border: 0px;
-    border-radius: 1vb;
+    border: none;
+    border-radius: 8px;
+    margin-top: 5px;
     color:#FFFFFF;
     cursor: pointer;
 }
 
 .find{
-    margin-top: 2vh;
-    margin-bottom: 4vh;
+    margin-top: 15px;
+    margin-bottom: 36px;
     display: flex;
-    font-size: 1.5vh;
+    font-size: 14px;
 }
 
 .find>a{
@@ -75,34 +79,32 @@
 }
 
 #before{
-    width: 6vw;
-    height: 0vh;
+    width: 80px;
     border: 1px solid #000000;
 }
 
 #ment{
-    font-size: 1.5vh;
+    font-size: 14px;
 }
 
 #after{
-    width: 6vw;
+    width: 80px;
     height: 0vh;
     border: 1px solid #000000;
 }
 
 .sns_logo{
     width: 100%;
-    margin-top: 3vh;
+    margin-top: 10px;
     display: flex;
     justify-content: space-around;
 }
 
 .sns_logo a{
-    height:3.5vh;
-    
+    height: 54px;
 }
 
 .sns_logo img{
-    width:12vw;
-    height:6vh;
+    width: 100%;
+    height: 54px;
 }

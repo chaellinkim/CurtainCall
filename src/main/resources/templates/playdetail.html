@@ -141,7 +141,7 @@
 		while (tbody_Calendar.rows.length > 0) { // 이전 출력결과가 남아있는 경우 초기화
 			tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
 		}
-
+    
 		let nowRow = tbody_Calendar.insertRow(); // 첫번째 행 추가           
 
 		for (let j = 0; j < firstDate.getDay(); j++) { // 이번달 1일의 요일만큼
@@ -155,6 +155,7 @@
 		console.log(playstart+" start");
 		console.log(playend+ " end");
 		console.log(playweekday);
+
 		for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay
 				.getDate() + 1)) { // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
 
@@ -163,8 +164,7 @@
 			let newDIV = document.createElement("p");
 			newDIV.innerHTML = leftPad(nowDay.getDate()); // 추가한 열에 날짜 입력
 			nowColumn.appendChild(newDIV);
-			
-			
+		
 			if (nowDay.getDay() == 6) { // 토요일인 경우
 				nowRow = tbody_Calendar.insertRow(); // 새로운 행 추가
 			}
@@ -184,6 +184,7 @@
 			} else if (nowDay.getFullYear() == calToday.getFullYear()
 					&& nowDay.getMonth() == calToday.getMonth()
 					&& nowDay.getDate() == calToday.getDate()) { // 오늘인 경우           
+
 				newDIV.className = "today";
 				newDIV.onclick = function() {
 					choiceDate(this);
@@ -207,21 +208,18 @@
 		console.log(newDIV.classList);
 		let selectedDate = new Date(nowMonth.getFullYear(),
 				nowMonth.getMonth(), newDIV.innerHTML);
-		console.log(selectedDate)
 		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
 		const year = selectedDate.getFullYear();
 		const month = leftPad(selectedDate.getMonth() + 1);
 		const day = leftPad(selectedDate.getDate());
 		const date = year + "-" + month + "-" + day;
 		const weekday = weekdays[selectedDate.getDay()];
-		
 		let dateVal = {
 				"weekday" : weekday,
 				"date" : date
 		};
 	}
-	
-	
+
 	const date = year + "-" + month + "-" + day;
 	
 	/* 데이터베이스에 저장된 연극의 상영기간 (시작 , 종료)을 가져옴 */
@@ -234,8 +232,7 @@
 	console.log(playend);
 	
 	/* date 는 선택했을때에 만들어내는 날짜 ,db에 날짜 형식이 yyyy-mm-dd 형식이므로 date를 이용해 똑같이 맞춰줌 */
-	
-	
+
 				// 이전달 버튼 클릭
 				function prevCalendar() {
 					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1,
@@ -309,6 +306,7 @@
 					<br>
 					<p>날짜 선택</p>
 				</div>
+
 				<!-- 캘린더 변경 -->
 				<section id="calendarList">
 					<div class="calbox">
@@ -341,6 +339,7 @@
 						<br>
 						<p>시간 선택</p>
 					</div>
+        
 					<!-- 시간선택 드롭다운  -->
 					<div class="timeDropdown">
 						<div class="container">
