@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -31,32 +31,12 @@
         });
 
     </script>
+<th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-    <header>
-        <a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
-        <div id="nav-content">
-            <nav>
-                <ul>
-                    <li><a href="#" class="menu">연극</a></li>
-                    <li><a href="#" class="menu">공연장</a></li>
-                    <li><a href="#" class="menu">출연진</a></li>
-                    <li><a href="#" class="menu">이벤트</a></li>
-                    <li><a href="#" class="menu">관람후기</a></li>
-                </ul>
-            </nav>
-            <div class="right">
-                <form action="" method="get" class="search">
-                    <input type="text" class="search-input" placeholder="검색어 입력">
-                    <div class="icon"><i class="fas fa-search"></i></div>
-                </form>
-                <div class="user-icon">
-                    <i class="fas fa-user fa-lg"></i>
-                </div>
-            </div>
-        </div>
-    </header>
+	<!-- 헤더 nav -->
+	<th:block th:include="header :: body"></th:block>
 
     <div class="user">
         <div class="user_name">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CurtainCall</title>
     <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
     <link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
 	<th:block th:include="header :: head"></th:block>
@@ -12,6 +12,7 @@
 <body>
     <!-- 헤더 nav -->
     <th:block th:include="header :: body"></th:block>
+    
     <!-- 연극 리스트 -->
     <div id="content-wrap">
         <!-- 연극 타이틀 및 정렬  -->
@@ -50,5 +51,8 @@
 	        </th:block>
         </div>
     </div>
+    
+    <!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 </html>

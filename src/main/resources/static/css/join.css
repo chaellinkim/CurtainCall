@@ -15,17 +15,23 @@ body {
    flex-direction: column;
    height: 100vh;
 }
+
+#content-wrap{
+    width: 100%;
+    height: 80vh;
+    min-width: 865px;
+    display: flex;
+    justify-content: center;
+}
 /* 중앙에 위치한 박스 스타일 */
 .center-box {
-   margin-top: 5%;
-   border: 2px solid #c2c2c2;
-   border-radius: 0.8rem;
-   padding: 20px;
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   background-color: #ffffff;
+	width: 25%;
+	margin-top: 6%;
+   	border: 2px solid #c2c2c2;
+   	border-radius: 0.8rem;
+   	padding: 45px 30px;
+   	background-color: #ffffff;
+   	min-width: 400px;
 }
 
 .center-box .logo {
@@ -35,33 +41,32 @@ body {
 
 /* 가입하기 버튼 스타일 */
 button[type="submit"] {
-   width: 27vw;
-   margin-top: 10px;
+   width: 78%;
    /* #f77f7f; */
    background-color: rgb(18, 82, 151);
    border: none;
    color: white;
-   padding: 10px 20px;
+   padding: 13px 20px;
    text-align: center;
    display: inline-block;
    font-size: 16px;
    cursor: pointer;
-   border-radius: 1vb
+   border-radius: 8px;
 }
 
 #id_verification {
    margin-top: 10px;
+   margin-left: 10px;
    background-color: rgb(18, 82, 151);
    border: none;
    color: white;
-   padding: 10px 20px;
+   padding: 12px 20px;
    text-align: center;
    text-decoration: none;
    display: inline-block;
    font-size: 14px;
    cursor: pointer;
-   border-radius: 5px;
-   width: 6.5vw;
+   border-radius: 8px;
    margin: 0;
    vertical-align: middle;
 }
@@ -76,14 +81,13 @@ button[type="submit"] {
    background-color: rgb(18, 82, 151);
    border: none;
    color: white;
-   padding: 10px 20px;
+   padding: 12px 35px;
    text-align: center;
    text-decoration: none;
    display: inline-block;
    font-size: 14px;
    cursor: pointer;
-   border-radius: 5px;
-   width: 6.5vw;
+   border-radius: 8px;
    margin: 0;
    vertical-align: middle;
 }
@@ -110,14 +114,28 @@ button[type="submit"] {
    box-sizing: border-box;
    display: inline-block;
    border: 0.7px solid rgb(185, 184, 184);
-   border-radius: 0.5rem;
+   border-radius: 8px;
+   padding: 14px 8px;
 }
 
 input[type="radio"]{
-     width: 10%;
+     width: 6%;
      height: 20%;
-     margin-left: 4%;
+     padding: 2px 0;
      accent-color: rgb(18, 82, 151);
+}
+#genderM{
+	margin-left: 50px;
+}
+label[for="genderF"],
+label[for="genderM"]{
+	width: 40px;
+}
+
+.submitBtnContent{
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
 }
 
 #passwordConfirm {
@@ -129,6 +147,5 @@ input[type="radio"]{
 }
 
 .joinForm .joinContent:nth-child(7){
-   margin-top:6%;
-   margin-bottom: 6%;
+   margin-top: 15px;
 }
