@@ -44,10 +44,10 @@ a {
 
 /* 리뷰 wrap*/
 .feed-box {
-	margin-top: 40px;
+	margin-top: 20px;
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .feed {
