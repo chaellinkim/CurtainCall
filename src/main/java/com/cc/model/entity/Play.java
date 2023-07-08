@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,6 +21,7 @@ import lombok.ToString;
 @Entity(name="Play")
 @Table(name="PLAY")
 @ToString(exclude = "place") 
+@JsonSerialize
 public class Play {
 	@Id
 	@Column(name="play_id")
@@ -59,10 +63,12 @@ public class Play {
 	@Column(name="time")
 	private String time;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="place_id", insertable = false, updatable = false)
 	private Place place;
   
+	@JsonIgnore
 	@OneToMany(mappedBy = "play", cascade = CascadeType.REMOVE)
 	private List<ActorPlay> actorPlayList;
   

@@ -34,7 +34,6 @@
 <script th:inline="javascript">
 	var IMP = window.IMP;
 	IMP.init("imp52160681");
-
 	var today = new Date();
 	var year = today.getFullYear(); // 현재 연도 반환
 	var month = today.getMonth() + 1; // 현재 월 반환 (0부터 시작하므로 1을 더해야 실제 월이 됨)
@@ -45,6 +44,7 @@
 	//var milliseconds = today.getMilliseconds();
 	var makeMerchantUid = year + month + day + hours + minutes + seconds+1000;
 
+	
 	function requestPay() {
 		console.log(makeMerchantUid);
 		var merchant_uid = "IMP" + makeMerchantUid;
@@ -95,6 +95,7 @@
 			}
 		});
 	}
+	/* 탭 js */
 	$(document).ready(function() {
 
 		$('ul.tab-btn li').click(function() {
@@ -163,36 +164,115 @@
             }
         }
     } */
-    
+	window.onload = function() {
+		// 1. buildCalendar 실행
+		buildCalendar();
+		
 
-    // 날짜 선택
-    function choiceDate(newDIV) {
-        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-        }
-        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-    }
+	}
 
-    // 이전달 버튼 클릭
-    function prevCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-        buildCalendar();    // 달력 다시 생성
-    }
-    // 다음달 버튼 클릭
-    function nextCalendar() {
-        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-        buildCalendar();    // 달력 다시 생성
-    }
+	//1. 달력 생성
+	let nowMonth = new Date(); // 현재 달을 페이지를 로드한 날의 달로 초기화
+	let calToday = new Date(); // 페이지를 로드한 날짜를 저장 , 이름 today에서 calToday로 변경
+	today.setHours(0, 0, 0, 0); // 비교 편의를 위해 today의 시간을 초기화
 
-    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-    function leftPad(value) {
-        if (value < 10) {
-            value = "0" + value;
-            return value;
-        }
-        return value;
-    }
+	// 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣음
+	function buildCalendar() {
 
+		let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1); // 이번달 1일
+		let lastDate = new Date(nowMonth.getFullYear(),
+				nowMonth.getMonth() + 1, 0); // 이번달 마지막날
+
+		let tbody_Calendar = document.querySelector(".Calendar > tbody");
+		document.getElementById("calYear").innerText = nowMonth.getFullYear(); // 연도 숫자 갱신
+		document.getElementById("calMonth").innerText = leftPad(nowMonth
+				.getMonth() + 1); // 월 숫자 갱신
+
+		while (tbody_Calendar.rows.length > 0) { // 이전 출력결과가 남아있는 경우 초기화
+			tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+		}
+
+		let nowRow = tbody_Calendar.insertRow(); // 첫번째 행 추가           
+
+		for (let j = 0; j < firstDate.getDay(); j++) { // 이번달 1일의 요일만큼
+			let nowColumn = nowRow.insertCell(); // 열 추가
+		}
+
+		for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay
+				.getDate() + 1)) { // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+
+			let nowColumn = nowRow.insertCell(); // 새 열을 추가하고
+
+			let newDIV = document.createElement("p");
+			newDIV.innerHTML = leftPad(nowDay.getDate()); // 추가한 열에 날짜 입력
+			nowColumn.appendChild(newDIV);
+
+			if (nowDay.getDay() == 6) { // 토요일인 경우
+				nowRow = tbody_Calendar.insertRow(); // 새로운 행 추가
+			}
+
+			if (nowDay < today) { // 지난날인 경우
+				newDIV.className = "pastDay";
+			} else if (nowDay.getFullYear() == today.getFullYear()
+					&& nowDay.getMonth() == today.getMonth()
+					&& nowDay.getDate() == today.getDate()) { // 오늘인 경우           
+				newDIV.className = "today";
+				newDIV.onclick = function() {
+					choiceDate(this);
+				}
+			} else { // 미래인 경우
+				newDIV.className = "futureDay";
+				newDIV.onclick = function() {
+					choiceDate(this);
+				}
+			}
+		}
+	}
+	
+	// 날짜 선택
+	function choiceDate(newDIV) {
+		if (document.getElementsByClassName("choiceDay")[0]) { // 기존에 선택한 날짜가 있으면
+			document.getElementsByClassName("choiceDay")[0].classList
+					.remove("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
+		}
+		newDIV.classList.add("choiceDay"); // 선택된 날짜에 "choiceDay" class 추가
+		console.log(newDIV.classList);
+		let selectedDate = new Date(nowMonth.getFullYear(),
+				nowMonth.getMonth(), newDIV.innerHTML);
+		console.log(selectedDate);
+		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
+		const year = selectedDate.getFullYear();
+		const month = leftPad(selectedDate.getMonth() + 1);
+		const day = leftPad(selectedDate.getDate());
+		const date = year + "-" + month + "-" + day;
+		const weekday = weekdays[selectedDate.getDay()];
+
+		let dateVal = {
+				"weekday" : weekday,
+				"date" : date
+		};
+	}
+				// 이전달 버튼 클릭
+				function prevCalendar() {
+					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1,
+							nowMonth.getDate()); // 현재 달을 1 감소
+					buildCalendar(); // 달력 다시 생성
+				}
+				// 다음달 버튼 클릭
+				function nextCalendar() {
+					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1,
+							nowMonth.getDate()); // 현재 달을 1 증가
+					buildCalendar(); // 달력 다시 생성
+				}
+
+				// input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+				function leftPad(value) {
+					if (value < 10) {
+						value = "0" + value;
+						return value;
+					}
+					return value;
+				}
 	
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -243,31 +323,68 @@
 				<div class="step-1">
 					<h1>STEP.1</h1>
 					<br>
-					<p>예매하기</p>
+					<p>날짜 선택</p>
 				</div>
-				<div class="calbox">
-					<table class="Calendar">
-						<thead>
-							<tr>
-								<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
-								<td colspan="5"><span id="calYear"></span>년 <span
-									id="calMonth"></span>월</td>
-								<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
-							</tr>
-							<tr>
-								<td>일</td>
-								<td>월</td>
-								<td>화</td>
-								<td>수</td>
-								<td>목</td>
-								<td>금</td>
-								<td>토</td>
-							</tr>
-						</thead>
-						<tbody></tbody>
-						<!-- 달력 부분 -->
-					</table>
-				</div>
+				<section id="calendarList">
+					<div class="calbox">
+						<table class="Calendar">
+							<thead>
+								<tr>
+									<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
+									<td colspan="5"><span id="calYear"></span>년 <span
+										id="calMonth"></span>월</td>
+									<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
+								</tr>
+								<tr>
+									<td>일</td>
+									<td>월</td>
+									<td>화</td>
+									<td>수</td>
+									<td>목</td>
+									<td>금</td>
+									<td>토</td>
+								</tr>
+							</thead>
+							<tbody></tbody>
+							<!-- 달력 부분 -->
+						</table>
+					</div>
+				<!-- 가능한 연극 리스트 -->
+				</section>
+					<div class="step-2">
+						<h1>STEP.2</h1>
+						<br>
+						<p>시간 선택</p>
+					</div>
+					<div class="timeDropdown">
+						<div class="container">
+						  <form class="form">
+						    <div class="selectbox selectbox--unselect" data-option="">
+						      <div class="selectbox__displayWord">
+						        연극 시간 선택
+						      </div>
+						      <div class="option-container">
+						        <div class="option-container__option">
+						          <input type="radio" class="option__radio" id="1100" name="category">
+						          <label class="option__label" for="1100" data-value="11:00">11:00</label>
+						        </div>
+						        <div class="option-container__option">
+						          <input type="radio" class="option__radio" id="1200" name="category">
+						          <label class="option__label" for="1200" data-value="12:00">12:00</label>
+						        </div>
+						        <div class="option-container__option">
+						          <input type="radio" class="option__radio" id="1300" name="category">
+						          <label class="option__label" for="1300" data-value="13:00">13:00</label>
+						        </div>
+						        <div class="option-container__option">
+						          <input type="radio" class="option__radio" id="1400" name="category">
+						          <label class="option__label" for="1400" data-value="14:00">14:00</label>
+						        </div>
+						      </div>
+						    </div>
+						  </form>
+						</div>
+					</div>
 			</div>
 		</div>
 
@@ -327,112 +444,29 @@
 		</div>
 		<!-- 후기탭 -->
 		<div id="tab-2" class="tab-content">
-			<div class="review">
-				<div class="detailBox">
-					<div class="actionBox">
-						<ul class="commentList">
-							<li>
-								<div class="userName">
-									<p>고양이희</p>
-									<span class="date sub-text">on March 5th, 2014</span>
-								</div>
-								<div class="commentText">
-									<p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ
-										ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
-										ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
-								</div>
-								<div class="commentImage">
-									<img src="./img/review01.jpeg" /> <img
-										src="./img/review01.jpeg" />
-								</div> <!-- 좋아요 버튼 -->
-								<div class="container">
-									<div class="wrapper">
-										<a href="javascript:void(0);" class="like-button"> <i
-											class="material-icons not-liked bouncy"><i
-												class="fa-regular fa-heart"></i></i> <i
-											class="material-icons is-liked bouncy"><i
-												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
-										</a>
-									</div>
-								</div>
-								<hr>
-							</li>
-							<li>
-								<div class="userName">
-									<p>노잼</p>
-									<span class="date sub-text">on March 5th, 2014</span>
-								</div>
-								<div class="commentText">
-									<p>괜히본듯 ..</p>
-								</div>
-								<div class="commentImage">
-									<img src="./img/review01.jpeg" />
-								</div> <!-- 좋아요 버튼 -->
-								<div class="container">
-									<div class="wrapper">
-										<a href="javascript:void(0);" class="like-button"> <i
-											class="material-icons not-liked bouncy"><i
-												class="fa-regular fa-heart"></i></i> <i
-											class="material-icons is-liked bouncy"><i
-												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
-										</a>
-									</div>
-								</div>
-								<hr>
-							</li>
-							<li>
-								<div class="userName">
-									<p>영석</p>
-									<span class="date sub-text">on March 5th, 2014</span>
-								</div>
-								<div class="commentText">
-									<p>정말 최고의 연극이었어용~~</p>
-								</div>
-								<div class="commentImage">
-									<img src="./img/review01.jpeg" />
-								</div> <!-- 좋아요 버튼 -->
-								<div class="container">
-									<div class="wrapper">
-										<a href="javascript:void(0);" class="like-button"> <i
-											class="material-icons not-liked bouncy"><i
-												class="fa-regular fa-heart"></i></i> <i
-											class="material-icons is-liked bouncy"><i
-												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
-										</a>
-									</div>
-								</div>
-								<hr>
-							</li>
-							<li>
-								<div class="userName">
-									<p>고양이희</p>
-									<span class="date sub-text">on March 5th, 2014</span>
-								</div>
-								<div class="commentText">
-									<p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ
-										ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
-										ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
-								</div>
-								<div class="commentImage">
-									<img src="./img/review01.jpeg" />
-								</div> <!-- 좋아요 버튼 -->
-								<div class="container">
-									<div class="wrapper">
-										<a href="javascript:void(0);" class="like-button"> <i
-											class="material-icons not-liked bouncy"><i
-												class="fa-regular fa-heart"></i></i> <i
-											class="material-icons is-liked bouncy"><i
-												class="fa-solid fa-heart"></i></i> <span class="like-overlay"></span>
-										</a>
-									</div>
-								</div>
-								<hr>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+	            <div class="review">
+	                <div class="detailBox">
+	                    <div class="actionBox">
+	                        <ul class="commentList">
+	                            <li th:each="review:${review}">
+	                                <div class="userName" th:text="${review.userName}">
+	                                    <p>고양이희</p>
+	                                </div>
+	                                <div class="commentText" th:text="${review.review_comment}">
+	                                    <p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
+	                                        ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
+	                                </div>
+	                                <div class="commentImage">
+	                                  <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+	            						alt="게시물 이미지" class="post-image" width="300px" height="300px">
+	                                </div>
+	                                <hr>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
 		<!-- 캐스팅탭 -->
 		<div id="tab-3" class="tab-content">
 			<div class="cast">
@@ -445,18 +479,32 @@
 		</div>
 	</div>
 	<!-- content wrap ( 양옆 여백 )-->
-	<!-- 좋아요버튼 js -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-			$('.like-button').click(function() {
-				$(this).toggleClass('is-active');
-			})
-
-		})
-	</script>
 	<!-- 통계 js -->
 	<script>
+		 const selectbox = document.querySelector(".selectbox");
+	     const selectboxDisplay = document.querySelector(".selectbox__displayWord");
+	     const submitbtn = document.querySelector(".learn-more");
+	     const optionList = document.querySelectorAll(".option-container__option");
+		/* 시간선택 드롭다운  */
+		 selectboxDisplay.addEventListener("click", (e) => {
+	         e.stopPropagation();
+	         selectbox.classList.toggle("selectbox--active");
+	     });
+	
+	     optionList.forEach((option, index) => {
+	         option.addEventListener("click", (e) => {
+	             e.stopPropagation();
+	
+	             let label = option.querySelector("label");
+	             selectboxDisplay.innerHTML = label.innerHTML.length > 17 ? label.innerHTML.substring(0, 17) + "..." : label.innerHTML;
+	             selectbox.setAttribute("data-option", label.getAttribute("data-value"));
+	             selectbox.classList.remove("selectbox--active", "selectbox--unselect");
+	         });
+	     });
+	     
+	     window.addEventListener("click", () => {
+	         selectbox.classList.remove("selectbox--active");
+	     });
 		// 나이별 통계 데이터
 		const ageData = {
 			labels : [ '10대', '20대', '30대', '40대', '50대 이상' ],

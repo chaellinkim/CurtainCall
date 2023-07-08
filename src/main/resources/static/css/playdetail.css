@@ -60,29 +60,23 @@ a {
 /* 예매박스 */
 .reserve-wrap {
     margin-top: 1vh;
-    background-color: pink;
     height: 40vh;
-    /* 지울것 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
-
-/* 예매박스 */
-.reserve-wrap {
-    margin-top: 1vh;
-    height: 40vh;
-    margin-bottom: 5vh;
+.reserve-box{
+	display:flex;
 }
 /* step1 */
-.step-1{
-    margin-left: 20px;
-    float: left;
+.step-1 {
+	margin-top:10px;
+	margin-right:20px;
 }
 .step-1 h1{
     color: #6dacff;
 }
 /* 달력 css */
+#calendarList{
+	
+}
 .calbox {
     flex: 1.5;
     background-color: white;
@@ -90,8 +84,8 @@ a {
     width: 300px;
     padding: auto 0;
     border-radius: 5px;
-    margin-left: 120px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 td {
@@ -156,11 +150,117 @@ td {
 
 /* 시간선택 */
 .step-2{
-
+	margin-left:40px;
+	margin-right:20px;
+	margin-top:10px;
 }
 .step-2 h1{
     color: #6dacff;
 }
+/* 시간 선택 드롭다운 */
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  :root {
+    --select-theme: #bcddff;
+    --select-theme-hover: #a9d4ff;
+    --option-color: #0d323b;
+  }
+  
+  .container {
+  	margin-left:20px;
+    padding: 10px;
+    padding-left: 0;
+  }
+  .container__title {
+    font-size: 25px;
+    font-weight: 600;
+    margin: 16px;
+    text-align: center;
+  }
+
+  .selectbox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 300px;
+  }
+  .option-container {
+    background-color: var(--select-theme);
+    color: var(--option-color);
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .selectbox--active .option-container {
+    max-height: 240px;
+    opacity: 1;
+    overflow-y: scroll;
+  }
+  
+  .selectbox__displayWord,
+  .option-container__option {
+    padding: 12px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .selectbox__displayWord {
+   	box-sizing: border-box;
+    position: relative;
+    background-color: var(--select-theme);
+    color: var(--option-color);
+    border-radius: 8px;
+    height: 40px;
+    width:250px;
+  }
+  .selectbox__displayWord::after {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    content: "";
+    background: url("https://image.flaticon.com/icons/svg/271/271210.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  
+    height: 16px;
+    width: 16px;
+    color: #f5f6fa;
+    transform: translateY(-50%);
+    transition: all 0.4s;
+  }
+  .selectbox--active .selectbox__displayWord::after {
+    transform: translateY(-50%) rotateZ(180deg);
+  }
+  .selectbox--unselect .selectbox__displayWord {
+    color: rgb(255, 255, 255);
+  }
+  .selectbox--shake {
+    animation: shake 0.3s forwards;
+  }
+  .option-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+  }
+  .option-container__option:hover {
+    background-color: var(--select-theme-hover);
+  }
+  .option__radio {
+    display: none;
+  }
+  .option__label {
+    cursor: pointer;
+  }
 /* 예매하기 버튼 */
 .reserve-btn {
     height: 10vh;
@@ -374,111 +474,11 @@ a.button {
     
 }
 /* 닉네임 크기 조절 */
-.userName p{
+.userName{
     font-size: 15px;
     color: #aaa;
 }
-/* 좋아요 css */
 
-.container .love {
-    font-size: 0.9rem;
-    color: #ff4f8f;
-  }
-  .container .wrapper {
-    float: right;
-    margin-bottom: 10px;
-    padding-left: 140px;
-  }
-  .container .wrapper .like-button {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    text-decoration: none;
-    overflow: hidden;
-  }
-  .container .wrapper .like-button .like-overlay {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #ff4f8f;
-    transform: scale(0);
-    transition: all 0.4s;
-    z-index: 0;
-  }
-  .container .wrapper .like-button i.not-liked {
-    display: block;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-  }
-  .container .wrapper .like-button i.is-liked {
-    display: none;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-  }
-  .container .wrapper .like-button.is-active .like-overlay {
-    transform: scale(1);
-  }
-  .container .wrapper .like-button.is-active i.not-liked {
-    display: none;
-  }
-  .container .wrapper .like-button.is-active i.is-liked {
-    display: block;
-  }
-  @keyframes bouncy {
-    from, to {
-      transform: scale(1, 1);
-    }
-    25% {
-      transform: scale(0.9, 1.1);
-    }
-    50% {
-      transform: scale(1.1, 0.9);
-    }
-    75% {
-      transform: scale(0.95, 1.05);
-    }
-  }
-  .bouncy {
-    animation: bouncy 0.6s;
-    animation-duration: 0.6s;
-    animation-fill-mode: both;
-  }
-  
-  .link-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #6dacff;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.4s;
-  }
-  .link-button img {
-    width: 32px;
-    height: 32px;
-    display: block;
-  }
-  .link-button:hover {
-    transform: scale(1.1) rotate(180deg);
-    background: #ff4f8f;
-  }/*# sourceMappingURL=like-btn01.css.map */
-  
 /* 화면 전환 */
 .tab-content {
     display: none;
@@ -487,7 +487,7 @@ a.button {
 .tab-content.current {
     display: inherit;
 }
-
+/* 달력 */
 .datepicker-container {
   max-width: 600px; /* 원하는 가로 크기 */
   margin: 0 auto;

@@ -140,6 +140,18 @@ a {
 }
 
 /* 리뷰 상단 */
+.feed2 {
+	margin-left:17vw;
+	margin-right:17vw;
+}
+.hrLine{
+	height:1px;
+	border:0;
+    background-color: #d2d2d2;
+}
+.review-wrapper{
+	margin-left:25%;
+}
 .feed2 .review-top {
 	display: flex;
 	align-items: center;
@@ -147,16 +159,21 @@ a {
 	margin-bottom: 10px;
 	width: 100%;
 }
-
+.review-top i{
+    font-size:25px;
+    margin-bottom: -20px;
+}
 .feed2 .review-userid {
-	font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+	font-size: 20px;
 	color: rgb(107, 107, 107);
 }
 
 .feed2 .post-image {
-	width: 50%;
+	width: 100%;
 	height: auto;
-	border-radius: 12px;
+	border-radius: 5px;
 	margin-bottom: 10px;
 }
 /* 리뷰 하단*/
@@ -169,10 +186,17 @@ a {
 }
 
 .feed2 .theater-name {
-	font-weight: 800;
-	font-size: 15px;
+	font-weight: 600;
+	font-size: 20px;
+    margin-bottom: 5px;
 }
+/* 아이콘 */
+.theater-name i {
+    margin-right: 10px;
+    font-size: 23px;
+    padding: 0%;
 
+}
 .feed2 .icon-box {
 	display: flex;
 	align-items: center;
@@ -181,10 +205,12 @@ a {
 
 .feed2 .icon-box i {
 	color: #dc143c;
+    font-size: 25px;
 }
 
 .feed2 .likeNum {
-	font-size: 12px;
+	font-size: 20px;
+    margin-left: 3px;
 }
 
 .feed2 .review-content {
@@ -194,8 +220,10 @@ a {
 	display: -webkit-box;
 	-webkit-line-clamp: 2; /* 2줄 이후로 텍스트 자르기 */
 	-webkit-box-orient: vertical;
+    margin-top: 10px;
+   	margin-bottom:15px;
 	height: 33px;
-	font-size: 14px;
+	font-size: 20px;
 	color: rgb(121, 121, 121);
 }
 
@@ -243,6 +271,7 @@ a {
 	padding: 20px;
 	border: 1px solid #888;
 	width: 60%;
+    border-radius: 10px;
 }
 
 .modal-title {
@@ -261,24 +290,245 @@ a {
 }
 
 .modal-form {
-	display: flex;
 	align-items: flex-start;
+    
 }
 
 .modal-form-left {
+    margin-top: 5px;
 	margin-right: 20px;
+    margin-bottom: 5px;
 }
 
 .modal-form-right {
 	flex-grow: 1;
 }
 
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+
 .modal-form-right textarea {
 	width: 100%;
 	height: 200px;
 }
 
-.modal-form-button {
-	text-align: right;
-	margin-top: 20px;
+/* 등록 버튼 */
+
+.modal-form-button #container{
+    margin-left: 73%;
 }
+.modal-form-button{
+    margin-top: 10px;
+}
+@import url("https://fonts.googleapis.com/css?family=Mukta:700");
+
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+button.learn-more {
+  width: 12rem;
+  height: auto;
+}
+button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #6db6ff;
+  border-radius: 1.625rem;
+}
+button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: 25px;
+  background: #fff;
+}
+button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: -0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+}
+button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.25rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: #282936;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+}
+button:hover .circle {
+  width: 100%;
+}
+button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+}
+button:hover .button-text {
+  color: #fff;
+}
+*::-webkit-scrollbar{
+    display: none; 
+}
+/* 드롭다운 */
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  :root {
+    --select-theme: #bcddff;
+    --select-theme-hover: #a9d4ff;
+    --option-color: #0d323b;
+  }
+  
+  .container {
+    padding: 20px;
+    padding-left: 0;
+  }
+  .container__title {
+    font-size: 25px;
+    font-weight: 600;
+    margin: 16px;
+    text-align: center;
+  }
+
+  .selectbox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 300px;
+  }
+  .option-container {
+    background-color: var(--select-theme);
+    color: var(--option-color);
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .selectbox--active .option-container {
+    max-height: 240px;
+    opacity: 1;
+    overflow-y: scroll;
+  }
+  
+  .selectbox__displayWord,
+  .option-container__option {
+    padding: 12px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .selectbox__displayWord {
+   	box-sizing: border-box;
+    position: relative;
+    background-color: var(--select-theme);
+    color: var(--option-color);
+    border-radius: 8px;
+    height: 40px;
+  }
+  .selectbox__displayWord::after {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    content: "";
+    background: url("https://image.flaticon.com/icons/svg/271/271210.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  
+    height: 16px;
+    width: 16px;
+    color: #f5f6fa;
+    transform: translateY(-50%);
+    transition: all 0.4s;
+  }
+  .selectbox--active .selectbox__displayWord::after {
+    transform: translateY(-50%) rotateZ(180deg);
+  }
+  .selectbox--unselect .selectbox__displayWord {
+    color: rgb(255, 255, 255);
+  }
+  .selectbox--shake {
+    animation: shake 0.3s forwards;
+  }
+  .option-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+  }
+  .option-container__option:hover {
+    background-color: var(--select-theme-hover);
+  }
+  .option__radio {
+    display: none;
+  }
+  .option__label {
+    cursor: pointer;
+  }
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+  
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+  
+  
