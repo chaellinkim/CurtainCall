@@ -14,19 +14,7 @@
     <link href="css/header.css" rel="stylesheet" type="text/css">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript">
-
         document.addEventListener('DOMContentLoaded', function () {
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
-
-            searchIcon.addEventListener('submit', function (e) {
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
             //사용자 아이콘 클릭시 마이페이지 이동
             const userIcon = document.querySelector('.user-icon');
             userIcon.addEventListener('click', function () {
@@ -39,7 +27,6 @@
         }
 
         function login(){
-        	
         	var id = document.getElementById('id').value;
         	var pw = document.getElementById('password').value;
         	
@@ -53,7 +40,6 @@
         		return false;
         	}
         }
-
     </script>
 </head>
 
@@ -108,9 +94,8 @@
 		</div>
 	</header>
 
-    <div class="con">
+    <div id="content-wrap">
         <div class="login_box">
-
             <img id="main_logo" src="img/main_logo.png">
 
             <form action="/logincheck" method="post">
@@ -120,27 +105,28 @@
             </form>
 
             <div class="find">
-                <a href="id_find.html">아이디찾기 |</a>
-                <a href="password_find.html">비밀번호 찾기 |</a>
-                <a href="/join">회원가입</a>
+                <a href="id_find.html">아이디찾기&nbsp;&nbsp;|&nbsp;</a>
+                <a href="password_find.html">비밀번호 찾기&nbsp;&nbsp;|</a>
+                <a href="/join">&nbsp;회원가입</a>
             </div>
 
             <div class="social_login">
                 <span id="before"></span>
-                <span id="ment"> 소셜 로그인 </span>
+                <span id="ment">&nbsp;&nbsp;소셜 로그인&nbsp;&nbsp;</span>
                 <span id="after"></span>
             </div>
 
   			<div class="sns_logo">
-				<a href="/login/getGoogleAuthUrl"><img
-					src="img/google_login.png"></a>
+				<a href="/login/getGoogleAuthUrl">
+					<img src="img/google_login.png">
+				</a>
 			</div>
 
         </div>
     </div>
 
-    <!-- 푸터 -->
-
+    <!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

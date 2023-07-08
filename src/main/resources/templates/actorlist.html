@@ -5,14 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CurtainCall</title>
-<link rel="stylesheet" href="../css/actorlist.css" type="text/css" media="all">
+<link rel="stylesheet" href="/css/actorlist.css" type="text/css" media="all">
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script th:inline = "javascript">
 $(document).ready(function () {
 	var sessionUserLoginId = [[${session.user_loginId}]];	//로그인중인 userLoginId 가져오기
-	var sessionUserState = [[${session.user_state}]];
+	var sessionUserState = /*[[${session.user_state}]]*/;
 	console.log("session: " + sessionUserLoginId);
 	
 	var urlParams = new URLSearchParams(window.location.search);
@@ -43,33 +43,6 @@ $(document).ready(function () {
 		window.history.pushState(null, null, "/actor?actorId=" + actorId);	// URL 변경
 	}
 	
-	$("#commentForm").submit(function(e) {
-		e.preventDefault(); // 폼의 기본 동작인 페이지 새로고침을 막음
-		
-		var content = $("#content").val();
-		
-		//입력 내용이 비어있는 경우
-		if (content.trim() === "") {
-	        alert("댓글 내용을 입력해주세요.");
-	        return false;
-	    }
-		//로그인 상태가 아닐 경우
-		if(sessionUserState === null){
-			alert("로그인 후 이용 가능합니다.");
-			$("#content").val("");
-			return false;
-		}
-		addComment();
-	});
-
-	//엔터키로 댓글 등록하기
-	$("#content").keydown(function(e) {
-	    if(e.keyCode == 13 && !e.shiftKey) {
-	        e.preventDefault(); // 엔터 키의 기본 동작인 줄바꿈을 막음
-	       	$("#commentForm").submit();
-	    }
-	});
-
 	//댓글 등록 및 출력
 	function addComment() {    
 	    var formData = $("#commentForm").serialize(); // 데이터 직렬화하여 가져오기
@@ -97,6 +70,37 @@ $(document).ready(function () {
 	        }
 	    });
 	};
+});
+
+/* $("#commentForm").submit(function(e) {
+	
+}); */
+$(document).on("submit", "#commentForm", function(e) {
+	e.preventDefault(); // 폼의 기본 동작인 페이지 새로고침을 막음
+	
+	var content = $("#content").val();
+	
+	//입력 내용이 비어있는 경우
+	if (content.trim() === "") {
+        alert("댓글 내용을 입력해주세요.");
+        $("#content").val("");
+        return false;
+    }
+	//로그인 상태가 아닐 경우
+	if(sessionUserState === null){
+		alert("로그인 후 이용 가능합니다.");
+		$("#content").val("");
+		return false;
+	}
+	addComment();
+});
+
+//엔터키로 댓글 등록하기
+$(document).on("keydown", ".input-field", function(e) {
+    if (e.keyCode == 13 && !e.shiftKey) {
+    	e.preventDefault();		// 엔터 키의 기본 동작인 줄바꿈을 막음
+    	$(this).closest("form").submit();
+    }
 });
 
 $(document).on("click", ".deleteBtn", function() {
@@ -227,8 +231,8 @@ function deleteComment(actorId, commentId){
 		</div>
 	</div>
 
-	<div class="footer"></div>
-
+	<!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

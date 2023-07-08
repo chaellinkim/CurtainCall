@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>CurtainCall</title>
-<link rel="stylesheet" href="../css/placelist.css">
+<link rel="stylesheet" href="/css/placelist.css">
+
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -282,7 +283,10 @@
 	
 				<!-- 연극 리스트 -->
 				<div th:id="'play' + ${item.placeId}" class="play-content" th:data-place-id="${item.placeId}">
-					<div class="theater-content">
+					<div th:if="${#lists.isEmpty(playList)}" class="no-playList">
+						<p>상영중인 연극이 없습니다.</p>
+					</div>
+					<div th:if="${!#lists.isEmpty(playList)}" class="theater-content">
 						<div class="theater-unit" th:each="play : ${playList}" >
 							<div class="img-wrap">
 								<a class="theater-link" th:href="@{/play/detail(playId=${play.playId})}" title="연극 보기">
@@ -351,5 +355,8 @@
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMg74sWHciF_btGAmqaRn5NP1Ld46yOfE&libraries=places&callback=initMap" async defer>
 	</script>
+
+	<!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 </html>

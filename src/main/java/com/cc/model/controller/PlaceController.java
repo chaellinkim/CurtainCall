@@ -21,13 +21,8 @@ import com.cc.model.service.PlaceService;
 
 @Controller
 public class PlaceController {
-	PlaceService placeService;
-
 	@Autowired
-	public PlaceController(PlaceService placeService) {
-		super();
-		this.placeService = placeService;
-	}
+	private PlaceService placeService;
 
 	@RequestMapping("/place")
 	public String list(HttpSession session, Model model) {
