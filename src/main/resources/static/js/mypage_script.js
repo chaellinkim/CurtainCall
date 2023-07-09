@@ -1,24 +1,3 @@
-// const modalOverlay = document.querySelectorAll(".modal_overlay");
-
-// const cancleModal = () => {
-//   modalOverlay.classList.add("hidden");
-//   document.body.classList.remove('modal-open');
-// };
-
-// const onClicked = () => {
-//   modalOverlay.classList.remove("hidden");
-//   document.body.classList.add('modal-open');
-// };
-
-// function init() {
-//   const modalButton = document.querySelectorAll(".modal_button");
-//   const modalCancleButton = modalOverlay.querySelectorAll(".modal_cancle");
-//   modalButton.addEventListener("click", onClicked);
-//   modalCancleButton.addEventListener("click", cancleModal);
-// }
-
-// init();
-
 console.log("start");
 const modalButtons = document.querySelectorAll('.modal_button');
 const modalOverlays = document.querySelectorAll('.modal_overlay');
