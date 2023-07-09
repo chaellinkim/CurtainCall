@@ -2,7 +2,7 @@
     width: 8vw;
 }
 
-.modal_button {
+.info_info .modal_button {
     border: 0;
     background-color: rgb(109, 181, 248);
     border-radius: 5px;
@@ -15,7 +15,7 @@
     justify-content: center;
 }
 
-.modal_cancle {
+.info_info .modal_cancle {
     padding-left: 25px;
     border-radius: 5px;
     background-color:white;
@@ -24,15 +24,15 @@
     height: 3vh;
 }
 
-.modal_cancle:hover{
+.info_info .modal_cancle:hover{
     background-color: #eeeeee;
 }
 
-.modal_cancle div{
+.info_info .modal_cancle div{
     margin-left: -1vw;
 }
 
-.modal_overlay {
+.info_info .modal_overlay {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -44,11 +44,11 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.hidden {
+.info_info .hidden {
     display: none;
 }
 
-.md_content {
+.info_info .modal_overlay .md_content {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -58,8 +58,8 @@
     border-radius: 15px;
     top: 0;
     z-index: 999;
-    width: 30%;
-    height: 35%;
+    width: 25%;
+    height: 30%;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
         0 6px 6px rgba(0, 0, 0, 0.23);
     overflow: scroll;
@@ -67,36 +67,36 @@
     scrollbar-width: none;
 }
 
-.md_content::-webkit-scrollbar {
+.info_info .modal_overlay .md_content::-webkit-scrollbar {
     display: none;
     /* 크롬, 사파리, 오페라, 엣지 */
 }
 
-.modal_text {
+.info_info .modal_overlay .modal_text {
     width: 100%;
     font-weight: 800;
     text-align: left;
 }
 
-.modal_password {
+.info_info .modal_overlay .modal_password {
     width: 100%;
     margin-left: 3vw;
     margin-bottom: 5vh;
 }
 
-.md_content form{
+.info_info .modal_overlay .md_content form{
     display: flex;
     flex-direction: column;
 }
 
-.modal_password table td {
+.info_info .modal_overlay .modal_password table td {
     padding: 8px 30px;
     vertical-align: top;
-    width: 20%;
-    padding: 0;
+    width: 25%;
+    font-size:14px;
 }
 
-.modal_password table {
+.info_info .modal_overlay .md_content .modal_password table {
     padding: 0;
     text-align: center;
     justify-content: center;
@@ -105,10 +105,10 @@
     table-layout: fixed;
     border-spacing: 2px;
     text-align: left;
-    width: 80%;
+    width: 85%;
 }
 
-.md_passwordinfo {
+.info_info .modal_overlay .md_content .modal_text .md_passwordinfo {
     text-align: left;
     font-weight: 800;
     font-size: 15px;
@@ -116,12 +116,12 @@
     margin-left: 1vw;
 }
 
-.modal_img {
+.info_info .modal_img {
     border: 2px solid #d8daf8;
     padding: 7px;
 }
 
-.modal_footer {
+.info_info .modal_footer {
     width: 100%;
     padding: 0;
     display: flex;
@@ -130,4 +130,25 @@
 
 #check{
     width: 100%;
+}
+
+
+/*input 태그*/
+.modal_password .put {
+	border: 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.modal_password .put ~.focus-border {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	transition: 0.4s;
+}
+
+.modal_password .put:focus ~.focus-border {
+	width: 100%;
+	transition: 0.4s;
 }
