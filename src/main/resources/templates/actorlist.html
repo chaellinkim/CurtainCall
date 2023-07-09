@@ -140,6 +140,29 @@ function deleteComment(commentId){
 	}
 }
 
+		//텍스트에서 로그인 여부 확인 후에 버튼 type만 바꾸기
+	function validate() {
+		var state = document.getElementById("state").value;
+		if (state === '') {
+
+		} else {
+			document.getElementById("commentButton").setAttribute("type",
+					"submit"); //로그인 시에는 변경해주기
+		}
+	}
+	
+	function isSubmit(){
+		var buttonType = document.getElementById("commentButton").type;
+		
+		if(buttonType==="button"){
+			alert('로그인 후 이용 가능합니다.');
+            window.location.href="/login";
+		}else{
+			return true;
+		}
+
+	}
+
 </script>
 <th:block th:include="header :: head"></th:block>
 </head>
@@ -230,8 +253,8 @@ function deleteComment(commentId){
 								<form id="commentForm" th:action="@{/actor/comment}" method="post">
 									<input type="hidden" id="actorId" name="actorId" th:value="${item.actorId}">
 									<div class="comment-input">
-										<textarea id="content" name="content" class="input-field" placeholder="배우를 응원해주세요!"></textarea>
-										<button id="commentButton" type="submit" class="submit-button">
+										<textarea id="content" name="content" class="input-field" placeholder="배우를 응원해주세요!" onfocus="validate()"></textarea>
+										<button id="commentButton" type="button" class="submit-button" onclick="isSubmit()">
 											<i class="fa-solid fa-heart fa-beat fa-lg"></i>
 										</button>
 									</div>
