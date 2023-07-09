@@ -8,6 +8,16 @@
     <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
     <link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
 	<th:block th:include="header :: head"></th:block>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+	function sortPlay(option) {
+		const url = new URL(window.location.href); // 현재 URL 가져오기
+		  url.searchParams.set('sort', option); // 선택한 정렬 옵션을 매개변수로 추가
+		  window.location.href = url.href;
+	}
+</script>
 </head>
 <body>
     <!-- 헤더 nav -->
@@ -20,10 +30,10 @@
             <hr>
             <div class="theater-sort">
                 <ul>
-                    <li><a href="#">최신순</a></li>
-                    <li><a href="#">인기순</a></li>
-                    <li><a href="#">좋아요순</a></li>
-                    <li><a href="#">랜덤순</a></li>
+                    <li><a href="#" onclick="sortPlay('recent')">최신순</a></li>
+                    <li><a href="#" onclick="sortPlay('name')">이름순</a></li>
+                    <li><a href="#" onclick="sortPlay('heart')">좋아요순</a></li>
+                    <li><a href="#" onclick="sortPlay('random')">랜덤순</a></li>
                 </ul>
             </div>
         </div>
