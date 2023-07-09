@@ -56,7 +56,12 @@ a {
 .theater-detail.first {
 	margin-top: 28px;
 }
-
+/*찜 버튼*/
+.theater-detail .fa-heart{
+	font-size: 25px;
+	cursor: pointer;
+	color: #dc143c
+}
 /* 예매박스 */
 .reserve-wrap {
     margin-top: 1vh;
