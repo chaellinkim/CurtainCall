@@ -11,32 +11,9 @@
 	rel="stylesheet">
     <title>CurtainCall-로그인</title>
     <link href="css/login_style.css" rel="stylesheet" type="text/css">
-    <link href="css/header.css" rel="stylesheet" type="text/css">
+
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript">
-
-        document.addEventListener('DOMContentLoaded', function () {
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
-
-            searchIcon.addEventListener('submit', function (e) {
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
-            //사용자 아이콘 클릭시 마이페이지 이동
-            const userIcon = document.querySelector('.user-icon');
-            userIcon.addEventListener('click', function () {
-                window.location.href = 'pay.html';
-            });
-        });
-        
-        function click(){
-        	$(.bar).toggle();
-        }
 
         function login(){
         	
@@ -58,65 +35,17 @@
 </head>
 
 <body>
-	<header>
-		<a href="/"><img src="../img/logo.png" id="logo"></img></a>
-		<div id="nav-content">
-			<nav>
-				<ul>
-					<li><a href="/play" class="menu">연극</a></li>
-					<li><a href="/place" class="menu">공연장</a></li>
-					<li><a href="/actor" class="menu">출연진</a></li>
-					<li><a href="/event" class="menu">이벤트</a></li>
-					<li><a href="#" class="menu">관람후기</a></li>
-				</ul>
-			</nav>
-			<div class="right">
-				<form action="/play/search" method="get" class="search">
-					<input type="text" name="keyword" class="search-input"
-						placeholder="검색어 입력">
-					<div class="icon">
-						<i class="fas fa-search"></i>
-					</div>
-				</form>
-				<div class="user-icon">
-					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
-					<div th:if="${user_state} == 'login'">
-						<button class="fas fa-user fa-lg"></button>
-						<ul class="bar">
-							<li><a href="/logout">로그아웃</a></li>
-							<li><a href="/mypage">마이페이지</a></li>
-						</ul>
-						
-						<!-- 마이페이지바를 띄우기 위한 js코드 -->
-						<script>
-					 	const btn = document.querySelector('.fa-user');
-					    const list = document.querySelector('.bar');
-					    
-					    btn.addEventListener('click', () => {
-					    	list.classList.toggle('on');
-					    });
-					    
-					    list.addEventListener('click', (event) => {
-					        if (event.target.nodeName === "A") {
-					            list.classList.remove('on');
-					        }
-					    });
-					    </script>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
+	
     <div class="con">
         <div class="login_box">
 
-            <img id="main_logo" src="img/main_logo.png">
+            <a href="/"><img id="main_logo" src="img/main_logo.png"></a>
 
             <form action="/logincheck" method="post">
                 <input type="text" name="id" placeholder="아이디">
                 <input type="password" name="password" placeholder="비밀번호">
-                <button id="login_button" type="submit" value="login">로그인</button>
+		    <div id="msg" th:text="${msg}" style="color:#ff5d5d; font-weight: 750;"></div>
+                <input id="login_button" type="submit" value="로그인" onclick="login()">
             </form>
 
             <div class="find">
