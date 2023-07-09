@@ -32,6 +32,59 @@
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script th:inline="javascript">
+
+	
+//찜 삭제
+function deleteWish(){
+	  
+	var playTitle = document.getElementById('playTitle').value;
+	console.log(playTitle);
+	
+	$.ajax({
+			type : "post",
+			url : "/play/detail/delete",
+			data : {'playtitle': playTitle},
+			dataType : "json",
+			success : function(response) {
+						
+			if(response === "true"){
+			location.reload();
+			}
+			else{
+			location.reload();
+			}
+		},
+			error : function() {
+				alert("통신 실패 ");
+			}
+	});
+			  
+	}
+	
+	//찜 추가
+	function updateWish(){
+		var playTitle = document.getElementById('playTitle').value;
+		var playPoster = document.getElementById('playPoster').value;
+		$.ajax({
+			type : "post",
+			url : "/play/detail/update",
+			data : {'playtitle': playTitle, 'playposter' : playPoster},
+			dataType : "json",
+			success : function(response) {
+						
+			if(response === "true"){
+			location.reload();
+			}
+			else{
+			location.reload();
+			}
+		},
+			error : function() {
+				alert("통신 실패 ");
+			}
+	});
+	}
+	
 	var IMP = window.IMP;
 	IMP.init("imp52160681");
 	var today = new Date();
@@ -295,6 +348,8 @@
 				<div class="theater-title">
 					<i class="fa-solid fa-clapperboard fa-lg"></i>&nbsp;
 					<h1 th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></h1>
+					<input type="hidden" id="playPoster" name="playposter"
+						th:value="${playPoster}">
 				</div>
 				<hr>
 				<div class="theater-detail first">
@@ -314,6 +369,17 @@
 				<div class="theater-detail">
 					<i class="fa-solid fa-location-dot"></i>&nbsp;
 					<span th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span>
+				</div>
+				<div class="theater-detail">
+					<i class="fa-regular fa-heart" onclick="updateWish()"
+						th:if="${user_state != 'login' or !#lists.contains(playwish.![playtitle], play.get().playTitle)}"></i>
+					<!-- 로그인 안 됐을 경우 & 찜 안 했을 경우 -->
+
+					<input type="hidden" id="playTitle" name="playtitle"
+						th:value="${playTitle}"> <i
+						th:if="${user_state == 'login' and #lists.contains(playwish.![playtitle], play.get().playTitle)}"
+						class="fa-solid fa-heart" onclick="deleteWish()"></i>
+					<!-- 찜 버튼 눌려져있을 경우 -->
 				</div>
 			</div>
 		</div>
