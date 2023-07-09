@@ -20,5 +20,12 @@ public class UserPlay {
 	private String playId;
 	@Column(name="play_title")
 	private String playTitle;
-
+	@Column(name="price")
+	private String price;
+	@Column(name="date")
+	private String date;
+	@Column(name="time")
+	private String time;
+	@Column(name="paymentdate")
+	private String paymentDate;
 }
