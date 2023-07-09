@@ -66,4 +66,8 @@ public class ReviewService {
 		return reviewRep.findTop3ByOrderByCountDesc();
 	}
    
+   public List<Review> searchReviews(String keyword) {
+	   return reviewRep.searchPossible(keyword);
+   }
+   
 }

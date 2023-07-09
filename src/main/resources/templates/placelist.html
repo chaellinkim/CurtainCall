@@ -284,7 +284,7 @@
 				<!-- 연극 리스트 -->
 				<div th:id="'play' + ${item.placeId}" class="play-content" th:data-place-id="${item.placeId}">
 					<div th:if="${#lists.isEmpty(playList)}" class="no-playList">
-						<p>상영중인 연극이 없습니다.</p>
+						<p>상영중인 연극이 없습니다🙂</p>
 					</div>
 					<div th:if="${!#lists.isEmpty(playList)}" class="theater-content">
 						<div class="theater-unit" th:each="play : ${playList}" >

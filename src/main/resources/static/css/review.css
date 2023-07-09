@@ -2,18 +2,18 @@
 /* ------ 월간 베스트리뷰 ------ */
 * {
 	font-family: 'NanumSquareNeo';
-	font-size: large;
 	margin: 0;
 	padding: 0;
 }
-
 a {
 	text-decoration: none;
 }
 
-#content-wrap {
+#review {
 	width: 65vw;
-	margin: auto;
+	min-width: 865px;
+	margin: 0 auto;
+	min-height: calc(100% - 260px);
 }
 
 #review-list-title {
@@ -31,20 +31,16 @@ a {
 	color: #000000;
 }
 
-#review {
-	width: 65vw;
-	margin: 40px auto;
-}
 /* 리뷰 타이틀 */
-#review>h2 {
-	font-weight: 500;
-	text-align: center;
-	font-size: 26px;
+#review-month {
+    font-weight: 900;
+    text-align: center;
+    font-size: 28px;
+    margin: 60px auto 40px auto;
 }
 
 /* 리뷰 wrap*/
 .feed-box {
-	margin-top: 20px;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
@@ -57,6 +53,40 @@ a {
 
 .feed:nth-last-of-type(1) {
 	margin-right: 0;
+}
+
+/* 후기 검색 */
+.search-wrap{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin: 30px;
+}
+.review-search{
+    position: relative;
+    width: 36%;
+}
+.review-search-input{
+    width: 100%;
+    border: 1.5px solid #d2d2d2;
+    border-radius: 4px;
+    padding: 14px 12px;
+    font-size: 15px;
+    background-color: rgb(253, 253, 253);
+    box-sizing: border-box;
+}
+.review-search-input::-webkit-input-placeholder{
+    color: #acacac;
+}
+.review-search-input:focus{
+    outline: none;
+}
+.icon{
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    cursor: pointer;
+    color: #acacac;
 }
 
 /* 리뷰 상단 */
@@ -101,7 +131,7 @@ a {
 
 .theater-name {
 	font-weight: 800;
-	font-size: 15px;
+	font-size: large;
 }
 
 .icon-box {
@@ -132,7 +162,7 @@ a {
 
 .review-add {
 	margin-top: 15px;
-	font-size: 13px;
+	font-size: 14px;
 	color: #d2d2d2;
 	display: flex;
 	align-items: end;
@@ -238,11 +268,11 @@ a {
 
 .fixed-button {
 	position: fixed;
-	bottom: 20px;
+	bottom: 25px;
 	right: 20px;
-	width: 60px;
-	height: 60px;
-	background-color: #141B82;
+	width: 55px;
+	height: 55px;
+	background-color: #d2d2d2;
 	border-radius: 50%;
 	color: #ffffff;
 	display: flex;
@@ -251,6 +281,9 @@ a {
 	font-size: 24px;
 	cursor: pointer;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.fixed-button:hover{
+	background-color: #141B82;
 }
 
 .modal {
@@ -313,15 +346,16 @@ a {
 .modal-form-right textarea {
 	width: 100%;
 	height: 200px;
+	padding: 12px;
+	box-sizing: border-box;
+	resize: none;
 }
 
 /* 등록 버튼 */
-
-.modal-form-button #container{
-    margin-left: 73%;
-}
 .modal-form-button{
     margin-top: 10px;
+    display: flex;
+    justify-content: right;
 }
 @import url("https://fonts.googleapis.com/css?family=Mukta:700");
 
@@ -370,8 +404,8 @@ button.learn-more .circle .icon.arrow {
 button.learn-more .circle .icon.arrow::before {
   position: absolute;
   content: "";
-  top: -0.25rem;
-  right: 0.0625rem;
+  top: -0.4rem;
+  right: 0.15rem;
   width: 0.625rem;
   height: 0.625rem;
   border-top: 0.125rem solid #fff;
@@ -403,9 +437,7 @@ button:hover .circle .icon.arrow {
 button:hover .button-text {
   color: #fff;
 }
-*::-webkit-scrollbar{
-    display: none; 
-}
+
 /* 드롭다운 */
 * {
     margin: 0;

@@ -3,24 +3,19 @@
 
 <head>
 <meta charset="UTF-8">
-<link
-   href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-   rel="stylesheet">
-
-<title>Insert title here</title>
-<th:block th:include="header :: head"></th:block>
+<link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+<title>CurtainCall</title>
 <link rel="stylesheet" href="/css/review.css">
-<script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script src="https://kit.fontawesome.com/fe66fff399.js"
-   crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/fe66fff399.js" crossorigin="anonymous"></script>
 <script>
         window.onload = function () {
-
-            // 리뷰 현재 월 가져오기
-            /* let nowMonth = new Date();
-            document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`; */
+           // 리뷰 현재 월 가져오기
+           let nowMonth = new Date();
+           document.getElementById("review-month").innerText = `${nowMonth.getMonth() + 1}월 베스트 리뷰`;
         }
+        let nowMonth = new Date();
+        
         var modal = document.getElementById("myModal");
         var modalbtn = document.getElementById("openModal");
         var span = document.getElementsByClassName("modal-close")[0];
@@ -54,19 +49,20 @@
             }
         }); */
     </script>
+    <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-   <!-- 헤더 nav -->
+   <!-- Header -->
    <th:block th:include="header :: body"></th:block>
+   
    <!-- 후기 리스트 -->
-   <!-- 4. 월간 베스트 리뷰 -->
    <div id="review">
-      <h2 id="review-month">Montly Best</h2>
+   	<!-- 월간 베스트 리뷰 -->
+      <h2 id="review-month"></h2>
       <div class="feed-box">
          <div class="feed-box">
-			<!-- 1등 후기 -->
-			<div class="feed" th:each="review:${bestReview}">
+			<div class="feed" th:each="review, reviewStat:${bestReview}" th:with="play=${play[reviewStat.index]}">
 				<!-- 리뷰 상단 -->
 				<div class="review-top">
 					<div class="review-ranking">
@@ -74,7 +70,7 @@
 							th:text="${reviewStat.index+1}+'등'"></span>
 					</div>
 					<div class="review-userid">
-						<span th:text="${review.userName}"></span>
+						<span th:text="${review.userName}">review.userName</span>
 					</div>
 				</div>
 				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
@@ -82,23 +78,31 @@
 				<!-- 리뷰 하단 -->
 				<div class="review-wrap">
 					<div class="theater-name">
-						<i class="fa-solid fa-clapperboard"></i><span
-							th:text="${review.play_title}">연극라면</span>
+						<i class="fa-solid fa-clapperboard"></i>
+						<a th:href="@{/play/detail(playId=${play.playId})}" th:text="${review.play_title}">review.play_title</a>
 					</div>
 					<!-- 연극 이름 -->
 					<div class="icon-box">
 						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum" th:text="${review.review_count}">32</div>
+						<div class="likeNum" th:text="${review.review_count}">review.review_count</div>
 					</div>
 				</div>
-				<div class="review-content" th:text="${review.review_comment}">너무너무
-	            재밌어요~!</div>
 				<!-- 후기 내용 -->
+				<div class="review-content" th:text="${review.review_comment}">review.review_comment</div>
 			</div>
 		</div>
       </div>
       <hr>
-      <div class="feed2" th:each="review:${review}">
+      
+      <!-- 후기 검색 -->
+      <div class="search-wrap">
+	      <form action="/review/search" method="get" class="review-search">
+	          <input type="text" name="keyword" class="review-search-input" placeholder="후기 검색">
+	          <div class="icon"><i class="fas fa-search fa-lg"></i></div>
+	      </form>
+      </div>
+      
+      <div class="feed2" th:each="review, reviewStat:${bestReview}" th:with="play=${play[reviewStat.index]}">
          <!-- 리뷰 상단 -->
 	         <div class="review-top">
 	            <i class="fa-solid fa-user"></i>
@@ -118,8 +122,8 @@
 	            </div>
 	         </div>
 	         <div class="theater-name">
-	            <i class="fa-solid fa-clapperboard"></i><span
-	               th:text="${review.play_title}">연극라면</span>
+	            <i class="fa-solid fa-clapperboard"></i><a th:href="@{/play/detail(playId=${play.playId})}"
+	               th:text="${review.play_title}">연극라면</a>
 	         </div>
 	         <!-- 연극 이름 -->
 	         <div class="review-content" th:text="${review.review_comment}">너무너무
@@ -130,7 +134,7 @@
 
 
       <input type="hidden" id="state" th:value="${user_state}">
-      <div class="fixed-button" id="openModal" onclick="register()">+</div>
+      <div class="fixed-button" id="openModal" onclick="register()" title="후기 작성하기">+</div>
 
       <div class="modal" id="myModal">
          <div class="modal-content">
@@ -152,7 +156,7 @@
                               <input type="radio" th:id="${'category_'+title}"
                                  class="option__radio" th:value="${title}" name="category">
                               <label class="option__label" th:for="${'category_'+title}"
-                                 th:text="${title}">연극 라면</label>
+                                 th:text="${title}">title</label>
                            </div>
                         </div>
                      </div>
@@ -248,6 +252,9 @@
 	      });
 
     </script>
+    
+    <!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

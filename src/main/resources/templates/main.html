@@ -278,137 +278,143 @@
 
 	<a href="/api">api</a>
 
-	<!-- 1. 연극 주간 랭킹-->
-	<div id="week-ranking-wrap">
-		<!-- <img class="curtain left" src="../img/left.png"> -->
-		<div class="week-ranking-rank">
-			<h2>
-				누적 랭킹<span>(예매 수 기준)</span>
-			</h2>
-			<div class="add-theater">
-				<a href="/play">더 많은 연극 보기 +</a>
-				<!-- 연극리스트 페이지로 이동-->
-			</div>
-			<!-- 랭킹 포스터 wrap -->
-			<div id="rank-container">
-				<!-- 개별 연극 -->
-				<div class="rank-unit" th:each="play:${bestPlay}">
-					<div class="rank-unit-poster">
-						<p class="rank-num" th:text="${playStat.index+1}"></p>
-						<img th:src="@{${play.playPoster}}">
-					</div>
-					<div class="btn-container">
-						<button class="likeBtn">
-							<!-- 좋아요 수 올라가기 -->
-							<i class="fa-solid fa-heart fa-lg"></i>
-						</button>
-						<div class="tikettingBtn">
-							<a th:href="@{/play/detail(playId=${play.playId})}"
-								title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+	<div id="wrap">
+		<!-- 1. 연극 주간 랭킹-->
+		<div id="week-ranking-wrap">
+			<!-- <img class="curtain left" src="../img/left.png"> -->
+			<div class="week-ranking-rank">
+				<h2>
+					누적 랭킹<span>(예매 수 기준)</span>
+				</h2>
+				<div class="add-theater">
+					<a href="/play">더 많은 연극 보기 +</a>
+					<!-- 연극리스트 페이지로 이동-->
+				</div>
+				<!-- 랭킹 포스터 wrap -->
+				<div id="rank-container">
+					<!-- 개별 연극 -->
+					<div class="rank-unit" th:each="play:${bestPlay}">
+						<div class="rank-unit-poster">
+							<p class="rank-num" th:text="${playStat.index+1}"></p>
+							<img th:src="@{${play.playPoster}}">
+						</div>
+						<div class="btn-container">
+							<button class="likeBtn">
+								<!-- 좋아요 수 올라가기 -->
+								<i class="fa-solid fa-heart fa-lg"></i>
+							</button>
+							<div class="tikettingBtn">
+								<a th:href="@{/play/detail(playId=${play.playId})}"
+									title="연극 예매하기">예&nbsp;&nbsp;&nbsp;매</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- <img class="curtain right" src="../img/right.png"> -->
 		</div>
-		<!-- <img class="curtain right" src="../img/right.png"> -->
-	</div>
-
-
-	<!-- 2. 날짜별 상영 가능한 연극 조회 -->
-	<section id="calendarList">
-		<div class="calbox">
-			<table class="Calendar">
-				<thead>
-					<tr>
-						<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
-						<td colspan="5"><span id="calYear"></span>년 <span
-							id="calMonth"></span>월</td>
-						<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
-					</tr>
-					<tr>
-						<td>일</td>
-						<td>월</td>
-						<td>화</td>
-						<td>수</td>
-						<td>목</td>
-						<td>금</td>
-						<td>토</td>
-					</tr>
-				</thead>
-				<tbody></tbody>
-				<!-- 달력 부분 -->
-			</table>
-		</div>
-		<!-- 가능한 연극 리스트 -->
-
-	</section>
-
-	<!-- 3. 월간 베스트 리뷰 -->
-	<div id="review">
-		<h2 id="review-month"></h2>
-		<!-- script문 -->
-		<div class="add-theater">
-				<a href="/review">더 많은 리뷰 보기 +</a>
-				<!-- 리뷰 리스트 페이지로 이동-->
+	
+	
+		<!-- 2. 날짜별 상영 가능한 연극 조회 -->
+		<section id="calendarList">
+			<div class="calbox">
+				<table class="Calendar">
+					<thead>
+						<tr>
+							<td onClick="prevCalendar();" style="cursor: pointer;">&#60;</td>
+							<td colspan="5"><span id="calYear"></span>년 <span
+								id="calMonth"></span>월</td>
+							<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
+						</tr>
+						<tr>
+							<td>일</td>
+							<td>월</td>
+							<td>화</td>
+							<td>수</td>
+							<td>목</td>
+							<td>금</td>
+							<td>토</td>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					<!-- 달력 부분 -->
+				</table>
 			</div>
-		<div class="feed-box">
-			<div class="feed" th:each="review:${bestReview}">
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> <span
-							th:text="${reviewStat.index+1}+'등'"></span>
-					</div>
-					<div class="review-userid">
-						<span th:text="${review.userName}"></span>
-					</div>
+			<!-- 가능한 연극 리스트 -->
+	
+		</section>
+	
+		<!-- 3. 월간 베스트 리뷰 -->
+		<div id="review">
+			<h2 id="review-month"></h2>
+			<!-- script문 -->
+			<div class="add-theater">
+					<a href="/review">더 많은 리뷰 보기 +</a>
+					<!-- 리뷰 리스트 페이지로 이동-->
 				</div>
-				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-					alt="게시물 이미지" class="post-image" width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">
-						<i class="fa-solid fa-clapperboard"></i><span
-							th:text="${review.play_title}">연극라면</span>
+			<div class="feed-box">
+				<div class="feed" th:each="review:${bestReview}">
+					<!-- 리뷰 상단 -->
+					<div class="review-top">
+						<div class="review-ranking">
+							<i class="fa-solid fa-crown"></i> <span
+								th:text="${reviewStat.index+1}+'등'"></span>
+						</div>
+						<div class="review-userid">
+							<span th:text="${review.userName}"></span>
+						</div>
 					</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum" th:text="${review.review_count}">32</div>
+					<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+						alt="게시물 이미지" class="post-image" width="300px" height="300px">
+					<!-- 리뷰 하단 -->
+					<div class="review-wrap">
+						<div class="theater-name">
+							<i class="fa-solid fa-clapperboard"></i><span
+								th:text="${review.play_title}">연극라면</span>
+						</div>
+						<!-- 연극 이름 -->
+						<div class="icon-box">
+							<i class="fa-solid fa-heart"></i>
+							<div class="likeNum" th:text="${review.review_count}">32</div>
+						</div>
 					</div>
+					<div class="review-content" th:text="${review.review_comment}">너무너무
+		            재밌어요~!</div>
+					<!-- 후기 내용 -->
 				</div>
-				<div class="review-content" th:text="${review.review_comment}">너무너무
-	            재밌어요~!</div>
-				<!-- 후기 내용 -->
+			</div>
+		</div>
+	
+		<!-- 4. 광고 배너 -->
+		<div id="addBanner">
+			<!-- 슬라이드 이미지 -->
+			<div class="slide-banner fade">
+				<img src="../img/banner01.png" style="width: 100%">
+			</div>
+			<div class="slide-banner fade">
+				<img src="../img/banner02.png" style="width: 100%">
+			</div>
+			<div class="slide-banner fade">
+				<img src="../img/banner03.png" style="width: 100%">
+			</div>
+			<div class="slide-banner fade">
+				<img src="../img/banner01.png" style="width: 100%">
+			</div>
+			<div class="slide-banner fade">
+				<img src="../img/banner02.png" style="width: 100%">
+			</div>
+	
+			<!-- 배너하단 점 -->
+			<div class="dot-container">
+				<span class="dot"></span> <span class="dot"></span> <span class="dot"></span>
+				<span class="dot"></span> <span class="dot"></span>
 			</div>
 		</div>
 	</div>
-
-	<!-- 4. 광고 배너 -->
-	<div id="addBanner">
-		<!-- 슬라이드 이미지 -->
-		<div class="slide-banner fade">
-			<img src="../img/banner01.png" style="width: 100%">
-		</div>
-		<div class="slide-banner fade">
-			<img src="../img/banner02.png" style="width: 100%">
-		</div>
-		<div class="slide-banner fade">
-			<img src="../img/banner03.png" style="width: 100%">
-		</div>
-		<div class="slide-banner fade">
-			<img src="../img/banner01.png" style="width: 100%">
-		</div>
-		<div class="slide-banner fade">
-			<img src="../img/banner02.png" style="width: 100%">
-		</div>
-
-		<!-- 배너하단 점 -->
-		<div class="dot-container">
-			<span class="dot"></span> <span class="dot"></span> <span class="dot"></span>
-			<span class="dot"></span> <span class="dot"></span>
-		</div>
-	</div>
+	
+	
+	<!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

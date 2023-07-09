@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,4 +32,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
    
    @Query("SELECT R FROM REVIEW R ORDER BY REVIEW_DATE DESC")
    List<Review> findAllDESC();
+   
+   @Query("SELECT R FROM REVIEW R WHERE REVIEW_COMMENT LIKE %:keyword% OR PLAY_TITLE LIKE %:keyword%")
+   List<Review> searchPossible(@Param("keyword") String keyword);
 }

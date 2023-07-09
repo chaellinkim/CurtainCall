@@ -39,4 +39,6 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
   
 	//playrepository
 	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
+	
+	Play findByPlayTitle(String title);
 }

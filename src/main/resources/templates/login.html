@@ -41,58 +41,12 @@
         	}
         }
     </script>
+    <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-	<header>
-		<a href="/"><img src="../img/logo.png" id="logo"></img></a>
-		<div id="nav-content">
-			<nav>
-				<ul>
-					<li><a href="/play" class="menu">연극</a></li>
-					<li><a href="/place" class="menu">공연장</a></li>
-					<li><a href="/actor" class="menu">출연진</a></li>
-					<li><a href="/event" class="menu">이벤트</a></li>
-					<li><a href="#" class="menu">관람후기</a></li>
-				</ul>
-			</nav>
-			<div class="right">
-				<form action="/play/search" method="get" class="search">
-					<input type="text" name="keyword" class="search-input"
-						placeholder="검색어 입력">
-					<div class="icon">
-						<i class="fas fa-search"></i>
-					</div>
-				</form>
-				<div class="user-icon">
-					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
-					<div th:if="${user_state} == 'login'">
-						<button class="fas fa-user fa-lg"></button>
-						<ul class="bar">
-							<li><a href="/logout">로그아웃</a></li>
-							<li><a href="/mypage">마이페이지</a></li>
-						</ul>
-						
-						<!-- 마이페이지바를 띄우기 위한 js코드 -->
-						<script>
-					 	const btn = document.querySelector('.fa-user');
-					    const list = document.querySelector('.bar');
-					    
-					    btn.addEventListener('click', () => {
-					    	list.classList.toggle('on');
-					    });
-					    
-					    list.addEventListener('click', (event) => {
-					        if (event.target.nodeName === "A") {
-					            list.classList.remove('on');
-					        }
-					    });
-					    </script>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
+	<!-- Header -->
+    <th:block th:include="header :: body"></th:block>
 
     <div id="content-wrap">
         <div class="login_box">
