@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CurtainCall-마이페이지</title>
+<th:block th:include="header :: head"></th:block>
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/mypage_style.css">
 <link rel="stylesheet" href="../css/pay_style.css">
@@ -23,22 +24,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script type="text/javascript">
-	//Header
-	document.addEventListener('DOMContentLoaded', function() {
-		//검색버튼 활성화
-		const searchForm = document.querySelector('.search');
-		const searchInput = document.querySelector('.search-input');
-		const searchIcon = document.querySelector('.icon');
-
-		searchIcon.addEventListener('click', function(e) {
-			e.preventDefault(); //폼 제출 동작 방지
-			const keyword = searchInput.value;
-			console.log('검색어: ', keyword);
-		})
-	});
 	
-	
-
 	//tab 화면 전환
 	$(document).ready(function() {
 		var urlParams = new URLSearchParams(window.location.search);
@@ -75,70 +61,37 @@
   });
 	});
 
+		//리뷰 삭제
+	function deleteReview() {
+
+		var review_id = document.getElementById('reviewid').value;
+
+		console.log(review_id);
+		$.ajax({
+			url : '/mypage/delete',
+			type : 'post',
+			data : {
+				'review_id' : review_id
+			},
+			dataType : 'json',
+			success : function(result) {
+				if (result === "true") {
+					location.reload();
+				} else {
+					location.reload();
+				}
+			}
+		});
+
+	}
+
 </script>
 </head>
 
 <body>
 	<!-- Header -->
-	<header>
-		<a href="#"><img src="/img/main_logo.png" id="logo"></img></a>
-		<div id="nav-content">
-			<nav>
-				<ul>
-					<li><a href="/play" class="menu">연극</a></li>
-					<li><a href="/place" class="menu">공연장</a></li>
-					<li><a href="/actor" class="menu">출연진</a></li>
-					<li><a href="/event" class="menu">이벤트</a></li>
-					<li><a href="#" class="menu">관람후기</a></li>
-				</ul>
-			</nav>
-			<div class="right">
-				<form action="/play/search" method="get" class="search">
-					<input type="text" name="keyword" class="search-input"
-						placeholder="검색어 입력">
-					<div class="icon">
-						<i class="fas fa-search"></i>
-					</div>
-				</form>
-				<div class="user-icon">
-					<i th:if="${user_state} != 'login'" class="fas fa-lock"></i>
-					<div th:if="${user_state} == 'login'">
-						<button class="fas fa-user fa-lg"></button>
-						<ul class="bar">
-							<li><a href="/logout">로그아웃</a></li>
-							<li><a href="/mypage">마이페이지</a></li>
-						</ul>
-
-						<!-- 마이페이지바를 띄우기 위한 js코드 -->
-						<script>
-					 	const btn = document.querySelector('.fa-user');
-					    const list = document.querySelector('.bar');
-					    
-					    btn.addEventListener('click', () => {
-					    	list.classList.toggle('on');
-					    });
-					    
-					    list.addEventListener('click', (event) => {
-					        if (event.target.nodeName === "A") {
-					            list.classList.remove('on');
-					        }
-					    });
-					    </script>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<!-- 유저 content -->
-	<div class="user">
-		<div class="user_name">
-			<h3 th:text="${user_name}">
-				두레님 <span th:text="${user_id}">abcd1234</span>
-			</h3>
-		</div>
-	</div>
+	<!-- 헤더 nav -->
+	<th:block th:include="header :: body"></th:block>
 
 	<!-- 마이페이지 내용 -->
 
@@ -150,7 +103,7 @@
 				<li class="tab-link current" data-tab="tab1" th:data-tabId-id="1"><a>예매내역</a></li>
 				<li class="tab-link" data-tab="tab2" th:data-tabId-id="2"><a>나의후기</a></li>
 				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜 목록</a></li>
-				<li class="tab-link" data-tab="tab4" th:data-tabId-id="4"><a>회원정보</a></li>
+				<li class="tab-link" data-tab="tab4" th:data-tabId-id="5"><a>회원정보</a></li>
 			</ul>
 		</div>
 
@@ -243,36 +196,56 @@
 			<div class="title">
 				<span>나의후기</span>
 			</div>
-			<div class="review_content">
-				<img src="/img/review.jpg" alt="예매">
+			<div class="review_content" th:each="review : ${review}">
+				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+					alt="예매">
 				<div class="review_info">
-					<div class="review_play">2호선 세입자</div>
-					<div class="review_name">두레</div>
-					<div class="review_date">23.05.31</div>
-					<div class="review_ment">와~ 대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
+					<div class="review_play" th:text="${review.play_title}">2호선 세입자</div>
+					<div class="review_date" th:text="${review.review_date}">23.05.31</div>
+					<div class="review_ment" th:text="${review.review_comment}">와~ 대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
 				</div>
 				<div class="none">
 					<button class="modal_button">
-						<img src="img/button.png">
+						<i class="fa-solid fa-pencil" style="color: #6b6b6b;"></i>
+					</button>
+					<button class="trash">
+						<i class="fa-solid fa-trash" onclick="deleteReview()"
+							style="color: #6b6b6b;"></i>
 					</button>
 				</div>
+				
+				<!-- 리뮤 수정 모달창 -->
 				<div class="modal_overlay hidden">
 					<div class="md_content">
-						<div>&nbsp;</div>
-						<div class="modal_review">
-							<div class="modal_info">
-								<button>
-									<a href="/reviewfdf">리뷰 수정</a>
-								</button>
-								<button style="color: rgb(249, 39, 39)">리뷰 삭제</button>
-								<!--나중에 버튼이 눌려질 때 컨트롤러로 이동하도록 js 만들기-->
+						<form action="/mypage/update" method="post"
+							enctype="multipart/form-data">
+							<div class="modal_review">
+								<div class="asdf">
+									<div class="file">
+										<img
+											th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+											alt="예매"> <input type="file" accept="image/*"
+											multiple="multiple" id="img" name="img">
+									</div>
+									<div class="review_info">
+										<div class="review_play" th:text="${review.play_title}"></div>
+										<div class="review_name"></div>
+										<div class="review_date" th:text="${review.review_date}"></div>
+										<textarea name="comment" id="review_ment"
+											th:text="${review.review_comment}"
+											th:value="${review.review_comment}" cols="25" rows="7"></textarea>
+									</div>
+									<input type="hidden" name="reviewid" id="reviewid"
+										th:value="${review.review_id}">
+								</div>
 							</div>
-						</div>
 						<div class="modal_footer">
-							<hr>
-							<button class="modal_cancle" type="reset">
-								<img src="img/no.png">
-							</button>
+							<button class="check" type="submit">
+									<i class="fa-solid fa-check"></i>
+								</button>
+								<button class="modal_cancle" type="reset">
+									<i class="fa-solid fa-x"></i>
+								</button>
 						</div>
 					</div>
 				</div>
@@ -333,17 +306,37 @@
 											<div class="md_passwordinfo">비밀번호 변경</div>
 											<hr style="width: 100%;">
 										</div>
-										<form action="info.html" method="get">
+										<form action="/mypage/passwordmodi" method="get">
 											<div class="modal_password">
 												<table>
+													<tr>
+														<td>현재 비밀번호 입력</td>
+														<td>
+															<div class="in">
+																<input class="put" id="password" type="password"
+																	placeholder="현재 비밀번호"> <span
+																	class="focus-border"></span>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<div id="check"></div>
+														</td>
+													</tr>
 													<tr>
 														<td>새 비밀번호 입력</td>
 														<td>
 															<div class="in">
-																<input class="put" id="password1" type="password"
+																<input class="put" onkeyup="passwordValid()" id="password1" type="password"
 																	placeholder="새 비밀번호"> <span
 																	class="focus-border"></span>
 															</div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<div id="pw_check"></div>
 														</td>
 													</tr>
 													<tr>
@@ -377,15 +370,16 @@
 								</div>
 							</td>
 						</tr>
-						<form action="/infomodi" method="get">
 							<tr>
 								<th>이메일</th>
 								<td>
+									<form action="/mypage/info_modi" method="post">
 									<div class="in">
-										<input class="put" type="email" placeholder="Placeholder Text"
+										<input class="put" type="email" placeholder=""
 											th:value="${useremail}"> <span
 											class="focus-border"></span>
 									</div>
+										<input type="hidden" name="tabId" value="tab5">
 								</td>
 							</tr>
 							<tr>
@@ -397,13 +391,92 @@
 						<hr>
 						<button class="reset" type="reset">취소</button>
 						<button class="submit" type="submit">저장</button>
+						</form>
 					</div>
-					</form>
+					
 				</div>
 			</div>
-			<script src="../js/info.js"></script>
+<script src="../js/info.js"></script>
+		</div>	
+
+		<!-- 회원정보 수정 전 비밀번호 확인 -->
+		<div id="tab5" class="tab-content">
+			<div class="title">
+				<span>회원정보</span>
+			</div>
+			<div class="info_password">
+				개인정보 보호를 위해 회원정보 수정 전 비밀번호를 확인합니다. 현재 비밀번호를 입력해주세요.
+				<table>
+					<tr>
+						<td>현재 비밀번호 입력</td>
+						<td>
+							<div class="in">
+								<input class="put" id="ckpassword" type="password"
+									placeholder="현재 비밀번호" > <span
+									class="focus-border"></span>
+							</div>
+						</td>
+					<tr>
+					<tr>
+						<td colspan='2'><span style="width: 50vw;" id="pwcheck"></span></td>
+					</tr>
+				</table>
+				<button class="submit" onclick="pwCheck()">확인</button>
+			</div>
 		</div>
-		
+
+		<!-- 회원탈퇴 메세지 및 비밀번호 확인 창 -->
+		<div id="tab6" class="tab-content">
+			<div class="title">
+				<span>회원 탈퇴</span>
+			</div>
+			<div class="deleteUser">
+			
+				<div class="des">
+					저희 CurtainCall은 앞으로도 연극 진흥을 위해 노력하겠습니다. <br> 저희와 함께 하지 않으시더라도
+					연극에 많은 관심과 사랑 부탁드립니다.<br> CurtainCall과 함께 해주셔서 감사했습니다.<br>
+					다시 뵙는 날이 찾아오기를 바랍니다.
+				</div>
+				본인 확인을 위해 비밀번호를 입력한 후, "탈퇴" 버튼을 눌러주세요.<br>(회원 탈퇴 시 모든 정보와 DB가
+				자동삭제 됩니다.)
+				<table>
+					<tr>
+						<th>현재 비밀번호 입력</th>
+						<td>
+							<div class="in">
+								<input class="put" id="deletepassword" type="password"
+									placeholder="현재 비밀번호" onblur="deleteCheck()"> <span
+									class="focus-border"></span>
+							</div>
+						</td>
+						<td><button class="checkdelete" onclick="checkdelete()">회원탈퇴</button></td>
+					</tr>
+					<tr>
+						<td colspan='3'><span style="width: 50vw;" id="deletecheck"></span></td>
+					</tr>
+					<tr>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<!-- 간단한 회원 정보 navi -->
+		<div class="user_bar">
+			<div class="user_navi">
+				<div class="img">
+					<img src="../img/logo.png"></img>
+				</div>
+				<span th:text="|${username}님|"></span> <span>안녕하세요!</span>
+				<div class="user_button"></div>
+				<div class="user_detail">
+					<a href="/mypage?tabId=tab5" style="color: #787474;">수정</a>&nbsp; |
+					&nbsp;
+					<div class="tab-link" data-tab="tab6" th:data-tabId-id="6">
+						<a style="color: #ff4a4a;">탈퇴</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </body>
