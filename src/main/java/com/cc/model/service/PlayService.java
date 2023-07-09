@@ -51,9 +51,9 @@ public class PlayService {
 		Optional<Play> play = playRepository.findById(playId);
 		return play;
 	}
-	public int updateCount(int count, String playId) {
+	public int updateCount(String playTitle) {
 		//System.out.println("call"+playId+" "+count);
-		return playRepository.updateCount(count, playId);
+		return playRepository.updateCount(String playTitle);
 	}
 	public List<Play> selectBestPlay(){
 		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
@@ -61,7 +61,10 @@ public class PlayService {
 	public List<Play> selectDatePlay(String weekday, String date){
 		return playRepository.findPlaysByDayAndDateBetween(weekday, date);
 	}
-	
+
+		public int discountCount(String playTitle) {
+		return playRepository.discountCount(playTitle);
+	}
 	//playService
 
 	   public List<ReviewMapper> selectTitle(){

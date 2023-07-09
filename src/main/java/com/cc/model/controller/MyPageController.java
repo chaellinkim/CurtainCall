@@ -38,6 +38,14 @@ public class MyPageController {
 	
 	@Autowired
 	private WishService wishSvc;
+
+		@Autowired
+	private ReviewService reviewSvc;
+	
+	@Autowired
+	private ReviewRepository reviewRep;
+		@Autowired
+	private PlayService playSvc;
 	
 	@RequestMapping("/mypage")
 	public String Mypage(HttpSession session, Model model)throws Exception {
@@ -72,12 +80,31 @@ public class MyPageController {
 		model.addAttribute("mypage_wish", mypage_wish);
 		
 		/*나의 후기 탭*/
+		List<Review> mypage_review = reviewRep.findByUser_id(id);
+		List<User> user = userRep.findAll();
 		
+		//바이트 --> 문자열로 바꾸기 
+		for (Review rev : mypage_review) {
+	        byte[] imageData = rev.getReview_img();
+	        String encodedImageData = Base64.encodeBase64String(imageData);
+	        rev.setEncodedImage(encodedImageData);
+	        
+	        int UserId =rev.getUser_id();
+	        
+	        for(User u: user) {
+	        	if(UserId == u.getUser_id()) {
+	        		rev.setUserName(u.getUser_namemasking());
+	        	}
+	        }
+	    }
+		
+		model.addAttribute("review", mypage_review);
 		/*예매 내역 탭*/
 		
 		return "mypage";
 	}
 
+	//찜삭제
 	@PostMapping("/mypage_wish")
 	public String WishDelete(Model model, String playtitle, String tabId) {
 		
@@ -88,5 +115,90 @@ public class MyPageController {
 			return "redirect:/mypage?tabId=" + tabId;
 		}
 		
+	}
+
+		// 이메일 변경
+	@PostMapping("/mypage/info_modi")
+	public String InfoUpdate(String email, HttpSession session) throws Exception {
+
+		System.out.println("email:" + email);
+		Integer id = (Integer) session.getAttribute("user_id");
+		String newemail_cypher = aes256.encrypt(email);
+
+		userSvc.modiEmail(id, email, newemail_cypher);
+
+		return "redirect:/mypage?tabId=tab4";
+	}
+
+		// 비밀번호 변경
+	@PostMapping("/mypage/passwordmodi")
+	public String PasswordUpdate(String newpassword, HttpSession session) throws NoSuchAlgorithmException {
+
+		Integer id = (Integer) session.getAttribute("user_id");
+		String newpassword_cypher = sha256.encrypt(newpassword); // 새 비밀번호 암호화
+
+		userSvc.modiPassword(id, newpassword, newpassword_cypher);
+
+		return "redirect:/mypage?tabId=tab4";
+	}
+
+		// 현재 비밀번호 확인
+	@ResponseBody
+	@PostMapping("/mypage/pwcheck")
+	public int PasswordCheck(HttpSession session, @RequestParam("password") String password)
+			throws NoSuchAlgorithmException {
+
+		Integer id = (Integer) session.getAttribute("user_id");
+		String password_cypher = sha256.encrypt(password);
+
+		Optional<User> mypage_user = userSvc.findOne(id);
+		String user_password = mypage_user.orElse(new User()).getUser_passwordcypher();
+
+		int result;
+
+		if (password_cypher.equals(user_password)) {
+			// 현재 비밀번호 일치
+			result = 0;
+		} else {
+			result = 1;
+		}
+
+		return result;
+	}
+	
+	//리뷰 업데이트
+	@PostMapping("/mypage/update")
+	public String updateReview(String reviewid, @RequestParam(name="img", required = false) MultipartFile img, String comment) throws IOException {
+		
+		int result = reviewSvc.updateReview(reviewid, img, comment);
+		
+		System.out.println(result);
+		
+		return "redirect:/mypage?tabId=tab2";
+	}
+	
+	//리뷰 삭제
+	@ResponseBody
+	@PostMapping("/mypage/delete")
+	public String deleteReview(@RequestParam("review_id") String review_id) {
+		
+		long id = Long.parseLong(review_id);
+		
+		reviewRep.deleteById(id);
+		
+		return "true";
+	}
+	
+	//회원탈퇴
+	@ResponseBody
+	@PostMapping("/mypage/withdrawal")
+	public String withdrawalUser(HttpSession session) {
+		
+		Integer id = (Integer) session.getAttribute("user_id");
+		session.removeAttribute("user_state");
+		session.removeAttribute("user_id");
+		userSvc.deleteUser(id);
+		
+		return "true";
 	}
 }

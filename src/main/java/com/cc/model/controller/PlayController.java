@@ -35,16 +35,21 @@ public class PlayController {
 	private PlayService playService;
 	private PlaceService placeService;
 	private ReviewService reviewService;
-
-	public PlayController(PlayService playService, PlaceService placeService, ReviewService reviewService) {
+private WishService wishSvc;
+	
+	public PlayController(PlayService playService, PlaceService placeService, ReviewService reviewService,WishService wishSvc) {
 		super();
 		this.playService = playService;
 		this.placeService = placeService;
 		this.reviewService = reviewService;
+		this.wishSvc = wishSvc;
 	}
 
 	@Autowired
 	private UserRepository userRep;
+
+	@Autowired
+	private EntityManager entityManager;
 
 //	@RequestMapping("/play")
 //	public String playList(Model model,
@@ -66,12 +71,44 @@ public class PlayController {
 
 	@RequestMapping("/play")
 	public String playList(Model model, HttpSession session,
-			@PageableDefault(page = 0, size = 12, sort = "playId", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Play> list = playService.selectPossible(pageable);
+			@PageableDefault(page = 0, size = 12) Pageable pageable, @RequestParam(name = "sort", required = false) String sortOption) {
+		
 
-		int nowPage = list.getPageable().getPageNumber() + 1;
+		BooleanBuilder builder = new BooleanBuilder();
+		    JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+		    QPlay qPlay = QPlay.play;
+		    
+		    List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
+		    
+		    if (sortOption == null || sortOption.equals("random")) {
+		        Sort sort = Sort.by(qPlay.playId.getMetadata().getName()).descending();
+		        orderSpecifiers.add(qPlay.playId.asc());
+		    } else if (sortOption.equals("heart")) {
+		        builder.and(qPlay.count.isNotNull());
+		        orderSpecifiers.add(qPlay.count.desc());
+		    } else if (sortOption.equals("name")) {
+		        builder.and(qPlay.playTo.isNotNull());
+		        orderSpecifiers.add(qPlay.playTitle.asc());
+		    } else if (sortOption.equals("recent")) {
+		        builder.and(qPlay.playTo.isNotNull());
+		        orderSpecifiers.add(qPlay.playTo.asc());
+		    }
+
+		    // 필터 조건을 적용하여 쿼리 실행
+		    List<Play> list = queryFactory.selectFrom(qPlay)
+		            .where(builder)
+		            .orderBy(orderSpecifiers.toArray(new OrderSpecifier[0]))
+		            .offset(pageable.getOffset())
+		            .limit(pageable.getPageSize())
+		            .fetch();
+
+	    long totalCount = queryFactory.selectFrom(qPlay).where(builder).fetchCount();
+
+	    Page<Play> playPage = new PageImpl<>(list, pageable, totalCount);
+		
+		int nowPage = playPage.getPageable().getPageNumber() + 1;
 		int startPage = 1;
-		int endPage = list.getTotalPages();
+		int endPage = playPage.getTotalPages();
 
 		model.addAttribute("list", list);
 		model.addAttribute("nowPage", nowPage);
@@ -143,12 +180,58 @@ public class PlayController {
 				}
 			}
 		}
+
+				/* 찜 목록 탭 */
+		// 로그인한 유저의 찜 목록을 가져옴
+		Integer userid = (Integer) session.getAttribute("user_id");
+
+		if (userid != null) {
+			List<Wish> playwish = wishSvc.findAllByUserid(userid);
+
+			model.addAttribute("playwish", playwish);
+			model.addAttribute("playTitle", play.orElse(new Play()).getPlayTitle());
+			model.addAttribute("playPoster", play.orElse(new Play()).getPlayPoster());
+		}
+		
 		model.addAttribute("play", play);
 		model.addAttribute("place", place);
 		model.addAttribute("actor", actorList);
 		model.addAttribute("review", review);
 		model.addAttribute("user_state", session.getAttribute("user_state"));
 		return "playdetail";
+	}
+
+		// 찜 삭제
+	@ResponseBody
+	@PostMapping("/play/detail/delete")
+	public String deleteWish(@RequestParam("playtitle") String playTitle, HttpSession session) {
+
+		Integer userid = (Integer) session.getAttribute("user_id");
+
+		if (wishSvc.deleteWish(playTitle, userid) > 0) {
+			playService.discountCount(playTitle);
+		} else {
+			return "false";
+		}
+
+		return "true";
+	}
+
+	// 찜 추가
+	@ResponseBody
+	@PostMapping("/play/detail/update")
+	public String updateWish(@RequestParam("playtitle") String playTitle, @RequestParam("playposter") String playPoster,
+			HttpSession session) {
+
+		Integer userid = (Integer) session.getAttribute("user_id");
+
+		if (wishSvc.insertWish(playTitle, userid, playPoster)) {
+			playService.updateCount(playTitle);
+		} else {
+			return "false";
+		}
+
+		return "true";
 	}
 
 }

@@ -18,6 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .csrf().disable()
         .formLogin().disable()
         .headers().frameOptions().disable();
+
+		http //로그아웃 설정
+	    .authorizeRequests()
+	        .antMatchers("/logout").permitAll()
+	        .and()
+	    .logout()
+	        .logoutUrl("/logout")
+	        .logoutSuccessUrl("/");
 	}
 
 }

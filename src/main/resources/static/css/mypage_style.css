@@ -18,37 +18,6 @@ a{
     color: black;
 }
 
-.user_name{
-    width: 65vw;
-    background-color:rgb(205, 218, 246);
-    height: 20vh;
-}
-
-.user{
-    margin-left: 17.5vw;
-    margin-right: 17.5vw; 
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 800;
-}
-
-h3{
-    margin-top: 6vh;
-}
-
-.user span{
-    font-size: 18px;
-    font-weight: 500;
-}
-
-ul{
-    list-style-type: none;
-    width: 100%;
-    height: 100%;
-}
-
 .mypage{
     /* border: 1px double rgb(205, 218, 246); */
     display: flex;
@@ -68,14 +37,10 @@ img{
 .navi ul{
     width: 7vw;
     padding: 0;
-    border: 3px  #b3b8f8;
-    border-radius: 15px;
-    box-shadow: 2px 2px 2px 2px rgb(161, 192, 255);
 }
 
 .navi ul li{
     text-align: center;
-    padding: 6px;
 }
 
 .tab-content{
@@ -96,10 +61,13 @@ img{
 
 /* tabs 구현 */
 
-/* �뿰洹�,留쏆쭛 �꺆*/
 ul.tabs{
     list-style: none;
     margin-top: 50px;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 ul.tabs li{
     background: none;
@@ -108,14 +76,19 @@ ul.tabs li{
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-}
-ul.tabs li.current{
-    color: #141B82;
-    border-bottom: 3px solid #141b82;
-    font-weight: bolder;
+	width: 100%;
+    border-left: 3px solid #141b82;
 }
 
-/* �뿰洹� 由ъ뒪�듃 */
+ul.tabs li:hover{
+    font-weight: 800;
+    border-right: 10px solid white;
+}
+
+ul.tabs li:hover a {
+    color: #141b82;
+}
+
 .tab-content{
     display: none;
     padding: 25px 0;
@@ -123,4 +96,37 @@ ul.tabs li.current{
 .tab-content.current{
     display: inherit;
     display: flex;
+	align-items: baseline;
+}
+
+
+/*간단한 회원 정보 navi*/
+.user_bar{
+	position: sticky;
+	top: 200px;
+    width: 170px;
+    height: 200px;
+    text-align: center;
+    border: 1px solid #d5d6ed;
+    margin-left: 7%;
+    border-radius: 50px;
+    margin-top: 5%;
+    
+}
+.user_navi{
+	display: flex;
+    flex-direction: column;
+}
+.user_navi .img{
+	width: 100px;
+	height: 100px;
+	border-radius: 100%;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+}
+
+.user_navi .img img{
+	width: 80%;
+	
 }

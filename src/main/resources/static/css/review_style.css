@@ -25,23 +25,22 @@
     width: 15%;
     text-align: right;
     margin-bottom: 20%;
+    display: flex;
+	justify-content: flex-end;
 }
 
 .none button{
     background-color: white;
     border: 0;
     width: 100%;
+    text-align: right;
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 5%;
+	cursor: pointer;
 }
 
 .review_date{
     margin-bottom: 10%;
     font-size: 13px;
-}
-
-.modal_button img{
-    width:30%;
-}
-
-.modal_button{
-    text-align: right;
 }

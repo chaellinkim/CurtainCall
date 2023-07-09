@@ -1,3 +1,17 @@
+#container{
+	position: relative;
+}
+
+#container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 9999; 
+}
 
 .content{
     display: grid;
@@ -37,9 +51,10 @@
 }
 
 .delete button{
-    width:2vw;
+    width:1.5vw;
     border: 0;
     background-color: rgba(0, 0, 0, 0);
+	cursor: pointer;
 }
 
 .delete button > img{
