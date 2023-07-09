@@ -1,22 +1,32 @@
 package com.cc.model.controller;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
+import com.cc.model.entity.Review;
 import com.cc.model.entity.User;
 import com.cc.model.entity.Wish;
+import com.cc.model.repository.ReviewRepository;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.repository.WishRepository;
+import com.cc.model.service.PlayService;
+import com.cc.model.service.ReviewService;
 import com.cc.model.service.UserService;
 import com.cc.model.service.WishService;
 
@@ -39,12 +49,13 @@ public class MyPageController {
 	@Autowired
 	private WishService wishSvc;
 
-		@Autowired
+	@Autowired
 	private ReviewService reviewSvc;
 	
 	@Autowired
 	private ReviewRepository reviewRep;
-		@Autowired
+	
+	@Autowired
 	private PlayService playSvc;
 	
 	@RequestMapping("/mypage")
@@ -104,18 +115,21 @@ public class MyPageController {
 		return "mypage";
 	}
 
-	//찜삭제
-	@PostMapping("/mypage_wish")
-	public String WishDelete(Model model, String playtitle, String tabId) {
-		
-		if(wishSvc.deleteWish(playtitle) > 0) {
-			return "redirect:/mypage?tabId=" + tabId;
-		}else {
-			model.addAttribute("msg", "error");
-			return "redirect:/mypage?tabId=" + tabId;
-		}
-		
-	}
+	//찜 삭제
+    @PostMapping("/mypage_wish")
+    public String WishDelete(HttpSession session, Model model, String playtitle, String tabId) {
+
+        Integer id = (Integer) session.getAttribute("user_id"); // 로그인한 유저 식별자 가져옴
+
+        if (wishSvc.deleteWish(playtitle, id) > 0) {
+            playSvc.discountCount(playtitle);
+            return "redirect:/mypage?tabId=" + tabId;
+        } else {
+            model.addAttribute("msg", "error");
+            return "redirect:/mypage?tabId=" + tabId;
+        }
+
+    }
 
 		// 이메일 변경
 	@PostMapping("/mypage/info_modi")
