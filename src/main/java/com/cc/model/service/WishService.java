@@ -24,4 +24,17 @@ public class WishService {
 		
 		return wishRep.deleteByPlaytitle(playtitle);
 	}
+
+		public Boolean insertWish(String playTitle, int userid, String playPoster) {
+		
+		Wish wish = new Wish();
+		
+		wish.setUserid(userid);
+		wish.setPlaytitle(playTitle);
+		wish.setPlayposter(playPoster);
+		
+		wishRep.save(wish);
+		
+		return true;
+	}
 }
