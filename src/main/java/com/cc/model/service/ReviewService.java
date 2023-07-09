@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
 import com.cc.model.repository.ReviewRepository;
 
@@ -62,6 +63,11 @@ public class ReviewService {
 	      return reviewRep.findByPlay_title(play_title);
 	   }
 
+   public List<Review> selectBestReview(){
+		return reviewRep.findTop3ByOrderByCountDesc();
+	}
+   
+  
 		//리뷰수정
 	public int updateReview(String reviewid, MultipartFile reviewimg, String reviewcomment) throws IOException {
 		long id = Long.parseLong(reviewid);
@@ -73,6 +79,4 @@ public class ReviewService {
 	    }
 
 		return result;
-	}
-   
 }

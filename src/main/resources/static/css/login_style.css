@@ -16,8 +16,11 @@
 .login_box {
     width: 25vw;
     height: 65vh;
+    min-width: 380px;
+    min-height: 520px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     border: 2px solid #e3e3e3;
     border-radius: 2vb;
     margin-top: 10vh;
@@ -33,37 +36,41 @@
 }
 /*입력창*
 .login_box form {
-    margin-top:3vh;
-    height:35%;
+    width: 65%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+  margin-top:3vh;
+    height:35%;
 }
 
 .login_box input {
-    margin: 1vh;
-    width:15vw;
-    height:23%;
+    margin-bottom: 12px;
+    padding: 14px 8px;
+    width: 15vw;
     border: 1px solid #D9D9D9;
-    border-radius: 1vb;
+    border-radius: 8px;
+  height:23%;
+  margin: 1vh;
 }
 
 #login_button {
-	margin-top:5%;
-    width:15vw;
-    height:20%;
+    width: 15vw;
+    height: 20%;
     background-color: rgb(18, 82, 151);
-    border: 0px;
-    border-radius: 1vb;
+    border: none;
+    border-radius: 8px;
+    margin-top: 5px;
     color:#FFFFFF;
     cursor: pointer;
+margin-top:5%;
 }
+
 /*아이디,비밀번호,회원가입*/
 .find{
-    margin-top: 2vh;
-    margin-bottom: 4vh;
+    margin-top: 15px;
+    margin-bottom: 36px;
     display: flex;
-    font-size: 1.5vh;
+    font-size: 14px;
 }
 
 .find>a{
@@ -78,17 +85,16 @@
 }
 
 #before{
-    width: 6vw;
-    height: 0vh;
+    width: 80px;
     border: 1px solid #000000;
 }
 
 #ment{
-    font-size: 1.5vh;
+    font-size: 14px;
 }
 
 #after{
-    width: 6vw;
+    width: 80px;
     height: 0vh;
     border: 1px solid #000000;
 }
@@ -101,11 +107,10 @@
 }
 
 .sns_logo a{
-    height:3.5vh;
-    
+    height: 54px;
 }
 
 .sns_logo img{
-    width:12vw;
+      width:12vw;
     height:6vh;
 }

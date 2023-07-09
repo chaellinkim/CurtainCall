@@ -16,7 +16,6 @@
     <script type="text/javascript">
 
         function login(){
-        	
         	var id = document.getElementById('id').value;
         	var pw = document.getElementById('password').value;
         	
@@ -30,7 +29,6 @@
         		return false;
         	}
         }
-
     </script>
 </head>
 
@@ -49,27 +47,28 @@
             </form>
 
             <div class="find">
-                <a href="id_find.html">아이디찾기 |</a>
-                <a href="password_find.html">비밀번호 찾기 |</a>
-                <a href="/join">회원가입</a>
+                <a href="id_find.html">아이디찾기&nbsp;&nbsp;|&nbsp;</a>
+                <a href="password_find.html">비밀번호 찾기&nbsp;&nbsp;|</a>
+                <a href="/join">&nbsp;회원가입</a>
             </div>
 
             <div class="social_login">
                 <span id="before"></span>
-                <span id="ment"> 소셜 로그인 </span>
+                <span id="ment">&nbsp;&nbsp;소셜 로그인&nbsp;&nbsp;</span>
                 <span id="after"></span>
             </div>
 
   			<div class="sns_logo">
-				<a href="/login/getGoogleAuthUrl"><img
-					src="img/google_login.png"></a>
+				<a href="/login/getGoogleAuthUrl">
+					<img src="img/google_login.png">
+				</a>
 			</div>
 
         </div>
     </div>
 
-    <!-- 푸터 -->
-
+    <!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

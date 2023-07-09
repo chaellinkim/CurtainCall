@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import javax.annotation.Nullable;
-import javax.jdo.annotations.Column;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,7 +52,7 @@ public class Review {
    private LocalDateTime review_date;
 
    @Column(name = "REVIEW_COUNT")
-   private int review_count;
+   private int count;
 
    @Transient
    private String encodedImage;
@@ -125,18 +125,18 @@ public class Review {
    }
 
    public int getReview_count() {
-      return review_count;
+      return count;
    }
 
    public void setReview_count(int review_count) {
-      this.review_count = review_count;
+      this.count = review_count;
    }
 
    @Override
    public String toString() {
       return "Review [review_id=" + review_id + ", user_id=" + user_id + ", play_title=" + play_title
             + ", review_img=" + Arrays.toString(review_img) + ", review_comment=" + review_comment
-            + ", review_date=" + review_date + ", review_count=" + review_count + "]";
+            + ", review_date=" + review_date + ", review_count=" + count + "]";
    }
 
 }

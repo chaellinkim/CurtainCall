@@ -2,34 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CurtainCall</title>
 <head>
-<!-- header nav -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-96x96.png"> <!-- Favicon -->
     <link rel="stylesheet" href="/css/header.css"> 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function(){
-            //검색버튼 활성화
-            const searchForm = document.querySelector('.search');
-            const searchInput = document.querySelector('.search-input');
-            const searchIcon = document.querySelector('.icon');
-
-            searchIcon.addEventListener('submit', function(e){
-                e.preventDefault();     //폼 제출 동작 방지
-                const keyword = searchInput.value;
-                console.log('검색어: ', keyword);
-            })
-
-            //사용자 아이콘 클릭시 마이페이지 이동
-            /* const userIcon = document.querySelector('.user-icon');
-            userIcon.addEventListener('click', function(){
-                window.location.href = 'place.html';
-            }); */
-        });
-        function submitForm() {
-            document.querySelector('.search').submit();
-        }
-        
+	    document.addEventListener('DOMContentLoaded', function() {
+	        //사용자 아이콘 클릭시 마이페이지 이동
+	        const userIcon = document.querySelector('.user-icon');
+	        userIcon.addEventListener('click', function() {
+	           window.location.href = 'pay.html';
+	        });
+	     });    
     </script>
 </head>
 <body>

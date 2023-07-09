@@ -167,7 +167,6 @@ td {
     margin: 0;
     padding: 0;
   }
-  
   :root {
     --select-theme: #bcddff;
     --select-theme-hover: #a9d4ff;
@@ -479,7 +478,7 @@ a.button {
     
 }
 /* 닉네임 크기 조절 */
-.userName{
+.userName p{
     font-size: 15px;
     color: #aaa;
 }
