@@ -8,7 +8,7 @@
 
 /* <login> */
 
-.con{
+#content-wrap{
     display: flex;
     justify-content: center;
 }
