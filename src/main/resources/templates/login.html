@@ -30,11 +30,14 @@
         	}
         }
     </script>
+    <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-	
-    <div class="con">
+	<!-- Header -->
+    <th:block th:include="header :: body"></th:block>
+
+    <div id="content-wrap">
         <div class="login_box">
 
             <a href="/"><img id="main_logo" src="img/main_logo.png"></a>

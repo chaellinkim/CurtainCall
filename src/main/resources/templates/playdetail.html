@@ -179,6 +179,7 @@ function deleteWish(){
 			const month = leftPad(nowDay.getMonth() + 1);
 			const day = leftPad(nowDay.getDate());
 			const date = year + "-" + month + "-" + day;
+			console.log(date);
 			
 			if (nowDay < calToday||(weekday != playweekday||date<playstart||date>playend)) { // 지난날인 경우
 				newDIV.className = "pastDay";

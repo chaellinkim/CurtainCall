@@ -10,10 +10,10 @@
     <script type="text/javascript">
 	    document.addEventListener('DOMContentLoaded', function() {
 	        //사용자 아이콘 클릭시 마이페이지 이동
-	        const userIcon = document.querySelector('.user-icon');
+	        /* const userIcon = document.querySelector('.user-icon');
 	        userIcon.addEventListener('click', function() {
 	           window.location.href = 'pay.html';
-	        });
+	        }); */
 	     });    
     </script>
 </head>
@@ -27,16 +27,16 @@
                     <li><a href="/place" class="menu">공연장</a></li>
                     <li><a href="/actor" class="menu">출연진</a></li>
                     <li><a href="/event" class="menu">이벤트</a></li>
-                    <li><a href="#" class="menu">관람후기</a></li>
+                    <li><a href="/review" class="menu">관람후기</a></li>
                 </ul>
             </nav>
             <div class="right">
                 <form action="/play/search" method="get" class="search">
-                    <input type="text" name="keyword" class="search-input" placeholder="검색어 입력">
+                    <input type="text" name="keyword" class="search-input" placeholder="연극 검색">
                     <div class="icon"><i class="fas fa-search"></i></div>
                 </form>
     				<div class="user-icon">
-					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock"></a>
+					<a href="/login" th:if="${user_state} != 'login'" class="fas fa-lock fa-lg"></a>
 					<div th:if="${user_state} == 'login'">
 						<button class="fas fa-user fa-lg"></button>
 						<ul class="bar">

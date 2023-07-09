@@ -70,4 +70,8 @@ public class PlayService {
 	   public List<ReviewMapper> selectTitle(){
 	      return playRepository.findAllByOrderByPlayTitleAsc();
 	   }
+	   public Play selectPlay(String playId) {
+			Play play = playRepository.findByPlayTitle(playId);
+			return play;
+		}
 }

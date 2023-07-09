@@ -62,10 +62,15 @@ public class ReviewService {
    public List<Review> selectOne(String play_title){
 	      return reviewRep.findByPlay_title(play_title);
 	   }
-
+  
    public List<Review> selectBestReview(){
 		return reviewRep.findTop3ByOrderByCountDesc();
 	}
+   
+   public List<Review> searchReviews(String keyword) {
+	   return reviewRep.searchPossible(keyword);
+   }
+
    
   
 		//리뷰수정
