@@ -29,4 +29,23 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Modifying
 	@Query("UPDATE USER SET USER_PASSWORD=?2,USER_PASSWORDCYPHER=?1 WHERE USER_EMAIL=?3")
 	int updatePassword(String tmpCypher, String tmpPassword, String userEmail);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE USER SET USER_PASSWORD=?2,USER_PASSWORDCYPHER=?3 WHERE USER_ID=?1")
+	int modiPassword(int id, String newpassword, String newpassword_cypher);
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE USER SET USER_EMAIL=?2,USER_EMAILCYPHER=?3 WHERE USER_ID=?1")
+	int modiEmail(int id, String email, String newemail_cypher);
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE USER SET USER_LOGINID='탈퇴한사용자', USER_LOGINCYPHER='탈퇴한사용자', USER_PASSWORD='탈퇴한 사용자',"
+			+ "USER_PASSWORDCYPHER='탈퇴한 사용자', USER_NAME='탈퇴한 사용자', "
+			+ "USER_NAMECYPHER='탈퇴한 사용자', USER_NAMEMASKING='탈퇴한 사용자', "
+			+ "USER_RRN='탈퇴한 사용자', USER_RRNCYPHER='탈퇴한 사용자', USER_EMAIL='탈퇴한 사용자', "
+			+ "USER_EMAILCYPHER='탈퇴한 사용자', USER_LOGINTYPE='탈퇴한 사용자', USER_GENDER='탈퇴한 사용자' WHERE USER_ID=?1")
+	int deleteUser(int id);
 }
