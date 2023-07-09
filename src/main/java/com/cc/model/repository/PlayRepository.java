@@ -31,8 +31,8 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
 //	int updateCount(@Param("count")int count, @Param("playId")String playId);
 	
 	@Modifying
-	@Query("UPDATE Play p SET p.count = ?1 WHERE p.playId = ?2")
-	int updateCount(int count, String playId);
+	@Query("UPDATE Play p SET p.count = p.count + 1 WHERE p.playTitle =?1")
+	int updateCount(String playId);
 	
 	@Query("SELECT p FROM Play p WHERE p.day = ?1 AND p.playFrom <= ?2 AND p.playTo >= ?2")
     List<Play> findPlaysByDayAndDateBetween(String weekday, String date);
@@ -41,4 +41,9 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
 	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
 	
 	Play findByPlayTitle(String title);
+
+	@Modifying
+	@Query("UPDATE Play p SET p.count = p.count - 1 WHERE p.playTitle =?1")
+	int discountCount(String playTitle);
+
 }

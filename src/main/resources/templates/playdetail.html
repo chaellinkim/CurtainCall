@@ -32,6 +32,59 @@
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script th:inline="javascript">
+
+	
+//찜 삭제
+function deleteWish(){
+	  
+	var playTitle = document.getElementById('playTitle').value;
+	console.log(playTitle);
+	
+	$.ajax({
+			type : "post",
+			url : "/play/detail/delete",
+			data : {'playtitle': playTitle},
+			dataType : "json",
+			success : function(response) {
+						
+			if(response === "true"){
+			location.reload();
+			}
+			else{
+			location.reload();
+			}
+		},
+			error : function() {
+				alert("통신 실패 ");
+			}
+	});
+			  
+	}
+	
+	//찜 추가
+	function updateWish(){
+		var playTitle = document.getElementById('playTitle').value;
+		var playPoster = document.getElementById('playPoster').value;
+		$.ajax({
+			type : "post",
+			url : "/play/detail/update",
+			data : {'playtitle': playTitle, 'playposter' : playPoster},
+			dataType : "json",
+			success : function(response) {
+						
+			if(response === "true"){
+			location.reload();
+			}
+			else{
+			location.reload();
+			}
+		},
+			error : function() {
+				alert("통신 실패 ");
+			}
+	});
+	}
+	
 	var IMP = window.IMP;
 	IMP.init("imp52160681");
 	var today = new Date();
@@ -43,58 +96,8 @@
 	var seconds = today.getSeconds(); // 초
 	//var milliseconds = today.getMilliseconds();
 	var makeMerchantUid = year + month + day + hours + minutes + seconds+1000;
-
+	var selectDate;
 	
-	function requestPay() {
-		console.log(makeMerchantUid);
-		var merchant_uid = "IMP" + makeMerchantUid;
-		var name = /*[[${play.get().playTitle}]]*/;
-		var amount = /*[[${play.get().price}]]*/;
-	    console.log(amount);
-	    console.log(name);
-		var buyer_name = '아임포트 기술지원팀';
-		var buyer_email = 'Iamport@chai.finance';
-		IMP.request_pay({
-			pg : "html5_inicis.INIpayTest",
-			merchant_uid : "IMP" + makeMerchantUid,
-			name : name,
-			amount : amount,
-			buyer_name : '아임포트 기술지원팀',
-			buyer_email : 'Iamport@chai.finance',
-			buyer_postcode : makeMerchantUid
-		}, function(rsp) { // callback
-			if (rsp.success) {
-				alert("예매 성공 ");
-				console.log(rsp);
-				let payVal = {
-					"merchantUid" : merchant_uid,
-					"userId" : 1,
-					"playId" : "PF220036",
-					"playTitle" : name
-				};
-				console.log(payVal);
-				$.ajax({
-					type : "post",
-					url : "/pay/reservation",
-					data : JSON.stringify(payVal),
-					contentType : "application/json",
-					dataType : "json",
-					success : function(response) {
-						console.log("success");
-						var redirectUrl = response.url;
-						if (redirectUrl) {
-							location.href = redirectUrl;
-						}
-					},
-					error : function() {
-						alert("통신 실패 ");
-					}
-				});
-			} else {
-				console.log(rsp);
-			}
-		});
-	}
 	/* 탭 js */
 	$(document).ready(function() {
 
@@ -212,7 +215,7 @@
 		const year = selectedDate.getFullYear();
 		const month = leftPad(selectedDate.getMonth() + 1);
 		const day = leftPad(selectedDate.getDate());
-		const date = year + "-" + month + "-" + day;
+		selectDate = year + "-" + month + "-" + day;
 		const weekday = weekdays[selectedDate.getDay()];
 		let dateVal = {
 				"weekday" : weekday,
@@ -254,6 +257,86 @@
 					}
 					return value;
 				}
+				function requestPay() {
+					console.log(makeMerchantUid);
+					var merchant_uid = "IMP" + makeMerchantUid;
+					var sessionUserId = [[${session.user_id}]];
+					var sessionUserState = [[${session.user_state}]];
+					var name = [[${play.get().playTitle}]];
+					var price = [[${play.get().price}]];
+					var time = [[${play.get().time}]];
+					// 현재 시각 가져오기
+				    var now = new Date();
+				    var year = now.getFullYear().toString().slice(-2);
+				    var month = (now.getMonth() + 1).toString().padStart(2, "0");
+				    var day = now.getDate().toString().padStart(2, "0");
+				    var hour = now.getHours().toString().padStart(2, "0");
+				    var minute = now.getMinutes().toString().padStart(2, "0");
+				    var paymentDate = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+				    
+				    console.log(name);
+				    console.log(date);
+				    console.log(time);
+				    console.log(sessionUserId);
+				    console.log(paymentDate);
+					var buyer_name = '아임포트 기술지원팀';
+					var buyer_email = 'Iamport@chai.finance';
+					let payVal = {
+							"merchantUid" : merchant_uid,
+							"userId" : sessionUserId,
+							"playId" : "PF220036",
+							"playTitle" : name,
+							"price" : price,
+							"date" : selectDate,
+							"time" : time,
+							"paymentDate" : paymentDate
+						};
+						console.log(payVal);
+					IMP.request_pay({
+						pg : "html5_inicis.INIpayTest",
+						merchant_uid : "IMP" + makeMerchantUid,
+						name : name,
+						amount : price,
+						buyer_name : '아임포트 기술지원팀',
+						buyer_email : 'Iamport@chai.finance',
+						buyer_postcode : makeMerchantUid
+					}, function(rsp) { // callback
+						if (rsp.success) {
+							alert("예매 성공 ");
+							console.log(rsp);
+							let payVal = {
+								"merchantUid" : merchant_uid,
+								"userId" : sessionUserId,
+								"playId" : "PF220036",
+								"playTitle" : name,
+								"price" : price,
+								"date" : date,
+								"time" : time,
+								"paymentDate" : paymentDate
+							};
+							console.log(payVal);
+							$.ajax({
+								type : "post",
+								url : "/pay/reservation",
+								data : JSON.stringify(payVal),
+								contentType : "application/json",
+								dataType : "json",
+								success : function(response) {
+									console.log("success");
+									var redirectUrl = response.url;
+									if (redirectUrl) {
+										location.href = redirectUrl;
+									}
+								},
+								error : function() {
+									alert("통신 실패 ");
+								}
+							});
+						} else {
+							console.log(rsp);
+						}
+					});
+				}
 	
 </script>
 <th:block th:include="header :: head"></th:block>
@@ -276,6 +359,8 @@
 				<div class="theater-title">
 					<i class="fa-solid fa-clapperboard fa-lg"></i>&nbsp;
 					<h1 th:if="${play.isPresent()}" th:text="${play.get().playTitle}"></h1>
+					<input type="hidden" id="playPoster" name="playposter"
+						th:value="${playPoster}">
 				</div>
 				<hr>
 				<div class="theater-detail first">
@@ -295,6 +380,17 @@
 				<div class="theater-detail">
 					<i class="fa-solid fa-location-dot"></i>&nbsp;
 					<span th:if="${place.isPresent()}" th:text="${place.get().placeName}"></span>
+				</div>
+				<div class="theater-detail">
+					<i class="fa-regular fa-heart" onclick="updateWish()"
+						th:if="${user_state != 'login' or !#lists.contains(playwish.![playtitle], play.get().playTitle)}"></i>
+					<!-- 로그인 안 됐을 경우 & 찜 안 했을 경우 -->
+
+					<input type="hidden" id="playTitle" name="playtitle"
+						th:value="${playTitle}"> <i
+						th:if="${user_state == 'login' and #lists.contains(playwish.![playtitle], play.get().playTitle)}"
+						class="fa-solid fa-heart" onclick="deleteWish()"></i>
+					<!-- 찜 버튼 눌려져있을 경우 -->
 				</div>
 			</div>
 		</div>

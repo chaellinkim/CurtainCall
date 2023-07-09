@@ -97,4 +97,28 @@ public class UserService {
     	
     	return userRep.updatePassword(tmpCypher, tmpPassword, userEmail);
     }
+
+	    //비밀번호 수정
+    public int modiPassword(int id, String newpassword, String newpassword_cypher) {
+    	return userRep.modiPassword(id, newpassword, newpassword_cypher);
+    }
+    
+    //이메일 수정
+    public int modiEmail(int id, String email, String newemail_cypher) {
+    	return userRep.modiEmail(id, email, newemail_cypher);
+    }
+    
+    //회원탈퇴
+    public int deleteUser(int id) {
+    	return userRep.deleteUser(id);
+    }
+    
+    //이메일이 있는지 확인
+	public Boolean emailduplicate(String email) {
+		if (userRep.existsByUseremail(email))
+			return true; // 사용 불가
+		else {
+			return false; //사용 가능
+		}
+	}
 }

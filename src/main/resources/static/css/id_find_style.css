@@ -21,20 +21,20 @@ a {
 /* <content> */
 
 container {
-    width: 100vw;
     display: flex;
     justify-content: center;
 }
 
 .id_box {
-    width: 23vw;
-    height: 58vh;
+    width: 25vw;
+    height: 65vh;
     display: flex;
     flex-direction: column;
     border: 2px solid #e3e3e3;
     border-radius: 2vb;
-    /* background-color: #fffbfb; */
     margin-top: 10vh;
+		top: 50%;
+	left: 50%;
 }
 
 #main_logo {
@@ -43,15 +43,16 @@ container {
     height: 9vh;
 }
 
-.id_box form {
-   display: flex;
-   flex-direction: column;
+/*입력창*/
+.id_box table {
+	margin-top: 3%;
+	height: 25%;
 }
 
 .id_box input {
     margin: 1vh;
     width: 15vw;
-    height: 4vh;
+    height: 5vh;
     border: 1px solid #D9D9D9;
     border-radius: 1vb;
 }
@@ -59,7 +60,7 @@ container {
 #id_button {
     margin-top: 3vh;;
     width: 12vw;
-    height: 4vh;
+    height: 5vh;
     background-color: rgb(18, 82, 151);
     border: 0px;
     border-radius: 1vb;

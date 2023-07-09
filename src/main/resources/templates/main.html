@@ -345,45 +345,45 @@
 		</section>
 	
 		<!-- 3. 월간 베스트 리뷰 -->
-		<div id="review">
-			<h2 id="review-month"></h2>
-			<!-- script문 -->
-			<div class="add-theater">
-					<a href="/review">더 많은 리뷰 보기 +</a>
-					<!-- 리뷰 리스트 페이지로 이동-->
-				</div>
-			<div class="feed-box">
-				<div class="feed" th:each="review:${bestReview}">
-					<!-- 리뷰 상단 -->
-					<div class="review-top">
-						<div class="review-ranking">
-							<i class="fa-solid fa-crown"></i> <span
-								th:text="${reviewStat.index+1}+'등'"></span>
-						</div>
-						<div class="review-userid">
-							<span th:text="${review.userName}"></span>
-						</div>
+	<div id="review">
+		<h2 id="review-month"></h2>
+		<!-- script문 -->
+		<div class="add-theater">
+				<a href="/review">더 많은 리뷰 보기 +</a>
+				<!-- 리뷰 리스트 페이지로 이동-->
+			</div>
+		<div class="feed-box">
+			<div class="feed" th:each="review:${bestReview}">
+				<!-- 리뷰 상단 -->
+				<div class="review-top">
+					<div class="review-ranking">
+						<i class="fa-solid fa-crown"></i> <span
+							th:text="${reviewStat.index+1}+'등'"></span>
 					</div>
-					<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-						alt="게시물 이미지" class="post-image" width="300px" height="300px">
-					<!-- 리뷰 하단 -->
-					<div class="review-wrap">
-						<div class="theater-name">
-							<i class="fa-solid fa-clapperboard"></i><span
-								th:text="${review.play_title}">연극라면</span>
-						</div>
-						<!-- 연극 이름 -->
-						<div class="icon-box">
-							<i class="fa-solid fa-heart"></i>
-							<div class="likeNum" th:text="${review.review_count}">32</div>
-						</div>
+					<div class="review-userid">
+						<span th:text="${review.userName}"></span>
 					</div>
-					<div class="review-content" th:text="${review.review_comment}">너무너무
-		            재밌어요~!</div>
-					<!-- 후기 내용 -->
 				</div>
+				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+					alt="게시물 이미지" class="post-image" width="300px" height="300px">
+				<!-- 리뷰 하단 -->
+				<div class="review-wrap">
+					<div class="theater-name">
+						<i class="fa-solid fa-clapperboard"></i><span
+							th:text="${review.play_title}">연극라면</span>
+					</div>
+					<!-- 연극 이름 -->
+					<div class="icon-box">
+						<i class="fa-solid fa-heart"></i>
+						<div class="likeNum" th:text="${review.review_count}">32</div>
+					</div>
+				</div>
+				<div class="review-content" th:text="${review.review_comment}">너무너무
+	            재밌어요~!</div>
+				<!-- 후기 내용 -->
 			</div>
 		</div>
+	</div>
 	
 		<!-- 4. 광고 배너 -->
 		<div id="addBanner">
