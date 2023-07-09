@@ -8,27 +8,14 @@
     flex-direction: column;
 }
 
-.sale{
-    font-size: 20px;
-    margin-bottom: 1vh;
-}
-
-.modal_button{
+.pay_modal .modal_button{
     border: 0;
     background-color: rgb(255, 255, 255);
+    cursor:pointer;
     color:#1d27b2
 }
 
-.modal_cancle{
-    all: unset;
-    padding: 10px 25px;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 1vw;
-    height:auto
-}
-
-.modal_overlay {
+.pay_content .modal_overlay {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -40,7 +27,7 @@
     background-color: rgba(0, 0, 0, 0.6);
   }
 
-.md_content {
+.pay_content .md_content {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -58,16 +45,16 @@
       scrollbar-width: none;
 }
 
-.md_content::-webkit-scrollbar {
+.pay_content .md_content::-webkit-scrollbar {
     display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
-.modal_text{
+.pay_content .pay_content .modal_text{
     width:100%;
     font-weight: 800;
 }
 
-.hidden {
+.pay_content .hidden {
     display: none;
 }
 
@@ -77,37 +64,37 @@
     margin-left: 10%;
 }
 
-.modal_info{
+.pay_content .modal_info{
     flex-direction: column;
     width:100%;
     align-items: baseline;
 }
 
-.modal_info th{
+.pay_content .modal_info th{
     padding: 8px 30px;
     vertical-align: top;
     width: 30%;
 }
 
-table th{
-    font-weight: 800;
-}
-
-table{
-    border-collapse: collapse;
-    empty-cells: show;
-    table-layout: fixed;
-    border-spacing: 2px;
-}
-
-.md_payinfo{
+.pay_content .md_payinfo{
     font-weight: 800;
     font-size: 20px;
     margin-top: 5%;
     margin-bottom: 2%;
 }
 
-.modal_img{
+.modal_info table{
+    border-collapse: collapse;
+    empty-cells: show;
+    table-layout: fixed;
+    border-spacing: 2px;
+}
+
+.modal_info table th{
+    font-weight: 800;
+}
+
+.modal_pay .modal_img{
     border: 2px solid #d8daf8;
     padding: 7px;
 }
@@ -125,7 +112,6 @@ table{
 }
 
 .account table{
-
     width: 60%;
 }
 
@@ -134,8 +120,17 @@ table{
     width: 30%;
 }
 
-.modal_footer{
+.pay_content .md_content .modal_footer{
     width: 100%;
     padding: 0;
     text-align: right;
+}
+
+.modal_cancle{
+    all: unset;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 1vw;
+    height:auto
 }
