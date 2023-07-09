@@ -38,6 +38,14 @@ public class MyPageController {
 	
 	@Autowired
 	private WishService wishSvc;
+
+		@Autowired
+	private ReviewService reviewSvc;
+	
+	@Autowired
+	private ReviewRepository reviewRep;
+		@Autowired
+	private PlayService playSvc;
 	
 	@RequestMapping("/mypage")
 	public String Mypage(HttpSession session, Model model)throws Exception {
