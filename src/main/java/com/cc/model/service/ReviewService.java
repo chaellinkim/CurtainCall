@@ -71,14 +71,17 @@ public class ReviewService {
 	   return reviewRep.searchPossible(keyword);
    }
 
-   //리뷰수정
+   
+  
+		//리뷰수정
 	public int updateReview(String reviewid, MultipartFile reviewimg, String reviewcomment) throws IOException {
 		long id = Long.parseLong(reviewid);
 		int result=0;
-		if(reviewimg != null && !reviewimg.isEmpty()) {
-			byte[] imgdata = reviewimg.getBytes();
-		    result=reviewRep.updateReview(id, imgdata, reviewcomment);
+	     if(reviewimg != null && !reviewimg.isEmpty()) {
+	            byte[] imgdata = reviewimg.getBytes();
+	            result=reviewRep.updateReview(id, imgdata, reviewcomment);
+
 	    }
+
 		return result;
-	}
 }
