@@ -29,4 +29,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
    
    @Query("SELECT R FROM REVIEW R ORDER BY REVIEW_DATE DESC")
    List<Review> findAllDESC();
+
+   	@Query("SELECT R FROM REVIEW R WHERE USER_ID = ?1 ORDER BY REVIEW_DATE DESC")
+	List<Review> findByUser_id(int user_id);
+
+   	@Transactional
+	@Modifying
+	@Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
+	int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
 }
