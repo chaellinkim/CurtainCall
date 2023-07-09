@@ -17,7 +17,6 @@ body {
 }
 /* 중앙에 위치한 박스 스타일 */
 .center-box {
-   margin-top: 5%;
    border: 2px solid #c2c2c2;
    border-radius: 0.8rem;
    padding: 20px;
@@ -35,6 +34,21 @@ body {
 
 /* 가입하기 버튼 스타일 */
 button[type="submit"] {
+   width: 27vw;
+   margin-top: 10px;
+   /* #f77f7f; */
+   background-color: rgb(18, 82, 151);
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   display: inline-block;
+   font-size: 16px;
+   cursor: pointer;
+   border-radius: 1vb
+}
+
+button[type="button"] {
    width: 27vw;
    margin-top: 10px;
    /* #f77f7f; */
