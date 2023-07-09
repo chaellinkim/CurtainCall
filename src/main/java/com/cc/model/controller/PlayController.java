@@ -4,31 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.model.entity.Actor;
 import com.cc.model.entity.ActorPlay;
 import com.cc.model.entity.Place;
 import com.cc.model.entity.Play;
+import com.cc.model.entity.QPlay;
 import com.cc.model.entity.Review;
 import com.cc.model.entity.User;
+import com.cc.model.entity.Wish;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.service.PlaceService;
 import com.cc.model.service.PlayService;
 import com.cc.model.service.ReviewService;
+import com.cc.model.service.WishService;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Controller
 public class PlayController {
