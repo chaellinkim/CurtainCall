@@ -157,4 +157,20 @@ public class IndexController {
 		session.removeAttribute("user_state");
 		return "redirect:/";
 	}
+
+		//이메일 중복체크
+	@ResponseBody
+	@PostMapping("/emailcheck")
+	public int emailcheck(String email) {
+		
+		int result;
+		
+		if(userSvc.emailduplicate(email)) {
+			result = 1; //존재
+		}else {
+			result = 0; //없음
+		}
+		
+		return result;
+	}
 }
