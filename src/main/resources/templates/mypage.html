@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>CurtainCall-마이페이지</title>
 <th:block th:include="header :: head"></th:block>
-<link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/mypage_style.css">
 <link rel="stylesheet" href="../css/pay_style.css">
 <link rel="stylesheet" href="../css/pay_modal.css">
@@ -24,13 +23,13 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script type="text/javascript">
-	
-	//tab 화면 전환
+
+
 	$(document).ready(function() {
 		var urlParams = new URLSearchParams(window.location.search);
 		var tabId = urlParams.get('tabId');
-		
-		if(tabId) {
+
+		if (tabId) {
 			var clickId = "tab" + tabId;
 			openTab(tabId);
 		} else {
@@ -44,29 +43,29 @@
 		});
 
 		function openTab(tabId) {
-			  $("#" + tabId).show(); // 선택한 탭 표시
-			  $(".tab-content").not("#" + tabId).hide(); // 모든 탭 내용 숨김
+			$("#" + tabId).show(); // 선택한 탭 표시
+			$(".tab-content").not("#" + tabId).hide(); // 모든 탭 내용 숨김
 
-			  console.log("현재 tabId: " + tabId);
-			  var url = "/mypage?tabId=" + tabId;
-			  window.history.pushState(null, null, url); // URL 변경
+			console.log("현재 tabId: " + tabId);
+			var url = "/mypage?tabId=" + tabId;
+			window.history.pushState(null, null, url); // URL 변경
+		}
+		// 뒤로가기 이벤트 처리
+		window.addEventListener('popstate', function(event) {
+			var urlParams = new URLSearchParams(window.location.search);
+			var tabId = urlParams.get('tabId');
+			if (tabId) {
+				openTab(tabId);
 			}
-		  // 뒤로가기 이벤트 처리
-		  window.addEventListener('popstate', function(event) {
-		    var urlParams = new URLSearchParams(window.location.search);
-		    var tabId = urlParams.get('tabId');
-		    if (tabId) {
-		      openTab(tabId);
-    }
-  });
+		});
 	});
 
-		//리뷰 삭제
+	//리뷰 삭제
 	function deleteReview() {
 
 		var review_id = document.getElementById('reviewid').value;
-
 		console.log(review_id);
+
 		$.ajax({
 			url : '/mypage/delete',
 			type : 'post',
@@ -84,8 +83,9 @@
 		});
 
 	}
-
+	
 </script>
+
 </head>
 
 <body>
@@ -94,7 +94,6 @@
 	<th:block th:include="header :: body"></th:block>
 
 	<!-- 마이페이지 내용 -->
-
 	<div class="mypage">
 
 		<!-- tab -->
@@ -102,10 +101,12 @@
 			<ul class="tabs">
 				<li class="tab-link current" data-tab="tab1" th:data-tabId-id="1"><a>예매내역</a></li>
 				<li class="tab-link" data-tab="tab2" th:data-tabId-id="2"><a>나의후기</a></li>
-				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜 목록</a></li>
-				<li class="tab-link" data-tab="tab4" th:data-tabId-id="5"><a>회원정보</a></li>
+				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜
+						목록</a></li>
+				<li class="tab-link" data-tab="tab5" th:data-tabId-id="5"><a>회원정보</a></li>
 			</ul>
 		</div>
+
 
 		<!-- 예매내역 -->
 		<div id="tab1" class="tab-content current">
@@ -117,7 +118,7 @@
 			<!--타임리프로 받아올 때 반복문 사용해주기-->
 			<div class="pay_content">
 
-				<img src="/img/review.jpg" alt="예매">
+				<img src="../img/review.jpg" alt="예매">
 				<!-- th:src="${imgUrl}" 넣고 나중에 사진 경로 없애기-->
 
 				<div class="pay_info">
@@ -137,6 +138,9 @@
 							결제내역
 							<hr>
 						</div>
+
+
+						<!-- 결제 내역 모달창 -->
 						<div class="modal_pay md_payinfo">구매정보</div>
 						<div class="modal_pay">
 							<div class="modal_img">
@@ -191,6 +195,7 @@
 			</div>
 		</div>
 
+
 		<!-- 나의 후기 -->
 		<div id="tab2" class="tab-content">
 			<div class="title">
@@ -199,10 +204,13 @@
 			<div class="review_content" th:each="review : ${review}">
 				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
 					alt="예매">
+
 				<div class="review_info">
-					<div class="review_play" th:text="${review.play_title}">2호선 세입자</div>
+					<div class="review_play" th:text="${review.play_title}">2호선
+						세입자</div>
 					<div class="review_date" th:text="${review.review_date}">23.05.31</div>
-					<div class="review_ment" th:text="${review.review_comment}">와~ 대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
+					<div class="review_ment" th:text="${review.review_comment}">와~
+						대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
 				</div>
 				<div class="none">
 					<button class="modal_button">
@@ -213,7 +221,8 @@
 							style="color: #6b6b6b;"></i>
 					</button>
 				</div>
-				
+				<input type="hidden" name="review" id="reviewid"
+										th:value="${review.review_id}">
 				<!-- 리뮤 수정 모달창 -->
 				<div class="modal_overlay hidden">
 					<div class="md_content">
@@ -235,18 +244,19 @@
 											th:text="${review.review_comment}"
 											th:value="${review.review_comment}" cols="25" rows="7"></textarea>
 									</div>
-									<input type="hidden" name="reviewid" id="reviewid"
+									<input type="hidden" name="reviewid"
 										th:value="${review.review_id}">
 								</div>
 							</div>
-						<div class="modal_footer">
-							<button class="check" type="submit">
+							<div class="modal_footer">
+								<button class="check" type="submit">
 									<i class="fa-solid fa-check"></i>
 								</button>
 								<button class="modal_cancle" type="reset">
 									<i class="fa-solid fa-x"></i>
 								</button>
-						</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -254,33 +264,36 @@
 		</div>
 		<script src="../js/mypage_script.js"></script>
 
+
 		<!-- 찜 목록 -->
 		<div id="tab3" class="tab-content">
 			<div class="title">
 				<span>찜 목록</span>
 			</div>
-
 			<div class="content">
 				<div th:each="wish : ${mypage_wish}">
-				<div class="wish_content"
-					th:style="background-image: url('+@{${wish.playposter}}+');">
-
-					<div class="delete">
-						<form action="/mypage_wish" method="post">
-					<input type="hidden" name="playtitle" th:value="${wish.playtitle}">
-					<input type="hidden" name="tabId" value="tab3">
-						<button type="submit">
-							<img src="/img/delete.png" alt="삭제">
-						</button>
-					</form>
+					<div class="wish_content"
+						th:style="'background-image:url('+ @{${wish.playposter}} +');'">
+						<!---->
+						<div class="delete">
+							<form action="/mypage_wish" method="post">
+								<input type="hidden" name="playtitle"
+									th:value="${wish.playtitle}"> <input type="hidden"
+									name="tabId" value="tab3">
+								<button type="submit">
+									<img src="/img/delete.png" alt="삭제">
+								</button>
+							</form>
+						</div>
+						<div class="wish_info" th:text="${wish.playtitle}">2호선 세입자</div>
 					</div>
-					<div class="wish_info" th:text="${wish.playtitle}">2호선 세입자</div>
-				</div>
 				</div>
 			</div>
+
 		</div>
 
-		<!-- 회원정보 == 들어가기 전에 비밀번호 확인해주기-->
+
+		<!-- 회원정보 -->
 		<div id="tab4" class="tab-content">
 			<div class="title">
 				<span>회원정보</span>
@@ -299,6 +312,7 @@
 						<tr>
 							<th>비밀번호</th>
 							<td>
+								<!-- 비밀번호 변경 모달창 -->
 								<div class="modal_button" onclick='init()'>비밀번호 변경</div>
 								<div class="modal_overlay hidden">
 									<div class="md_content">
@@ -306,7 +320,7 @@
 											<div class="md_passwordinfo">비밀번호 변경</div>
 											<hr style="width: 100%;">
 										</div>
-										<form action="/mypage/passwordmodi" method="get">
+										<form action="/mypage/passwordmodi" method="post">
 											<div class="modal_password">
 												<table>
 													<tr>
@@ -328,7 +342,8 @@
 														<td>새 비밀번호 입력</td>
 														<td>
 															<div class="in">
-																<input class="put" onkeyup="passwordValid()" id="password1" type="password"
+																<input class="put" name="newpassword" id="password1"
+																	onkeyup="passwordValid()" type="password"
 																	placeholder="새 비밀번호"> <span
 																	class="focus-border"></span>
 															</div>
@@ -351,7 +366,7 @@
 													</tr>
 													<tr>
 														<td colspan="2">
-															<div id="check"></div>
+															<div id="new_check"></div>
 														</td>
 													</tr>
 												</table>
@@ -370,22 +385,23 @@
 								</div>
 							</td>
 						</tr>
-							<tr>
-								<th>이메일</th>
-								<td>
-									<form action="/mypage/info_modi" method="post">
+
+						<tr>
+							<th>이메일</th>
+							<td>
+								<form action="/mypage/info_modi" method="post">
 									<div class="in">
-										<input class="put" type="email" placeholder=""
-											th:value="${useremail}"> <span
+										<input class="put" id="email" name="email" type="email"
+											placeholder="" th:value="${useremail}"> <span
 											class="focus-border"></span>
 									</div>
-										<input type="hidden" name="tabId" value="tab5">
-								</td>
-							</tr>
-							<tr>
-								<th>주민번호</th>
-								<td th:text="${userrrn}">000101-4</td>
-							</tr>
+									<input type="hidden" name="tabId" value="tab5">
+							</td>
+						</tr>
+						<tr>
+							<th>주민번호</th>
+							<td th:text="${userrrn}">000101-4</td>
+						</tr>
 					</table>
 					<div class="button">
 						<hr>
@@ -393,11 +409,13 @@
 						<button class="submit" type="submit">저장</button>
 						</form>
 					</div>
-					
+
+
 				</div>
 			</div>
-<script src="../js/info.js"></script>
-		</div>	
+
+		</div>
+		<script src="../js/info.js"></script>
 
 		<!-- 회원정보 수정 전 비밀번호 확인 -->
 		<div id="tab5" class="tab-content">

@@ -62,7 +62,7 @@
       <h2 id="review-month"></h2>
       <div class="feed-box">
          <div class="feed-box">
-			<div class="feed" th:each="review, reviewStat:${bestReview}" th:with="play=${play[reviewStat.index]}">
+			<div class="feed" th:each="review, reviewStat:${bestReview}" ><!-- th:with="play=${play[reviewStat.index]}" -->
 				<!-- 리뷰 상단 -->
 				<div class="review-top">
 					<div class="review-ranking">
@@ -79,7 +79,8 @@
 				<div class="review-wrap">
 					<div class="theater-name">
 						<i class="fa-solid fa-clapperboard"></i>
-						<a th:href="@{/play/detail(playId=${play.playId})}" th:text="${review.play_title}">review.play_title</a>
+						<span th:text="${review.play_title}">review.play_title</span>
+						<!-- <a th:href="@{/play/detail(playId=${play.playId})}" th:text="${review.play_title}">review.play_title</a> -->
 					</div>
 					<!-- 연극 이름 -->
 					<div class="icon-box">
@@ -102,7 +103,8 @@
 	      </form>
       </div>
       
-      <div class="feed2" th:each="review, reviewStat:${bestReview}" th:with="play=${play[reviewStat.index]}">
+<!--       <div class="feed2" th:each="review, reviewStat:${review}" th:with="play=${play[reviewStat.index]}">
+ -->      <div class="feed2" th:each="review, reviewStat:${review}">
          <!-- 리뷰 상단 -->
 	         <div class="review-top">
 	            <i class="fa-solid fa-user"></i>
@@ -122,7 +124,8 @@
 	            </div>
 	         </div>
 	         <div class="theater-name">
-	            <i class="fa-solid fa-clapperboard"></i><a th:href="@{/play/detail(playId=${play.playId})}"
+	            <i class="fa-solid fa-clapperboard"></i>
+	            <a
 	               th:text="${review.play_title}">연극라면</a>
 	         </div>
 	         <!-- 연극 이름 -->

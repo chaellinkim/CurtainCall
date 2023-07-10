@@ -53,19 +53,22 @@ a{
     color: rgb(107, 107, 107);
 }
 /* 연극 더보기 */
-.add-theater{
+.add-theater,
+.add-review{
     text-align: end;
     margin-bottom: 8px;
 }
-.add-theater a {
-    font-size: 14px;
+.add-theater a,
+.add-review a {
+    font-size: 15px;
     color: #d2d2d2;
     cursor: pointer;
     display: inline-block;
     position: relative;
     z-index: 1;
 }
-.add-theater a:hover::after{
+.add-theater a:hover::after,
+.add-review a:hover::after{
     content: "";
     position: absolute;
     left: 0;
@@ -362,6 +365,9 @@ td {
     align-items: center;
     margin-bottom: 8px;
     color: black;
+}
+.add-review a {
+    color: rgb(121, 121, 121);	
 }
 .theater-name{
     font-weight: 800;

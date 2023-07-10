@@ -7,6 +7,7 @@
 <title>CurtainCall</title>
 <link rel="stylesheet" href="/css/join.css">
 <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-96x96.png"> <!-- Favicon -->
 <!-- <script type="text/javascript" src="../js/idDuplication.js"></script> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -132,7 +133,6 @@
 
       
  //비밀번호 유효성 검사
-
    function passwordValid(){
 
    	var password = document.getElementById('password').value;
@@ -203,70 +203,63 @@
 	}
 </script>
 </head>
+
 <body>
+	<div id="content-wrap">
+	    <div class="center-box">
+	        <a href="/" id="main_logo" title="메인으로 이동"><img src="/img/main_logo.png" style="width: 100%; height: auto;"></a>
+	        
+	        <div class="joinForm">
+	            <form action="/joincheck" method="post">
+	                <!-- 로그인 타입 -->
+	                <input type="hidden" name="login" th:value="${logintype}">
 
+	                <div class="joinContent">
+	                    <label for="id">아이디</label> <input type="text" id="id" name="userId" onkeyup="idCheckInit()">
+	                    <button type="button" id="id_verification">중복 확인</button>
+	                    <br> <input type="hidden" id="Check" value="0">
+	                    <!-- 0이 미확인, 1: 확인 -->
+	                </div>
 
-	   <div class="center-box">
-      <div class="logo">
-         <a href="/"><img src="img/logo.png" alt="로고이미지"
-            style="width: 13vw; height: auto;"></a>
-      </div>
-      <div class="joinForm">
-         <form action="/joincheck" method="post" onsubmit="return submitCheck();">
+	                <div class="joinContent">
+	                    <label for="password">비밀번호</label> <input type="password" id="password" name="userPw"><br>
+	                </div>
 
-            <!-- 로그인 타입 -->
-            <input type="hidden" name="login" th:value="${logintype}">
+	                <div class="joinContent">
+	                    <label for="passwordConfirm">비밀번호 확인</label> <input type="password" id="passwordConfirm"
+	                        name="userPwConfirm">
+	                    <button type="button" id="get_verification_code" onclick="confirm()">확인</button>
+	                    <br>
+	                </div>
 
-            <div class="joinContent">
-               <label for="id">아이디</label> <input type="text" id="id"
-                  name="userId" onkeyup="idCheckInit()">
-               <button type="button" id="id_verification">중복 확인</button>
-               <br> <input type="hidden" id="Check" value="0">
-               <!-- 0이 미확인, 1: 확인 -->
-            </div>
+	                <div class="joinContent">
+	                    <label for="name">이 름</label> <input type="text" id="name" name="userName" th:value="${name}"><br>
+	                </div>
 
-            <div class="joinContent">
-               <label for="password">비밀번호</label> <input type="password"
-                  id="password" name="userPw"  onkeyup="passwordValid()"><br>
-            </div>
+	                <div class="joinContent">
+	                    <label for="jumin">생년월일</label> <input id="juminInput" name="rrn" pattern="\d{6}" maxlength="6"
+	                        placeholder="YYMMDD" type="text" required><br>
+	                </div>
 
-            <div class="joinContent">
-               <label for="passwordConfirm">비밀번호 확인</label> <input type="password"
-                  id="passwordConfirm" name="userPwConfirm">
-               <button type="button" id="get_verification_code"
-                  onclick="confirm()">확인</button>
-               <br>
-            </div>
+	                <div class="joinContent">
+	                    <label for="email">성 별</label>
+	                    <input type="radio" id="genderF" name="gender" value="F" required>
+	                    <label for="genderF">여자</label>
+	                    <input type="radio" id="genderM" name="gender" value="M" required>
+	                    <label for="genderM">남자</label><br>
+	                </div>
 
-            <div class="joinContent">
-               <label for="name">이름</label> <input type="text" id="name"
-                  name="userName" th:value="${name}" onkeyup="nameValid()"><br>
-            </div>
+	                <div class="joinContent">
+	                    <label for="email">이메일</label> <input type="email" id="email" name="email" th:value="${email}"
+	                        required> <br>
+	                </div>
 
-            <div class="joinContent">
-               <label for="jumin">생년월일</label> <input id="juminInput" name="rrn"
-                  pattern="\d{6}" maxlength="6" placeholder="YYMMDD" type="text"
-                  required onkeyup="rrnValid()"><br>
-            </div>
-
-            <div class="joinContent">
-               <label for="email">성별</label> <input type="radio" id="gender"
-                  name="gender" value="F" required>여자 <input type="radio"
-                  id="gender" name="gender" value="M" required>남자 <br>
-            </div>
-
-            <div class="joinContent">
-               <label for="email">이메일</label> <input type="email" id="email"
-                  name="email" th:value="${email}" required onfocus="genderValid()" onkeyup="emailValid()"> <br>
-            </div>
-
-            <button type="button" id="submitBtn" onclick="submitCheck()">가입하기</button>
-         </form>
-      </div>
-   </div>
-   
-   <!-- Footer -->
-	<th:block th:replace="footer :: footer"></th:block>
-
+	                <div class="submitBtnContent">
+	                	<button type="submit" id="submitBtn" onclick="submitCheck()">가입하기</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
 </body>
 </html>

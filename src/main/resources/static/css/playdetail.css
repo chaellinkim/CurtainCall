@@ -43,14 +43,20 @@ a {
 	margin-bottom: 20px;
 }
 .theater-title h1{
-	font-size: 28px;
+	display: block;
+	font-size: 26px;
 	font-weight: 800;
+	width: 90%;
+	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
 }
 .theater-detail{
 	display: flex;
 	align-items: center;
 	column-gap: 4px;
 	margin-bottom: 22px;
+	width: 100%;
 }
 .theater-detail.first {
 	margin-top: 28px;
@@ -60,6 +66,9 @@ a {
 	font-size: 25px;
 	cursor: pointer;
 	color: #dc143c
+}
+.hr{
+	width: 95%;
 }
 /* 예매박스 */
 .reserve-wrap {

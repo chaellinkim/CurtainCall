@@ -15,7 +15,7 @@ p{
 .content-wrap{
     width: 65vw;
     min-width: 865px;
-    margin: 10px auto 0 auto;
+    margin: 10px auto 100px auto;
 }
 .main{
     display: flex;

@@ -362,7 +362,7 @@ function deleteWish(){
 					<input type="hidden" id="playPoster" name="playposter"
 						th:value="${playPoster}">
 				</div>
-				<hr>
+				<hr class="hr">
 				<div class="theater-detail first">
 					<i class="fa-solid fa-coins"></i>&nbsp;
 					<span th:if="${play.isPresent()}" th:text="${play.get().playPrice}"></span>
