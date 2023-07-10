@@ -12,7 +12,7 @@
 <script th:inline = "javascript">
 $(document).ready(function () {
 	var sessionUserLoginId = [[${session.user_loginId}]];	//로그인중인 userLoginId 가져오기
-	var sessionUserState = /*[[${session.user_state}]]*/;
+	var sessionUserState = [[${session.user_state}]];
 	console.log("session: " + sessionUserLoginId);
 	
 	var urlParams = new URLSearchParams(window.location.search);

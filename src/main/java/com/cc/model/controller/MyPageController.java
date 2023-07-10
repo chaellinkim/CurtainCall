@@ -1,6 +1,7 @@
 package com.cc.model.controller;
 
 import java.io.IOException;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import com.cc.model.repository.UserRepository;
 import com.cc.model.repository.WishRepository;
 import com.cc.model.service.PlayService;
 import com.cc.model.service.ReviewService;
+
 import com.cc.model.service.UserService;
 import com.cc.model.service.WishService;
 
@@ -38,62 +40,65 @@ public class MyPageController {
 	SHA256 sha256 = new SHA256();
 	
 	@Autowired
+	private PlayService playSvc;
+
+	@Autowired
 	private UserService userSvc;
-	
+
 	@Autowired
 	private UserRepository userRep;
-	
+
 	@Autowired
 	private WishRepository wishRep;
-	
+
 	@Autowired
 	private WishService wishSvc;
-
+	
 	@Autowired
 	private ReviewService reviewSvc;
 	
 	@Autowired
 	private ReviewRepository reviewRep;
-	
-	@Autowired
-	private PlayService playSvc;
-	
-	@RequestMapping("/mypage")
-	public String Mypage(HttpSession session, Model model)throws Exception {
 
-		Integer id = (Integer) session.getAttribute("user_id"); //로그인한 유저 식별자 가져옴
-		
-		/*회원정보 탭*/
-		//로그인한 유저의 정보를 가져옴
-		Optional<User> mypage_user = userSvc.findOne(id);  
-		
+	@RequestMapping("/mypage")
+	public String Mypage(HttpSession session, Model model) throws Exception {
+
+		Integer id = (Integer) session.getAttribute("user_id"); // 로그인한 유저 식별자 가져옴
+
+		/* 회원정보 탭 */
+		// 로그인한 유저의 정보를 가져옴
+		Optional<User> mypage_user = userSvc.findOne(id);
+
 		String username = mypage_user.orElse(new User()).getUser_namecypher();
 		String userid = mypage_user.orElse(new User()).getUser_logincypher();
 		String useremail = mypage_user.orElse(new User()).getUser_emailcypher();
 		String userrrn = mypage_user.orElse(new User()).getUser_rrncypher();
-		model.addAttribute("user_state", session.getAttribute("user_state")); 
+		model.addAttribute("user_state", session.getAttribute("user_state"));
 
-		model.addAttribute("user_id", aes256.decrypt(userid)); //유저 아이디
-		model.addAttribute("username", aes256.decrypt(username)); //유저 이름
-		model.addAttribute("useremail", aes256.decrypt(useremail)); //유저 이메일
-		model.addAttribute("userrrn", aes256.decrypt(userrrn)); //유저 주민번호
-		
-		
-		/*찜 목록 탭*/
-		//로그인한 유저의 찜 목록을 가져옴
+		model.addAttribute("user_id", aes256.decrypt(userid)); // 유저 아이디
+		model.addAttribute("username", aes256.decrypt(username)); // 유저 이름
+		model.addAttribute("useremail", aes256.decrypt(useremail)); // 유저 이메일
+		model.addAttribute("userrrn", aes256.decrypt(userrrn)); // 유저 주민번호
+
+		/* 찜 목록 탭 */
+		// 로그인한 유저의 찜 목록을 가져옴
 		List<Wish> mypage_wish = wishSvc.findAllByUserid(id);
-		
+
 		System.out.println(mypage_wish.size());
-		for(Wish w:mypage_wish) {
+		for (Wish w : mypage_wish) {
 			System.out.println(w.toString());
 		}
-		
+
 		model.addAttribute("mypage_wish", mypage_wish);
-		
-		/*나의 후기 탭*/
+
+		/* 나의 후기 탭 */
+
 		List<Review> mypage_review = reviewRep.findByUser_id(id);
 		List<User> user = userRep.findAll();
 		
+		for(Review m : mypage_review) {
+            System.out.println(m.getReview_id());
+        }
 		//바이트 --> 문자열로 바꾸기 
 		for (Review rev : mypage_review) {
 	        byte[] imageData = rev.getReview_img();
@@ -110,28 +115,29 @@ public class MyPageController {
 	    }
 		
 		model.addAttribute("review", mypage_review);
-		/*예매 내역 탭*/
 		
+		/* 예매 내역 탭 */
+
 		return "mypage";
 	}
 
 	//찜 삭제
-    @PostMapping("/mypage_wish")
-    public String WishDelete(HttpSession session, Model model, String playtitle, String tabId) {
+	@PostMapping("/mypage_wish")
+	public String WishDelete(HttpSession session, Model model, String playtitle, String tabId) {
 
-        Integer id = (Integer) session.getAttribute("user_id"); // 로그인한 유저 식별자 가져옴
+		Integer id = (Integer) session.getAttribute("user_id"); // 로그인한 유저 식별자 가져옴
+		
+		if (wishSvc.deleteWish(playtitle, id) > 0) {
+			playSvc.discountCount(playtitle);
+			return "redirect:/mypage?tabId=" + tabId;
+		} else {
+			model.addAttribute("msg", "error");
+			return "redirect:/mypage?tabId=" + tabId;
+		}
 
-        if (wishSvc.deleteWish(playtitle, id) > 0) {
-            playSvc.discountCount(playtitle);
-            return "redirect:/mypage?tabId=" + tabId;
-        } else {
-            model.addAttribute("msg", "error");
-            return "redirect:/mypage?tabId=" + tabId;
-        }
+	}
 
-    }
-
-		// 이메일 변경
+	// 이메일 변경
 	@PostMapping("/mypage/info_modi")
 	public String InfoUpdate(String email, HttpSession session) throws Exception {
 
@@ -144,7 +150,8 @@ public class MyPageController {
 		return "redirect:/mypage?tabId=tab4";
 	}
 
-		// 비밀번호 변경
+	
+	// 비밀번호 변경
 	@PostMapping("/mypage/passwordmodi")
 	public String PasswordUpdate(String newpassword, HttpSession session) throws NoSuchAlgorithmException {
 
@@ -155,8 +162,8 @@ public class MyPageController {
 
 		return "redirect:/mypage?tabId=tab4";
 	}
-
-		// 현재 비밀번호 확인
+	
+	// 현재 비밀번호 확인
 	@ResponseBody
 	@PostMapping("/mypage/pwcheck")
 	public int PasswordCheck(HttpSession session, @RequestParam("password") String password)

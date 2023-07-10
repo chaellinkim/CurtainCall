@@ -2,19 +2,15 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-<meta name="google-signin-client_id"
-	content="495904474836-tk1nqtp4mb7fdh6l6m013rvtm2bgf9gi.apps.googleusercontent.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-   <link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
-    <title>CurtainCall-로그인</title>
+	<meta charset="UTF-8">
+	<meta name="google-signin-client_id" content="495904474836-tk1nqtp4mb7fdh6l6m013rvtm2bgf9gi.apps.googleusercontent.com">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" /> 
+	<link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-96x96.png"> <!-- Favicon -->
+	<title>CurtainCall</title>
     <link href="css/login_style.css" rel="stylesheet" type="text/css">
-
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript">
-
         function login(){
         	var id = document.getElementById('id').value;
         	var pw = document.getElementById('password').value;
@@ -30,17 +26,12 @@
         	}
         }
     </script>
-    <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-	<!-- Header -->
-    <th:block th:include="header :: body"></th:block>
-
     <div id="content-wrap">
         <div class="login_box">
-
-            <a href="/"><img id="main_logo" src="img/main_logo.png"></a>
+            <a href="/" id="main_logo" title="메인으로 이동"><img src="img/main_logo.png" style="width: 100%; height: auto;"></a>
 
             <form action="/logincheck" method="post">
                 <input type="text" name="id" placeholder="아이디">
@@ -50,8 +41,8 @@
             </form>
 
             <div class="find">
-                <a href="id_find.html">아이디찾기&nbsp;&nbsp;|&nbsp;</a>
-                <a href="password_find.html">비밀번호 찾기&nbsp;&nbsp;|</a>
+                <a href="/login/idfind">아이디찾기&nbsp;&nbsp;|&nbsp;</a>
+                <a href="/login/password_find">비밀번호 찾기&nbsp;&nbsp;|</a>
                 <a href="/join">&nbsp;회원가입</a>
             </div>
 
@@ -69,9 +60,6 @@
 
         </div>
     </div>
-
-    <!-- Footer -->
-	<th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>
