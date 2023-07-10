@@ -8,22 +8,16 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
-import com.cc.model.entity.Review;
 import com.cc.model.entity.User;
 import com.cc.model.entity.Wish;
-import com.cc.model.repository.ReviewRepository;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.repository.WishRepository;
 import com.cc.model.service.PlayService;
@@ -53,7 +47,7 @@ public class MyPageController {
 
 	@Autowired
 	private WishService wishSvc;
-	
+  
 	@Autowired
 	private ReviewService reviewSvc;
 	
@@ -134,7 +128,6 @@ public class MyPageController {
 			model.addAttribute("msg", "error");
 			return "redirect:/mypage?tabId=" + tabId;
 		}
-
 	}
 
 	// 이메일 변경

@@ -38,4 +38,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   @Modifying
   @Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
   int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
+  
 }

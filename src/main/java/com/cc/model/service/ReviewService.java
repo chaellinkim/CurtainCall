@@ -17,7 +17,6 @@ import com.cc.model.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
-
     @Autowired
     ReviewRepository reviewRep;
 

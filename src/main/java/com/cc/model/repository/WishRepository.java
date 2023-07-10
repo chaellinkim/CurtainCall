@@ -27,9 +27,9 @@ public interface WishRepository extends JpaRepository<Wish, Long>{
 	
 	List<Wish> findByUserid(int user_id);
 	
-	//repository
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Wish WHERE PLAY_TITLE=?1")
-    int deleteByPlaytitle(String playtitle, int userid);
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Wish WHERE PLAY_TITLE=?1")
+	int deleteByPlaytitle(String playtitle);
+	
 }

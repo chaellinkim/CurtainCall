@@ -53,7 +53,7 @@ public class PlayService {
 	}
 	public int updateCount(String playTitle) {
 		//System.out.println("call"+playId+" "+count);
-		return playRepository.updateCount(playTitle);
+		return playRepository.updateCount(String playTitle);
 	}
 	public List<Play> selectBestPlay(){
 		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
