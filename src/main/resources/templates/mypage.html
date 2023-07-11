@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>CurtainCall-마이페이지</title>
-<th:block th:include="header :: head"></th:block>
+<title>CurtainCall</title>
 <link rel="stylesheet" href="../css/mypage_style.css">
 <link rel="stylesheet" href="../css/pay_style.css">
 <link rel="stylesheet" href="../css/pay_modal.css">
@@ -16,15 +15,10 @@
 <link rel="stylesheet" href="../css/info_style.css">
 <link rel="stylesheet" href="../css/info_modal.css">
 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<script src="https://kit.fontawesome.com/fe66fff399.js"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="https://kit.fontawesome.com/fe66fff399.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 <script type="text/javascript">
-
-
 	$(document).ready(function() {
 		var urlParams = new URLSearchParams(window.location.search);
 		var tabId = urlParams.get('tabId');
@@ -84,13 +78,211 @@
 
 	}
 	
-</script>
+  const cancleModal = () => {
+	    document.querySelector(".info_info .modal_overlay").classList.add("hidden");
+	    document.body.classList.remove('modal-open');
+	  };
 
+	  const onClicked = () => {
+	    document.querySelector(".info_info .modal_overlay").classList.remove("hidden");
+	    document.body.classList.add('modal-open');
+	  };
+
+	  function init() {
+	    const modalButton = document.querySelector(".info_info .modal_button");
+	    const modalCancleButton = document.querySelector(".info_info .modal_cancle");
+	    if (modalButton) {
+	      modalButton.addEventListener("click", onClicked);
+	    }
+	  
+	    if (modalCancleButton) {
+	      modalCancleButton.addEventListener("click", cancleModal);
+	    }
+	  }
+
+
+	  function test(){
+	    var p1 = document.getElementById('password1').value;
+	    var p2 = document.getElementById('password2').value;
+
+	    if( p1 === p2 ) {
+	      document.getElementById('new_check').innerHTML='비밀번호가 일치합니다.'
+	      document.getElementById('new_check').style.color="#1a43fb";
+	    } else{
+	      document.getElementById('new_check').innerHTML='비밀번호가 일치하지 않습니다.';
+	      document.getElementById('new_check').style.color='#ff2121';
+	    }
+	  }
+
+	  function del(){
+	    document.getElementById('new_check').innerHTML='';
+	  }
+	  
+	  
+	  function passwordValid(){
+
+	      var password = document.getElementById('password1').value;
+
+	      var pattern = /^(?=.*[a-zA-Z])(?=.*[!@?#();\.])(?=.*[0-9]).{7,15}$/
+	      
+	         if(password === ''){
+	            document.getElementById('pw_check').innerHTML='비밀번호는 필수정보입니다.'
+	            document.getElementById('pw_check').style.color="red";
+	         }else{
+	            if(pattern.test(password)){
+	               document.getElementById('pw_check').innerHTML='';
+	            }else{
+	               document.getElementById('pw_check').innerHTML= '7~15자의 영문 대 소문자, 숫자, 특수문자(!,@,?,#,(,),;,.)를 사용하세요';
+	               document.getElementById('pw_check').style.color="red";
+	            }
+	         }
+	   }
+	   
+	      //현재 비밀번호 확인
+	   $(document).ready(function() {
+
+	      $("#password").blur(function() {
+	         
+	       var password = document.getElementById('password').value;
+	         
+	         //아이디를 입력하지 않았을 경우
+	         if(password === ""){
+	            document.getElementById('check').innerHTML="보안을 위해 현재 비밀번호를 입력해주세요.";
+	            document.getElementById('check').style.color="red";
+	            document.getElementById('password').focus();
+	            return;
+	         }else{
+
+	         $.ajax({
+	            url : '/mypage/pwcheck',
+	            type : 'post',
+	            data : {
+	               'password' : password
+	            },
+	            dataType : 'json',
+	            success : function(result) {
+	               if (result === 0) {
+	                  document.getElementById('check').innerHTML="";
+	               } else {
+	                  document.getElementById('check').innerHTML="현재 비밀번호가 일치하지 않습니다.";
+	                  document.getElementById('check').style.color="red";
+	               }
+	            },
+	            error : function(req, status) {
+	               alert(status);
+	            }
+	         })
+	         }
+	      });
+
+	   });
+	   
+	   //회원정보 수정 전 비밀번호 확인
+	   function pwCheck(){
+	   
+	      var password = document.getElementById('ckpassword').value;
+	         
+	         console.log(password);
+	         
+	         //아이디를 입력하지 않았을 경우
+	         if(password === ""){
+	            document.getElementById('pwcheck').innerHTML="보안을 위해 현재 비밀번호를 입력해주세요.";
+	            document.getElementById('pwcheck').style.color="red";
+	            document.getElementById('password').focus();
+	            return;
+	         }else{
+
+	         $.ajax({
+	            url : '/mypage/pwcheck',
+	            type : 'post',
+	            data : {
+	               'password' : password
+	            },
+	            dataType : 'json',
+	            success : function(result) {
+	               if (result === 0) {
+	                  document.getElementById('pwcheck').innerHTML="";
+	                  window.location.href="/mypage?tabId=tab4";
+	               } else {
+	                  document.getElementById('pwcheck').innerHTML="비밀번호가 일치하지 않습니다.";
+	                  document.getElementById('pwcheck').style.color="red";
+	               }
+	            },
+	            error : function(req, status) {
+	               alert(status);
+	            }
+	      });
+	      }
+	      }
+	      
+	      
+	   //회원탈퇴
+	   function checkdelete() {
+
+	      $.ajax({
+	         url : '/mypage/withdrawal',
+	         type : 'post',
+	         success: function(response) {
+	         
+	               if(response === "true"){
+	                  alert("감사합니다");
+	                  window.location.href="/";
+	               }else{
+	                  alert("다시 한 번 시도해주세요");
+	               }
+	             },
+	             error: function(xhr, status, error) {
+	               console.log('요청이 실패했습니다.');
+	               alert('에러 메시지: ' + error);
+	               // 필요한 작업 수행
+	             }
+	         });
+	   }
+	   
+	   //탈퇴 전 비밀번호 확인
+	   function deleteCheck(){
+	   
+	      var password = document.getElementById('deletepassword').value;
+	         
+	         console.log(password);
+	         
+	         //아이디를 입력하지 않았을 경우
+	         if(password === " "){
+	            document.getElementById('deletecheck').innerHTML="보안을 위해 현재 비밀번호를 입력해주세요.";
+	            document.getElementById('deletecheck').style.color="red";
+	            document.getElementById('deletepassword').focus();
+	            return;
+	         }else{
+
+	         $.ajax({
+	            url : '/mypage/pwcheck',
+	            type : 'post',
+	            data : {
+	               'password' : password
+	            },
+	            dataType : 'json',
+	            success : function(result) {
+	               if (result === 0) {
+	                  document.getElementById('deletecheck').innerHTML="일치";
+	                  document.getElementById('deletecheck').style.color="red";
+	               } else {
+	                  document.getElementById('deletecheck').innerHTML="비밀번호가 일치하지 않습니다.";
+	                  document.getElementById('deletecheck').style.color="red";
+	               }
+	            },
+	            error : function(req, status) {
+	               alert(status);
+	            }
+	      	});
+		}
+	}
+
+</script>
+<th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
 	<!-- Header -->
-	<!-- 헤더 nav -->
 	<th:block th:include="header :: body"></th:block>
 
 	<!-- 마이페이지 내용 -->
@@ -101,8 +293,7 @@
 			<ul class="tabs">
 				<li class="tab-link current" data-tab="tab1" th:data-tabId-id="1"><a>예매내역</a></li>
 				<li class="tab-link" data-tab="tab2" th:data-tabId-id="2"><a>나의후기</a></li>
-				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜
-						목록</a></li>
+				<li class="tab-link" data-tab="tab3" th:data-tabId-id="3"><a>찜 목록</a></li>
 				<li class="tab-link" data-tab="tab5" th:data-tabId-id="5"><a>회원정보</a></li>
 			</ul>
 		</div>
@@ -114,23 +305,19 @@
 				<span>예매내역</span>
 			</div>
 
-			<!-- 나중에 반복되는 요소 -->
-			<!--타임리프로 받아올 때 반복문 사용해주기-->
-			<div class="pay_content">
-
-				<img src="../img/review.jpg" alt="예매">
-				<!-- th:src="${imgUrl}" 넣고 나중에 사진 경로 없애기-->
+			<div class="pay_content"  th:each="play:${play}">
+				<img th:src ="@{${play.playPoster}}" alt="예매">
 
 				<div class="pay_info">
-					<div class="pay_play">2호선 세입자</div>
-					<div class="pay_place">관람 장소 &nbsp; 바탕골 소극장</div>
-					<div class="pay_date">관람 일시 &nbsp; 2023년 5월 31일(수) 15:00</div>
-					<div class="pay_seat">관람 좌석 &nbsp; 현장 선택</div>
+					<div class="pay_play" th:text="${play.playTitle}">play.playTitle</div>
+					<div class="pay_place" >관람 장소 &nbsp;&nbsp; <span th:text="${play.playPlace}">play.playPlace</span></div>
+					<div class="pay_date" >관람 일시 &nbsp;&nbsp; <span th:text="${play.Date}">play.Date</span> <span th:text="| ${play.time}|">15:00</span></div>
+					<div class="pay_seat">관람 좌석 &nbsp;&nbsp; <span>현장 선택</span></div>
 				</div>
 
 				<div class="pay_modal">
 					<button class="modal_button">결제내역 ></button>
-					<img src="img/qr.png">
+					<img src="img/Ann_qr.png">
 				</div>
 				<div class="modal_overlay hidden">
 					<div class="md_content">
@@ -139,22 +326,21 @@
 							<hr>
 						</div>
 
-
 						<!-- 결제 내역 모달창 -->
 						<div class="modal_pay md_payinfo">구매정보</div>
 						<div class="modal_pay">
 							<div class="modal_img">
-								<img src="img/review.jpg" style="width: 7vw">
+								<img th:src ="@{${play.playPoster}}" style="width: 7vw">
 							</div>
 							<div class="modal_info">
 								<table>
 									<tr>
 										<th>연극명</th>
-										<td>2호선 세입자</td>
+										<td th:text="${play.playTitle}">play.playTitle</td>
 									</tr>
 									<tr>
 										<th>관람 일자</th>
-										<td>2023년 5월 31일(수) 15:00</td>
+										<td th:text="|${play.date}  ${play.time}|">2023년 5월 31일(수) 15:00</td>
 									</tr>
 									<tr>
 										<th>관람 좌석</th>
@@ -169,19 +355,19 @@
 							<table>
 								<tr>
 									<th>결제일</th>
-									<td>23.05.30</td>
+									<td th:text="${play.paymentDate}">play.paymentDate</td>
 								</tr>
 								<tr>
 									<th>결제금액</th>
-									<td>30000</td>
+									<td th:text="${play.price}">play.price</td>
 								</tr>
 								<tr>
 									<th>결제 번호</th>
-									<td>202305301234</td>
+									<td th:text="${play.merchantUid}">play.merchantUid</td>
 								</tr>
 								<tr>
 									<th>결제 수단</th>
-									<td>네이버페이(간편 결제)</td>
+									<td>카카오페이</td>
 								</tr>
 							</table>
 						</div>
@@ -203,26 +389,23 @@
 			</div>
 			<div class="review_content" th:each="review : ${review}">
 				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-					alt="예매">
+					 alt="예매">
 
 				<div class="review_info">
-					<div class="review_play" th:text="${review.play_title}">2호선
-						세입자</div>
-					<div class="review_date" th:text="${review.review_date}">23.05.31</div>
-					<div class="review_ment" th:text="${review.review_comment}">와~
-						대박~ 미쳤다~ 연극계를 뒤집어놓으셨다~</div>
+					<div class="review_play" th:text="${review.play_title}">review.play_title</div>
+					<div class="review_date" th:text="${review.review_date}">review.review_date</div>
+					<div class="review_ment" th:text="${review.review_comment}">review.review_comment</div>
 				</div>
 				<div class="none">
 					<button class="modal_button">
 						<i class="fa-solid fa-pencil" style="color: #6b6b6b;"></i>
 					</button>
 					<button class="trash">
-						<i class="fa-solid fa-trash" onclick="deleteReview()"
-							style="color: #6b6b6b;"></i>
+						<i class="fa-solid fa-trash" onclick="deleteReview()" style="color: #6b6b6b;"></i>
 					</button>
 				</div>
-				<input type="hidden" name="review" id="reviewid"
-										th:value="${review.review_id}">
+				<input type="hidden" name="review" id="reviewid" th:value="${review.review_id}">
+				
 				<!-- 리뮤 수정 모달창 -->
 				<div class="modal_overlay hidden">
 					<div class="md_content">
@@ -231,21 +414,17 @@
 							<div class="modal_review">
 								<div class="asdf">
 									<div class="file">
-										<img
-											th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-											alt="예매"> <input type="file" accept="image/*"
-											multiple="multiple" id="img" name="img">
+										<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}" alt="예매"> 
+										<input type="file" accept="image/*" multiple="multiple" id="img" name="img">
 									</div>
 									<div class="review_info">
 										<div class="review_play" th:text="${review.play_title}"></div>
 										<div class="review_name"></div>
 										<div class="review_date" th:text="${review.review_date}"></div>
-										<textarea name="comment" id="review_ment"
-											th:text="${review.review_comment}"
-											th:value="${review.review_comment}" cols="25" rows="7"></textarea>
+										<textarea name="comment" id="review_ment" th:text="${review.review_comment}"
+												  th:value="${review.review_comment}" rows="8"></textarea>
 									</div>
-									<input type="hidden" name="reviewid"
-										th:value="${review.review_id}">
+									<input type="hidden" name="reviewid" th:value="${review.review_id}">
 								</div>
 							</div>
 							<div class="modal_footer">
@@ -272,21 +451,22 @@
 			</div>
 			<div class="content">
 				<div th:each="wish : ${mypage_wish}">
-					<div class="wish_content"
-						th:style="'background-image:url('+ @{${wish.playposter}} +');'">
-						<!---->
-						<div class="delete">
-							<form action="/mypage_wish" method="post">
-								<input type="hidden" name="playtitle"
-									th:value="${wish.playtitle}"> <input type="hidden"
-									name="tabId" value="tab3">
-								<button type="submit">
-									<img src="/img/delete.png" alt="삭제">
-								</button>
-							</form>
+					<a th:href="@{/play/detail(playId=${wish.playId})}">
+						<div class="wish_content"
+							 th:style="'background-image:url('+ @{${wish.playposter}} +');'">
+							<!-- 찜 삭제 -->
+							<div class="delete">
+								<form action="/mypage_wish" method="post">
+									<input type="hidden" name="playtitle" th:value="${wish.playtitle}">
+									<input type="hidden" name="tabId" value="tab3">
+									<button type="submit">
+										<img src="/img/delete.png" alt="삭제">
+									</button>
+								</form>
+							</div>
+							<div class="wish_info" th:text="${wish.playtitle}">wish.playtitle</div>
 						</div>
-						<div class="wish_info" th:text="${wish.playtitle}">2호선 세입자</div>
-					</div>
+					</a>
 				</div>
 			</div>
 
@@ -303,11 +483,11 @@
 					<table>
 						<tr>
 							<th>아이디</th>
-							<td th:text="${user_id}">abcd1234</td>
+							<td th:text="${user_id}">user_id</td>
 						</tr>
 						<tr>
 							<th>이름</th>
-							<td th:text="${username}">두레</td>
+							<td th:text="${username}">username</td>
 						</tr>
 						<tr>
 							<th>비밀번호</th>
@@ -391,31 +571,28 @@
 							<td>
 								<form action="/mypage/info_modi" method="post">
 									<div class="in">
-										<input class="put" id="email" name="email" type="email"
-											placeholder="" th:value="${useremail}"> <span
-											class="focus-border"></span>
+										<input class="put" id="email" name="email" type="email" th:value="${useremail}"> 
+										<span class="focus-border"></span>
 									</div>
 									<input type="hidden" name="tabId" value="tab5">
+								</form>
 							</td>
 						</tr>
 						<tr>
 							<th>주민번호</th>
-							<td th:text="${userrrn}">000101-4</td>
+							<td th:text="${userrrn}">userrrn</td>
 						</tr>
 					</table>
 					<div class="button">
 						<hr>
 						<button class="reset" type="reset">취소</button>
 						<button class="submit" type="submit">저장</button>
-						</form>
 					</div>
-
 
 				</div>
 			</div>
 
 		</div>
-		<script src="../js/info.js"></script>
 
 		<!-- 회원정보 수정 전 비밀번호 확인 -->
 		<div id="tab5" class="tab-content">
@@ -423,10 +600,11 @@
 				<span>회원정보</span>
 			</div>
 			<div class="info_password">
-				개인정보 보호를 위해 회원정보 수정 전 비밀번호를 확인합니다. 현재 비밀번호를 입력해주세요.
+				개인정보 보호를 위해 회원정보 수정 전 비밀번호를 확인합니다.<br>
+				현재 비밀번호를 입력해주세요.
 				<table>
 					<tr>
-						<td>현재 비밀번호 입력</td>
+						<th>비밀번호 입력</th>
 						<td>
 							<div class="in">
 								<input class="put" id="ckpassword" type="password"
@@ -449,22 +627,23 @@
 				<span>회원 탈퇴</span>
 			</div>
 			<div class="deleteUser">
-			
 				<div class="des">
-					저희 CurtainCall은 앞으로도 연극 진흥을 위해 노력하겠습니다. <br> 저희와 함께 하지 않으시더라도
-					연극에 많은 관심과 사랑 부탁드립니다.<br> CurtainCall과 함께 해주셔서 감사했습니다.<br>
-					다시 뵙는 날이 찾아오기를 바랍니다.
+					저희 CurtainCall은 앞으로도 연극 진흥을 위해 노력하겠습니다. <br>
+					저희와 함께 하지 않으시더라도 연극에 많은 관심과 사랑 부탁드립니다.<br>
+					CurtainCall과 함께 해주셔서 감사했습니다.<br>
+					다시 뵙는 날이 찾아오기를 바랍니다.<br><br><br>
+					
+					본인 확인을 위해 비밀번호를 입력한 후, "탈퇴" 버튼을 눌러주세요.<br>
+					<p>(* 회원 탈퇴 시 모든 정보와 DB가 자동삭제 됩니다.)</p>
 				</div>
-				본인 확인을 위해 비밀번호를 입력한 후, "탈퇴" 버튼을 눌러주세요.<br>(회원 탈퇴 시 모든 정보와 DB가
-				자동삭제 됩니다.)
 				<table>
 					<tr>
-						<th>현재 비밀번호 입력</th>
+						<th>비밀번호 입력</th>
 						<td>
 							<div class="in">
 								<input class="put" id="deletepassword" type="password"
-									placeholder="현재 비밀번호" onblur="deleteCheck()"> <span
-									class="focus-border"></span>
+									placeholder="현재 비밀번호" onblur="deleteCheck()">
+								<span class="focus-border"></span>
 							</div>
 						</td>
 						<td><button class="checkdelete" onclick="checkdelete()">회원탈퇴</button></td>
@@ -484,13 +663,12 @@
 				<div class="img">
 					<img src="../img/logo.png"></img>
 				</div>
-				<span th:text="|${username}님|"></span> <span>안녕하세요!</span>
+				<span th:text="|${username}님,|"></span> <span>안녕하세요!</span>
 				<div class="user_button"></div>
 				<div class="user_detail">
-					<a href="/mypage?tabId=tab5" style="color: #787474;">수정</a>&nbsp; |
-					&nbsp;
+					<a href="/mypage?tabId=tab5" style="color: #787474;">수정&nbsp;&nbsp;</a>|
 					<div class="tab-link" data-tab="tab6" th:data-tabId-id="6">
-						<a style="color: #ff4a4a;">탈퇴</a>
+						<a style="color: #ff4a4a;">&nbsp;&nbsp;탈퇴</a>
 					</div>
 				</div>
 			</div>

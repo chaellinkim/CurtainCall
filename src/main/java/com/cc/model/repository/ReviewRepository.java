@@ -1,8 +1,6 @@
 package com.cc.model.repository;
 
-
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cc.model.entity.Play;
 import com.cc.model.entity.Review;
 
 //리뷰 db 만들면 jpa 상속 하기
@@ -38,5 +35,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   @Modifying
   @Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
   int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
+  
+  @Query("SELECT R FROM REVIEW R WHERE REVIEW_COMMENT LIKE %:keyword% OR PLAY_TITLE LIKE %:keyword%")
+  List<Review> searchPossible(@Param("keyword") String keyword);
   
 }

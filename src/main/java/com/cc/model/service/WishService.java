@@ -20,10 +20,10 @@ public class WishService {
 		return wishRep.findByUserid(user_id);
 	}
 	
-	public int deleteWish(String playtitle) {
-		
-		return wishRep.deleteByPlaytitle(playtitle);
-	}
+	public int deleteWish(String playtitle, int userid) {
+
+        return wishRep.deleteByPlaytitle(playtitle, userid);
+    }
 
 		public Boolean insertWish(String playTitle, int userid, String playPoster) {
 		

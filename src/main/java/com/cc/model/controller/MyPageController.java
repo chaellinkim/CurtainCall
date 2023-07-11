@@ -8,16 +8,28 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
+import com.cc.model.entity.Place;
+import com.cc.model.entity.Play;
+import com.cc.model.entity.Review;
 import com.cc.model.entity.User;
+import com.cc.model.entity.UserPlay;
 import com.cc.model.entity.Wish;
+import com.cc.model.repository.PlaceRepository;
+import com.cc.model.repository.PlayRepository;
+import com.cc.model.repository.ReviewRepository;
+import com.cc.model.repository.UserPlayRepository;
 import com.cc.model.repository.UserRepository;
 import com.cc.model.repository.WishRepository;
 import com.cc.model.service.PlayService;
@@ -43,9 +55,6 @@ public class MyPageController {
 	private UserRepository userRep;
 
 	@Autowired
-	private WishRepository wishRep;
-
-	@Autowired
 	private WishService wishSvc;
   
 	@Autowired
@@ -53,6 +62,16 @@ public class MyPageController {
 	
 	@Autowired
 	private ReviewRepository reviewRep;
+	
+	@Autowired
+	private UserPlayRepository userplayRep;
+	
+	@Autowired
+	private PlayRepository playRep;
+	
+	@Autowired
+	private PlaceRepository placeRep;
+
 
 	@RequestMapping("/mypage")
 	public String Mypage(HttpSession session, Model model) throws Exception {
@@ -76,41 +95,78 @@ public class MyPageController {
 
 		/* 찜 목록 탭 */
 		// 로그인한 유저의 찜 목록을 가져옴
-		List<Wish> mypage_wish = wishSvc.findAllByUserid(id);
+		 List<Wish> mypage_wish = wishSvc.findAllByUserid(id);
+	      
+	      for (Wish w : mypage_wish) {
+	         String title = w.getPlaytitle();
+	         
+	         List<Play> playTitle = playRep.findByPlayTitle(title);
+	      
+	         for(Play play: playTitle) {
+	            w.setPlayId(play.getPlayId());
+	         }
+	         
+	      }
 
-		System.out.println(mypage_wish.size());
-		for (Wish w : mypage_wish) {
-			System.out.println(w.toString());
-		}
-
-		model.addAttribute("mypage_wish", mypage_wish);
+	      model.addAttribute("mypage_wish", mypage_wish);
 
 		/* 나의 후기 탭 */
-
 		List<Review> mypage_review = reviewRep.findByUser_id(id);
 		List<User> user = userRep.findAll();
 		
 		for(Review m : mypage_review) {
             System.out.println(m.getReview_id());
         }
+		
 		//바이트 --> 문자열로 바꾸기 
 		for (Review rev : mypage_review) {
 	        byte[] imageData = rev.getReview_img();
 	        String encodedImageData = Base64.encodeBase64String(imageData);
 	        rev.setEncodedImage(encodedImageData);
 	        
-	        int UserId =rev.getUser_id();
+	        int UserId = rev.getUser_id();
 	        
-	        for(User u: user) {
+	        for(User u : user) {
 	        	if(UserId == u.getUser_id()) {
 	        		rev.setUserName(u.getUser_namemasking());
 	        	}
 	        }
 	    }
-		
 		model.addAttribute("review", mypage_review);
 		
 		/* 예매 내역 탭 */
+		List<UserPlay> play = userplayRep.findByUserId(id);
+	    System.out.println("playSize: " + play.size());
+
+	      // PLAY에서 필요한 거 --> 장소, 사진
+	      for (UserPlay p : play) {
+
+	         String playId = (String) p.getPlayId();
+	         System.out.println("playId: " + playId);
+	         
+	         List<Play> userpList = playRep.findByPlayId(playId);
+	         
+	         String placeId = null;
+	         
+	         for(Play userplay : userpList) {
+	            System.out.println("posterrrrrrrrrrrrrrrrr: " + userplay.getPlayPoster());
+	            //연극 포스터
+	            p.setPlayPoster(userplay.getPlayPoster());
+	            placeId = userplay.getPlaceId();
+	            System.out.println("placeIddddddddddddd: " + userplay.getPlaceId());
+	            
+	            // 연극 장소
+	            List<Place> placeList = placeRep.findByPlaceId(placeId);
+	            
+	            for(Place place : placeList) {
+	               System.out.println("poster: " + place.getPlaceName());
+	               
+	               p.setPlayPlace(place.getPlaceName());
+	            }
+	         }
+	      }
+	      
+	      model.addAttribute("play", play);
 
 		return "mypage";
 	}

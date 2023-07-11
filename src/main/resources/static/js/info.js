@@ -1,16 +1,16 @@
   const cancleModal = () => {
-    document.querySelector(".modal_overlay").classList.add("hidden");
+    document.querySelector(".info_info .modal_overlay").classList.add("hidden");
     document.body.classList.remove('modal-open');
   };
 
   const onClicked = () => {
-    document.querySelector(".modal_overlay").classList.remove("hidden");
+    document.querySelector(".info_info .modal_overlay").classList.remove("hidden");
     document.body.classList.add('modal-open');
   };
 
   function init() {
-    const modalButton = document.querySelector(".modal_button");
-    const modalCancleButton = document.querySelector(".modal_cancle");
+    const modalButton = document.querySelector(".info_info .modal_button");
+    const modalCancleButton = document.querySelector(".info_info .modal_cancle");
     if (modalButton) {
       modalButton.addEventListener("click", onClicked);
     }
@@ -26,43 +26,44 @@
     var p2 = document.getElementById('password2').value;
 
     if( p1 === p2 ) {
-      document.getElementById('check').innerHTML='비밀번호가 일치합니다.'
-      document.getElementById('check').style.color="#1a43fb";
+      document.getElementById('new_check').innerHTML='비밀번호가 일치합니다.'
+      document.getElementById('new_check').style.color="#1a43fb";
     } else{
-      document.getElementById('check').innerHTML='비밀번호가 일치하지 않습니다.';
-      document.getElementById('check').style.color='#ff2121';
+      document.getElementById('new_check').innerHTML='비밀번호가 일치하지 않습니다.';
+      document.getElementById('new_check').style.color='#ff2121';
     }
   }
 
   function del(){
-    document.getElementById('check').innerHTML='';
+    document.getElementById('new_check').innerHTML='';
   }
-
+  
+  
   function passwordValid(){
 
-   	var password = document.getElementById('password1').value;
+      var password = document.getElementById('password1').value;
 
-   	var pattern = /^(?=.*[a-zA-Z])(?=.*[!@?#();\.])(?=.*[0-9]).{7,15}$/
-   	
-   	   if(password === ''){
-   		   document.getElementById('pw_check').innerHTML='비밀번호는 필수정보입니다.'
-   		   document.getElementById('pw_check').style.color="red";
-   	   }else{
-   		   if(pattern.test(password)){
-   			   document.getElementById('pw_check').innerHTML='';
-   		   }else{
-   			   document.getElementById('pw_check').innerHTML= '7~15자의 영문 대 소문자, 숫자, 특수문자(!,@,?,#,(,),;,.)를 사용하세요';
-   			   document.getElementById('pw_check').style.color="red";
-   		   }
-   	   }
+      var pattern = /^(?=.*[a-zA-Z])(?=.*[!@?#();\.])(?=.*[0-9]).{7,15}$/
+      
+         if(password === ''){
+            document.getElementById('pw_check').innerHTML='비밀번호는 필수정보입니다.'
+            document.getElementById('pw_check').style.color="red";
+         }else{
+            if(pattern.test(password)){
+               document.getElementById('pw_check').innerHTML='';
+            }else{
+               document.getElementById('pw_check').innerHTML= '7~15자의 영문 대 소문자, 숫자, 특수문자(!,@,?,#,(,),;,.)를 사용하세요';
+               document.getElementById('pw_check').style.color="red";
+            }
+         }
    }
    
-   	//현재 비밀번호 확인
-	$(document).ready(function() {
+      //현재 비밀번호 확인
+   $(document).ready(function() {
 
-		$("#password").blur(function() {
-			
-		 var password = document.getElementById('password').value;
+      $("#password").blur(function() {
+         
+       var password = document.getElementById('password').value;
          
          //아이디를 입력하지 않았을 경우
          if(password === ""){
@@ -92,14 +93,14 @@
             }
          })
          }
-		});
+      });
 
-	});
-	
-	//회원정보 수정 전 비밀번호 확인
-	function pwCheck(){
-	
-		var password = document.getElementById('ckpassword').value;
+   });
+   
+   //회원정보 수정 전 비밀번호 확인
+   function pwCheck(){
+   
+      var password = document.getElementById('ckpassword').value;
          
          console.log(password);
          
@@ -130,38 +131,38 @@
             error : function(req, status) {
                alert(status);
             }
-		});
-		}
-		}
-		
-		
-	//회원탈퇴
-	function checkdelete() {
+      });
+      }
+      }
+      
+      
+   //회원탈퇴
+   function checkdelete() {
 
-		$.ajax({
-			url : '/mypage/withdrawal',
-			type : 'post',
-			success: function(response) {
-			
-					if(response === "true"){
-						alert("감사합니다");
-						window.location.href="/";
-					}else{
-						alert("다시 한 번 시도해주세요");
-					}
-			    },
-			    error: function(xhr, status, error) {
-			      console.log('요청이 실패했습니다.');
-			      alert('에러 메시지: ' + error);
-			      // 필요한 작업 수행
-			    }
-			});
-	}
-	
-	//탈퇴 전 비밀번호 확인
-	function deleteCheck(){
-	
-		var password = document.getElementById('deletepassword').value;
+      $.ajax({
+         url : '/mypage/withdrawal',
+         type : 'post',
+         success: function(response) {
+         
+               if(response === "true"){
+                  alert("감사합니다");
+                  window.location.href="/";
+               }else{
+                  alert("다시 한 번 시도해주세요");
+               }
+             },
+             error: function(xhr, status, error) {
+               console.log('요청이 실패했습니다.');
+               alert('에러 메시지: ' + error);
+               // 필요한 작업 수행
+             }
+         });
+   }
+   
+   //탈퇴 전 비밀번호 확인
+   function deleteCheck(){
+   
+      var password = document.getElementById('deletepassword').value;
          
          console.log(password);
          
@@ -192,7 +193,6 @@
             error : function(req, status) {
                alert(status);
             }
-		});
-		}
-		}
-	
+      });
+      }
+      }

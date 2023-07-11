@@ -2,28 +2,50 @@
 .review_content{
     margin-top: 5%;
     display: flex;
-    justify-content: space-between;
     border: 2px solid #a9d2fd;
     padding: 4%;
+    width: 90%;
 }
 
-
+.review_content img{
+	width: 150px;
+	height: 150px;
+	overflow-fit: cover;
+}
 .review_info{
     display: flex;
     flex-direction: column;
     align-items: baseline;
+    margin-left: 12px;
+    width: 100%;
 }
 
 .review_play{
     font-weight:800;
-    font-size: 23px;
-    margin-top:-7%;
-    margin-bottom: 2%;
+    font-size: 21px;
+    margin-bottom: 6px;
+    width: 100%;
+	max-height: 50px;
+    white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.review_date{
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: #a2a2a2;
+}
+
+.review_ment{
+	width: 100%;
+	max-height: 50px;
+	over-flow: hidden;
+	line-height: 1.3; 
 }
 
 .none{
-    width: 15%;
-    text-align: right;
+    width: 60px;
     margin-bottom: 20%;
     display: flex;
 	justify-content: flex-end;
@@ -32,15 +54,10 @@
 .none button{
     background-color: white;
     border: 0;
-    width: 100%;
-    text-align: right;
+    width: 15px;
 	display: flex;
-	justify-content: flex-end;
-	margin-bottom: 5%;
 	cursor: pointer;
 }
-
-.review_date{
-    margin-bottom: 10%;
-    font-size: 13px;
+.trash{
+	margin-left: 16px;
 }

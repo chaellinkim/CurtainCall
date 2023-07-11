@@ -133,7 +133,7 @@ function deleteComment(actorId, commentId){
 }
 
 		//텍스트에서 로그인 여부 확인 후에 버튼 type만 바꾸기
-	function validate() {
+	/* function validate() {
 		var state = document.getElementById("state").value;
 		if (state === '') {
 
@@ -154,7 +154,7 @@ function deleteComment(actorId, commentId){
 		}
 
 	}
-
+ */
 </script>
 <th:block th:include="header :: head"></th:block>
 </head>
@@ -241,7 +241,7 @@ function deleteComment(actorId, commentId){
 									<input type="hidden" id="actorId" name="actorId" th:value="${item.actorId}">
 									<div class="comment-input">
 										<textarea id="content" name="content" class="input-field" placeholder="배우를 응원해주세요!" onfocus="validate()"></textarea>
-										<button id="commentButton" type="button" class="submit-button" onclick="isSubmit()">
+										<button id="commentButton" type="submit" class="submit-button">
 											<i class="fa-solid fa-heart fa-beat fa-lg"></i>
 										</button>
 									</div>

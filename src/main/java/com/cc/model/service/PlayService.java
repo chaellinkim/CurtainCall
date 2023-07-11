@@ -53,7 +53,7 @@ public class PlayService {
 	}
 	public int updateCount(String playTitle) {
 		//System.out.println("call"+playId+" "+count);
-		return playRepository.updateCount(String playTitle);
+		return playRepository.updateCount(playTitle);
 	}
 	public List<Play> selectBestPlay(){
 		return playRepository.findTop4ByOrderByCountDescPlayToDesc();
@@ -65,13 +65,13 @@ public class PlayService {
 		public int discountCount(String playTitle) {
 		return playRepository.discountCount(playTitle);
 	}
+		
 	//playService
-
-	   public List<ReviewMapper> selectTitle(){
-	      return playRepository.findAllByOrderByPlayTitleAsc();
-	   }
-	   public Play selectPlay(String playId) {
-			Play play = playRepository.findByPlayTitle(playId);
-			return play;
-		}
+	public List<ReviewMapper> selectTitle(){
+		return playRepository.findAllByOrderByPlayTitleAsc();
+	}
+	/*
+	 * public Play selectPlay(String playId) { Play play =
+	 * playRepository.findByPlayTitle(playId); return play; }
+	 */
 }

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class UserPlay {
 	@Column(name="reservation_number")
 	private String merchantUid;
 	@Column(name="user_id")
-	private long userId;
+	private int userId;
 	@Column(name="play_id")
 	private String playId;
 	@Column(name="play_title")
@@ -28,4 +29,11 @@ public class UserPlay {
 	private String time;
 	@Column(name="paymentdate")
 	private String paymentDate;
+	
+	//연극 포스터, 연극 장소
+	@Transient
+	private String playPoster;
+	@Transient
+	private String playPlace;
+	
 }

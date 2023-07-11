@@ -1,6 +1,4 @@
 *{
-	/* margin:0; */
-    font-family: 'NanumSquareNeo';
     align-items: center;
     list-style-type: none;
     margin: 0;
@@ -12,7 +10,6 @@
 *::-webkit-scrollbar{
     display: none; 
 }
-
 a{
     text-decoration: none;
     color: black;
@@ -24,6 +21,7 @@ a{
     margin-left: 17.5vw;
     margin-right: 17.5vw; 
     align-items: baseline;
+    min-width: 1024px;
 }
 
 img{
@@ -31,11 +29,12 @@ img{
 }
 
 .navi{
-    width: 10vw;
+    width: 9w;
 }
 
 .navi ul{
     width: 7vw;
+    min-width: 100px;
     padding: 0;
 }
 
@@ -56,11 +55,10 @@ img{
     display: flex;
     justify-content: left;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 21px;
 }
 
 /* tabs 구현 */
-
 ul.tabs{
     list-style: none;
     margin-top: 50px;
@@ -74,13 +72,14 @@ ul.tabs li{
     display: inline-block;
     padding: 13px 30px;
     font-size: 17px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
 	width: 100%;
-    border-left: 3px solid #141b82;
+    border-left: 3.5px solid #141b82;
 }
 
-ul.tabs li:hover{
+ul.tabs li:hover,
+ul.tabs li:active{
     font-weight: 800;
     border-right: 10px solid white;
 }
@@ -107,26 +106,31 @@ ul.tabs li:hover a {
     width: 170px;
     height: 200px;
     text-align: center;
-    border: 1px solid #d5d6ed;
+    border: 1.5px solid #d5d6ed;
     margin-left: 7%;
-    border-radius: 50px;
+    border-radius: 45px;
     margin-top: 5%;
     
 }
 .user_navi{
 	display: flex;
     flex-direction: column;
+    margin-top: 10px;
 }
 .user_navi .img{
-	width: 100px;
-	height: 100px;
+	width: 105px;
+	height: 90px;
 	border-radius: 100%;
 	display: flex;
     flex-direction: column;
 	justify-content: center;
 }
-
 .user_navi .img img{
-	width: 80%;
-	
+	width: 100%;	
+}
+.user_navi span{
+	line-height: 1.4;
+}
+.user_navi span:first-of-type{
+	font-weight: bold;
 }

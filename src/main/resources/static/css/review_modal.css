@@ -42,21 +42,26 @@
     width: 100%;
 }
 .asdf{
-	display:flex;
-	width:100%;
-	  justify-content: space-around;
+	display: flex;
+	width: 100%;
 	margin-top: 10%;
-	height: 80%;
+	height: 90%;
 }
 
 .file{
 	display:flex;
 	flex-direction: column;
+	margin-right: 10px;
 }
 
+.file img{
+	width: 170px;
+	height: 170px;
+	overflow-fit: cover;
+}
 .file input {
-	width: 240px;
-	margin-top: 5%;
+	width: 200px;
+	margin-top: 12px;
 }
 .review_play{
     font-weight:800;
@@ -66,43 +71,40 @@
 }
 
 .review_date{
-    margin-bottom: 10%;
+    margin-bottom: 15px;
     font-size: 13px;
 }
 
+#review_ment{
+	width: 460px;
+	resize: none;
+	padding: 10px;
+}
+
 .review_content .modal_footer {
-	margin-top: 10%;
+	margin-top: 4%;
     width: 100%;
     padding: 0;
-   display:flex;
-   justify-content: space-evenly;
+    display:flex;
+    justify-content: space-evenly;
 }
 
-.modal_cancle {
+.modal_cancle,
+.review_content .modal_footer .check {
     all: unset;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 2vw;
-    height: auto;
-    text-align:center;
-}
-
-.modal_cancle:hover{
-    background-color: #dcdcdc;
-}
-
-
-.review_content .modal_footer .check{
-    all: unset;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     width: 2vw;
     height: auto;
     text-align:center;
 	background-color:white; 
+	padding: 7px 12px;
 	border: 0;
 }
 
+.modal_cancle:hover,
 .review_content .modal_footer .check:hover{
     background-color: #dcdcdc;
 }
+
+

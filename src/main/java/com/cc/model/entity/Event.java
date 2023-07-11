@@ -39,4 +39,7 @@ public class Event {
 	@Column(name="event_img")
 	private String eventImg;
 	
+	@Column(name="event_img2")
+	private String eventImg2;
+	
 }
