@@ -161,7 +161,6 @@ public class IndexController {
 		return "redirect:/";
 	}
 
-		//이메일 중복체크
 	@ResponseBody
 	@PostMapping("/emailcheck")
 	public int emailcheck(String email) {

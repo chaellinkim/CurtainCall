@@ -15,28 +15,28 @@ import com.cc.model.entity.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-   List<Review> findTop3ByOrderByCountDesc();
+	List<Review> findTop3ByOrderByCountDesc();
 
-  @Transactional
-  @Modifying
-  @Query("UPDATE REVIEW SET REVIEW_COUNT = REVIEW_COUNT + 1 WHERE REVIEW_ID = ?1")
-  int update(long review_id);
-
-  @Query("SELECT R FROM REVIEW R WHERE USER_ID = ?1 ORDER BY REVIEW_DATE DESC")
-  List<Review> findByUser_id(int user_id);
-
-  @Query("SELECT R FROM REVIEW R WHERE PLAY_TITLE = ?1 ORDER BY REVIEW_DATE DESC")
-  List<Review> findByPlay_title(String play_title);
-
-  @Query("SELECT R FROM REVIEW R ORDER BY REVIEW_DATE DESC")
-  List<Review> findAllDESC();
-
-  @Transactional
-  @Modifying
-  @Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
-  int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
-  
-  @Query("SELECT R FROM REVIEW R WHERE REVIEW_COMMENT LIKE %:keyword% OR PLAY_TITLE LIKE %:keyword%")
-  List<Review> searchPossible(@Param("keyword") String keyword);
+	@Transactional
+	@Modifying
+	@Query("UPDATE REVIEW SET REVIEW_COUNT = REVIEW_COUNT + 1 WHERE REVIEW_ID = ?1")
+	int update(long review_id);
+	
+	@Query("SELECT R FROM REVIEW R WHERE USER_ID = ?1 ORDER BY REVIEW_DATE DESC")
+	List<Review> findByUser_id(int user_id);
+	
+	@Query("SELECT R FROM REVIEW R WHERE PLAY_TITLE = ?1 ORDER BY REVIEW_DATE DESC")
+	List<Review> findByPlay_title(String play_title);
+	
+	@Query("SELECT R FROM REVIEW R ORDER BY REVIEW_DATE DESC")
+	List<Review> findAllDESC();
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
+	int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
+	  
+	@Query("SELECT R FROM REVIEW R WHERE REVIEW_COMMENT LIKE %:keyword% OR PLAY_TITLE LIKE %:keyword%")
+	List<Review> searchPossible(@Param("keyword") String keyword);
   
 }

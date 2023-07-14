@@ -70,12 +70,6 @@ public class ReviewController {
 					rev.setUserName(u.getUser_namemasking());
 				}
 			}
-			/* play.add(playService.selectPlay(rev.getPlay_title())); */
-			/*
-			 * System.out.println("겟플레이타이틀이다다ㅏ다다: " + rev.getPlay_title());
-			 * System.out.println("플레이이이: " + playService.selectPlay(rev.getPlay_title()));
-			 */
-
 		}
 
 		List<ReviewMapper> title = playService.selectTitle();
@@ -132,43 +126,43 @@ public class ReviewController {
 	}
 
 	
-	  //리뷰 검색
-	  @RequestMapping(value = "/review/search", method = RequestMethod.GET) public
-		String reviewSearch(HttpSession session, String keyword, Model model) {
+	//리뷰 검색
+	@RequestMapping(value = "/review/search", method = RequestMethod.GET) public String reviewSearch(
+				HttpSession session, String keyword, Model model) {
 		List<Review> searchResults = reviewSvc.searchReviews(keyword);
 		List<ReviewMapper> title = playService.selectTitle();
 		List<String> playtitle = new ArrayList<String>();
-	
+		
 		for (ReviewMapper t : title) {
 			playtitle.add(t.getPlayTitle());
 		}
-	
+		
 		List<Review> review = reviewRep.findAllDESC();
 		List<User> user = userRep.findAll();
-	
+		
 		for (Review rev : review) {
 			byte[] imageData = rev.getReview_img();
 			String encodedImageData = Base64.encodeBase64String(imageData);
 			rev.setEncodedImage(encodedImageData);
-	
+		
 			int UserId = rev.getUser_id();
-	
+		
 			for (User u : user) {
 				if (UserId == u.getUser_id()) {
 					rev.setUserName(u.getUser_namemasking());
 				}
 			}
 		}
-	
+		
 		List<Review> bestReview = reviewSvc.selectBestReview();
-	
+		
 		for (Review rev : bestReview) {
 			byte[] imageData = rev.getReview_img();
 			String encodedImageData = Base64.encodeBase64String(imageData);
 			rev.setEncodedImage(encodedImageData);
-	
+		
 			int UserId = rev.getUser_id();
-	
+		
 			for (User u : user) {
 				if (UserId == u.getUser_id()) {
 					rev.setUserName(u.getUser_namemasking());
@@ -179,10 +173,8 @@ public class ReviewController {
 		model.addAttribute("playtitle", playtitle);
 		model.addAttribute("user_state", session.getAttribute("user_state"));
 		model.addAttribute("review", searchResults);
-		System.out.println("검색결과앙ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ: " + searchResults);
-	  
-	  return "review"; 
-	  }
-	 
+		  
+		return "review"; 
+	}
 
 }
