@@ -19,12 +19,6 @@
     <div id="content-wrap">
 		<h1 id="theater-list-title">이벤트</h1>
 		<hr>
-		<div class="event-sort">
-		    <ul>
-		        <li><a href="#">진행중</a></li>
-		        <li><a href="#">진행 예정</a></li>
-		    </ul>
-		</div>
         
        	<div id="tab-1" class="tab-content" th:each="list : ${list}">
             <a th:href="@{/event/detail(eventId=${list.eventId})}">

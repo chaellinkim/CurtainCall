@@ -39,4 +39,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   @Query("UPDATE REVIEW SET REVIEW_IMG = ?2, REVIEW_COMMENT = ?3 WHERE REVIEW_ID = ?1")
   int updateReview(long review_id, byte[] reviewimg, String reviewcomment);
   
+  @Query("SELECT R FROM REVIEW R WHERE REVIEW_COMMENT LIKE %:keyword% OR PLAY_TITLE LIKE %:keyword%")
+  List<Review> searchPossible(@Param("keyword") String keyword);
 }

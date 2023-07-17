@@ -17,7 +17,6 @@ a {
 }
 /* 개요부분 */
 .content-info{
-    margin-bottom: 5vh;
     text-align: center;
     width: 65vw;
     height: 18vh;
@@ -32,7 +31,7 @@ a {
 #tab-btn{
     background-color: white;
     position: sticky;
-    top: 0;
+    top: 10vh;
 }
 .tab-nav{
     height: 10vh;
@@ -49,11 +48,19 @@ a {
 .tab-nav a{
     text-decoration: none;
 }
-/* 상세 정보 */
-.event-content{
-    background-color: rgb(233, 240, 248);
+/* 이미지 */
+#event-img{
+ 	display:flex;
+	align-items:center;
+	justify-content: center;
+	margin-bottom:5vh;
 }
 #event-img img{
+    width:40vw;
+    height: auto;
+}
+#event-img2 img{
+	margin-top:5vh;
     width:65vw;
     height: auto;
 }
@@ -69,6 +76,12 @@ a {
 }
 .homepage a:hover {
 	border-bottom: 1px solid;
+}
+/* 글 정보 */
+.event-text p {
+	font-size:20px;
+	word-spacing: 5px;
+	line-height:2;
 }
 /* 연극제 장소 */
 .event-place{

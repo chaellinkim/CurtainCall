@@ -172,5 +172,54 @@ public class ReviewController {
 	 * 
 	 * return "review"; }
 	 */
-
+	//리뷰 검색
+    @RequestMapping(value = "/review/search", method = RequestMethod.GET) public
+     String reviewSearch(HttpSession session, String keyword, Model model) {
+     List<Review> searchResults = reviewSvc.searchReviews(keyword);
+     List<ReviewMapper> title = playService.selectTitle();
+     List<String> playtitle = new ArrayList<String>();
+  
+     for (ReviewMapper t : title) {
+        playtitle.add(t.getPlayTitle());
+     }
+  
+     List<Review> review = reviewRep.findAllDESC();
+     List<User> user = userRep.findAll();
+  
+     for (Review rev : review) {
+        byte[] imageData = rev.getReview_img();
+        String encodedImageData = Base64.encodeBase64String(imageData);
+        rev.setEncodedImage(encodedImageData);
+  
+        int UserId = rev.getUser_id();
+  
+        for (User u : user) {
+           if (UserId == u.getUser_id()) {
+              rev.setUserName(u.getUser_namemasking());
+           }
+        }
+     }
+  
+     List<Review> bestReview = reviewSvc.selectBestReview();
+  
+     for (Review rev : bestReview) {
+        byte[] imageData = rev.getReview_img();
+        String encodedImageData = Base64.encodeBase64String(imageData);
+        rev.setEncodedImage(encodedImageData);
+  
+        int UserId = rev.getUser_id();
+  
+        for (User u : user) {
+           if (UserId == u.getUser_id()) {
+              rev.setUserName(u.getUser_namemasking());
+           }
+        }
+     }
+     model.addAttribute("bestReview", bestReview);
+     model.addAttribute("playtitle", playtitle);
+     model.addAttribute("user_state", session.getAttribute("user_state"));
+     model.addAttribute("review", searchResults);
+     System.out.println("검색결과앙ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ: " + searchResults);
+    
+    return "review"; }
 }

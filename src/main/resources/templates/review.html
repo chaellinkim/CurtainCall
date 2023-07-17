@@ -48,6 +48,25 @@
                 modal.style.display = "none";
             }
         }); */
+        
+        // 썸네일 이미지 클릭 시 모달 창 열기
+        document.addEventListener("click", function(event) {
+          if (event.target.classList.contains("post-image")) {
+            var modal = document.querySelector(".modal-img");
+            var modalImg = document.querySelector(".modal-image-img");
+            modalImg.src = event.target.src;
+            modal.style.display = "block";
+          }
+        });
+
+        // 모달 창 닫기 버튼
+        function closeModalImg() {
+            var modal = document.getElementById("modal-image");
+            modal.style.display = "none";
+        }
+        /* document.querySelector(".close-img").addEventListener("click", function() {
+             document.querySelector(".modal-img").style.display = "none";
+        }); */
     </script>
     <th:block th:include="header :: head"></th:block>
 </head>
@@ -58,81 +77,96 @@
    
    <!-- 후기 리스트 -->
    <div id="review">
-   	<!-- 월간 베스트 리뷰 -->
+      <!-- 월간 베스트 리뷰 -->
       <h2 id="review-month"></h2>
       <div class="feed-box">
          <div class="feed-box">
-			<div class="feed" th:each="review, reviewStat:${bestReview}" ><!-- th:with="play=${play[reviewStat.index]}" -->
-				<!-- 리뷰 상단 -->
-				<div class="review-top">
-					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> <span
-							th:text="${reviewStat.index+1}+'등'"></span>
-					</div>
-					<div class="review-userid">
-						<span th:text="${review.userName}">review.userName</span>
-					</div>
-				</div>
-				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-					alt="게시물 이미지" class="post-image" width="300px" height="300px">
-				<!-- 리뷰 하단 -->
-				<div class="review-wrap">
-					<div class="theater-name">
-						<i class="fa-solid fa-clapperboard"></i>
-						<span th:text="${review.play_title}">review.play_title</span>
-						<!-- <a th:href="@{/play/detail(playId=${play.playId})}" th:text="${review.play_title}">review.play_title</a> -->
-					</div>
-					<!-- 연극 이름 -->
-					<div class="icon-box">
-						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum" th:text="${review.review_count}">review.review_count</div>
-					</div>
-				</div>
-				<!-- 후기 내용 -->
-				<div class="review-content" th:text="${review.review_comment}">review.review_comment</div>
-			</div>
-		</div>
+         <div class="feed" th:each="review, reviewStat:${bestReview}" ><!-- th:with="play=${play[reviewStat.index]}" -->
+            <!-- 리뷰 상단 -->
+            <div class="review-top">
+               <div class="review-ranking">
+                  <i class="fa-solid fa-crown"></i> <span
+                     th:text="${reviewStat.index+1}+'등'"></span>
+               </div>
+               <div class="review-userid">
+                  <span th:text="${review.userName}">review.userName</span>
+               </div>
+            </div>
+            <div class="best-post-image-wrapper">
+               <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+                  alt="게시물 이미지" class="post-image" width="300px">
+            </div>
+            <!-- 리뷰 하단 -->
+            <div class="review-wrap">
+               <!-- 연극 이름 -->
+               <div class="theater-name">
+                  <i class="fa-solid fa-clapperboard"></i>
+                  <span th:text="${review.play_title}">review.play_title</span>
+                  <!-- <a th:href="@{/play/detail(playId=${play.playId})}" th:text="${review.play_title}">review.play_title</a> -->
+               </div>
+               <div class="icon-box">
+                  <i class="fa-solid fa-heart"></i>
+                  <div class="likeNum" th:text="${review.review_count}">review.review_count</div>
+               </div>
+            </div>
+            <!-- 후기 내용 -->
+            <div class="review-content" th:text="${review.review_comment}">review.review_comment</div>
+         </div>
+      </div>
       </div>
       <hr>
       
       <!-- 후기 검색 -->
       <div class="search-wrap">
-	      <form action="/review/search" method="get" class="review-search">
-	          <input type="text" name="keyword" class="review-search-input" placeholder="후기 검색">
-	          <div class="icon"><i class="fas fa-search fa-lg"></i></div>
-	      </form>
+         <form action="/review/search" method="get" class="review-search">
+             <input type="text" name="keyword" class="review-search-input" placeholder="후기 검색">
+             <div class="icon-reviewsearch"><i class="fas fa-search fa-lg"></i></div>
+         </form>
       </div>
       
-<!--       <div class="feed2" th:each="review, reviewStat:${review}" th:with="play=${play[reviewStat.index]}">
- -->      <div class="feed2" th:each="review, reviewStat:${review}">
-         <!-- 리뷰 상단 -->
-	         <div class="review-top">
-	            <i class="fa-solid fa-user"></i>
-	              <div class="review-userid" th:text="${review.userName}">user1234</div>
-	         </div>
-	         <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-	            alt="게시물 이미지" class="post-image" width="300px" height="300px">
-	         <!-- 리뷰 하단 -->
-	         <div class="review-wrap">
-	            <!-- 좋아요 -->
-	            <div class="icon-box">
-	               <button class="like-button">
-	                  <i class="fa-solid fa-heart" th:attr="data-review-id=${review.review_id}"
-	                     onclick="likeClick(this)"></i>
-	               </button>
-	               <div class="likeNum" th:text="${review.review_count}">32</div>
-	            </div>
-	         </div>
-	         <div class="theater-name">
-	            <i class="fa-solid fa-clapperboard"></i>
-	            <a
-	               th:text="${review.play_title}">연극라면</a>
-	         </div>
-	         <!-- 연극 이름 -->
-	         <div class="review-content" th:text="${review.review_comment}">너무너무
-	            재밌어요~!</div>
-	         <!-- 후기 내용 -->
-	        <hr class="hrLine">
+     <!--  <div class="feed2" th:each="review, reviewStat:${review}" th:with="play=${play[reviewStat.index]}"> -->
+     <div class="feed2" th:each="review, reviewStat:${review}">
+        <div class="feed2-wrap">
+           <!-- 리뷰 상단 -->
+            <div class="review-top">
+               <i class="fa-solid fa-user"></i>
+               <div class="review-userid" th:text="${review.userName}">review.userName</div>
+            </div>
+            <div class="post-image-wrapper">
+               <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
+                  alt="게시물 이미지" class="post-image">
+           </div>
+            <!-- 모달 창 -->
+         <div id="modal-image" class="modal-img">
+           <div class="modal-content-img">
+             <span class="close-img" onclick="closeModalImg()">&times;</span>
+             <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}" class="modal-image-img" alt="Modal Image">
+           </div>
+         </div>
+            
+            
+            <!-- 리뷰 하단 -->
+            <div class="review-wrap">
+               <!-- 연극 이름 -->
+               <div class="theater-name">
+                  <i class="fa-solid fa-clapperboard"></i>
+                  <a th:text="${review.play_title}">review.play_title</a>
+               </div>
+               <!-- 좋아요 -->
+               <div class="icon-box">
+                  <button class="like-button">
+                     <i class="fa-solid fa-heart" th:attr="data-review-id=${review.review_id}"
+                        onclick="likeClick(this)"></i>
+                  </button>
+                  <div class="likeNum" th:text="${review.review_count}">review.review_count</div>
+               </div>
+            </div>
+            
+            <div class="review-content" th:text="${review.review_comment}">review.review_comment</div>
+            <!-- 후기 내용 -->
+           <hr class="hrLine">
+        </div>
+         
       </div>
 
 
@@ -229,35 +263,35 @@
                 }
          });
         }
-		
-	      selectboxDisplay.addEventListener("click", (e) => {
-	          e.stopPropagation();
-	          selectbox.classList.toggle("selectbox--active");
-	      });
-	
-	      optionList.forEach((option, index) => {
-	          option.addEventListener("click", (e) => {
-	              e.stopPropagation();
-	
-	              let label = option.querySelector("label");
-	              selectboxDisplay.innerHTML = label.innerHTML.length > 17 ? label.innerHTML.substring(0, 17) + "..." : label.innerHTML;
-	              selectbox.setAttribute("data-option", label.getAttribute("data-value"));
-	              selectbox.classList.remove("selectbox--active", "selectbox--unselect");
-	          });
-	      });
-	
-	      submitbtn.addEventListener("click", () => {
-	          if (selectbox.classList.contains("selectbox--unselect")) shakeBox();
-	      });
-	
-	      window.addEventListener("click", () => {
-	          selectbox.classList.remove("selectbox--active");
-	      });
+      
+         selectboxDisplay.addEventListener("click", (e) => {
+             e.stopPropagation();
+             selectbox.classList.toggle("selectbox--active");
+         });
+   
+         optionList.forEach((option, index) => {
+             option.addEventListener("click", (e) => {
+                 e.stopPropagation();
+   
+                 let label = option.querySelector("label");
+                 selectboxDisplay.innerHTML = label.innerHTML.length > 17 ? label.innerHTML.substring(0, 17) + "..." : label.innerHTML;
+                 selectbox.setAttribute("data-option", label.getAttribute("data-value"));
+                 selectbox.classList.remove("selectbox--active", "selectbox--unselect");
+             });
+         });
+   
+         submitbtn.addEventListener("click", () => {
+             if (selectbox.classList.contains("selectbox--unselect")) shakeBox();
+         });
+   
+         window.addEventListener("click", () => {
+             selectbox.classList.remove("selectbox--active");
+         });
 
     </script>
     
     <!-- Footer -->
-	<th:block th:replace="footer :: footer"></th:block>
+   <th:block th:replace="footer :: footer"></th:block>
 </body>
 
 </html>

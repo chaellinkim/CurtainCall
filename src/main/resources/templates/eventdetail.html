@@ -38,7 +38,7 @@
         <div id="homepage" class="content-info"> <!-- 개요 div -->
             <h1 th:if="${event.isPresent()}" th:text="${event.get().eventTitle}"></h1>
             <p th:if="${event.isPresent()}" th:text="${event.get().eventFrom} + ' ~ ' + ${event.get().eventTo}"></p><br>
-            <p>우리나라 현대 연극의 흐름과 방향을 한번에</p><br>
+            <br>
         </div>
         <!-- tab 버튼 -->
         <div id="tab-btn">
@@ -54,8 +54,17 @@
         </div>
         <!-- 연극제 내용 -->
         <div id="event-content" class="event-content">
+        	<!-- 연극제 사진 -->
             <div id="event-img">
                 <img th:if="${event.isPresent()}" th:src="${event.get().eventImg}" th:alt="${event.get().eventTitle}">
+            </div>
+            <!--  연극제 글 -->
+            <div id="event-text" class="event-text">
+            	<p th:if="${event.isPresent()}" th:text="${event.get().eventContent}" th:alt="${event.get().eventTitle}"></p>
+            </div>
+            <!-- 연극제 사진 2-->
+             <div id="event-img2">
+                <img th:if="${event.isPresent()}" th:src="${event.get().eventImg2}" th:alt="${event.get().eventTitle}">
             </div>
         </div>
         <!-- 장소 div -->

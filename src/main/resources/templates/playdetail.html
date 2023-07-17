@@ -518,7 +518,7 @@ function deleteWish(){
 	                    <div class="actionBox">
 	                        <ul class="commentList">
 	                            <li th:each="review:${review}">
-	                                <div class="userName">
+	                                <div class="userName" th:text="${review.userName}">
 	                                    <p>고양이희</p>
 	                                </div>
 	                                <div class="commentText" th:text="${review.review_comment}">
