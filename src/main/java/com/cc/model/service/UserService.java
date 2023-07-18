@@ -17,7 +17,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRep;
 
-//	//db에 아이디가 있는지 확인
+	//db에 아이디가 있는지 확인
 	public Boolean loginidCheck(String loginid) {
 		if (userRep.existsByUserLoginid(loginid))
 			return true; // 사용 불가
@@ -69,7 +69,7 @@ public class UserService {
 		return userRep.findById(user_id);
 	}
 
-	  /** 임시 비밀번호 생성 **/
+	/** 임시 비밀번호 생성 **/
     public String getTmpPassword() {
         char[] charSet = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
@@ -98,7 +98,7 @@ public class UserService {
     	return userRep.updatePassword(tmpCypher, tmpPassword, userEmail);
     }
 
-	    //비밀번호 수정
+	//비밀번호 수정
     public int modiPassword(int id, String newpassword, String newpassword_cypher) {
     	return userRep.modiPassword(id, newpassword, newpassword_cypher);
     }

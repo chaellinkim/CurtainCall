@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cc.model.cypher.AES256;
 import com.cc.model.cypher.SHA256;
 import com.cc.model.entity.User;
-import com.cc.model.repository.UserRepository;
 import com.cc.model.service.UserService;
 
 @Controller
@@ -24,9 +23,6 @@ public class IndexController {
 
 	@Autowired
 	private UserService userSvc;
-	
-	@Autowired
-	private UserRepository userRep;
 	
 	AES256 aes256 = new AES256();
 	SHA256 sha256 = new SHA256();

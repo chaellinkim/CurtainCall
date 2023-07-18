@@ -31,7 +31,6 @@ import com.cc.model.repository.PlayRepository;
 import com.cc.model.repository.ReviewRepository;
 import com.cc.model.repository.UserPlayRepository;
 import com.cc.model.repository.UserRepository;
-import com.cc.model.repository.WishRepository;
 import com.cc.model.service.PlayService;
 import com.cc.model.service.ReviewService;
 
