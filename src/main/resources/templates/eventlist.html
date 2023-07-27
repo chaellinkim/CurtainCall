@@ -5,26 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CurtainCall</title>
-    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/eventlist.css" type="text/css" media="all">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-    <!-- 헤더 nav -->
+    <!-- HEADER -->
     <th:block th:include="header :: body"></th:block>
     
     <!-- 연극 리스트 -->
     <div id="content-wrap">
 		<h1 id="theater-list-title">이벤트</h1>
 		<hr>
-		<div class="event-sort">
-		    <ul>
-		        <li><a href="#">진행중</a></li>
-		        <li><a href="#">진행 예정</a></li>
-		    </ul>
-		</div>
         
        	<div id="tab-1" class="tab-content" th:each="list : ${list}">
             <a th:href="@{/event/detail(eventId=${list.eventId})}">

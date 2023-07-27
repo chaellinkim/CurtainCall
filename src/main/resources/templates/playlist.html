@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CurtainCall</title>
-    <link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
-    <link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
-	<th:block th:include="header :: head"></th:block>
-
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CurtainCall</title>
+<link rel = "stylesheet" href = "/css/playlist.css" type = "text/css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 	function sortPlay(option) {
 		const url = new URL(window.location.href); // 현재 URL 가져오기
@@ -18,7 +14,9 @@
 		  window.location.href = url.href;
 	}
 </script>
+<th:block th:include="header :: head"></th:block>
 </head>
+
 <body>
     <!-- Header -->
     <th:block th:include="header :: body"></th:block>

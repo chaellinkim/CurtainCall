@@ -40,10 +40,12 @@ public interface PlayRepository extends JpaRepository<Play,String>, PlayReposito
 	//playrepository
 	List<ReviewMapper> findAllByOrderByPlayTitleAsc();
 	
-	Play findByPlayTitle(String title);
+	List<Play> findByPlayTitle(String title);
 
 	@Modifying
 	@Query("UPDATE Play p SET p.count = p.count - 1 WHERE p.playTitle =?1")
 	int discountCount(String playTitle);
 
+	//연극 제목 가져오기 위함
+	List<Play> findByPlayId(String playid);
 }

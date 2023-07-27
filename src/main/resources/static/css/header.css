@@ -122,15 +122,15 @@ nav > ul > li{
 	position: fixed; 
 	background-color : white;
 	border-radius: 5px;
-	padding: 10px 0 10px 0;
+	padding: 8px 0;
 	text-align:center;
-	top: 55px;
-	right: 27px;
-	width: 100px;
-	height: 70px;
+	top: 60px;
+	right: 32px;
+	width: 125px;
+	height: 78px;
 	background-color: white;
 	border: 1px solid #d9d9d9;
-	font-size:13px;
+	font-size:14px;
 	box-sizing: border-box;
 }
 
@@ -150,7 +150,7 @@ nav > ul > li{
 }
 
 .bar li a {
-	padding: 5px 0;
+	padding: 8px 0;
     display: block;
     height: 100%;
     width: 100%;

@@ -12,4 +12,7 @@ import com.cc.model.entity.Place;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,String>{
 	Page<Place> findAll(Pageable pageable);
+	
+	//장소 이름 가져오기 위함
+	List<Place> findByPlaceId(String placeId);
 }

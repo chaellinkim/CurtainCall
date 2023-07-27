@@ -6,134 +6,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CurtainCall</title>
 <link rel="stylesheet" href="/css/actorlist.css" type="text/css" media="all">
-<link href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css" rel="stylesheet">
-<script src="https://kit.fontawesome.com/fe66fff399.js"	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script th:inline = "javascript">
-$(document).ready(function () {
-	var sessionUserLoginId = [[${session.user_loginId}]];	//로그인중인 userLoginId 가져오기
-	var sessionUserState = [[${session.user_state}]];
-	console.log("session: " + sessionUserLoginId);
-	
-	var urlParams = new URLSearchParams(window.location.search);
-  	var actorId = urlParams.get('actorId');
-
-	if (actorId) {
-	  var tabId = "tab" + actorId;
-	  openTab(tabId, actorId);
-	} else {
-		// 첫 화면 출력시, 첫 번째 배우의 actorId 가져오기
-		var firstActorId = $(".tab-link > a:first").parent().data("actor-id");
-		var firstTabId = "tab" + firstActorId;
-		openTab(firstTabId, firstActorId);
-	}
-	
-	//탭 클릭시 배우 해당 화면 출력
-	$(".tab-link > a").click(function () {
-	    var tabId = $(this).parent().data("tab");
-	    var actorId = $(this).parent().data("actor-id");
-	    openTab(tabId, actorId);	 	
-	});
-
-	function openTab(tabId, actorId) {
-		$("#" + tabId).show();							// 선택한 탭 표시
-		$(".tab-content").not("#" + tabId).hide();		// 모든 탭 내용 숨김
+	$(document).ready(function () {
+		var sessionUserLoginId = [[${session.user_loginId}]];	//로그인중인 userLoginId 가져오기
+		var sessionUserState = [[${session.user_state}]];
+		console.log("session: " + sessionUserLoginId);
 		
-		console.log("현재 actorId: " + actorId);
-		window.history.pushState(null, null, "/actor?actorId=" + actorId);	// URL 변경
-	}
+		var urlParams = new URLSearchParams(window.location.search);
+	  	var actorId = urlParams.get('actorId');
 	
-	$(document).on("submit", "#commentForm", function(e) {
-		e.preventDefault(); // 폼의 기본 동작인 페이지 새로고침을 막음
-		
-		var form = $(this).closest("form");
-	    var content = form.find("#content").val();
-		
-		//입력 내용이 비어있는 경우
-		if (content.trim() === "") {
-	        alert("댓글 내용을 입력해주세요.");
-	        $("#content").val("");
-	        return false;
-	    }
-		//로그인 상태가 아닐 경우
-		if(sessionUserState === null){
-			alert("로그인 후 이용 가능합니다.");
-			$("#content").val("");
-			return false;
+		if (actorId) {
+		  var tabId = "tab" + actorId;
+		  openTab(tabId, actorId);
+		} else {
+			// 첫 화면 출력시, 첫 번째 배우의 actorId 가져오기
+			var firstActorId = $(".tab-link > a:first").parent().data("actor-id");
+			var firstTabId = "tab" + firstActorId;
+			openTab(firstTabId, firstActorId);
 		}
-		addComment(form);
-	});
-
-	//엔터키로 댓글 등록하기
-	$(document).on("keydown", ".input-field", function(e) {
-	    if (e.keyCode == 13 && !e.shiftKey) {
-	    	e.preventDefault();		// 엔터 키의 기본 동작인 줄바꿈을 막음
-	    	$(this).closest("form").submit();
-	    }
-	});
-
-	//댓글 등록 및 출력
-	function addComment(form) {    
-	    var formData = form.serialize(); // 데이터 직렬화하여 가져오기
-	    var actorId = form.find("#actorId").val();
-	    
-	    $.ajax({
-	        type: "POST",
-	        url: "/actor/comment",
-	        data: formData,
-	        success: function(response) { 
-	            var newCommentHtml = "<div class='comment-unit'>" +
-	            	"<div class='comment-body'>" +
-	                "<p class='userName'>@" + response.userLoginid + "</p>" +
-	                "<p class='content'>" + response.content + "</p>" +
-	                "</div>" +
-	                "</div>";
-
-	            $(".comment").append(newCommentHtml);
-	            
-	            $("#content").val("");
-	            
-	            window.location.href="/actor?actorId=" + actorId;
-	        },
-	        error: function(error) {
-	            console.log("Error: ", error);
-	            alert("댓글 등록에 실패했습니다.");
-	        }
-	    });
-	};
-});
-
-$(document).on("click", ".deleteBtn", function() {
-    var commentId = $(this).siblings("input[name=commentId]").val();
-    var actorId = $(this).siblings("input[name=actorId]").val();
-    deleteComment(actorId, commentId);
-});
-
-//댓글 삭제하기
-function deleteComment(actorId, commentId){
-	var check = confirm("댓글을 삭제하시겠습니까?");
-	if(check === true){
-		$.ajax({
-			type: "DELETE",
-			url: "/actor/" + actorId + "/comment/" + commentId,
-			success : function(response) {
-                var redirectUrl = response.url;
-                if (redirectUrl) {
-                	alert("댓글이 삭제되었습니다.");
-                    location.href = redirectUrl;
-                }
-            },
-			error: function(error){
-				console.log(error);
-				console.log("commentId: " + commentId);
-				alert("댓글 삭제에 실패했습니다.");
+		
+		//탭 클릭시 배우 해당 화면 출력
+		$(".tab-link > a").click(function () {
+		    var tabId = $(this).parent().data("tab");
+		    var actorId = $(this).parent().data("actor-id");
+		    openTab(tabId, actorId);	 	
+		});
+	
+		function openTab(tabId, actorId) {
+			$("#" + tabId).show();							// 선택한 탭 표시
+			$(".tab-content").not("#" + tabId).hide();		// 모든 탭 내용 숨김
+			
+			console.log("현재 actorId: " + actorId);
+			window.history.pushState(null, null, "/actor?actorId=" + actorId);	// URL 변경
+		}
+		
+		$(document).on("submit", "#commentForm", function(e) {
+			e.preventDefault(); // 폼의 기본 동작인 페이지 새로고침을 막음
+			
+			var form = $(this).closest("form");
+		    var content = form.find("#content").val();
+			
+			//입력 내용이 비어있는 경우
+			if (content.trim() === "") {
+		        alert("댓글 내용을 입력해주세요.");
+		        $("#content").val("");
+		        return false;
+		    }
+			//로그인 상태가 아닐 경우
+			if(sessionUserState === null){
+				alert("로그인 후 이용 가능합니다.");
+				$("#content").val("");
+				return false;
 			}
-		})
+			addComment(form);
+		});
+	
+		//엔터키로 댓글 등록하기
+		$(document).on("keydown", ".input-field", function(e) {
+		    if (e.keyCode == 13 && !e.shiftKey) {
+		    	e.preventDefault();		// 엔터 키의 기본 동작인 줄바꿈을 막음
+		    	$(this).closest("form").submit();
+		    }
+		});
+	
+		//댓글 등록 및 출력
+		function addComment(form) {    
+		    var formData = form.serialize(); // 데이터 직렬화하여 가져오기
+		    var actorId = form.find("#actorId").val();
+		    
+		    $.ajax({
+		        type: "POST",
+		        url: "/actor/comment",
+		        data: formData,
+		        success: function(response) { 
+		            var newCommentHtml = "<div class='comment-unit'>" +
+		            	"<div class='comment-body'>" +
+		                "<p class='userName'>@" + response.userLoginid + "</p>" +
+		                "<p class='content'>" + response.content + "</p>" +
+		                "</div>" +
+		                "</div>";
+	
+		            $(".comment").append(newCommentHtml);
+		            
+		            $("#content").val("");
+		            
+		            window.location.href="/actor?actorId=" + actorId;
+		        },
+		        error: function(error) {
+		            console.log("Error: ", error);
+		            alert("댓글 등록에 실패했습니다.");
+		        }
+		    });
+		};
+	});
+	
+	$(document).on("click", ".deleteBtn", function() {
+	    var commentId = $(this).siblings("input[name=commentId]").val();
+	    var actorId = $(this).siblings("input[name=actorId]").val();
+	    deleteComment(actorId, commentId);
+	});
+	
+	//댓글 삭제하기
+	function deleteComment(actorId, commentId){
+		var check = confirm("댓글을 삭제하시겠습니까?");
+		if(check === true){
+			$.ajax({
+				type: "DELETE",
+				url: "/actor/" + actorId + "/comment/" + commentId,
+				success : function(response) {
+	                var redirectUrl = response.url;
+	                if (redirectUrl) {
+	                	alert("댓글이 삭제되었습니다.");
+	                    location.href = redirectUrl;
+	                }
+	            },
+				error: function(error){
+					console.log(error);
+					console.log("commentId: " + commentId);
+					alert("댓글 삭제에 실패했습니다.");
+				}
+			})
+		}
 	}
-}
 
 		//텍스트에서 로그인 여부 확인 후에 버튼 type만 바꾸기
-	function validate() {
+	/* function validate() {
 		var state = document.getElementById("state").value;
 		if (state === '') {
 
@@ -154,7 +152,7 @@ function deleteComment(actorId, commentId){
 		}
 
 	}
-
+ */
 </script>
 <th:block th:include="header :: head"></th:block>
 </head>
@@ -241,7 +239,7 @@ function deleteComment(actorId, commentId){
 									<input type="hidden" id="actorId" name="actorId" th:value="${item.actorId}">
 									<div class="comment-input">
 										<textarea id="content" name="content" class="input-field" placeholder="배우를 응원해주세요!" onfocus="validate()"></textarea>
-										<button id="commentButton" type="button" class="submit-button" onclick="isSubmit()">
+										<button id="commentButton" type="submit" class="submit-button">
 											<i class="fa-solid fa-heart fa-beat fa-lg"></i>
 										</button>
 									</div>

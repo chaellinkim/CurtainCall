@@ -12,6 +12,7 @@ a {
     width: 65vw;
     min-width: 865px;
     margin: auto;
+    margin-bottom: 100px;
 }
 /* 연극 목록 로고 글씨 */
 #theater-list-title{

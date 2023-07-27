@@ -14,19 +14,15 @@ public class WishService {
 	@Autowired
 	private WishRepository wishRep;
 	
-	
 	public List<Wish> findAllByUserid(int user_id){
-		
 		return wishRep.findByUserid(user_id);
 	}
 	
-	public int deleteWish(String playtitle) {
-		
-		return wishRep.deleteByPlaytitle(playtitle);
-	}
+	public int deleteWish(String playtitle, int userid) {
+        return wishRep.deleteByPlaytitle(playtitle, userid);
+    }
 
-		public Boolean insertWish(String playTitle, int userid, String playPoster) {
-		
+	public Boolean insertWish(String playTitle, int userid, String playPoster) {
 		Wish wish = new Wish();
 		
 		wish.setUserid(userid);

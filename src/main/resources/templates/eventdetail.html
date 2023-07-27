@@ -38,8 +38,8 @@
         <div id="homepage" class="content-info"> <!-- 개요 div -->
             <h1 th:if="${event.isPresent()}" th:text="${event.get().eventTitle}"></h1>
             <p th:if="${event.isPresent()}" th:text="${event.get().eventFrom} + ' ~ ' + ${event.get().eventTo}"></p><br>
-            <p>우리나라 현대 연극의 흐름과 방향을 한번에</p><br>
         </div>
+        
         <!-- tab 버튼 -->
         <div id="tab-btn">
             <ul class="tab-nav">
@@ -48,17 +48,27 @@
                 <li onclick="scrollToPlace()"><a style="cursor:pointer" class="menu">장소</a></li>
             </ul>
         </div>
-        <!-- 홈페이지 div -->
+        
+         <!-- 홈페이지 div -->
         <div class="homepage">
             <p><i class="fa-sharp fa-solid fa-house" style="color: #ccd9ef;"></i>홈페이지 : <a th:if="${event.isPresent()}" th:href="${event.get().eventHompage}" target="_blank" th:text="${event.get().eventHompage}"></a></p>
         </div>
         <!-- 연극제 내용 -->
         <div id="event-content" class="event-content">
+        	<!-- 연극제 사진 -->
             <div id="event-img">
                 <img th:if="${event.isPresent()}" th:src="${event.get().eventImg}" th:alt="${event.get().eventTitle}">
             </div>
+            <!--  연극제 글 -->
+            <div id="event-text" class="event-text">
+            	<p th:if="${event.isPresent()}" th:text="${event.get().eventContent}" th:alt="${event.get().eventTitle}"></p>
+            </div>
+            <!--  연극제 사진 2 -->
+             <div id="event-img2">
+                <img th:if="${event.isPresent()}" th:src="${event.get().eventImg2}" th:alt="${event.get().eventTitle}">
+            </div>
         </div>
-        <!-- 장소 div -->
+        <!--  장소 div  -->
         <div id="event-place" class="event-place">
             <br><br>
             <p th:if="${event.isPresent()}" th:text="'행사장소 : ' + ${event.get().eventPlace}">
@@ -66,6 +76,7 @@
             </p>
         </div>
     </div>
+
     
     <!-- Footer -->
 	<th:block th:replace="footer :: footer"></th:block>

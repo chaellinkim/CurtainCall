@@ -1,64 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>theater_detail</title>
-<link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
-<!-- 다헤 연극리스트 -->
+<title>CurtainCall</title>
 <link rel="stylesheet" href="/css/playdetail.css">
-<!-- 아이콘  -->
-<script src="https://kit.fontawesome.com/cd881899b1.js"
-	crossorigin="anonymous"></script>
-<!-- header nav -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<!-- 제이쿼리 , tab 기능 -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- 예매 하기  -->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<th:block th:include="header :: head"></th:block>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript"
-	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script th:inline="javascript">
 
-	
-//찜 삭제
-function deleteWish(){
-	  
-	var playTitle = document.getElementById('playTitle').value;
-	console.log(playTitle);
-	
-	$.ajax({
-			type : "post",
-			url : "/play/detail/delete",
-			data : {'playtitle': playTitle},
-			dataType : "json",
-			success : function(response) {
-						
-			if(response === "true"){
-			location.reload();
-			}
-			else{
-			location.reload();
-			}
-		},
-			error : function() {
-				alert("통신 실패 ");
-			}
-	});
-			  
+	//찜 삭제
+	function deleteWish(){
+		var playTitle = document.getElementById('playTitle').value;
+		console.log(playTitle);
+		
+		$.ajax({
+				type : "post",
+				url : "/play/detail/delete",
+				data : {'playtitle': playTitle},
+				dataType : "json",
+				success : function(response) {
+							
+				if(response === "true"){
+				location.reload();
+				}
+				else{
+				location.reload();
+				}
+			},
+				error : function() {
+					alert("통신 실패 ");
+				}
+		});
 	}
 	
 	//찜 추가
@@ -82,7 +63,7 @@ function deleteWish(){
 			error : function() {
 				alert("통신 실패 ");
 			}
-	});
+		});
 	}
 	
 	var IMP = window.IMP;
@@ -110,18 +91,11 @@ function deleteWish(){
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
 		});
-		
-		/* // 1. buildCalendar 실행
-        buildCalendar(); */
-
 	});
 	
 	
 	window.onload = function() {
-		// 1. buildCalendar 실행
 		buildCalendar();
-		
-
 	}
 
 	//1. 달력 생성
@@ -236,115 +210,116 @@ function deleteWish(){
 	
 	/* date 는 선택했을때에 만들어내는 날짜 ,db에 날짜 형식이 yyyy-mm-dd 형식이므로 date를 이용해 똑같이 맞춰줌 */
 
-				// 이전달 버튼 클릭
-				function prevCalendar() {
-					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1,
-							nowMonth.getDate()); // 현재 달을 1 감소
-					buildCalendar(); // 달력 다시 생성
-				}
-				// 다음달 버튼 클릭
-				function nextCalendar() {
-					nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1,
-							nowMonth.getDate()); // 현재 달을 1 증가
-					buildCalendar(); // 달력 다시 생성
-				}
+	// 이전달 버튼 클릭
+	function prevCalendar() {
+		nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1,
+				nowMonth.getDate()); // 현재 달을 1 감소
+		buildCalendar(); // 달력 다시 생성
+	}
+	// 다음달 버튼 클릭
+	function nextCalendar() {
+		nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1,
+				nowMonth.getDate()); // 현재 달을 1 증가
+		buildCalendar(); // 달력 다시 생성
+	}
 
-				// input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-				function leftPad(value) {
-					if (value < 10) {
-						value = "0" + value;
-						return value;
-					}
-					return value;
-				}
-				function requestPay() {
-					console.log(makeMerchantUid);
-					var merchant_uid = "IMP" + makeMerchantUid;
-					var sessionUserId = [[${session.user_id}]];
-					var sessionUserState = [[${session.user_state}]];
-					var name = [[${play.get().playTitle}]];
-					var price = [[${play.get().price}]];
-					var time = [[${play.get().time}]];
-					// 현재 시각 가져오기
-				    var now = new Date();
-				    var year = now.getFullYear().toString().slice(-2);
-				    var month = (now.getMonth() + 1).toString().padStart(2, "0");
-				    var day = now.getDate().toString().padStart(2, "0");
-				    var hour = now.getHours().toString().padStart(2, "0");
-				    var minute = now.getMinutes().toString().padStart(2, "0");
-				    var paymentDate = year + "-" + month + "-" + day + " " + hour + ":" + minute;
-				    
-				    console.log(name);
-				    console.log(date);
-				    console.log(time);
-				    console.log(sessionUserId);
-				    console.log(paymentDate);
-					var buyer_name = '아임포트 기술지원팀';
-					var buyer_email = 'Iamport@chai.finance';
-					let payVal = {
-							"merchantUid" : merchant_uid,
-							"userId" : sessionUserId,
-							"playId" : "PF220036",
-							"playTitle" : name,
-							"price" : price,
-							"date" : selectDate,
-							"time" : time,
-							"paymentDate" : paymentDate
-						};
-						console.log(payVal);
-					IMP.request_pay({
-						pg : "html5_inicis.INIpayTest",
-						merchant_uid : "IMP" + makeMerchantUid,
-						name : name,
-						amount : price,
-						buyer_name : '아임포트 기술지원팀',
-						buyer_email : 'Iamport@chai.finance',
-						buyer_postcode : makeMerchantUid
-					}, function(rsp) { // callback
-						if (rsp.success) {
-							alert("예매 성공 ");
-							console.log(rsp);
-							let payVal = {
-								"merchantUid" : merchant_uid,
-								"userId" : sessionUserId,
-								"playId" : "PF220036",
-								"playTitle" : name,
-								"price" : price,
-								"date" : date,
-								"time" : time,
-								"paymentDate" : paymentDate
-							};
-							console.log(payVal);
-							$.ajax({
-								type : "post",
-								url : "/pay/reservation",
-								data : JSON.stringify(payVal),
-								contentType : "application/json",
-								dataType : "json",
-								success : function(response) {
-									console.log("success");
-									var redirectUrl = response.url;
-									if (redirectUrl) {
-										location.href = redirectUrl;
-									}
-								},
-								error : function() {
-									alert("통신 실패 ");
-								}
-							});
-						} else {
-							console.log(rsp);
+	// input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+	function leftPad(value) {
+		if (value < 10) {
+			value = "0" + value;
+			return value;
+		}
+		return value;
+	}
+	function requestPay() {
+		console.log(makeMerchantUid);
+		var merchant_uid = "IMP" + makeMerchantUid;
+		var sessionUserId = [[${session.user_id}]];
+		var sessionUserState = [[${session.user_state}]];
+		var name = [[${play.get().playTitle}]];
+		var price = [[${play.get().price}]];
+		var time = [[${play.get().time}]];
+		// 현재 시각 가져오기
+	    var now = new Date();
+	    var year = now.getFullYear().toString().slice(-2);
+	    var month = (now.getMonth() + 1).toString().padStart(2, "0");
+	    var day = now.getDate().toString().padStart(2, "0");
+	    var hour = now.getHours().toString().padStart(2, "0");
+	    var minute = now.getMinutes().toString().padStart(2, "0");
+	    var paymentDate = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+	    
+	    console.log(name);
+	    console.log(date);
+	    console.log(time);
+	    console.log(sessionUserId);
+	    console.log(paymentDate);
+		var buyer_name = '아임포트 기술지원팀';
+		var buyer_email = 'Iamport@chai.finance';
+		let payVal = {
+				"merchantUid" : merchant_uid,
+				"userId" : sessionUserId,
+				"playId" : "PF220036",
+				"playTitle" : name,
+				"price" : price,
+				"date" : selectDate,
+				"time" : time,
+				"paymentDate" : paymentDate
+			};
+			console.log(payVal);
+		IMP.request_pay({
+			pg : "html5_inicis.INIpayTest",
+			merchant_uid : "IMP" + makeMerchantUid,
+			name : name,
+			amount : price,
+			buyer_name : '아임포트 기술지원팀',
+			buyer_email : 'Iamport@chai.finance',
+			buyer_postcode : makeMerchantUid
+		}, function(rsp) { // callback
+			if (rsp.success) {
+				alert("예매 성공 ");
+				console.log(rsp);
+				let payVal = {
+					"merchantUid" : merchant_uid,
+					"userId" : sessionUserId,
+					"playId" : "PF220036",
+					"playTitle" : name,
+					"price" : price,
+					"date" : date,
+					"time" : time,
+					"paymentDate" : paymentDate
+				};
+				console.log(payVal);
+				$.ajax({
+					type : "post",
+					url : "/pay/reservation",
+					data : JSON.stringify(payVal),
+					contentType : "application/json",
+					dataType : "json",
+					success : function(response) {
+						console.log("success");
+						var redirectUrl = response.url;
+						if (redirectUrl) {
+							location.href = redirectUrl;
 						}
-					});
-				}
+					},
+					error : function() {
+						alert("통신 실패 ");
+					}
+				});
+			} else {
+				console.log(rsp);
+			}
+		});
+	}
 	
 </script>
 <th:block th:include="header :: head"></th:block>
 </head>
 
 <body>
-	<!-- 헤더 nav -->
+	<!-- HEADER -->
 	<th:block th:include="header :: body"></th:block>
+	
 	<!-- 연극 상세 -->
 	<div id="content-wrap">
 		<!-- 연극 wrap -->
@@ -475,6 +450,7 @@ function deleteWish(){
                 </div>
             </div>
         </div> 추천연극 다시 활성화 -->
+        
 		<!-- 정보 , 후기 , 출연진 탭버튼 -->
 		<div class="tab-menu">
 			<ul class="tab-btn">
@@ -487,28 +463,7 @@ function deleteWish(){
 		<!-- 정보탭 -->
 		<div id="tab-1" class="tab-content current">
 			<div class="promotion">
-				<img src="./img/theater01.jpg">
-			</div>
-			<!-- 예매자 통계 -->
-			<div class="statistics">
-				<h4>예매자 통계</h4>
-				<!-- 성별 통계 -->
-				<div class="statistics-container">
-					<div class="statistics-box">
-						<h2 class="statistics-heading">성별 통계</h2>
-						<div class="statistics-row">
-							<span class="statistics-label"><i class="fa-solid fa-mars"></i></span>
-							<span class="statistics-value">n 명</span>
-						</div>
-						<div class="statistics-row">
-							<span class="statistics-label"><i
-								class="fa-solid fa-venus"></i></span> <span class="statistics-value">n
-								명</span>
-						</div>
-					</div>
-				</div>
-				<!-- 나이 통계 -->
-				<canvas id="age-chart" width="650" height="500"></canvas>
+				<img src="https://otr.co.kr/wp-content/uploads/mangboard/2022/08/10/F114458_%5B%EB%B6%89%EC%9D%80%EB%A8%B8%EB%A6%AC%EC%95%88%5D%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.jpg">
 			</div>
 		</div>
 		<!-- 후기탭 -->
@@ -518,13 +473,8 @@ function deleteWish(){
 	                    <div class="actionBox">
 	                        <ul class="commentList">
 	                            <li th:each="review:${review}">
-	                                <div class="userName">
-	                                    <p>고양이희</p>
-	                                </div>
-	                                <div class="commentText" th:text="${review.review_comment}">
-	                                    <p>보길 잘한듯 .. 완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용
-	                                        ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ완전 잼썼어용 ㅎㅎ ㅇㄴㄹㅁㄴ</p>
-	                                </div>
+	                                <div class="userName" th:text="${review.userName}">review.userName</div>
+	                                <div class="commentText" th:text="${review.review_comment}">review.review_comment</div>
 	                                <div class="commentImage">
 	                                  <img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
 	            						alt="게시물 이미지" class="post-image" width="300px" height="300px">
@@ -536,19 +486,22 @@ function deleteWish(){
 	                </div>
 	            </div>
 	        </div>
-		<!-- 캐스팅탭 -->
+		<!--  캐스팅 탭  -->
 		<div id="tab-3" class="tab-content">
 			<div class="cast">
 				<div class="cast-info" th:each="item : ${actor}">
-					<a href=""> <img src="./img/actor01.jpg">
+					<a th:href="@{/actor(actorId=${item.actorId})}">
+						<img th:src="${item.actorImg}">
 						<p th:text="${item.actorName}"></p>
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- content wrap ( 양옆 여백 )-->
-	<!-- 통계 js -->
+
+	<!-- Footer -->
+	<th:block th:replace="footer :: footer"></th:block>	
+	
 	<script>
 		 const selectbox = document.querySelector(".selectbox");
 	     const selectboxDisplay = document.querySelector(".selectbox__displayWord");
@@ -574,8 +527,10 @@ function deleteWish(){
 	     window.addEventListener("click", () => {
 	         selectbox.classList.remove("selectbox--active");
 	     });
+	     
+	     <!-- 통계 js -->
 		// 나이별 통계 데이터
-		const ageData = {
+		/* const ageData = {
 			labels : [ '10대', '20대', '30대', '40대', '50대 이상' ],
 			datasets : [ {
 				label : '인원 수',
@@ -600,7 +555,7 @@ function deleteWish(){
 					}
 				}
 			}
-		});
+		}); */
 	</script>
 
 </body>

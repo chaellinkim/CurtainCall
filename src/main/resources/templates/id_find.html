@@ -76,20 +76,18 @@
             <a href="/" id="main_logo" title="메인으로 이동"><img src="/img/main_logo.png" style="width: 100%; height: auto;"></a>
 
             <h1>아이디 찾기</h1>
+            <table>
+                <tr>
+                    <th>이름</th>
+                    <td><input type="text" id="name" name="name" placeholder="이름"></td><br>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input pattern=".+@*"  id="email" type="email" name="email" placeholder="이메일"></td>
+                </tr>
+            </table>
 
-                <table>
-                    <tr>
-                        <th>이름</th>
-                        <td><input type="text" id="name" name="name" placeholder="이름"></td><br>
-                    </tr>
-                    <tr>
-                        <th>이메일</th>
-                        <td><input pattern=".+@*"  id="email" type="email" name="email" placeholder="이메일"></td>
-                    </tr>
-                </table>
-
-                <button id="id_button" onclick="checkEmail()" >아이디 찾기</button>
-
+            <button id="id_button" onclick="checkEmail()" >아이디 찾기</button>
         </div>
     </container>
 </body>

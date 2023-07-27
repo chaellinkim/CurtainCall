@@ -4,21 +4,12 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link
-	href="https://webfontworld.github.io/NanumSquareNeo/NanumSquareNeo.css"
-	rel="stylesheet">
-<script src="https://kit.fontawesome.com/fe66fff399.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
-<link rel="stylesheet" href="../css/main.css">
-<title>Curtain Call</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+<link rel="stylesheet" href="/css/main.css">
+<title>CurtainCall</title>
 <script>
 	window.onload = function() {
 		// 1. buildCalendar 실행
@@ -40,13 +31,11 @@
 	function buildCalendar() {
 
 		let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1); // 이번달 1일
-		let lastDate = new Date(nowMonth.getFullYear(),
-				nowMonth.getMonth() + 1, 0); // 이번달 마지막날
+		let lastDate = new Date(nowMonth.getFullYear(),	nowMonth.getMonth() + 1, 0); // 이번달 마지막날
 
 		let tbody_Calendar = document.querySelector(".Calendar > tbody");
 		document.getElementById("calYear").innerText = nowMonth.getFullYear(); // 연도 숫자 갱신
-		document.getElementById("calMonth").innerText = leftPad(nowMonth
-				.getMonth() + 1); // 월 숫자 갱신
+		document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1); // 월 숫자 갱신
 
 		while (tbody_Calendar.rows.length > 0) { // 이전 출력결과가 남아있는 경우 초기화
 			tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
@@ -58,8 +47,7 @@
 			let nowColumn = nowRow.insertCell(); // 열 추가
 		}
 
-		for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay
-				.getDate() + 1)) { // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+		for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) { // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
 
 			let nowColumn = nowRow.insertCell(); // 새 열을 추가하고
 
@@ -76,10 +64,10 @@
 			} else if (nowDay.getFullYear() == today.getFullYear()
 					&& nowDay.getMonth() == today.getMonth()
 					&& nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-				newDIV.className = "today";
-				newDIV.onclick = function() {
-					choiceDate(this);
-				}
+						newDIV.className = "today";
+						newDIV.onclick = function() {
+							choiceDate(this);
+						}
 			} else { // 미래인 경우
 				newDIV.className = "futureDay";
 				newDIV.onclick = function() {
@@ -92,13 +80,11 @@
 	// 날짜 선택
 	function choiceDate(newDIV) {
 		if (document.getElementsByClassName("choiceDay")[0]) { // 기존에 선택한 날짜가 있으면
-			document.getElementsByClassName("choiceDay")[0].classList
-					.remove("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
+			document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
 		}
 		newDIV.classList.add("choiceDay"); // 선택된 날짜에 "choiceDay" class 추가
 		console.log(newDIV.classList);
-		let selectedDate = new Date(nowMonth.getFullYear(),
-				nowMonth.getMonth(), newDIV.innerHTML);
+		let selectedDate = new Date(nowMonth.getFullYear(),	nowMonth.getMonth(), newDIV.innerHTML);
 		console.log(selectedDate);
 		const weekdays = [ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ];
 		const year = selectedDate.getFullYear();
@@ -111,79 +97,75 @@
 			"weekday" : weekday,
 			"date" : date
 		};
-		$
-				.ajax({
-					type : "post",
-					url : "/date",
-					data : JSON.stringify(dateVal),
-					contentType : "application/json",
-					dataType : "json",
-					success : function(response) {
-						console.log("success");
-						console.log(response);
-						var calendarList = $("#calendarList");
-						var slideContainer = $("<div>").attr("id",
-								"slide-container");
-						$("#slide-container").remove();
-						// response 리스트의 각 항목을 순회하면서 div를 생성
-						response.list.forEach(function(item,index) {
-							var slideTheater = $("<div>").addClass("slide-theater");
-							var slideInner = $("<a>").attr("href","/play/detail?playId=" + item.playId).attr("title", "연극 보기").addClass("slide-inner");
-							var slidePoster = $("<div>").addClass("slide-poster");
-							var posterImg = $("<img>").attr("src",item.playPoster);
-							var slidePlace = $("<div>").addClass("slide-place").text(response.placeList[index].placeName);
-							console.log(item.place);
+		$.ajax({
+			type : "post",
+			url : "/date",
+			data : JSON.stringify(dateVal),
+			contentType : "application/json",
+			dataType : "json",
+			success : function(response) {
+				console.log("success");
+				console.log(response);
+				var calendarList = $("#calendarList");
+				var slideContainer = $("<div>").attr("id",
+						"slide-container");
+				$("#slide-container").remove();
+				// response 리스트의 각 항목을 순회하면서 div를 생성
+				response.list.forEach(function(item,index) {
+					var slideTheater = $("<div>").addClass("slide-theater");
+					var slideInner = $("<a>").attr("href","/play/detail?playId=" + item.playId).attr("title", "연극 보기").addClass("slide-inner");
+					var slidePoster = $("<div>").addClass("slide-poster");
+					var posterImg = $("<img>").attr("src",item.playPoster);
+					var slidePlace = $("<div>").addClass("slide-place").text(response.placeList[index].placeName);
+					console.log(item.place);
 
-							slidePoster.append(posterImg);
-							slideInner.append(slidePoster);
-							slideInner.append(slidePlace);
-							slideTheater.append(slideInner);
-							slideContainer.append(slideTheater);
-							calendarList.append(slideContainer);
+					slidePoster.append(posterImg);
+					slideInner.append(slidePoster);
+					slideInner.append(slidePlace);
+					slideTheater.append(slideInner);
+					slideContainer.append(slideTheater);
+					calendarList.append(slideContainer);
 
-						});
-
-						$("#slide-container")
-								.slick(
-										{
-											slide : "div",
-											dots : true,
-											infinite : false,
-											speed : 300,
-											slidesToShow : 3,
-											slidesToScroll : 3,
-											arrows : true,
-											pauseOnHover : true,
-											prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
-											nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
-											responsive : [ {
-												breakpoint : 1024,
-												settings : {
-													slidesToShow : 3,
-													slidesToScroll : 3,
-													infinite : true,
-													dots : true
-												}
-											}, {
-												breakpoint : 600,
-												settings : {
-													slidesToShow : 2,
-													slidesToScroll : 2
-												}
-											}, {
-												breakpoint : 480,
-												settings : {
-													slidesToShow : 1,
-													slidesToScroll : 1
-												}
-											} ]
-										})
-
-					},
-					error : function() {
-						alert("통신 실패 ");
-					}
 				});
+
+				$("#slide-container").slick({
+					slide : "div",
+					dots : true,
+					infinite : false,
+					speed : 300,
+					slidesToShow : 3,
+					slidesToScroll : 3,
+					arrows : true,
+					pauseOnHover : true,
+					prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
+					nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
+					responsive : [ {
+						breakpoint : 1024,
+						settings : {
+							slidesToShow : 3,
+							slidesToScroll : 3,
+							infinite : true,
+							dots : true
+						}
+					}, {
+						breakpoint : 600,
+						settings : {
+							slidesToShow : 2,
+							slidesToScroll : 2
+						}
+					}, {
+						breakpoint : 480,
+						settings : {
+							slidesToShow : 1,
+							slidesToScroll : 1
+						}
+					} ]
+				})
+			},
+			error : function() {
+				alert("통신 실패 ");
+			}
+		});
 	}
 
 	// 이전달 버튼 클릭
@@ -209,45 +191,41 @@
 	}
 
 	//2. 연극 슬라이드(slick-slider 사용)
-	$(document)
-			.ready(
-					function() {
-						$("#slide-container")
-								.slick(
-										{
-											slide : "div",
-											dots : true,
-											infinite : false,
-											speed : 300,
-											slidesToShow : 3,
-											slidesToScroll : 3,
-											arrows : true,
-											pauseOnHover : true,
-											prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
-											nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
-											responsive : [ {
-												breakpoint : 1024,
-												settings : {
-													slidesToShow : 3,
-													slidesToScroll : 3,
-													infinite : true,
-													dots : true
-												}
-											}, {
-												breakpoint : 600,
-												settings : {
-													slidesToShow : 2,
-													slidesToScroll : 2
-												}
-											}, {
-												breakpoint : 480,
-												settings : {
-													slidesToShow : 1,
-													slidesToScroll : 1
-												}
-											} ]
-										})
-					})
+	$(document).ready(function() {
+		$("#slide-container").slick({
+			slide : "div",
+			dots : true,
+			infinite : false,
+			speed : 300,
+			slidesToShow : 3,
+			slidesToScroll : 3,
+			arrows : true,
+			pauseOnHover : true,
+			prevArrow : "<button type='button' class='slick-prev slick-arrow'>Previous</button>",
+			nextArrow : "<button type='button' class='slick-next slick-arrow'>Next</button>",
+			responsive : [ {
+				breakpoint : 1024,
+				settings : {
+					slidesToShow : 3,
+					slidesToScroll : 3,
+					infinite : true,
+					dots : true
+				}
+			}, {
+				breakpoint : 600,
+				settings : {
+					slidesToShow : 2,
+					slidesToScroll : 2
+				}
+			}, {
+				breakpoint : 480,
+				settings : {
+					slidesToShow : 1,
+					slidesToScroll : 1
+				}
+			} ]
+		})
+	})
 
 	//3. 배너 이미지 슬라이드 
 	var currentIdx = 0; // 현재 슬라이드 index
@@ -347,7 +325,6 @@
 		<!-- 3. 월간 베스트 리뷰 -->
 	<div id="review">
 		<h2 id="review-month"></h2>
-		<!-- script문 -->
 		<div class="add-review">
 				<a href="/review">더 많은 리뷰 보기 +</a>
 				<!-- 리뷰 리스트 페이지로 이동-->
@@ -357,37 +334,36 @@
 				<!-- 리뷰 상단 -->
 				<div class="review-top">
 					<div class="review-ranking">
-						<i class="fa-solid fa-crown"></i> <span
-							th:text="${reviewStat.index+1}+'등'"></span>
+						<i class="fa-solid fa-crown"></i>
+						<span th:text="${reviewStat.index+1}+'등'"></span>
 					</div>
 					<div class="review-userid">
-						<span th:text="${review.userName}"></span>
+						<span th:text="${review.userName}">review.userName</span>
 					</div>
 				</div>
 				<img th:src="'data:image/jpeg;base64,' + ${review.encodedImage}"
-					alt="게시물 이미지" class="post-image" width="300px" height="300px">
+					 alt="게시물 이미지" class="post-image">
 				<!-- 리뷰 하단 -->
 				<div class="review-wrap">
 					<div class="theater-name">
-						<i class="fa-solid fa-clapperboard"></i><span
-							th:text="${review.play_title}">연극라면</span>
+						<i class="fa-solid fa-clapperboard"></i>
+						<span th:text="${review.play_title}">review.play_title</span>
 					</div>
 					<!-- 연극 이름 -->
 					<div class="icon-box">
 						<i class="fa-solid fa-heart"></i>
-						<div class="likeNum" th:text="${review.review_count}">32</div>
+						<div class="likeNum" th:text="${review.review_count}">review.review_count</div>
 					</div>
 				</div>
-				<div class="review-content" th:text="${review.review_comment}">너무너무
-	            재밌어요~!</div>
 				<!-- 후기 내용 -->
+				<div class="review-content" th:text="${review.review_comment}">review.review_comment</div>
 			</div>
 		</div>
 	</div>
 	
 		<!-- 4. 광고 배너 -->
-		<div id="addBanner">
-			<!-- 슬라이드 이미지 -->
+		<!-- <div id="addBanner">
+			슬라이드 이미지
 			<div class="slide-banner fade">
 				<img src="../img/banner01.png" style="width: 100%">
 			</div>
@@ -404,12 +380,12 @@
 				<img src="../img/banner02.png" style="width: 100%">
 			</div>
 	
-			<!-- 배너하단 점 -->
+			배너하단 점
 			<div class="dot-container">
 				<span class="dot"></span> <span class="dot"></span> <span class="dot"></span>
 				<span class="dot"></span> <span class="dot"></span>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	
 	

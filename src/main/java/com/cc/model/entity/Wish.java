@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -27,6 +28,9 @@ public class Wish {
 	@Column(name="PLAY_POSTER")
 	private String playposter;
 
+	@Transient
+	private String playId;
+	
 	public Long getWish_id() {
 		return wish_id;
 	}

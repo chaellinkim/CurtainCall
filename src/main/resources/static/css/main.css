@@ -320,7 +320,7 @@ td {
 .feed-box {
     margin-top: 55px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-bottom: 60px;
 }
 .feed {
@@ -335,7 +335,7 @@ td {
 .review-top {
     display: flex;
     align-items: center;
-    column-gap: 16px;
+    column-gap: 12px;
     margin-bottom: 10px;
     width: 100%;
 }
@@ -348,12 +348,13 @@ td {
     margin-right: 3px;
 }
 .review-userid{
-    font-size: 14px;
+    font-size: 15px;
     color: rgb(107, 107, 107);
 }
 .post-image {
-    width: 100%;
-    height: auto;
+    width: 350px;
+	height: 350px;
+	object-fit: cover;
     border-radius: 12px;
     margin-bottom: 10px;
 }
@@ -372,6 +373,7 @@ td {
 .theater-name{
     font-weight: 800;
     font-size: 15px;
+    colume-gap: 10px;
 }
 .icon-box {
     display: flex;
@@ -382,7 +384,7 @@ td {
     color: #dc143c;
 }
 .likeNum{
-    font-size: 12px;
+    font-size: 15px;
 }
 .review-content{
     white-space: nomal;
@@ -391,9 +393,10 @@ td {
     display: -webkit-box;
     -webkit-line-clamp: 2;  /* 2줄 이후로 텍스트 자르기 */
     -webkit-box-orient:vertical;
-    height: 33px;
-    font-size: 14px;
+    max-height: 50px;
+    font-size: 15px;
     color: rgb(121, 121, 121);
+    line-height: 1.4;
 }
 .review-add{
     margin-top: 15px;
