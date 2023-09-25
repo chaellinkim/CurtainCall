@@ -1,5 +1,10 @@
+<div align="center">
+  
 # CurtainCall
-final-project
+<br/>
+연극 홍보 및 활성화를 위한 사이트
+(메인 화면 이미지)
+
 
 ### <span style=""> 🖥 **Front-end** </span>
 | Html | CSS | JavaScript | 
@@ -28,3 +33,6 @@ GIF Images
 </p>
 
 <br>
+
+
+</div>
