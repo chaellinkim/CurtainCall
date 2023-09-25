@@ -2,14 +2,18 @@
   
 # 🎭 CurtainCall 🎭
 <br/>
+<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/4dca740e-585e-41f2-993f-07e595395a9f" width="450" height="250">
+
+<br/>
+<br/>
+<br/>
 다른 문화예술?과 달리 관심도가 낮은 <b>연극의 홍보 및 활성화를 위한 사이트</b>입니다.<br /><br />
 
 ﻿연극과 연극 관련 행사의 활성화를 위하여 연극제를 소개하고, 연극 예매 뿐만 아니라 연극이 진행되고 있는 공연장의 목록이나 그 주변의 맛집 정보를 알 수 있게 하였으며, 연극에 출연하는 배우들의 정보를 확인할 수 있도록 하였습니다. 
 
 우리의 목표는 예매가 아닌 연극 자체에 관심을 가질 수 있게 하는 것 입니다.
 
-(메인 화면 이미지)
-
+<br/>
 
 ### <span style=""> 🖥 **Front-end** </span>
 | Html | CSS | JavaScript | 
@@ -44,9 +48,9 @@ GIF Images
 
 ## ERD
 
-<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/a6d6053a-fe38-4e93-b6a7-a373e19b7dbf" width="500" height="350">
+<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/a6d6053a-fe38-4e93-b6a7-a373e19b7dbf" width="550" height="350">
 
 ## UI 설계 구조도
-<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/65d66918-ce02-4b9a-9342-38683daa59bf" width="700" height="450">
+<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/92c9ae53-effd-4111-908e-75f5be20edad">
 
 </div>
