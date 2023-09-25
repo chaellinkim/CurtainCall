@@ -36,11 +36,17 @@
 </p>
 
 <p align="center">
+
 GIF Images
 </p>
 
 <br>
 
+## ERD
 
+<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/a6d6053a-fe38-4e93-b6a7-a373e19b7dbf" width="500" height="350">
+
+## UI 설계 구조도
+<img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/65d66918-ce02-4b9a-9342-38683daa59bf" width="700" height="450">
 
 </div>
