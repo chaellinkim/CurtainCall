@@ -32,6 +32,7 @@
 |[ekgp209](https://github.com/ekgp209)|[KMJ-KimMinJuu](https://github.com/KMJ-KimMinJu)|[chaellinkim](https://github.com/chaellinkim)|[Rodoll99](https://github.com/Rodoll99)|
 <br/>
 
+<!--
 ## 프로젝트 소개
 <p align="justify">
 프로젝트 개요/동기
@@ -41,14 +42,26 @@
 
 GIF Images
 </p>
-
 <br>
+-->
 
 ## ERD
 
 <img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/a6d6053a-fe38-4e93-b6a7-a373e19b7dbf" width="550" height="350">
+<br /><br />
 
 ## UI 설계 구조도
 <img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/92c9ae53-effd-4111-908e-75f5be20edad">
+
+<br /><br />
+
+## 서비스 화면
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/83b765c7-e30c-42c9-9abf-8df78b3df936">  <!-- 메인화면 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/e0ec1bb3-5933-4ad2-9d73-bae3d300cfcb">  <!-- 연극 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/85b21fdf-3c4c-4575-b122-600365d6a038">  <!-- 연극상세 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/f7d05107-6a1d-4bdb-813c-5918d6fd526b">  <!-- 공연장_연극 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/69994cd8-fd43-42c8-9552-8113c056f2ca">  <!-- 공연장_맛집 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/1d3685fc-3590-492f-9048-939790a7fc98">  <!-- 리뷰 -->
+<img src="https://github.com/chaellinkim/CurtainCall/assets/49385606/2dc0f948-4b91-4c05-96b8-1f1e6b1c5344">  <!-- 로그인/회원가입 -->
 
 </div>
