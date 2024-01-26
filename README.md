@@ -3,7 +3,7 @@
 # 🎭 CurtainCall 🎭
 <br/>
 <img src="https://github.com/chaellinkim/CurtainCall/assets/94983600/4dca740e-585e-41f2-993f-07e595395a9f" width="350" height="150">
-
+ 
 <br/>
 <br/>
 <br/>
